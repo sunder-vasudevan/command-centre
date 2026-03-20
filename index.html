@@ -106,7 +106,7 @@
         <p>Sunny Hayes — triggers, rules, projects &amp; protocols</p>
       </div>
     </div>
-    <div class="version-badge">🏎 v1.9.0 · 2026-03-20</div>
+    <div class="version-badge">🏎 v2.0.0 · 2026-03-20</div>
   </div>
 
   <div class="tabs-wrap">
@@ -453,6 +453,26 @@
         </tbody>
       </table></div></div>
     </details>
+    <details class="section" open>
+      <summary>🕰️ My Time with Claude — session duration over time</summary>
+      <div class="section-body">
+        <canvas id="timeChart" height="100"></canvas>
+        <div class="table-wrap" style="margin-top:1rem;"><table>
+          <thead><tr><th>Date</th><th>Project</th><th>Duration (mins)</th></tr></thead>
+          <tbody>
+            <tr><td>2026-03-12</td><td>BzHub</td><td>45</td></tr>
+            <tr><td>2026-03-12</td><td>BzHub</td><td>25</td></tr>
+            <tr><td>2026-03-12</td><td>BzHub</td><td>35</td></tr>
+            <tr><td>2026-03-13</td><td>BzHub</td><td>30</td></tr>
+            <tr><td>2026-03-13</td><td>BzHub</td><td>20</td></tr>
+            <tr><td>2026-03-18</td><td>Meta</td><td>60</td></tr>
+            <tr><td>2026-03-18</td><td>ARIA</td><td>120</td></tr>
+            <tr><td>2026-03-20</td><td>Meta / Command Centre</td><td>90</td></tr>
+          </tbody>
+        </table></div>
+        <p style="font-size:0.74rem;color:var(--muted);margin-top:0.5rem;">Total logged: ~425 mins (~7 hrs) across 8 sessions. Add a row at each wrap.</p>
+      </div>
+    </details>
     <details class="section">
       <summary>📐 Baseline Definition</summary>
       <div class="section-body"><div class="grid2">
@@ -479,164 +499,108 @@
   <!-- HOW WE WORK -->
   <div id="tab-howwework" class="panel">
     <details class="section" open>
-      <summary>🔄 Session Workflow — from lights out to wrap</summary>
+      <summary>👥 Who Does What — RACI</summary>
+      <div class="section-body"><div class="table-wrap"><table>
+        <thead><tr><th>Activity</th><th>Sunny Hayes</th><th>Claude</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Pick the feature / topic</strong></td><td style="text-align:center;font-weight:700;color:var(--accent)">R · A</td><td style="text-align:center;color:var(--muted)">C</td></tr>
+          <tr><td><strong>Scope lock (one sentence)</strong></td><td style="text-align:center;font-weight:700;color:var(--accent)">A</td><td style="text-align:center;font-weight:700;color:var(--accent2)">R</td></tr>
+          <tr><td><strong>Architecture &amp; technical approach</strong></td><td style="text-align:center;font-weight:700;color:var(--accent)">A</td><td style="text-align:center;font-weight:700;color:var(--accent2)">R · C</td></tr>
+          <tr><td><strong>UI design decisions</strong></td><td style="text-align:center;font-weight:700;color:var(--accent)">A</td><td style="text-align:center;font-weight:700;color:var(--accent2)">R · C</td></tr>
+          <tr><td><strong>Write the code</strong></td><td style="text-align:center;color:var(--muted)">I</td><td style="text-align:center;font-weight:700;color:var(--accent2)">R</td></tr>
+          <tr><td><strong>Bug investigation &amp; fix</strong></td><td style="text-align:center;color:var(--muted)">I</td><td style="text-align:center;font-weight:700;color:var(--accent2)">R</td></tr>
+          <tr><td><strong>Docs (DECISION_LOG, INTERACTION_LOG)</strong></td><td style="text-align:center;color:var(--muted)">I</td><td style="text-align:center;font-weight:700;color:var(--accent2)">R</td></tr>
+          <tr><td><strong>Deployment approval</strong></td><td style="text-align:center;font-weight:700;color:var(--accent)">A</td><td style="text-align:center;font-weight:700;color:var(--accent2)">R</td></tr>
+          <tr><td><strong>Memory &amp; trigger system updates</strong></td><td style="text-align:center;color:var(--muted)">I</td><td style="text-align:center;font-weight:700;color:var(--accent2)">R</td></tr>
+        </tbody>
+      </table></div>
+      <div style="margin-top:0.75rem;font-size:0.75rem;color:var(--muted);display:flex;gap:1.25rem;flex-wrap:wrap;">
+        <span><strong>R</strong> = Responsible (does the work)</span>
+        <span><strong>A</strong> = Accountable (approves / owns the outcome)</span>
+        <span><strong>C</strong> = Consulted (input before decision)</span>
+        <span><strong>I</strong> = Informed (notified of result)</span>
+      </div>
+      </div>
+    </details>
+    <details class="section" open>
+      <summary>🔄 How a Session Actually Runs</summary>
       <div class="section-body">
-        <svg width="100%" viewBox="0 0 800 960" xmlns="http://www.w3.org/2000/svg" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:block;">
+        <p class="intro">Based on real session patterns from ARIA (9 sessions), BzHub (4 sessions), and meta sessions. Every session follows this shape — regardless of the trigger word used.</p>
 
-          <!-- Phase labels -->
-          <text x="16" y="52" font-size="10" font-weight="800" letter-spacing="0.08em" fill="#059669" text-transform="uppercase">PHASE 1 — START</text>
-          <text x="16" y="352" font-size="10" font-weight="800" letter-spacing="0.08em" fill="#2563eb">PHASE 2 — BUILD LOOP</text>
-          <text x="16" y="752" font-size="10" font-weight="800" letter-spacing="0.08em" fill="#e10600">PHASE 3 — WRAP</text>
+        <!-- Phase 1 -->
+        <p class="ds-subsection-title" style="color:var(--green)">Phase 1 — Start</p>
+        <div class="grid2">
+          <div class="mini-card">
+            <h4>Sunny Hayes says the trigger</h4>
+            <p><code>lights out</code> → Claude reads NOTES.md, last commit, parking lot — gives a briefing: last shipped, what's next, any open flags.<br><br><code>fury road</code> → skip briefing, Sunny locks the single thing to ship.<br><br><code>cold start</code> → Claude audits git log, deps, env, stale memory before anything else.</p>
+          </div>
+          <div class="mini-card">
+            <h4>Scope locked in one sentence</h4>
+            <p>Before any code is touched, the feature or task is locked to a single sentence. No scope creep during the session — new ideas go to <code>project_parking_lot.md</code> and are actioned next session.<br><br><strong>Example:</strong> "Fix Goal save bug on ARIA Advisor — NameError in models.Goal."</p>
+          </div>
+        </div>
 
-          <!-- ===== PHASE 1: START ===== -->
-          <!-- Oval: Say the trigger word -->
-          <ellipse cx="400" cy="85" rx="140" ry="28" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
-          <text x="400" y="90" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">Say the trigger word</text>
+        <!-- Phase 2 -->
+        <p class="ds-subsection-title" style="color:var(--accent2);margin-top:1.25rem">Phase 2 — Build Loop</p>
+        <div style="border-left:3px solid var(--accent2);padding-left:1rem;margin-bottom:0.85rem;">
+          <div class="explain-row">
+            <div class="explain-icon">🔍</div>
+            <div>
+              <div class="explain-label">Diagnose first, code second</div>
+              <div class="explain-desc">Claude reads the relevant files — <code>clients.py</code>, <code>models.py</code>, <code>routes/*.py</code>, component files — before writing a single line. Root cause identified, approach proposed, approval given.</div>
+            </div>
+          </div>
+          <div class="explain-row">
+            <div class="explain-icon">✏️</div>
+            <div>
+              <div class="explain-label">Edit gate before every file change</div>
+              <div class="explain-desc">Claude states: "I'll edit X, Y, Z — here's why." Sunny Hayes says "go ahead." No surprises. Exception: wrap-time docs (NOTES.md, logs) run autonomously.</div>
+            </div>
+          </div>
+          <div class="explain-row">
+            <div class="explain-icon">🤖</div>
+            <div>
+              <div class="explain-label">Subagents run in parallel</div>
+              <div class="explain-desc">For research, documentation, or parallel builds — Claude spins up background subagents. Example: ARIA Session 9 — Copilot Kanban/Funnel built by subagent while CRM table was being shipped in main context. BzHub whitepapers generated by background agent during wrap.</div>
+            </div>
+          </div>
+          <div class="explain-row">
+            <div class="explain-icon">🔁</div>
+            <div>
+              <div class="explain-label">Redirect loop — what actually happens mid-session</div>
+              <div class="explain-desc">Sunny Hayes spots something: "same issue, try this" or "that's not the right look." Claude adapts without re-briefing. Safari date bug took 3 rounds of this before the month/year select fix landed. That's normal — the loop is fast.</div>
+            </div>
+          </div>
+          <div class="explain-row">
+            <div class="explain-icon">🛑</div>
+            <div>
+              <div class="explain-label">New idea mid-session → park it</div>
+              <div class="explain-desc">"park that" saves to <code>project_parking_lot.md</code>. Claude flags scope creep when a new feature arrives before the committed one is done. This is mandatory pushback, not optional.</div>
+            </div>
+          </div>
+        </div>
 
-          <!-- Arrow down -->
-          <line x1="400" y1="113" x2="400" y2="145" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <!-- Phase 3 -->
+        <p class="ds-subsection-title" style="color:var(--accent);margin-top:1.25rem">Phase 3 — Wrap</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Step</th><th>What happens</th><th>File updated</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1. DoD checklist</strong></td><td style="color:var(--muted)">Code works end-to-end, mobile tested, no console errors, auth respected</td><td><code>definition_of_done.md</code></td></tr>
+            <tr><td><strong>2. Project docs</strong></td><td style="color:var(--muted)">Current state, version, next feature flagged with ← START HERE</td><td><code>NOTES.md</code></td></tr>
+            <tr><td><strong>3. Decision log</strong></td><td style="color:var(--muted)">Any non-obvious architectural or design call logged with rationale</td><td><code>DECISION_LOG.md</code></td></tr>
+            <tr><td><strong>4. Session log</strong></td><td style="color:var(--muted)">Prompt log, features shipped, PO time, compression ratio appended</td><td><code>documentation/INTERACTION_LOG.md</code></td></tr>
+            <tr><td><strong>5. Efficiency entry</strong></td><td style="color:var(--muted)">One row added to cross-project efficiency log</td><td><code>~/claude-memory/EFFICIENCY_LOG.md</code></td></tr>
+            <tr><td><strong>6. Memory update</strong></td><td style="color:var(--muted)">Any new feedback, design decisions, or standing rules saved</td><td><code>~/.claude/projects/.../memory/*.md</code></td></tr>
+            <tr><td><strong>7. git commit + push</strong></td><td style="color:var(--muted)">Clear commit message, no Co-Authored-By, pushed to main</td><td><code>git</code> + <code>sync.sh push</code></td></tr>
+            <tr><td><strong>8. /compact</strong></td><td style="color:var(--muted)">Context compressed — session closed cleanly</td><td>—</td></tr>
+          </tbody>
+        </table></div>
 
-          <!-- Diamond: Which mode? -->
-          <polygon points="400,148 500,190 400,232 300,190" fill="#f0f2f8" stroke="#2563eb" stroke-width="2"/>
-          <text x="400" y="187" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">Which mode?</text>
-          <text x="400" y="202" text-anchor="middle" font-size="10" fill="#6b7280">trigger word</text>
-
-          <!-- Branch: lights out (left) -->
-          <line x1="300" y1="190" x2="140" y2="190" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-          <text x="218" y="183" text-anchor="middle" font-size="10" fill="#6b7280">lights out</text>
-          <rect x="20" y="203" width="160" height="40" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
-          <text x="100" y="219" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">Full briefing</text>
-          <text x="100" y="233" text-anchor="middle" font-size="10" fill="#065f46">+ scope lock</text>
-
-          <!-- Branch: fury road (centre-ish) -->
-          <line x1="400" y1="232" x2="400" y2="264" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-          <text x="415" y="252" font-size="10" fill="#6b7280">fury road</text>
-          <rect x="320" y="267" width="160" height="40" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
-          <text x="400" y="283" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">Skip briefing</text>
-          <text x="400" y="297" text-anchor="middle" font-size="10" fill="#065f46">lock scope in one line</text>
-
-          <!-- Branch: cold start (right) -->
-          <line x1="500" y1="190" x2="640" y2="190" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-          <text x="568" y="183" text-anchor="middle" font-size="10" fill="#6b7280">cold start</text>
-          <rect x="620" y="203" width="160" height="40" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
-          <text x="700" y="219" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">Deep audit</text>
-          <text x="700" y="233" text-anchor="middle" font-size="10" fill="#065f46">+ revival briefing</text>
-
-          <!-- Converge arrows to Phase 2 -->
-          <line x1="100" y1="243" x2="100" y2="318" stroke="#6b7280" stroke-width="1.5"/>
-          <line x1="100" y1="318" x2="370" y2="318" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-          <line x1="400" y1="307" x2="400" y2="358" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-          <line x1="700" y1="243" x2="700" y2="318" stroke="#6b7280" stroke-width="1.5"/>
-          <line x1="700" y1="318" x2="432" y2="318" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- ===== PHASE 2: BUILD LOOP ===== -->
-          <!-- Feature selected -->
-          <rect x="270" y="360" width="260" height="42" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
-          <text x="400" y="377" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">Feature selected from backlog</text>
-          <text x="400" y="393" text-anchor="middle" font-size="10" fill="#3b82f6">scope locked in one sentence</text>
-
-          <!-- Arrow -->
-          <line x1="400" y1="402" x2="400" y2="422" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- Edit gate -->
-          <rect x="270" y="424" width="260" height="42" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
-          <text x="400" y="441" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">Edit gate</text>
-          <text x="400" y="457" text-anchor="middle" font-size="10" fill="#3b82f6">state files + get approval</text>
-
-          <!-- Arrow -->
-          <line x1="400" y1="466" x2="400" y2="486" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- Build -->
-          <rect x="270" y="488" width="260" height="42" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
-          <text x="400" y="505" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">Build: code → verify → test</text>
-          <text x="400" y="521" text-anchor="middle" font-size="10" fill="#3b82f6">subagents for research / parallel work</text>
-
-          <!-- Arrow -->
-          <line x1="400" y1="530" x2="400" y2="550" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- Diamond: Mid-session event? -->
-          <polygon points="400,553 510,600 400,647 290,600" fill="#f0f2f8" stroke="#2563eb" stroke-width="2"/>
-          <text x="400" y="597" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">Mid-session</text>
-          <text x="400" y="612" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">event?</text>
-
-          <!-- Side notes — left side -->
-          <line x1="290" y1="600" x2="200" y2="570" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
-          <rect x="20" y="548" width="178" height="32" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
-          <text x="109" y="561" text-anchor="middle" font-size="10" font-weight="700" fill="#b45309">park that</text>
-          <text x="109" y="574" text-anchor="middle" font-size="9" fill="#92400e">→ parking lot, returns to loop</text>
-
-          <line x1="290" y1="600" x2="200" y2="615" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
-          <rect x="20" y="600" width="178" height="32" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1.2"/>
-          <text x="109" y="613" text-anchor="middle" font-size="10" font-weight="700" fill="#b91c1c">red flag</text>
-          <text x="109" y="626" text-anchor="middle" font-size="9" fill="#991b1b">→ stop + escalate</text>
-
-          <!-- Side notes — right side -->
-          <line x1="510" y1="600" x2="598" y2="570" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
-          <rect x="600" y="548" width="178" height="32" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.2"/>
-          <text x="689" y="561" text-anchor="middle" font-size="10" font-weight="700" fill="#5b21b6">first principles</text>
-          <text x="689" y="574" text-anchor="middle" font-size="9" fill="#4c1d95">→ strip assumptions</text>
-
-          <line x1="510" y1="600" x2="598" y2="615" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
-          <rect x="600" y="600" width="178" height="32" rx="6" fill="#f0f2f8" stroke="#6b7280" stroke-width="1.2"/>
-          <text x="689" y="613" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1d2e">/compact</text>
-          <text x="689" y="626" text-anchor="middle" font-size="9" fill="#6b7280">→ compress context</text>
-
-          <!-- "done" arrow down -->
-          <line x1="400" y1="647" x2="400" y2="667" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-          <text x="415" y="661" font-size="10" fill="#6b7280">done</text>
-
-          <!-- Loop-back arrows (park that + red flag loop back up) -->
-          <line x1="20" y1="564" x2="8" y2="564" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
-          <line x1="8" y1="564" x2="8" y2="480" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
-          <line x1="8" y1="480" x2="268" y2="480" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowgray)"/>
-
-          <line x1="778" y1="564" x2="790" y2="564" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
-          <line x1="790" y1="564" x2="790" y2="480" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
-          <line x1="790" y1="480" x2="532" y2="480" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowgray)"/>
-
-          <!-- ===== PHASE 3: WRAP ===== -->
-          <!-- DoD checklist -->
-          <rect x="270" y="669" width="260" height="42" rx="8" fill="#fff1f0" stroke="#e10600" stroke-width="2"/>
-          <text x="400" y="686" text-anchor="middle" font-size="12" font-weight="700" fill="#e10600">DoD checklist</text>
-          <text x="400" y="702" text-anchor="middle" font-size="10" fill="#9b1c1c">code · security · mobile · shipping</text>
-
-          <line x1="400" y1="711" x2="400" y2="731" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- Update docs -->
-          <rect x="270" y="733" width="260" height="42" rx="8" fill="#fff1f0" stroke="#e10600" stroke-width="2"/>
-          <text x="400" y="750" text-anchor="middle" font-size="12" font-weight="700" fill="#e10600">Update docs</text>
-          <text x="400" y="766" text-anchor="middle" font-size="10" fill="#9b1c1c">NOTES · DECISION_LOG · INTERACTION_LOG</text>
-
-          <line x1="400" y1="775" x2="400" y2="795" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- git commit + push -->
-          <rect x="270" y="797" width="260" height="42" rx="8" fill="#fff1f0" stroke="#e10600" stroke-width="2"/>
-          <text x="400" y="814" text-anchor="middle" font-size="12" font-weight="700" fill="#e10600">git commit + push</text>
-          <text x="400" y="830" text-anchor="middle" font-size="10" fill="#9b1c1c">clear message · no Co-Authored-By</text>
-
-          <line x1="400" y1="839" x2="400" y2="859" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- Efficiency log -->
-          <rect x="270" y="861" width="260" height="42" rx="8" fill="#fff1f0" stroke="#e10600" stroke-width="2"/>
-          <text x="400" y="878" text-anchor="middle" font-size="12" font-weight="700" fill="#e10600">Efficiency log entry</text>
-          <text x="400" y="894" text-anchor="middle" font-size="10" fill="#9b1c1c">PO time · shipped · ratio</text>
-
-          <line x1="400" y1="903" x2="400" y2="923" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-          <!-- Oval: Session closed -->
-          <ellipse cx="400" cy="945" rx="140" ry="28" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
-          <text x="400" y="950" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">Session closed 🏁</text>
-
-          <!-- Arrow markers -->
-          <defs>
-            <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L8,3 z" fill="#6b7280"/>
-            </marker>
-            <marker id="arrowgray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L8,3 z" fill="#6b7280"/>
-            </marker>
-          </defs>
-        </svg>
+        <div class="mini-card" style="margin-top:1rem;border-left:3px solid var(--accent)">
+          <h4>Real numbers from our sessions</h4>
+          <p>ARIA Session 9: 22 prompts → 2 production bugs fixed, Safari date fix, login redesign (both apps), whitepapers + exec deck. ~2 hrs PO time. <strong>~8x compression.</strong><br>
+          BzHub 4 sessions: 20+ features shipped, v1.0 → v5.0.0. ~130 mins total. <strong>60–120x estimated.</strong></p>
+        </div>
       </div>
     </details>
   </div>
@@ -658,6 +622,7 @@
     <details class="section">
       <summary>🏆 Release Notes — this help file</summary>
       <div class="section-body">
+      <div class="release"><span class="rel-version">v2.0.0</span><span class="rel-date">2026-03-20</span><ul><li>How We Work rewritten from real session data — ARIA Session 9, BzHub 4 sessions, actual prompt loops and patterns</li><li>RACI chart added showing Sunny Hayes vs Claude responsibilities</li><li>"My Time with Claude" bar chart added to Efficiency tab — all 8 sessions logged</li></ul></div>
       <div class="release"><span class="rel-version">v1.9.0</span><span class="rel-date">2026-03-20</span><ul><li>Added Design System &amp; Code Standards section under Rules tab</li><li>Added How We Work flowchart tab</li><li>Footer restored to approved text only</li></ul></div>
       <div class="release"><span class="rel-version">v1.8.0</span><span class="rel-date">2026-03-20</span><ul><li>Consolidated 11 tabs into 7 logical groups</li><li>Full project docs listed under Projects tab (Word + PPT only)</li><li>Mobile-compatible: scrollable tab bar, horizontal table scroll, 44px touch targets</li></ul></div>
       <div class="release"><span class="rel-version">v1.7.0</span><span class="rel-date">2026-03-20</span><ul><li>All cards across all tabs now collapsible</li><li>Moved to standalone repo — command-centre, served via GitHub Pages</li><li>Improved efficiency chart (grouped bar: PO time vs 3-person equivalent)</li></ul></div>
@@ -678,6 +643,36 @@
 
 </div>
 <script>
+  // Time with Claude chart
+  window.addEventListener('load', function() {
+    const tCtx = document.getElementById('timeChart').getContext('2d');
+    new Chart(tCtx, {
+      type: 'bar',
+      data: {
+        labels: ['2026-03-12\nBzHub①', '2026-03-12\nBzHub②', '2026-03-12\nBzHub③', '2026-03-13\nBzHub④', '2026-03-13\nBzHub⑤', '2026-03-18\nMeta', '2026-03-18\nARIA', '2026-03-20\nMeta'],
+        datasets: [{
+          label: 'Session duration (mins)',
+          data: [45, 25, 35, 30, 20, 60, 120, 90],
+          backgroundColor: ['#2563ebaa','#2563ebaa','#2563ebaa','#2563ebaa','#2563ebaa','#059669aa','#e10600aa','#059669aa'],
+          borderColor: ['#2563eb','#2563eb','#2563eb','#2563eb','#2563eb','#059669','#e10600','#059669'],
+          borderWidth: 2,
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: (i) => `${i.parsed.y} mins` } }
+        },
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: 'Minutes' }, grid: { color: '#e2e5f0' } },
+          x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+        }
+      }
+    });
+  });
+
   // Efficiency chart
   window.addEventListener('load', function() {
     const ctx = document.getElementById('efficiencyChart').getContext('2d');
