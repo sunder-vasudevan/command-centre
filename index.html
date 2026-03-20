@@ -86,6 +86,8 @@
     .search-result-item:last-child { border-bottom: none; }
     .search-result-item:hover { color: var(--accent2); }
     .search-result-tab { font-size: 0.7rem; color: var(--muted); margin-left: 0.4rem; }
+    .ds-subsection-title { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 1.1rem 0 0.5rem; }
+    .ds-subsection-title:first-child { margin-top: 0; }
     @media (max-width: 640px) {
       .tabs-wrap { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
       .tab-btn { min-height: 44px; font-size: 0.85rem; }
@@ -104,7 +106,7 @@
         <p>Sunny Hayes — triggers, rules, projects &amp; protocols</p>
       </div>
     </div>
-    <div class="version-badge">🏎 v1.8.0 · 2026-03-20</div>
+    <div class="version-badge">🏎 v1.9.0 · 2026-03-20</div>
   </div>
 
   <div class="tabs-wrap">
@@ -114,6 +116,7 @@
     <button class="tab-btn" onclick="showTab('rules',this)">📏 Rules</button>
     <button class="tab-btn" onclick="showTab('tools',this)">🛠️ Tools</button>
     <button class="tab-btn" onclick="showTab('efficiency',this)">📊 Efficiency</button>
+    <button class="tab-btn" onclick="showTab('howwework',this)">🔄 How We Work</button>
     <button class="tab-btn" onclick="showTab('reference',this)">📄 Reference</button>
   </div>
 
@@ -271,7 +274,7 @@
     </details>
   </div>
 
-  <!-- RULES (Standing Rules + Definition of Done) -->
+  <!-- RULES (Standing Rules + Definition of Done + Design System) -->
   <div id="tab-rules" class="panel">
     <details class="section" open>
       <summary>📏 Every session, every project — no exceptions</summary>
@@ -303,6 +306,74 @@
         <div class="mini-card"><h4>📱 Mobile</h4><ul><li>Tested at 375px (iPhone SE)</li><li>No horizontal scroll</li><li>Touch targets ≥ 44px</li></ul></div>
         <div class="mini-card"><h4>🚢 Shipping</h4><ul><li>Git committed, clear message</li><li>Deployed + verified on live URL</li><li>No regressions, all docs updated</li></ul></div>
       </div></div>
+    </details>
+    <details class="section">
+      <summary>🎨 Design System &amp; Code Standards</summary>
+      <div class="section-body">
+
+        <p class="ds-subsection-title">UI Principles</p>
+        <div class="grid2">
+          <div class="mini-card"><p>Light theme always — never dark unless explicitly requested</p></div>
+          <div class="mini-card"><p>Mobile-first — test at 375px (iPhone SE) minimum</p></div>
+          <div class="mini-card"><p>Safari compatibility — use month/year <code>&lt;select&gt;</code> not <code>&lt;input type="date"&gt;</code></p></div>
+          <div class="mini-card"><p>ARIA ↔ Personal sync — confirm before cross-applying UI changes between the two apps</p></div>
+          <div class="mini-card"><p>Preview before build — mockup/preview approval before any UI build starts</p></div>
+        </div>
+
+        <p class="ds-subsection-title">Brand &amp; Tokens</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Token</th><th>Value</th><th>Used for</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Primary</strong></td><td><code>#00328a</code></td><td style="color:var(--muted)">Buttons, nav, key actions</td></tr>
+            <tr><td><strong>CTA Blue</strong></td><td><code>#0047bb</code></td><td style="color:var(--muted)">CTAs, active states</td></tr>
+            <tr><td><strong>Secondary Container</strong></td><td><code>#c9cbfe</code></td><td style="color:var(--muted)">Secondary buttons, chips</td></tr>
+            <tr><td><strong>Surface</strong></td><td><code>#fbf8ff</code></td><td style="color:var(--muted)">Page background</td></tr>
+            <tr><td><strong>On Surface</strong></td><td><code>#14173f</code></td><td style="color:var(--muted)">Primary text</td></tr>
+            <tr><td><strong>Navy 950</strong></td><td><code>#0a0f2e</code></td><td style="color:var(--muted)">Dark panels</td></tr>
+            <tr><td><strong>Probability High</strong></td><td>teal / <code>#d1fae5</code> + <code>#065f46</code></td><td style="color:var(--muted)">Goal on track</td></tr>
+            <tr><td><strong>Probability Medium</strong></td><td>amber / <code>#fef3c7</code> + <code>#b45309</code></td><td style="color:var(--muted)">Goal at risk</td></tr>
+            <tr><td><strong>Probability Low</strong></td><td>rose / <code>#fee2e2</code> + <code>#b91c1c</code></td><td style="color:var(--muted)">Goal off track</td></tr>
+          </tbody>
+        </table></div>
+
+        <p class="ds-subsection-title">Typography</p>
+        <div class="grid2">
+          <div class="mini-card"><h4>Headlines</h4><p>Manrope (extrabold, tight tracking)</p></div>
+          <div class="mini-card"><h4>Body</h4><p>Inter (regular / medium / semibold)</p></div>
+        </div>
+
+        <p class="ds-subsection-title">Component Patterns</p>
+        <div class="grid2">
+          <div class="mini-card"><h4>Frosted glass nav</h4><p><code>bg-slate-50/70 backdrop-blur-xl</code> top bar</p></div>
+          <div class="mini-card"><h4>Split login</h4><p>Dark navy left panel (tagline + stats) + light right panel (form)</p></div>
+          <div class="mini-card"><h4>Bento grid</h4><p>AI Briefing card (col-span-2) + stats card + full-width client book</p></div>
+          <div class="mini-card"><h4>Advisor client book</h4><p>Dense row-per-client table, NOT bento cards (intentional)</p></div>
+          <div class="mini-card"><h4>Badges</h4><p>HNI: <code>#dbe1ff/#00328a</code> · Retail: <code>#e7e6ff/#585b87</code></p></div>
+        </div>
+
+        <p class="ds-subsection-title">Code Standards</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Area</th><th>Rule</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Branch strategy</strong></td><td style="color:var(--muted)">Trunk-based on <code>main</code>; feature branch only for 3+ session or high-risk work</td></tr>
+            <tr><td><strong>Env vars</strong></td><td style="color:var(--muted)">Never hardcode; <code>.env.example</code> always present; <code>.env</code> in <code>.gitignore</code></td></tr>
+            <tr><td><strong>Security</strong></td><td style="color:var(--muted)">No secrets in code; validate input at API boundary; auth on every protected route</td></tr>
+            <tr><td><strong>README</strong></td><td style="color:var(--muted)">Must have: what it is, stack, local setup, env vars, deploy process, version</td></tr>
+            <tr><td><strong>Code style</strong></td><td style="color:var(--muted)">Match existing file style; no dead code; no commented-out blocks</td></tr>
+          </tbody>
+        </table></div>
+
+        <p class="ds-subsection-title">Design Preview Files</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>File</th><th>Location</th></tr></thead>
+          <tbody>
+            <tr><td>aria-advisor-preview.html</td><td><code>~/Desktop/aria-advisor-preview.html</code></td></tr>
+            <tr><td>aria-personal-preview.html</td><td><code>~/Desktop/aria-personal-preview.html</code></td></tr>
+            <tr><td>aria-personal-preview-v2.html</td><td><code>~/Desktop/aria-personal-preview-v2.html</code></td></tr>
+          </tbody>
+        </table></div>
+
+      </div>
     </details>
   </div>
 
@@ -405,6 +476,171 @@
     </details>
   </div>
 
+  <!-- HOW WE WORK -->
+  <div id="tab-howwework" class="panel">
+    <details class="section" open>
+      <summary>🔄 Session Workflow — from lights out to wrap</summary>
+      <div class="section-body">
+        <svg width="100%" viewBox="0 0 800 960" xmlns="http://www.w3.org/2000/svg" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:block;">
+
+          <!-- Phase labels -->
+          <text x="16" y="52" font-size="10" font-weight="800" letter-spacing="0.08em" fill="#059669" text-transform="uppercase">PHASE 1 — START</text>
+          <text x="16" y="352" font-size="10" font-weight="800" letter-spacing="0.08em" fill="#2563eb">PHASE 2 — BUILD LOOP</text>
+          <text x="16" y="752" font-size="10" font-weight="800" letter-spacing="0.08em" fill="#e10600">PHASE 3 — WRAP</text>
+
+          <!-- ===== PHASE 1: START ===== -->
+          <!-- Oval: Say the trigger word -->
+          <ellipse cx="400" cy="85" rx="140" ry="28" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+          <text x="400" y="90" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">Say the trigger word</text>
+
+          <!-- Arrow down -->
+          <line x1="400" y1="113" x2="400" y2="145" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- Diamond: Which mode? -->
+          <polygon points="400,148 500,190 400,232 300,190" fill="#f0f2f8" stroke="#2563eb" stroke-width="2"/>
+          <text x="400" y="187" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">Which mode?</text>
+          <text x="400" y="202" text-anchor="middle" font-size="10" fill="#6b7280">trigger word</text>
+
+          <!-- Branch: lights out (left) -->
+          <line x1="300" y1="190" x2="140" y2="190" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <text x="218" y="183" text-anchor="middle" font-size="10" fill="#6b7280">lights out</text>
+          <rect x="20" y="203" width="160" height="40" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+          <text x="100" y="219" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">Full briefing</text>
+          <text x="100" y="233" text-anchor="middle" font-size="10" fill="#065f46">+ scope lock</text>
+
+          <!-- Branch: fury road (centre-ish) -->
+          <line x1="400" y1="232" x2="400" y2="264" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <text x="415" y="252" font-size="10" fill="#6b7280">fury road</text>
+          <rect x="320" y="267" width="160" height="40" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+          <text x="400" y="283" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">Skip briefing</text>
+          <text x="400" y="297" text-anchor="middle" font-size="10" fill="#065f46">lock scope in one line</text>
+
+          <!-- Branch: cold start (right) -->
+          <line x1="500" y1="190" x2="640" y2="190" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <text x="568" y="183" text-anchor="middle" font-size="10" fill="#6b7280">cold start</text>
+          <rect x="620" y="203" width="160" height="40" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
+          <text x="700" y="219" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">Deep audit</text>
+          <text x="700" y="233" text-anchor="middle" font-size="10" fill="#065f46">+ revival briefing</text>
+
+          <!-- Converge arrows to Phase 2 -->
+          <line x1="100" y1="243" x2="100" y2="318" stroke="#6b7280" stroke-width="1.5"/>
+          <line x1="100" y1="318" x2="370" y2="318" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <line x1="400" y1="307" x2="400" y2="358" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <line x1="700" y1="243" x2="700" y2="318" stroke="#6b7280" stroke-width="1.5"/>
+          <line x1="700" y1="318" x2="432" y2="318" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- ===== PHASE 2: BUILD LOOP ===== -->
+          <!-- Feature selected -->
+          <rect x="270" y="360" width="260" height="42" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+          <text x="400" y="377" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">Feature selected from backlog</text>
+          <text x="400" y="393" text-anchor="middle" font-size="10" fill="#3b82f6">scope locked in one sentence</text>
+
+          <!-- Arrow -->
+          <line x1="400" y1="402" x2="400" y2="422" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- Edit gate -->
+          <rect x="270" y="424" width="260" height="42" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+          <text x="400" y="441" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">Edit gate</text>
+          <text x="400" y="457" text-anchor="middle" font-size="10" fill="#3b82f6">state files + get approval</text>
+
+          <!-- Arrow -->
+          <line x1="400" y1="466" x2="400" y2="486" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- Build -->
+          <rect x="270" y="488" width="260" height="42" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+          <text x="400" y="505" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">Build: code → verify → test</text>
+          <text x="400" y="521" text-anchor="middle" font-size="10" fill="#3b82f6">subagents for research / parallel work</text>
+
+          <!-- Arrow -->
+          <line x1="400" y1="530" x2="400" y2="550" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- Diamond: Mid-session event? -->
+          <polygon points="400,553 510,600 400,647 290,600" fill="#f0f2f8" stroke="#2563eb" stroke-width="2"/>
+          <text x="400" y="597" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">Mid-session</text>
+          <text x="400" y="612" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">event?</text>
+
+          <!-- Side notes — left side -->
+          <line x1="290" y1="600" x2="200" y2="570" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <rect x="20" y="548" width="178" height="32" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
+          <text x="109" y="561" text-anchor="middle" font-size="10" font-weight="700" fill="#b45309">park that</text>
+          <text x="109" y="574" text-anchor="middle" font-size="9" fill="#92400e">→ parking lot, returns to loop</text>
+
+          <line x1="290" y1="600" x2="200" y2="615" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <rect x="20" y="600" width="178" height="32" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1.2"/>
+          <text x="109" y="613" text-anchor="middle" font-size="10" font-weight="700" fill="#b91c1c">red flag</text>
+          <text x="109" y="626" text-anchor="middle" font-size="9" fill="#991b1b">→ stop + escalate</text>
+
+          <!-- Side notes — right side -->
+          <line x1="510" y1="600" x2="598" y2="570" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <rect x="600" y="548" width="178" height="32" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.2"/>
+          <text x="689" y="561" text-anchor="middle" font-size="10" font-weight="700" fill="#5b21b6">first principles</text>
+          <text x="689" y="574" text-anchor="middle" font-size="9" fill="#4c1d95">→ strip assumptions</text>
+
+          <line x1="510" y1="600" x2="598" y2="615" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <rect x="600" y="600" width="178" height="32" rx="6" fill="#f0f2f8" stroke="#6b7280" stroke-width="1.2"/>
+          <text x="689" y="613" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1d2e">/compact</text>
+          <text x="689" y="626" text-anchor="middle" font-size="9" fill="#6b7280">→ compress context</text>
+
+          <!-- "done" arrow down -->
+          <line x1="400" y1="647" x2="400" y2="667" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <text x="415" y="661" font-size="10" fill="#6b7280">done</text>
+
+          <!-- Loop-back arrows (park that + red flag loop back up) -->
+          <line x1="20" y1="564" x2="8" y2="564" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <line x1="8" y1="564" x2="8" y2="480" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <line x1="8" y1="480" x2="268" y2="480" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowgray)"/>
+
+          <line x1="778" y1="564" x2="790" y2="564" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <line x1="790" y1="564" x2="790" y2="480" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <line x1="790" y1="480" x2="532" y2="480" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowgray)"/>
+
+          <!-- ===== PHASE 3: WRAP ===== -->
+          <!-- DoD checklist -->
+          <rect x="270" y="669" width="260" height="42" rx="8" fill="#fff1f0" stroke="#e10600" stroke-width="2"/>
+          <text x="400" y="686" text-anchor="middle" font-size="12" font-weight="700" fill="#e10600">DoD checklist</text>
+          <text x="400" y="702" text-anchor="middle" font-size="10" fill="#9b1c1c">code · security · mobile · shipping</text>
+
+          <line x1="400" y1="711" x2="400" y2="731" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- Update docs -->
+          <rect x="270" y="733" width="260" height="42" rx="8" fill="#fff1f0" stroke="#e10600" stroke-width="2"/>
+          <text x="400" y="750" text-anchor="middle" font-size="12" font-weight="700" fill="#e10600">Update docs</text>
+          <text x="400" y="766" text-anchor="middle" font-size="10" fill="#9b1c1c">NOTES · DECISION_LOG · INTERACTION_LOG</text>
+
+          <line x1="400" y1="775" x2="400" y2="795" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- git commit + push -->
+          <rect x="270" y="797" width="260" height="42" rx="8" fill="#fff1f0" stroke="#e10600" stroke-width="2"/>
+          <text x="400" y="814" text-anchor="middle" font-size="12" font-weight="700" fill="#e10600">git commit + push</text>
+          <text x="400" y="830" text-anchor="middle" font-size="10" fill="#9b1c1c">clear message · no Co-Authored-By</text>
+
+          <line x1="400" y1="839" x2="400" y2="859" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- Efficiency log -->
+          <rect x="270" y="861" width="260" height="42" rx="8" fill="#fff1f0" stroke="#e10600" stroke-width="2"/>
+          <text x="400" y="878" text-anchor="middle" font-size="12" font-weight="700" fill="#e10600">Efficiency log entry</text>
+          <text x="400" y="894" text-anchor="middle" font-size="10" fill="#9b1c1c">PO time · shipped · ratio</text>
+
+          <line x1="400" y1="903" x2="400" y2="923" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- Oval: Session closed -->
+          <ellipse cx="400" cy="945" rx="140" ry="28" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+          <text x="400" y="950" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">Session closed 🏁</text>
+
+          <!-- Arrow markers -->
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#6b7280"/>
+            </marker>
+            <marker id="arrowgray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#6b7280"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </details>
+  </div>
+
   <!-- REFERENCE (CLAUDE.md + Release Notes) -->
   <div id="tab-reference" class="panel">
     <details class="section" open>
@@ -422,6 +658,7 @@
     <details class="section">
       <summary>🏆 Release Notes — this help file</summary>
       <div class="section-body">
+      <div class="release"><span class="rel-version">v1.9.0</span><span class="rel-date">2026-03-20</span><ul><li>Added Design System &amp; Code Standards section under Rules tab</li><li>Added How We Work flowchart tab</li><li>Footer restored to approved text only</li></ul></div>
       <div class="release"><span class="rel-version">v1.8.0</span><span class="rel-date">2026-03-20</span><ul><li>Consolidated 11 tabs into 7 logical groups</li><li>Full project docs listed under Projects tab (Word + PPT only)</li><li>Mobile-compatible: scrollable tab bar, horizontal table scroll, 44px touch targets</li></ul></div>
       <div class="release"><span class="rel-version">v1.7.0</span><span class="rel-date">2026-03-20</span><ul><li>All cards across all tabs now collapsible</li><li>Moved to standalone repo — command-centre, served via GitHub Pages</li><li>Improved efficiency chart (grouped bar: PO time vs 3-person equivalent)</li></ul></div>
       <div class="release"><span class="rel-version">v1.6.0</span><span class="rel-date">2026-03-20</span><ul><li>Added AI Tools tab — Claude AI, GitHub Copilot, Microsoft Copilot with roles</li><li>Added Efficiency tab — bar chart, session log, baseline definition, doc file locations</li><li>Non-project session logging rule added to session_wrap.md</li></ul></div>
@@ -437,8 +674,6 @@
 
   <div class="footer">
     <p>Made with <span class="love">❤️</span> in Hyderabad</p>
-    <p>Claude Command Centre · Sunny Hayes · Local: <code>file:///Users/sunnyhayes/Daytona/command-centre/index.html</code></p>
-    <p style="margin-top:0.4rem;">Built with Claude AI · GitHub Copilot · Microsoft Copilot</p>
   </div>
 
 </div>
