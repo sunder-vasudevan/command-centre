@@ -2,6 +2,46 @@
 
 ---
 
+## 2026-03-21 12:19 — Meta / Token Optimization
+
+**Session date:** 2026-03-21
+**PO interaction time:** ~2 hrs
+**Version shipped:** no code version — meta/tooling
+**Estimated 3-person equivalent:** N/A
+**Compression ratio:** N/A
+
+### Work Completed
+- Full token drain audit — triggers, memory, plugins, CLAUDE.md
+- Trimmed ~119 lines across session_wrap.md, lights_out.md, fury_road.md, CLAUDE.md, feedback_working_pattern.md, feedback_benchmarking.md, feedback_autonomy.md
+- INTERACTION_LOG write-only rule locked
+- everything-claude-code + claude-md-management plugins disabled
+- 15-day deep audit gate live in lights_out.md + checklist in feedback_token_efficiency.md
+- Per-session token line added to My Time with Claude chart (second Y-axis, colour-coded)
+- Prompt coaching rules locked — Claude intercepts bad prompts actively every session
+
+### Prompt Log
+
+| # | Prompt (summary) | Output summary |
+|---|-----------------|----------------|
+| 1 | Do the audit first then add token audit gate to lights_out.md | Full audit executed, gate added |
+| 2 | Approve all 3 cuts, no approvals needed | session_wrap, lights_out, feedback_working_pattern trimmed |
+| 3 | Back to usage and graph | Option B — token line added as second Y-axis to My Time chart |
+| 4 | Push | Pushed to GitHub Pages |
+| 5 | Full audit of token drains | Comprehensive audit across all files, plugins, hooks |
+| 6 | Remove duplicate Token Efficiency table from fury_road.md | Done |
+| 7 | Note ARIA PENDING block cleanup for next ARIA session | Parked in project_parking_lot.md |
+| 8 | Cap INTERACTION_LOGs — what do we do? | Option B (write-only) selected, rule locked in lights_out.md |
+| 9 | Are we done with full audit? | Confirmed complete |
+| 10 | What else for token reduction — comprehensive | Full analysis: CLAUDE.md, plugins, prompting behaviour |
+| 11 | Yes go — do all 6 actions | CLAUDE.md, memory files trimmed, claude-md-management disabled |
+| 12 | Why duplicate audit gate in feedback_token_efficiency.md? | Caught duplicate, removed, clarified Option A/B |
+| 13 | everything-claude-code — where am I using it? | Not used — disabled |
+| 14 | What is frontend-design / github plugins? | frontend-design: keep. github: disabled (lean machine rule) |
+| 15 | Prompt coaching — push back on bad habits | Rules locked in feedback_working_pattern.md |
+| 16 | wrap | Running session wrap |
+
+---
+
 ## 2026-03-20 — Meta / Command Centre
 
 **Session date:** 2026-03-20
