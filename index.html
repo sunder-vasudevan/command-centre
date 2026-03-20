@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Command Centre — Sunny Hayes</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f4f5f9; --surface: #ffffff; --surface2: #f0f2f8; --border: #e2e5f0;
+      --text: #1a1d2e; --muted: #6b7280; --accent: #e10600; --accent2: #2563eb;
+      --accent-light: #fff1f0; --green: #059669; --green-light: #ecfdf5;
+      --amber: #d97706; --amber-light: #fffbeb; --red: #dc2626; --red-light: #fef2f2;
+      --pill-bg: #f0f4ff;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 1.5rem 1rem 4rem; }
+    .container { max-width: 980px; margin: 0 auto; }
+    .header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.25rem; border-bottom: 3px solid var(--accent); }
+    .header-left { display: flex; align-items: center; gap: 0.75rem; }
+    .header-flag { font-size: 2rem; line-height: 1; }
+    .header h1 { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.02em; color: var(--text); }
+    .header h1 span { color: var(--accent); }
+    .header p { color: var(--muted); font-size: 0.82rem; margin-top: 0.1rem; }
+    .version-badge { background: var(--accent); border-radius: 999px; padding: 0.3rem 0.9rem; font-size: 0.72rem; font-weight: 700; color: #fff; white-space: nowrap; }
+    .tabs-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 0.4rem; display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 1.25rem; }
+    .tab-btn { background: transparent; border: none; border-radius: 8px; padding: 0.5rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .tab-btn:hover { background: var(--surface2); color: var(--text); }
+    .tab-btn.active { background: var(--accent); color: #fff; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 0.85rem; }
+    .card-title { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.85rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    th { text-align: left; padding: 0.5rem 0.85rem; font-size: 0.67rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: var(--surface2); border-bottom: 1px solid var(--border); }
+    td { padding: 0.65rem 0.85rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface2); }
+    .kw { display: inline-block; background: var(--accent-light); border: 1px solid #fca5a5; border-radius: 6px; padding: 0.15rem 0.55rem; font-family: 'SF Mono','Menlo',monospace; font-size: 0.74rem; color: var(--accent); font-weight: 700; white-space: nowrap; }
+    .badge { display: inline-block; border-radius: 999px; padding: 0.15rem 0.6rem; font-size: 0.68rem; font-weight: 700; }
+    .badge.live { background: var(--green-light); color: var(--green); }
+    .badge.pending { background: var(--amber-light); color: var(--amber); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }
+    .mini-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem 1rem; }
+    .mini-card h4 { font-size: 0.81rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .mini-card ul { padding-left: 1rem; }
+    .mini-card li { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.15rem; }
+    .mini-card p { font-size: 0.78rem; color: var(--muted); }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; border-left: 4px solid var(--accent); }
+    .project-card h3 { font-size: 0.95rem; font-weight: 800; }
+    .project-card .project-tag { font-size: 0.72rem; color: var(--muted); font-family: 'SF Mono','Menlo',monospace; }
+    .project-card p { font-size: 0.8rem; color: var(--muted); margin-top: 0.35rem; line-height: 1.5; }
+    .project-card .project-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 0.6rem; flex-wrap: wrap; gap: 0.4rem; }
+    .project-card .next { font-size: 0.74rem; color: var(--accent2); }
+    .explain-row { display: flex; gap: 0.85rem; align-items: flex-start; padding: 0.7rem 0; border-bottom: 1px solid var(--border); }
+    .explain-row:last-child { border-bottom: none; }
+    .explain-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .explain-label { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+    .explain-desc { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+    .release { border-left: 3px solid var(--accent); padding-left: 1rem; margin-bottom: 1.1rem; }
+    .release .rel-version { font-size: 0.82rem; font-weight: 700; color: var(--accent); }
+    .release .rel-date { font-size: 0.75rem; color: var(--muted); margin-left: 0.5rem; }
+    .release ul { padding-left: 1rem; margin-top: 0.35rem; }
+    .release li { font-size: 0.79rem; color: var(--muted); margin-bottom: 0.2rem; }
+    code { font-family: 'SF Mono','Menlo',monospace; font-size: 0.76rem; color: var(--accent2); background: var(--pill-bg); padding: 0.1rem 0.35rem; border-radius: 4px; }
+    p.intro { font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.65; }
+    .footer { text-align: center; margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+    details.section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 0.85rem; overflow: hidden; }
+    details.section summary { padding: 1rem 1.5rem; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; user-select: none; }
+    details.section summary::-webkit-details-marker { display: none; }
+    details.section summary::after { content: '﹀'; font-size: 0.9rem; color: var(--muted); transition: transform 0.2s; }
+    details.section[open] summary::after { transform: rotate(180deg); }
+    details.section summary:hover { background: var(--surface2); }
+    details.section .section-body { padding: 0.85rem 1.5rem 1.25rem; border-top: 1px solid var(--border); }
+    .footer p { font-size: 0.72rem; color: var(--muted); margin-bottom: 0.2rem; }
+    .footer .love { color: var(--accent); }
+    .search-wrap { margin-bottom: 1rem; position: relative; }
+    .search-wrap input { width: 100%; padding: 0.6rem 1rem 0.6rem 2.4rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.82rem; background: var(--surface); color: var(--text); outline: none; }
+    .search-wrap input:focus { border-color: var(--accent2); }
+    .search-wrap .search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 0.9rem; pointer-events: none; }
+    .search-results { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1rem; display: none; }
+    .search-results.visible { display: block; }
+    .search-result-item { padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; cursor: pointer; }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { color: var(--accent2); }
+    .search-result-tab { font-size: 0.7rem; color: var(--muted); margin-left: 0.4rem; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="header-flag">🏁</div>
+      <div>
+        <h1>Claude <span>Command Centre</span></h1>
+        <p>Sunny Hayes — triggers, rules, projects &amp; protocols</p>
+      </div>
+    </div>
+    <div class="version-badge">🏎 v1.7.0 · 2026-03-20</div>
+  </div>
+
+  <div class="tabs-wrap">
+    <button class="tab-btn active" onclick="showTab('triggers',this)">🚦 Session Triggers</button>
+    <button class="tab-btn" onclick="showTab('agent',this)">🤖 Agent Protocol</button>
+    <button class="tab-btn" onclick="showTab('firstprinciples',this)">🔬 First Principles</button>
+    <button class="tab-btn" onclick="showTab('projects',this)">🏎️ Projects</button>
+    <button class="tab-btn" onclick="showTab('rules',this)">📏 Standing Rules</button>
+    <button class="tab-btn" onclick="showTab('gstack',this)">🛠️ gstack Skills</button>
+    <button class="tab-btn" onclick="showTab('claudemd',this)">📄 CLAUDE.md</button>
+    <button class="tab-btn" onclick="showTab('links',this)">🔗 Quick Links</button>
+    <button class="tab-btn" onclick="showTab('aitools',this)">🤖 AI Tools</button>
+    <button class="tab-btn" onclick="showTab('efficiency',this)">📊 Efficiency</button>
+    <button class="tab-btn" onclick="showTab('releases',this)">🏆 Release Notes</button>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search triggers, rules, projects, links…" oninput="doSearch(this.value)" />
+  </div>
+  <div class="search-results" id="searchResults"></div>
+
+  <!-- SESSION TRIGGERS -->
+  <div id="tab-triggers" class="panel active">
+    <details class="section" open>
+      <summary>🚦 Race Control — say the word, Claude does the rest</summary>
+      <div class="section-body"><table>
+        <thead><tr><th>Situation</th><th>Say this</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td>Normal day, starting work</td><td><span class="kw">lights out</span></td><td style="color:var(--muted)">Full briefing: last shipped, next up, open flags, scope lock</td></tr>
+          <tr><td>Scope decided, just ship it</td><td><span class="kw">fury road</span></td><td style="color:var(--muted)">Skip briefing, lock scope in one line, build until done</td></tr>
+          <tr><td>Haven't touched project in 3+ weeks</td><td><span class="kw">cold start</span></td><td style="color:var(--muted)">Deep audit: git log, deps, env vars, stale memory, revival briefing</td></tr>
+          <tr><td>New domain / project / zero expertise</td><td><span class="kw">first principles</span> · <span class="kw">break it down</span></td><td style="color:var(--muted)">Feynman + First Principles + Business + Musk Test — strip all assumptions first</td></tr>
+          <tr><td>Want to understand, not just ship</td><td><span class="kw">growth</span></td><td style="color:var(--muted)">Deliberate learning mode — explain, connect, build mental models</td></tr>
+          <tr><td>Major architecture decision</td><td><span class="kw">the offer</span></td><td style="color:var(--muted)">Godfather format: options A/B/C, costs, risks, Claude's call</td></tr>
+          <tr><td>Idea comes up mid-session</td><td><span class="kw">park that</span></td><td style="color:var(--muted)">Saved to parking lot — not lost, not acted on now</td></tr>
+          <tr><td>Something feels risky or wrong</td><td><span class="kw">red flag</span></td><td style="color:var(--muted)">Stop and escalate — security, cost, or breaking change review</td></tr>
+          <tr><td>Context window getting heavy</td><td><span class="kw">/compact</span></td><td style="color:var(--muted)">Compress conversation context before switching tasks</td></tr>
+          <tr><td>End of session</td><td><span class="kw">wrap</span> · <span class="kw">packup</span></td><td style="color:var(--muted)">Full wrap: DoD checklist, docs update, git commit, sync push</td></tr>
+          <tr><td>Session cancelled after Step 2</td><td><span class="kw">abort</span> · <span class="kw">stand down</span> · <span class="kw">pit in</span></td><td style="color:var(--muted)">No briefing, no scope lock — clean close</td></tr>
+          <tr><td>Quarterly health check</td><td><span class="kw">retro</span></td><td style="color:var(--muted)">Is everything still working? Patterns, drift, improvements</td></tr>
+        </tbody>
+      </table></div>
+    </details>
+  </div>
+
+  <!-- AGENT PROTOCOL -->
+  <div id="tab-agent" class="panel">
+    <details class="section" open>
+      <summary>🤖 How Claude behaves on every task</summary>
+      <div class="section-body"><div class="grid2">
+        <div class="mini-card"><h4>📋 Edit Approval Gate</h4><ul><li>States files + changes <strong>before touching anything</strong></li><li>Waits for "go ahead / yes / do it"</li><li>Exception: wrap/session tasks run autonomously</li><li>Never changes permission mode without approval</li></ul></div>
+        <div class="mini-card"><h4>🗺️ Planning</h4><ul><li>Plan mode for 3+ step tasks or arch decisions</li><li>Goes sideways? Stop and re-plan — don't push</li><li>Specs written upfront before any code</li></ul></div>
+        <div class="mini-card"><h4>🔀 Subagents</h4><ul><li>Used liberally to keep main context clean</li><li>Research, exploration, parallel work → offloaded</li><li>One focused task per subagent</li></ul></div>
+        <div class="mini-card"><h4>✅ Verification</h4><ul><li>Never marked done without proof it works</li><li>"Would a staff engineer approve this?" — always asked</li></ul></div>
+        <div class="mini-card"><h4>💎 Elegance</h4><ul><li>Non-trivial: "is there a more elegant way?"</li><li>Simple fixes: skip — don't over-engineer</li></ul></div>
+        <div class="mini-card"><h4>🐛 Bug Reports</h4><ul><li>Given a bug: just fix it — no hand-holding</li><li>Logs → root cause → fix → report back</li></ul></div>
+      </div></div>
+    </details>
+  </div>
+
+  <!-- FIRST PRINCIPLES -->
+  <div id="tab-firstprinciples" class="panel">
+    <details class="section" open>
+      <summary>🔬 Strip all assumptions before building</summary>
+      <div class="section-body"><p class="intro">Say <strong>"first principles"</strong> or <strong>"break it down"</strong> before starting any new domain, project, or complex decision. Claude picks the right mode and strips inherited thinking before planning begins.</p>
+      <table>
+        <thead><tr><th>Mode</th><th>Best for</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Feynman</strong></td><td style="color:var(--muted)">Understanding a concept for the first time</td><td style="color:var(--muted)">Explain as if I'm 12. No jargon. Keep going until genuinely simple.</td></tr>
+          <tr><td><strong>Learning</strong></td><td style="color:var(--muted)">Entering a new field</td><td style="color:var(--muted)">Break down the 5 core assumptions beginners just accept as true.</td></tr>
+          <tr><td><strong>First Principles</strong></td><td style="color:var(--muted)">Any topic — strip inherited thinking</td><td style="color:var(--muted)">Strip every assumption. Rebuild from what's provably true.</td></tr>
+          <tr><td><strong>Business</strong></td><td style="color:var(--muted)">Product / business problem</td><td style="color:var(--muted)">List every assumption. Find the most direct path to outcome.</td></tr>
+          <tr><td><strong>Musk Test</strong></td><td style="color:var(--muted)">Rethinking an existing solution</td><td style="color:var(--muted)">Starting from zero — how would you build this differently today?</td></tr>
+          <tr><td><strong>Full Stack</strong></td><td style="color:var(--muted)">New project, zero expertise</td><td style="color:var(--muted)">Runs all 5 modes in order before any planning starts.</td></tr>
+        </tbody>
+      </table></div>
+    </details>
+  </div>
+
+  <!-- PROJECTS -->
+  <div id="tab-projects" class="panel">
+    <details class="section" open>
+      <summary>🏎️ Active Projects</summary>
+      <div class="section-body"><div class="grid2">
+        <div class="project-card">
+          <h3>A-RiA</h3>
+          <div class="project-tag">aria-advisor · FastAPI + React + Supabase</div>
+          <p>AI-powered workbench for bank Relationship Managers. Helps RMs know what matters before they call — portfolio gaps, goal drift, morning briefings, and AI copilot.</p>
+          <div class="project-footer"><span class="badge live">Live</span><span class="next">→ FEAT-503: What-If v2</span></div>
+          <div style="margin-top:0.5rem;font-size:0.74rem;display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <a href="https://a-ria.vercel.app" target="_blank" style="color:var(--accent2);text-decoration:none;">🌐 a-ria.vercel.app</a>
+            <a href="https://aria-advisor.onrender.com" target="_blank" style="color:var(--muted);text-decoration:none;">⚙️ API (Render)</a>
+            <a href="https://github.com/sunder-vasudevan/aria-advisor" target="_blank" style="color:var(--muted);text-decoration:none;">📦 GitHub</a>
+          </div>
+        </div>
+        <div class="project-card">
+          <h3>ARIA</h3>
+          <div class="project-tag">aria-personal · React + Shared backend</div>
+          <p>Consumer self-directed finance app. Manage your own portfolio, goals, life events, and chat with ARIA directly. No advisor needed — the personal edition of A-RiA.</p>
+          <div class="project-footer"><span class="badge live">Live</span><span class="next">→ FEAT-P001: Portfolio UI</span></div>
+          <div style="margin-top:0.5rem;font-size:0.74rem;display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <a href="https://aria-personal.vercel.app" target="_blank" style="color:var(--accent2);text-decoration:none;">🌐 aria-personal.vercel.app</a>
+            <a href="https://github.com/sunder-vasudevan/aria-advisor" target="_blank" style="color:var(--muted);text-decoration:none;">📦 GitHub</a>
+          </div>
+        </div>
+        <div class="project-card">
+          <h3>BzHub</h3>
+          <div class="project-tag">Next.js 14 + Supabase · v5.1.0</div>
+          <p>Full-stack ERP for small businesses. 9 live modules across Operations, HR, CRM, and more. End goal: WhatsApp-first, multi-tenant SaaS — the Odoo alternative built in India.</p>
+          <div class="project-footer"><span class="badge live">Live v5.1.0</span><span class="next">→ FEAT-041: Custom Module Builder</span></div>
+          <div style="margin-top:0.5rem;font-size:0.74rem;display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <a href="https://bzhub.vercel.app" target="_blank" style="color:var(--accent2);text-decoration:none;">🌐 bzhub.vercel.app</a>
+            <a href="https://github.com/sunder-vasudevan/bzhub" target="_blank" style="color:var(--muted);text-decoration:none;">📦 GitHub</a>
+          </div>
+        </div>
+        <div class="project-card">
+          <h3>As Gurudev Says</h3>
+          <div class="project-tag">RAG · Sri Aurobindo's works</div>
+          <p>Oracle RAG agent built on Sri Aurobindo's complete works. Ask any question, get an answer grounded in his writings. Phase 1 pipeline built — ingestion and UI are next.</p>
+          <div class="project-footer"><span class="badge pending">Phase 1 built</span><span class="next">→ Ingestion pipeline + UI</span></div>
+          <div style="margin-top:0.5rem;font-size:0.74rem;display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <a href="https://github.com/sunder-vasudevan/as-gurudev-says" target="_blank" style="color:var(--muted);text-decoration:none;">📦 GitHub</a>
+          </div>
+        </div>
+      </div>
+      <div class="mini-card" style="margin-top:0.85rem">
+        <h4>🎯 3-Year North Star</h4>
+        <p>Tech-expert Product Owner who ships fast. The rare hybrid who understands tech deeply enough to make great product decisions at startup speed. ARIA and BzHub are the proof points.</p>
+      </div></div>
+    </details>
+  </div>
+
+  <!-- STANDING RULES -->
+  <div id="tab-rules" class="panel">
+    <details class="section" open>
+      <summary>📏 Every session, every project — no exceptions</summary>
+      <div class="section-body">
+      <table>
+        <thead><tr><th>Rule</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td><strong>⏱️ Session start time</strong></td><td style="color:var(--muted)">Claude always asks "What time is it?" before anything else</td></tr>
+          <tr><td><strong>🚦 Edit gate</strong></td><td style="color:var(--muted)">Claude states files + changes, waits for approval before editing</td></tr>
+          <tr><td><strong>🚫 No Co-Author tag</strong></td><td style="color:var(--muted)">Never add Co-Authored-By Claude to any git commit</td></tr>
+          <tr><td><strong>📱 Mobile first</strong></td><td style="color:var(--muted)">All apps mobile-compatible from day one. Test at 375px minimum.</td></tr>
+          <tr><td><strong>🗓️ Safari date inputs</strong></td><td style="color:var(--muted)">Use month/year selects — never type="date" (Safari onChange bug)</td></tr>
+          <tr><td><strong>📝 Logging</strong></td><td style="color:var(--muted)">Mandatory — verify before building</td></tr>
+          <tr><td><strong>💸 Infrastructure</strong></td><td style="color:var(--muted)">Free/open tier first — flag any paid service</td></tr>
+          <tr><td><strong>❓ In-app Help page</strong></td><td style="color:var(--muted)">Every app needs a /help route in the UI — linked from nav. Non-optional.</td></tr>
+          <tr><td><strong>🔢 Version bump</strong></td><td style="color:var(--muted)">On every release</td></tr>
+          <tr><td><strong>⚡ Token efficiency</strong></td><td style="color:var(--muted)">Scope lock + /compact between tasks + one feature per session</td></tr>
+          <tr><td><strong>🎨 Design changes</strong></td><td style="color:var(--muted)">Preview/mockup review first. Separate explicit build approval second.</td></tr>
+          <tr><td><strong>🔁 ARIA ↔ Personal sync</strong></td><td style="color:var(--muted)">Always confirm before cross-applying UI changes between the two apps</td></tr>
+          <tr><td><strong>📚 Docs at wrap</strong></td><td style="color:var(--muted)">DECISION_LOG, TEST_LOG, RELEASE_NOTES, NOTES.md — updated every session</td></tr>
+        </tbody>
+      </table></div>
+    </details>
+    <details class="section">
+      <summary>🏁 Definition of Done — every feature</summary>
+      <div class="section-body"><div class="grid2">
+        <div class="mini-card"><h4>💻 Code</h4><ul><li>Works end-to-end (UI → API → DB)</li><li>No console errors introduced</li><li>Existing tests pass + one new test</li><li>Logging in place, no hardcoded env vars</li></ul></div>
+        <div class="mini-card"><h4>🔒 Security</h4><ul><li>No secrets in code</li><li>Input validated at API boundary</li><li>No new XSS/injection surface</li><li>Auth/permissions respected</li></ul></div>
+        <div class="mini-card"><h4>📱 Mobile</h4><ul><li>Tested at 375px (iPhone SE)</li><li>No horizontal scroll</li><li>Touch targets ≥ 44px</li></ul></div>
+        <div class="mini-card"><h4>🚢 Shipping</h4><ul><li>Git committed, clear message</li><li>Deployed + verified on live URL</li><li>No regressions, all docs updated</li></ul></div>
+      </div></div>
+    </details>
+  </div>
+
+  <!-- GSTACK SKILLS -->
+  <div id="tab-gstack" class="panel">
+    <details class="section" open>
+      <summary>🛠️ gstack — use /browse for ALL web browsing</summary>
+      <div class="section-body">
+      <table>
+        <thead><tr><th>Skill</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><span class="kw">/browse</span></td><td style="color:var(--muted)">Headless browser — visit URLs, screenshots, extract content</td></tr>
+          <tr><td><span class="kw">/plan-ceo-review</span></td><td style="color:var(--muted)">CEO-mode plan review — is this the right thing to build?</td></tr>
+          <tr><td><span class="kw">/plan-eng-review</span></td><td style="color:var(--muted)">Eng manager-mode — lock in execution approach</td></tr>
+          <tr><td><span class="kw">/plan-design-review</span></td><td style="color:var(--muted)">Designer's eye review of a live site</td></tr>
+          <tr><td><span class="kw">/design-consultation</span></td><td style="color:var(--muted)">Design feedback and recommendations</td></tr>
+          <tr><td><span class="kw">/review</span></td><td style="color:var(--muted)">General code / PR review</td></tr>
+          <tr><td><span class="kw">/ship</span></td><td style="color:var(--muted)">Ship a feature end-to-end</td></tr>
+          <tr><td><span class="kw">/qa</span></td><td style="color:var(--muted)">Full QA pass on a feature or page</td></tr>
+          <tr><td><span class="kw">/qa-only</span></td><td style="color:var(--muted)">QA without design review</td></tr>
+          <tr><td><span class="kw">/qa-design-review</span></td><td style="color:var(--muted)">QA with design review</td></tr>
+          <tr><td><span class="kw">/retro</span></td><td style="color:var(--muted)">Quarterly retrospective</td></tr>
+          <tr><td><span class="kw">/document-release</span></td><td style="color:var(--muted)">Post-ship documentation update</td></tr>
+          <tr><td><span class="kw">/setup-browser-cookies</span></td><td style="color:var(--muted)">Import cookies from your real browser</td></tr>
+        </tbody>
+      </table></div>
+    </details>
+  </div>
+
+  <!-- WHAT IS CLAUDE.MD -->
+  <div id="tab-claudemd" class="panel">
+    <details class="section" open>
+      <summary>📄 Claude's permanent standing orders — loaded every conversation, every project</summary>
+      <div class="section-body">
+      <p class="intro">Think of CLAUDE.md as the rulebook baked into every session. You never need to repeat these rules — they're always active from the moment you start talking.</p>
+      <div class="explain-row"><div class="explain-icon">📍</div><div><div class="explain-label">Where it lives</div><div class="explain-desc"><code>~/.claude/CLAUDE.md</code> — global file, applies to every project. Projects can layer their own CLAUDE.md on top.</div></div></div>
+      <div class="explain-row"><div class="explain-icon">🔁</div><div><div class="explain-label">Always loaded</div><div class="explain-desc">Unlike memory files (loaded selectively), CLAUDE.md is always in context. Every conversation starts with these rules already active.</div></div></div>
+      <div class="explain-row"><div class="explain-icon">⚡</div><div><div class="explain-label">What's in yours right now</div><div class="explain-desc">Standing rules (no Co-Author tag) · Agent Protocol (edit gate, planning, subagents, verification, elegance, bugs) · gstack skills list · Session start time rule</div></div></div>
+      <div class="explain-row"><div class="explain-icon">🧠</div><div><div class="explain-label">Memory files vs CLAUDE.md</div><div class="explain-desc">Memory files store project state and feedback — loaded when relevant. CLAUDE.md stores rules that must always be active regardless of project.</div></div></div>
+      <div class="explain-row"><div class="explain-icon">🪝</div><div><div class="explain-label">Hooks (settings.json)</div><div class="explain-desc">Hooks in <code>~/.claude/settings.json</code> fire when you say trigger words (wrap, lights out, first principles). They inject the trigger file instructions before Claude reads your message — that's how one word kicks off a full protocol.</div></div></div>
+      <div class="explain-row"><div class="explain-icon">✏️</div><div><div class="explain-label">When to update it</div><div class="explain-desc">When a rule should apply to every project forever. Project-specific things go in project memory files or a project-level CLAUDE.md.</div></div></div>
+      </div>
+    </details>
+  </div>
+
+  <!-- QUICK LINKS -->
+  <div id="tab-links" class="panel">
+    <details class="section" open>
+      <summary>🔗 Dev Platforms</summary>
+      <div class="section-body">
+      <table>
+        <thead><tr><th>Platform</th><th>Link</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Vercel</strong></td><td><a href="https://vercel.com/dashboard" target="_blank" style="color:var(--accent2)">vercel.com/dashboard</a></td></tr>
+          <tr><td><strong>GitHub</strong></td><td><a href="https://github.com/sunder-vasudevan" target="_blank" style="color:var(--accent2)">github.com/sunder-vasudevan</a></td></tr>
+          <tr><td><strong>Supabase</strong></td><td><a href="https://supabase.com/dashboard" target="_blank" style="color:var(--accent2)">supabase.com/dashboard</a></td></tr>
+          <tr><td><strong>Render</strong></td><td><a href="https://dashboard.render.com" target="_blank" style="color:var(--accent2)">dashboard.render.com</a></td></tr>
+          <tr><td><strong>Anthropic Console</strong></td><td><a href="https://console.anthropic.com" target="_blank" style="color:var(--accent2)">console.anthropic.com</a></td></tr>
+        </tbody>
+      </table></div>
+    </details>
+    <details class="section" open>
+      <summary>🚀 Live Projects</summary>
+      <div class="section-body">
+      <table>
+        <thead><tr><th>Project</th><th>Live URL</th><th>GitHub</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A-RiA Advisor</strong></td><td><a href="https://a-ria.vercel.app" target="_blank" style="color:var(--accent2)">a-ria.vercel.app</a></td><td><a href="https://github.com/sunder-vasudevan/aria-advisor" target="_blank" style="color:var(--muted)">aria-advisor</a></td></tr>
+          <tr><td><strong>ARIA Personal</strong></td><td><a href="https://aria-personal.vercel.app" target="_blank" style="color:var(--accent2)">aria-personal.vercel.app</a></td><td><a href="https://github.com/sunder-vasudevan/aria-advisor" target="_blank" style="color:var(--muted)">aria-advisor</a></td></tr>
+          <tr><td><strong>BzHub</strong></td><td><a href="https://bzhub.vercel.app" target="_blank" style="color:var(--accent2)">bzhub.vercel.app</a></td><td><a href="https://github.com/sunder-vasudevan/bzhub" target="_blank" style="color:var(--muted)">bzhub</a></td></tr>
+          <tr><td><strong>A-RiA API (Render)</strong></td><td><a href="https://aria-advisor.onrender.com" target="_blank" style="color:var(--accent2)">aria-advisor.onrender.com</a></td><td>—</td></tr>
+          <tr><td><strong>As Gurudev Says</strong></td><td style="color:var(--muted)">Not deployed yet</td><td><a href="https://github.com/sunder-vasudevan/as-gurudev-says" target="_blank" style="color:var(--muted)">as-gurudev-says</a></td></tr>
+        </tbody>
+      </table></div>
+    </details>
+  </div>
+
+  <!-- AI TOOLS -->
+  <div id="tab-aitools" class="panel">
+    <details class="section" open>
+      <summary>👤 Sunny Hayes — Product Owner · The human in the loop</summary>
+      <div class="section-body">
+        <div class="explain-row"><div class="explain-icon">🎯</div><div><div class="explain-label">Product vision & direction</div><div class="explain-desc">Defined every product — ARIA Advisor, ARIA Personal, BzHub, As Gurudev Says. Set the north star, picked the markets, drove the roadmap.</div></div></div>
+        <div class="explain-row"><div class="explain-icon">🔒</div><div><div class="explain-label">Scope & approval gate</div><div class="explain-desc">Every feature, architecture decision, and deployment goes through Sunny Hayes. Nothing ships without explicit approval — the edit gate is the control layer.</div></div></div>
+        <div class="explain-row"><div class="explain-icon">🏎️</div><div><div class="explain-label">Session operator</div><div class="explain-desc">Runs every session — lights out, scope lock, mid-session decisions, red flags, and wrap. The PO interaction time is the only resource being measured.</div></div></div>
+        <div class="explain-row"><div class="explain-icon">💡</div><div><div class="explain-label">Domain expertise</div><div class="explain-desc">Fintech, wealth management, ERP, and spiritual knowledge (Sri Aurobindo) — the domain insight that makes the AI output usable in the real world.</div></div></div>
+      </div>
+    </details>
+    <details class="section" open>
+      <summary>🤖 Claude AI — Anthropic · Primary technical co-founder</summary>
+      <div class="section-body">
+        <div class="explain-row"><div class="explain-icon">🏗️</div><div><div class="explain-label">Full-stack architecture & builds</div><div class="explain-desc">Designed and built the entire ARIA stack (FastAPI + React + Supabase + Vercel/Render) and BzHub (Next.js 14 + Supabase). Every route, model, component, and migration — pair-programmed with Claude from scratch.</div></div></div>
+        <div class="explain-row"><div class="explain-icon">🧠</div><div><div class="explain-label">AI features inside the products</div><div class="explain-desc">Built the Monte Carlo simulation engine (1,000 paths, inflation-adjusted), What-If scenario modeler, AI Copilot with client context injection, Morning Briefing, and Meeting Prep Card — all powered by Claude API calls from within the app.</div></div></div>
+        <div class="explain-row"><div class="explain-icon">🐛</div><div><div class="explain-label">Bug root-cause & production fixes</div><div class="explain-desc">Found and fixed NameError in models.Goal, Safari date input onChange bug, FastAPI 204 route returning 500 — root cause identified and resolved without hand-holding.</div></div></div>
+        <div class="explain-row"><div class="explain-icon">📋</div><div><div class="explain-label">Session system & protocols</div><div class="explain-desc">Designed the full trigger system (lights_out, wrap, first_principles, fury_road), memory architecture, CLAUDE.md agent protocol, edit approval gate, efficiency tracking — the operating system for every session.</div></div></div>
+        <div class="explain-row"><div class="explain-icon">📊</div><div><div class="explain-label">Docs, whitepapers & investor decks</div><div class="explain-desc">Wrote ARIA Efficiency Whitepaper, BzHub Architecture Whitepaper, Executive Decks (.pptx), INTERACTION_LOGs, DECISION_LOGs — full documentation discipline maintained across both projects.</div></div></div>
+        <div class="explain-row"><div class="explain-icon">📈</div><div><div class="explain-label">Sustained 20–40x compression ratio</div><div class="explain-desc">9 sessions, 73 commits on ARIA alone. Individual sessions hit 60–80x on active PO interaction time. One Product Owner, no engineering team, two market-ready products.</div></div></div>
+      </div>
+    </details>
+    <details class="section">
+      <summary>⚡ GitHub Copilot — Microsoft / GitHub · In-editor speed layer</summary>
+      <div class="section-body">
+        <div class="explain-row"><div class="explain-icon">💻</div><div><div class="explain-label">VS Code inline completions</div><div class="explain-desc">Handles line-level completions and boilerplate while coding — repetitive patterns, import statements, prop types. Works at the micro level while Claude handles architecture and logic at the macro level.</div></div></div>
+        <div class="explain-row"><div class="explain-icon">🔧</div><div><div class="explain-label">BzHub workflow visualiser</div><div class="explain-desc">Used for the C_Love_Coding workflow dependency tool — NetworkX + Matplotlib task graph with status tracking. Copilot-native project with its own instructions file.</div></div></div>
+      </div>
+    </details>
+    <details class="section">
+      <summary>🔍 Microsoft Copilot — Research & drafting outside the codebase</summary>
+      <div class="section-body">
+        <div class="explain-row"><div class="explain-icon">🌐</div><div><div class="explain-label">Research & quick lookups</div><div class="explain-desc">Web searches, summarising documentation, quick domain research before a session starts. Supplements Claude for tasks that need live web access.</div></div></div>
+      </div>
+    </details>
+  </div>
+
+  <!-- EFFICIENCY -->
+  <div id="tab-efficiency" class="panel">
+    <details class="section" open>
+      <summary>📊 Compression Ratio — sessions vs. 3-person team baseline</summary>
+      <div class="section-body"><canvas id="efficiencyChart" height="120"></canvas></div>
+    </details>
+    <details class="section" open>
+      <summary>📋 Session Log</summary>
+      <div class="section-body"><table>
+        <thead><tr><th>Date</th><th>Project</th><th>PO Time</th><th>Shipped / Discussed</th><th>3-person equiv.</th><th>Ratio</th></tr></thead>
+        <tbody>
+          <tr><td>2026-03-18</td><td>Meta</td><td>~60 min</td><td>Working system redesign — triggers, growth protocol, wrap system</td><td>1–2 eng-days</td><td style="font-weight:700;color:var(--green)">~12x</td></tr>
+          <tr><td>2026-03-18</td><td>ARIA</td><td>~2 hrs</td><td>Goal save/delete bug fix, Safari date fix, login redesign (both apps), ARiALogo, design system, whitepaper + deck</td><td>~2 eng-days</td><td style="font-weight:700;color:var(--green)">~8x</td></tr>
+          <tr><td>2026-03-20</td><td>Meta</td><td>~90 min</td><td>CLAUDE.md agent protocol, first_principles trigger, HELP.html v1.0–v1.4, VS Code light theme + fonts, Quick Links, Efficiency tab</td><td>~1 eng-day</td><td style="font-weight:700;color:var(--green)">~5x</td></tr>
+        </tbody>
+      </table></div>
+    </details>
+    <details class="section">
+      <summary>📐 Baseline Definition</summary>
+      <div class="section-body"><div class="grid2">
+        <div class="mini-card"><h4>3-person team</h4><p>1 frontend engineer + 1 backend engineer + 1 tech lead/PM</p></div>
+        <div class="mini-card"><h4>1 sprint</h4><p>2 weeks = ~240 engineer-hours = 2–4 significant features to production</p></div>
+        <div class="mini-card"><h4>Coordination tax</h4><p>15–25% of sprint consumed by ceremonies, reviews, and coordination</p></div>
+        <div class="mini-card"><h4>Compression ratio</h4><p>3-person team hours to do same work ÷ Sunny Hayes PO time</p></div>
+      </div></div>
+    </details>
+    <details class="section">
+      <summary>📁 Docs & Files</summary>
+      <div class="section-body">
+      <table>
+        <thead><tr><th>File</th><th>Project</th><th>Location</th></tr></thead>
+        <tbody>
+          <tr><td>📊 EFFICIENCY_LOG.md</td><td>All projects</td><td><code>~/claude-memory/EFFICIENCY_LOG.md</code></td></tr>
+          <tr><td>📊 ARIA_Executive_Deck.pptx</td><td>A-RiA Advisor</td><td><code>~/Daytona/aria-advisor/documentation/ARIA_Executive_Deck.pptx</code></td></tr>
+          <tr><td>📊 BzHub_Efficiency_ExecDeck.pptx</td><td>BzHub</td><td><code>~/Daytona/BzHub/documentation/BzHub_Efficiency_ExecDeck.pptx</code></td></tr>
+        </tbody>
+      </table></div>
+    </details>
+  </div>
+
+  <!-- RELEASE NOTES -->
+  <div id="tab-releases" class="panel">
+    <details class="section" open>
+      <summary>🏆 Release Notes — this help file</summary>
+      <div class="section-body">
+      <div class="release"><span class="rel-version">v1.7.0</span><span class="rel-date">2026-03-20</span><ul><li>All cards across all tabs now collapsible</li><li>Moved to standalone repo — command-centre, served via GitHub Pages</li><li>Improved efficiency chart (grouped bar: PO time vs 3-person equivalent)</li></ul></div>
+      <div class="release"><span class="rel-version">v1.6.0</span><span class="rel-date">2026-03-20</span><ul><li>Added AI Tools tab — Claude AI, GitHub Copilot, Microsoft Copilot with roles</li><li>Added Efficiency tab — bar chart, session log, baseline definition, doc file locations</li><li>Non-project session logging rule added to session_wrap.md</li></ul></div>
+      <div class="release"><span class="rel-version">v1.5.0</span><span class="rel-date">2026-03-20</span><ul><li>Added Quick Links tab — dev platforms + all live project URLs</li><li>Added deployed URLs to each project card in Projects tab</li><li>Added AI agents used to footer</li></ul></div>
+      <div class="release"><span class="rel-version">v1.4.0</span><span class="rel-date">2026-03-20</span><ul><li>Redesigned with horizontal tabs — left to right navigation</li><li>F1/racing theme — icons, red accent, race control terminology</li><li>Projects tab: each project as a card with name, 2-line description, status, next feature</li><li>Added "Made with ❤️ in Hyderabad" footer</li></ul></div>
+      <div class="release"><span class="rel-version">v1.3.0</span><span class="rel-date">2026-03-20</span><ul><li>Switched to light theme</li><li>All sections collapsible; Session Triggers open by default</li><li>Light UI preference saved to memory</li></ul></div>
+      <div class="release"><span class="rel-version">v1.2.0</span><span class="rel-date">2026-03-20</span><ul><li>Added First Principles trigger + all 5 prompt modes</li><li>Added Agent Protocol section</li><li>Added session start time rule to CLAUDE.md</li><li>Created HELP.html; added to session wrap checklist</li></ul></div>
+      <div class="release"><span class="rel-version">v1.1.0</span><span class="rel-date">2026-03-18</span><ul><li>Added wrap/packup, lights out, cold start hooks to settings.json</li><li>Full wrap protocol: DoD, docs, git, sync, debrief, efficiency log</li><li>ARIA ↔ Personal design sync rule + multi-project wrap rule</li></ul></div>
+      <div class="release"><span class="rel-version">v1.0.0</span><span class="rel-date">2026-03-17</span><ul><li>Initial trigger system: lights_out, fury_road, cold_start, session_wrap, growth, the_offer, retro, definition_of_done</li><li>Memory system established; standing rules set</li></ul></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="footer">
+    <p>Made with <span class="love">❤️</span> in Hyderabad</p>
+    <p>Claude Command Centre · Sunny Hayes · Local: <code>file:///Users/sunnyhayes/Daytona/command-centre/index.html</code></p>
+    <p style="margin-top:0.4rem;">Built with Claude AI · GitHub Copilot · Microsoft Copilot</p>
+  </div>
+
+</div>
+<script>
+  // Efficiency chart
+  window.addEventListener('load', function() {
+    const ctx = document.getElementById('efficiencyChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['2026-03-18\nMeta', '2026-03-18\nARIA', '2026-03-20\nMeta'],
+        datasets: [
+          {
+            label: 'PO Time (hrs)',
+            data: [1, 2, 1.5],
+            backgroundColor: '#2563ebcc',
+            borderColor: '#2563eb',
+            borderWidth: 2,
+            borderRadius: 6,
+          },
+          {
+            label: '3-Person Team Equiv. (hrs)',
+            data: [12, 16, 7.5],
+            backgroundColor: '#e10600cc',
+            borderColor: '#e10600',
+            borderWidth: 2,
+            borderRadius: 6,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true, position: 'top' },
+          tooltip: {
+            callbacks: {
+              afterBody: (items) => {
+                const po = items.find(i => i.dataset.label === 'PO Time (hrs)');
+                const team = items.find(i => i.dataset.label === '3-Person Team Equiv. (hrs)');
+                if (po && team) return [`Compression: ~${Math.round(team.parsed.y / po.parsed.y)}x`];
+                return [];
+              }
+            }
+          }
+        },
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: 'Hours' }, grid: { color: '#e2e5f0' } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  });
+
+  function showTab(name, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    if (btn) btn.classList.add('active');
+  }
+
+  function doSearch(q) {
+    const res = document.getElementById('searchResults');
+    if (!q || q.length < 2) { res.innerHTML = ''; res.classList.remove('visible'); return; }
+    const panels = document.querySelectorAll('.panel');
+    const matches = [];
+    panels.forEach(panel => {
+      const tabId = panel.id.replace('tab-', '');
+      const tabBtn = document.querySelector(`[onclick*="'${tabId}'"]`);
+      const tabLabel = tabBtn ? tabBtn.textContent.trim() : tabId;
+      const rows = panel.querySelectorAll('tr, .explain-row, .mini-card, .project-card, .release');
+      rows.forEach(row => {
+        const text = row.textContent;
+        if (text.toLowerCase().includes(q.toLowerCase())) {
+          const snippet = text.replace(/\s+/g, ' ').trim().substring(0, 100);
+          matches.push({ tabId, tabLabel, snippet });
+        }
+      });
+    });
+    if (!matches.length) {
+      res.innerHTML = '<div style="font-size:0.8rem;color:var(--muted)">No results found.</div>';
+    } else {
+      const seen = new Set();
+      res.innerHTML = matches.slice(0, 8).filter(m => {
+        const key = m.tabId + m.snippet;
+        if (seen.has(key)) return false;
+        seen.add(key); return true;
+      }).map(m => `<div class="search-result-item" onclick="showTab('${m.tabId}', document.querySelector('[onclick*=\\'${m.tabId}\\']'))">
+        ${m.snippet}… <span class="search-result-tab">${m.tabLabel}</span>
+      </div>`).join('');
+    }
+    res.classList.add('visible');
+  }
+</script>
+</body>
+</html>
