@@ -685,12 +685,19 @@
     /* ── Mobile ── */
     @media (max-width: 700px) {
       .sidebar { display: none; }
-      .main { margin-left: 0; padding: 1.25rem; max-width: 100%; }
+      .main { margin-left: 0; padding: 1rem; max-width: 100%; }
       .version-badge { display: none; }
       .header-search { display: none; }
+      .header-right { display: none; }
       .data-row { grid-template-columns: 1fr 1fr; }
       .data-row .col-tag { display: none; }
       .seesme-hero { flex-direction: column; }
+
+      /* Header: shrink brand to icon only, give tabs full width */
+      .app-header { padding: 0 0.5rem; gap: 0.5rem; }
+      .header-brand .brand-text { display: none; }
+      .header-tabs { flex: 1; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .tab-btn { font-size: 0.7rem; padding: 0.3rem 0.6rem; white-space: nowrap; }
     }
   </style>
 </head>
@@ -698,7 +705,7 @@
 
   <!-- Header -->
   <header class="app-header">
-    <div class="header-brand"><span class="flag">🏁</span> Claude <span>■</span> Command Centre</div>
+    <div class="header-brand"><span class="flag">🏁</span><span class="brand-text"> Claude <span>■</span> Command Centre</span></div>
     <div class="header-tabs">
       <button class="tab-btn active"  onclick="showTab('session',this)">🚦 Session</button>
       <button class="tab-btn"         onclick="showTab('thinking',this)">🔬 Thinking</button>
@@ -1403,7 +1410,7 @@
             <div class="panel-title">Compression Ratio — sessions vs. 3-person team baseline</div>
           </div>
           <div class="card">
-            <div style="position:relative;height:280px;"><canvas id="efficiencyChart"></canvas></div>
+            <div style="position:relative;height:380px;"><canvas id="efficiencyChart"></canvas></div>
           </div>
         </div>
         <div style="margin-bottom:1.5rem">
@@ -1768,6 +1775,19 @@
               </ul>
               <div class="rel-learn">💡 Learnt: Chart JS data arrays must be updated at wrap — they are hardcoded and will go stale if skipped.</div>
             </div>
+            <div style="margin-top:0.75rem">
+              <div class="rel-session">~23:30 · Meta — Command centre mobile nav + chart fixes</div>
+              <ul>
+                <li>Mobile header: brand text hidden on small screens, tabs scrollable — top nav now usable on phone</li>
+                <li>Compression ratio chart resized to full width, height 380px</li>
+                <li>Session log redesigned: date-grouped, time-stamped, no version numbers, learnings per session</li>
+                <li>Skills panel updated: /lights-out + /wrap added with Sunny/gstack source flags</li>
+                <li>Project descriptions added to all 6 projects</li>
+                <li>Swara Samipyam added to sidebar + panel count bumped to 6</li>
+                <li>Wrap protocol locked: MEMORY.md + command-centre both mandatory, one row per session, git log as source of truth</li>
+              </ul>
+              <div class="rel-learn">💡 Learnt: CSS @media with display:none on a child span is all you need to collapse a header brand on mobile — no JS, no component swap, no complexity.</div>
+            </div>
           </div>
 
           <div class="release">
@@ -2125,6 +2145,7 @@
         { label: 'Mar 21\nARIA Feats',   project: 'ARIA Advisor',    mins: 90,  tokens: null   },
         { label: 'Mar 21\nSwara',        project: 'Swara Samipyam',  mins: 45,  tokens: null   },
         { label: 'Mar 21\nMeta',         project: 'Meta',            mins: 30,  tokens: null   },
+        { label: 'Mar 21\nMeta CC',      project: 'Meta',            mins: 60,  tokens: null   },
       ];
       const pColor = { 'ARIA Advisor': '#2563eb', 'BzHub': '#059669', 'Meta': '#e10600', 'As Gurudev Says': '#7c3aed', 'Helm': '#0ea5e9', 'Swara Samipyam': '#d97706' };
 
@@ -2222,11 +2243,11 @@
       new Chart(document.getElementById('efficiencyChart').getContext('2d'), {
         type: 'bar',
         data: {
-          labels: ['03-18 Meta', '03-18 ARIA', '03-20 Meta', '03-21 Meta', '03-21 Helm', '03-21 ARIA RCA', '03-21 ARIA Feats', '03-21 Swara', '03-21 Meta'],
+          labels: ['03-18 Meta', '03-18 ARIA', '03-20 Meta', '03-21 Meta', '03-21 Helm', '03-21 ARIA RCA', '03-21 ARIA Feats', '03-21 Swara', '03-21 Meta', '03-21 Meta CC'],
           datasets: [
-            { label: 'PO Time (hrs)', data: [1, 2, 1.5, 2, 1, 2, 1.5, 0.75, 0.5],
+            { label: 'PO Time (hrs)', data: [1, 2, 1.5, 2, 1, 2, 1.5, 0.75, 0.5, 1],
               backgroundColor: '#2563ebcc', borderColor: '#2563eb', borderWidth: 2, borderRadius: 6 },
-            { label: '3-Person Team Equiv. (hrs)', data: [12, 16, 7.5, 8, 8, 16, 12, 12, 4],
+            { label: '3-Person Team Equiv. (hrs)', data: [12, 16, 7.5, 8, 8, 16, 12, 12, 4, 4],
               backgroundColor: '#e10600cc', borderColor: '#e10600', borderWidth: 2, borderRadius: 6 }
           ]
         },
