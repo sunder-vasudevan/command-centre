@@ -457,8 +457,8 @@
     .project-row:last-child { border-bottom: none; }
     .project-row:nth-child(even) { background: #fafbfd; }
     .proj-name { font-size: 0.85rem; font-weight: 700; color: var(--text); }
-    .proj-sub  { font-size: 0.72rem; color: var(--muted); margin-top: 0.1rem; }
-    .proj-next { font-size: 0.72rem; color: var(--accent2); margin-top: 0.1rem; }
+    .proj-desc { font-size: 0.76rem; color: var(--muted); margin-top: 0.2rem; line-height: 1.45; max-width: 38rem; }
+    .proj-next { font-size: 0.72rem; color: var(--accent2); margin-top: 0.25rem; }
     .proj-tags { display: flex; gap: 0.3rem; flex-wrap: wrap; align-items: center; }
 
     /* ── Explain rows ── */
@@ -505,8 +505,10 @@
       padding-left: 0.9rem;
       margin-bottom: 1rem;
     }
-    .rel-version { font-size: 0.79rem; font-weight: 700; color: var(--accent); }
+    .rel-version { font-size: 0.79rem; font-weight: 700; color: var(--accent2); }
     .rel-date    { font-size: 0.72rem; color: var(--muted); margin-left: 0.4rem; }
+    .rel-session { font-size: 0.72rem; font-weight: 600; color: var(--text); margin-bottom: 0.1rem; }
+    .rel-learn   { font-size: 0.74rem; color: var(--green); font-style: italic; margin-top: 0.15rem; }
     .release ul  { padding-left: 1rem; margin-top: 0.3rem; }
     .release li  { font-size: 0.76rem; color: var(--muted); margin-bottom: 0.15rem; }
 
@@ -756,6 +758,7 @@
       <div class="sidebar-link" onclick="showTab('projects', document.querySelector('[onclick*=\'projects\']'))">🟡 ARIA Personal</div>
       <div class="sidebar-link" onclick="showTab('projects', document.querySelector('[onclick*=\'projects\']'))">🟡 As Gurudev Says</div>
       <div class="sidebar-link" onclick="showTab('projects', document.querySelector('[onclick*=\'projects\']'))">🔵 Helm — v0.0.1</div>
+      <div class="sidebar-link" onclick="showTab('projects', document.querySelector('[onclick*=\'projects\']'))">🟠 Swara Samipyam — v0.1.0</div>
     </aside>
 
     <!-- Main content -->
@@ -925,13 +928,13 @@
 
         <div class="panel-header">
           <div class="panel-title">Active Projects</div>
-          <div class="panel-count">5 projects</div>
+          <div class="panel-count">6 projects</div>
         </div>
         <div class="data-panel">
           <div class="project-row">
             <div>
               <div class="proj-name">A-RiA Advisor</div>
-              <div class="proj-sub">aria-advisor · FastAPI + React + Supabase</div>
+              <div class="proj-desc">AI-powered workbench for wealth managers. Client 360 view, goal probability, portfolio drift alerts, AI copilot, and morning briefings — so advisors walk into every meeting perfectly prepared.</div>
               <div class="proj-next">→ Parked: email invite flow, superadmin client tree, advisor discovery, accept/reject clients</div>
             </div>
             <div class="proj-tags">
@@ -946,7 +949,7 @@
           <div class="project-row">
             <div>
               <div class="proj-name">ARIA Personal</div>
-              <div class="proj-sub">aria-personal · React + Shared backend</div>
+              <div class="proj-desc">Consumer self-directed finance app. Portfolio tracking, goals, SIP probability, and advisor linking via referral code — the client-side companion to ARIA Advisor.</div>
               <div class="proj-next">→ Advisor card full details live · direct portal client auto-create</div>
             </div>
             <div class="proj-tags">
@@ -958,7 +961,7 @@
           <div class="project-row">
             <div>
               <div class="proj-name">BzHub</div>
-              <div class="proj-sub">Next.js 14 + Supabase · v5.1.0</div>
+              <div class="proj-desc">Modular ERP for SMEs. Covers HR, payroll, inventory, CRM, projects, and finance — with a custom module builder coming next. Built for businesses that have outgrown spreadsheets.</div>
               <div class="proj-next">→ FEAT-041: Custom Module Builder</div>
             </div>
             <div class="proj-tags">
@@ -971,7 +974,7 @@
           <div class="project-row">
             <div>
               <div class="proj-name">Helm</div>
-              <div class="proj-sub">PM command centre · v0.0.1 scaffold</div>
+              <div class="proj-desc">PM command centre for AI-assisted product teams. Tracks signals, decisions, and velocity — built for the solo PO running multiple products at once.</div>
               <div class="proj-next">→ FEAT-001: Data model design</div>
             </div>
             <div class="proj-tags">
@@ -982,8 +985,8 @@
           <div class="project-row">
             <div>
               <div class="proj-name">Swara Samipyam</div>
-              <div class="proj-sub">Devotional lyrics link repo · v0.1.0</div>
-              <div class="proj-next">→ FEAT-002: TBD next session</div>
+              <div class="proj-desc">Devotional lyrics link repository for Carnatic and Bhakti music. A curated index connecting song names to lyrics, notation, and recordings across the web.</div>
+              <div class="proj-next">→ Supabase integration + search</div>
             </div>
             <div class="proj-tags">
               <span class="tag gray">HTML/JS</span>
@@ -994,7 +997,7 @@
           <div class="project-row">
             <div>
               <div class="proj-name">As Gurudev Says</div>
-              <div class="proj-sub">RAG · Sri Aurobindo's works</div>
+              <div class="proj-desc">Oracle RAG agent trained on Sri Aurobindo's complete works. Ask any question — get answers grounded in his philosophy, with source references.</div>
               <div class="proj-next">→ Ingestion pipeline + UI</div>
             </div>
             <div class="proj-tags">
@@ -1241,74 +1244,84 @@
       <div id="tab-tools" class="panel">
 
         <div class="panel-header">
-          <div class="panel-title">gstack — use /browse for ALL web browsing</div>
-          <div class="panel-count">13 skills</div>
+          <div class="panel-title">Skills — slash commands available in every session</div>
+          <div class="panel-count">15 skills</div>
         </div>
         <div class="data-panel">
           <div class="data-row">
+            <div class="col-key">/lights-out</div>
+            <div class="col-val">Session start — loads context, memory, asks for time, sets scope</div>
+            <div class="col-tag"><span class="tag red">Sunny</span></div>
+          </div>
+          <div class="data-row">
+            <div class="col-key">/wrap</div>
+            <div class="col-val">Session end — DoD, docs, prompt log, learning, command centre update, sync</div>
+            <div class="col-tag"><span class="tag red">Sunny</span></div>
+          </div>
+          <div class="data-row">
             <div class="col-key">/browse</div>
-            <div class="col-val">Headless browser — visit URLs, screenshots, extract content</div>
-            <div class="col-tag"><span class="tag blue">Browse</span></div>
+            <div class="col-val">Headless browser — visit URLs, screenshots, extract content. Use for ALL web browsing.</div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
           </div>
           <div class="data-row">
             <div class="col-key">/plan-ceo-review</div>
             <div class="col-val">CEO-mode plan review — is this the right thing to build?</div>
-            <div class="col-tag"><span class="tag amber">Plan</span></div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
           </div>
           <div class="data-row">
             <div class="col-key">/plan-eng-review</div>
-            <div class="col-val">Eng manager-mode — lock in execution approach</div>
-            <div class="col-tag"><span class="tag amber">Plan</span></div>
+            <div class="col-val">Eng manager-mode — lock in execution approach, edge cases, test coverage</div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
           </div>
           <div class="data-row">
             <div class="col-key">/plan-design-review</div>
-            <div class="col-val">Designer's eye review of a live site</div>
-            <div class="col-tag"><span class="tag blue">Design</span></div>
+            <div class="col-val">Designer's eye audit of a live site — report only, no fixes</div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
           </div>
           <div class="data-row">
             <div class="col-key">/design-consultation</div>
-            <div class="col-val">Design feedback and recommendations</div>
-            <div class="col-tag"><span class="tag blue">Design</span></div>
-          </div>
-          <div class="data-row">
-            <div class="col-key">/review</div>
-            <div class="col-val">General code / PR review</div>
-            <div class="col-tag"><span class="tag gray">Review</span></div>
-          </div>
-          <div class="data-row">
-            <div class="col-key">/ship</div>
-            <div class="col-val">Ship a feature end-to-end</div>
-            <div class="col-tag"><span class="tag green">Ship</span></div>
-          </div>
-          <div class="data-row">
-            <div class="col-key">/qa</div>
-            <div class="col-val">Full QA pass on a feature or page</div>
-            <div class="col-tag"><span class="tag gray">QA</span></div>
-          </div>
-          <div class="data-row">
-            <div class="col-key">/qa-only</div>
-            <div class="col-val">QA without design review</div>
-            <div class="col-tag"><span class="tag gray">QA</span></div>
+            <div class="col-val">Full design system proposal — palette, typography, spacing, motion. Creates DESIGN.md.</div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
           </div>
           <div class="data-row">
             <div class="col-key">/qa-design-review</div>
-            <div class="col-val">QA with design review</div>
-            <div class="col-tag"><span class="tag gray">QA</span></div>
+            <div class="col-val">Designer's eye QA — finds visual issues then fixes them iteratively</div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
           </div>
           <div class="data-row">
-            <div class="col-key">/retro</div>
-            <div class="col-val">Quarterly retrospective</div>
-            <div class="col-tag"><span class="tag gray">Retro</span></div>
+            <div class="col-key">/qa</div>
+            <div class="col-val">Full QA — test, fix, re-verify loop. Three tiers: Quick / Standard / Exhaustive</div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
+          </div>
+          <div class="data-row">
+            <div class="col-key">/qa-only</div>
+            <div class="col-val">QA report only — no fixes, health score + repro steps</div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
+          </div>
+          <div class="data-row">
+            <div class="col-key">/ship</div>
+            <div class="col-val">Ship workflow — merge base, tests, VERSION bump, CHANGELOG, PR</div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
+          </div>
+          <div class="data-row">
+            <div class="col-key">/review</div>
+            <div class="col-val">Pre-landing PR review — SQL safety, auth, LLM trust boundary, structural issues</div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
           </div>
           <div class="data-row">
             <div class="col-key">/document-release</div>
-            <div class="col-val">Post-ship documentation update</div>
-            <div class="col-tag"><span class="tag blue">Docs</span></div>
+            <div class="col-val">Post-ship docs update — README, CHANGELOG, ARCHITECTURE, VERSION bump</div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
+          </div>
+          <div class="data-row">
+            <div class="col-key">/retro</div>
+            <div class="col-val">Weekly engineering retrospective — commits, patterns, per-person breakdown</div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
           </div>
           <div class="data-row">
             <div class="col-key">/setup-browser-cookies</div>
-            <div class="col-val">Import cookies from your real browser</div>
-            <div class="col-tag"><span class="tag gray">Auth</span></div>
+            <div class="col-val">Import cookies from real browser into headless session — use before QA on auth pages</div>
+            <div class="col-tag"><span class="tag blue">gstack</span></div>
           </div>
         </div>
 
@@ -1395,7 +1408,7 @@
         </div>
         <div style="margin-bottom:1.5rem">
           <div class="panel-header">
-            <div class="panel-title">My Time with Claude — session duration over time</div>
+            <div class="panel-title">Hours per day — stacked by project</div>
           </div>
           <div class="card">
             <div style="position:relative;height:280px;"><canvas id="timeChart"></canvas></div>
@@ -1406,7 +1419,24 @@
               <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#7c3aed;display:inline-block"></span>As Gurudev Says</span>
               <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#0ea5e9;display:inline-block"></span>Helm</span>
               <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#d97706;display:inline-block"></span>Swara Samipyam</span>
+            </div>
+          </div>
+        </div>
+        <div style="margin-bottom:1.5rem">
+          <div class="panel-header">
+            <div class="panel-title">My Time with Claude — session duration over time</div>
+          </div>
+          <div class="card">
+            <div style="position:relative;height:280px;"><canvas id="sessionChart"></canvas></div>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.65rem;font-size:0.72rem;align-items:center;">
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#2563eb;display:inline-block"></span>ARIA Advisor</span>
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#059669;display:inline-block"></span>BzHub</span>
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#e10600;display:inline-block"></span>Meta</span>
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#7c3aed;display:inline-block"></span>As Gurudev Says</span>
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#0ea5e9;display:inline-block"></span>Helm</span>
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#d97706;display:inline-block"></span>Swara Samipyam</span>
               <span style="display:flex;align-items:center;gap:0.3rem;margin-left:0.5rem;"><span style="width:20px;height:2px;background:#f59e0b;display:inline-block"></span>trend</span>
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:20px;height:2px;background:#e10600;display:inline-block"></span>tokens (k, right axis)</span>
             </div>
           </div>
         </div>
@@ -1690,55 +1720,104 @@
         </div><!-- /panel-pair -->
 
         <div class="panel-header">
-          <div class="panel-title">Release Notes — Command Centre</div>
+          <div class="panel-title">Session Log — What shipped &amp; what was learnt</div>
         </div>
         <div class="card">
-          <div class="release"><span class="rel-version">v2.4.0</span><span class="rel-date">2026-03-21</span>
-            <ul>
-              <li>Swara Samipyam added to projects panel — v0.1.0 live on GitHub Pages</li>
-              <li>/wrap and /lights-out skills created</li>
-              <li>session_wrap.md updated with command-centre update step</li>
-              <li>Efficiency chart + time chart updated with Swara + Meta sessions</li>
-            </ul>
+
+          <div class="release">
+            <span class="rel-version">2026-03-21</span>
+            <div style="margin-top:0.5rem">
+              <div class="rel-session">~7:03 PM · ARIA — Production outage RCA (Python 3.14 SQLAlchemy)</div>
+              <ul>
+                <li>4 root causes fixed: boolean filter <code>.is_(True)</code>, unmapped ORM column <code>personal_user_id</code>, string <code>order_by</code> on relationship, CORS missing on 500 responses</li>
+                <li>Pinned Python 3.11.9 via <code>runtime.txt</code> on Render to prevent silent upgrades</li>
+                <li>Seeder changed to upsert — always syncs hashed passwords on deploy</li>
+                <li>Two RCA docs written: <code>docs/RCA-2026-03-21-login-failure.md</code> + deep-dive</li>
+              </ul>
+              <div class="rel-learn">💡 Learnt: Python 3.14 is stricter with SQLAlchemy — <code>== True</code> silently returns 0 rows; 500s suppress CORS headers making it look like a CORS bug; always pin runtime.txt on Render.</div>
+            </div>
+            <div style="margin-top:0.75rem">
+              <div class="rel-session">~9:00 PM · ARIA — Advisor profile + portal client features</div>
+              <ul>
+                <li>Advisor self-edit profile page — display name, city, region, referral code (read-only)</li>
+                <li>PUT <code>/advisor/me</code> endpoint added</li>
+                <li>ARIA Personal advisor card shows full advisor details (name, city, region, referral, rating)</li>
+                <li>Direct portal clients auto-created if no name match on registration — violet Direct badge in advisor client list</li>
+                <li>Source column added to clients table — <code>'portal'</code> vs <code>'advisor'</code></li>
+                <li>Superadmin credentials shown on login page</li>
+              </ul>
+              <div class="rel-learn">💡 Learnt: After login/register, always call <code>getMe()</code> to hydrate the full user object — the login response is a thin DTO, not a full profile.</div>
+            </div>
+            <div style="margin-top:0.75rem">
+              <div class="rel-session">· Swara Samipyam — v0.1.0 shipped (Session 1)</div>
+              <ul>
+                <li>Project scaffolded — devotional lyrics link repo, organised by deity</li>
+                <li>Neon PostgreSQL backend (serverless HTTP) — categories + songs tables, restricted DB role</li>
+                <li>Full CRUD: collapsible deity sections, add/edit/delete songs, clickable external links</li>
+                <li>Blue theme + per-deity colour-coded names; mobile-polished with safe-area, tap targets</li>
+                <li>GitHub Pages deploy live: sunder-vasudevan.github.io/swara-samipyam/</li>
+              </ul>
+              <div class="rel-learn">💡 Learnt: Neon serverless HTTP driver works directly from the browser via esm.sh — no backend needed for simple read/write apps. Always use a restricted DB role, never owner credentials in frontend code.</div>
+            </div>
+            <div style="margin-top:0.75rem">
+              <div class="rel-session">~10:30 PM · Meta — Command centre wrap protocol</div>
+              <ul>
+                <li>Wrap protocol fixed: MEMORY.md, command-centre index, both charts, session log — all mandatory on every wrap</li>
+                <li>Rule: one row per session in efficiency table — never lump</li>
+                <li>Session log redesigned: date-grouped, time-stamped, no version numbers, learnings captured per session</li>
+              </ul>
+              <div class="rel-learn">💡 Learnt: Chart JS data arrays must be updated at wrap — they are hardcoded and will go stale if skipped.</div>
+            </div>
           </div>
-          <div class="release"><span class="rel-version">v2.3.0</span><span class="rel-date">2026-03-21</span>
-            <ul>
-              <li>Projects updated: ARIA Advisor next steps, ARIA Personal status</li>
-              <li>Session log: ARIA RCA + advisor profile + direct client features</li>
-              <li>Version badge bumped to v2.3.0</li>
-            </ul>
+
+          <div class="release">
+            <span class="rel-version">2026-03-21 (earlier)</span>
+            <div style="margin-top:0.5rem">
+              <div class="rel-session">Helm — Project scaffold + data model</div>
+              <ul>
+                <li>Project created, named, scoped. Full data model (12 tables), signal engine, 8 decisions logged</li>
+              </ul>
+            </div>
+            <div style="margin-top:0.75rem">
+              <div class="rel-session">Meta — Command centre redesign (Operator View)</div>
+              <ul>
+                <li>Full redesign: dark header, Inter font, persistent sidebar, data panels with alternating row tints</li>
+                <li>/wrap and /lights-out skills created; session_wrap.md updated</li>
+                <li>Stacked daily hours chart added alongside per-session chart</li>
+              </ul>
+            </div>
           </div>
-          <div class="release"><span class="rel-version">v2.2.0</span><span class="rel-date">2026-03-21</span>
-            <ul>
-              <li>Full redesign — Option B "Operator View": dark header, Inter font, persistent sidebar, data panels with alternating row tints</li>
-              <li>Preview files (A/B/C) moved to documentation/design-previews/</li>
-              <li>Hosted on Vercel via CLI only — no GitHub auto-deploy</li>
-            </ul>
+
+          <div class="release">
+            <span class="rel-version">2026-03-20</span>
+            <div style="margin-top:0.5rem">
+              <div class="rel-session">Meta — Working system + CLAUDE.md</div>
+              <ul>
+                <li>CLAUDE.md redesigned; first_principles trigger; HELP.html v1.0–v1.4; VS Code setup</li>
+                <li>How We Work rewritten from real session data; RACI chart; stepper redesign</li>
+                <li>Design System &amp; Code Standards section; consolidated 11 tabs → 7</li>
+              </ul>
+            </div>
           </div>
-          <div class="release"><span class="rel-version">v2.1.0</span><span class="rel-date">2026-03-20</span>
-            <ul>
-              <li>Vertical stepper redesign for "How a Session Actually Runs" — numbered steps 1–10, phase dot markers</li>
-              <li>Stepper CSS moved to head; inline style block removed</li>
-            </ul>
+
+          <div class="release">
+            <span class="rel-version">2026-03-18</span>
+            <div style="margin-top:0.5rem">
+              <div class="rel-session">ARIA — Goal bugs, Safari fix, login redesign</div>
+              <ul>
+                <li>Goal probability bugs fixed; Safari date input replaced with selects; login redesigned × 2 apps</li>
+                <li>Design system locked; whitepaper + exec deck written</li>
+              </ul>
+              <div class="rel-learn">💡 Learnt: Safari does not support <code>type="date"</code> — always use select dropdowns for date inputs in consumer-facing apps.</div>
+            </div>
+            <div style="margin-top:0.75rem">
+              <div class="rel-session">Meta — Working system redesign</div>
+              <ul>
+                <li>Triggers redesigned: lights_out, fury_road, cold_start, session_wrap, growth, the_offer, retro, definition_of_done</li>
+              </ul>
+            </div>
           </div>
-          <div class="release"><span class="rel-version">v2.0.0</span><span class="rel-date">2026-03-20</span>
-            <ul>
-              <li>How We Work rewritten from real session data</li>
-              <li>RACI chart added; "My Time with Claude" bar chart added to Efficiency tab</li>
-            </ul>
-          </div>
-          <div class="release"><span class="rel-version">v1.9.0</span><span class="rel-date">2026-03-20</span>
-            <ul><li>Added Design System &amp; Code Standards section; How We Work flowchart tab</li></ul>
-          </div>
-          <div class="release"><span class="rel-version">v1.8.0</span><span class="rel-date">2026-03-20</span>
-            <ul><li>Consolidated 11 tabs into 7 logical groups; mobile-compatible scrollable tab bar</li></ul>
-          </div>
-          <div class="release"><span class="rel-version">v1.7.0</span><span class="rel-date">2026-03-20</span>
-            <ul><li>All cards collapsible; moved to standalone repo command-centre; improved efficiency chart</li></ul>
-          </div>
-          <div class="release"><span class="rel-version">v1.0.0</span><span class="rel-date">2026-03-17</span>
-            <ul><li>Initial trigger system: lights_out, fury_road, cold_start, session_wrap, growth, the_offer, retro, definition_of_done</li></ul>
-          </div>
+
         </div>
 
       </div><!-- /tab-reference -->
@@ -2084,6 +2163,58 @@
           scales: {
             y: { stacked: true, beginAtZero: true, title: { display: true, text: 'Minutes' }, grid: { color: '#e2e5f0' } },
             x: { stacked: true, grid: { display: false } }
+          }
+        }
+      });
+
+      // Per-session chart with token line
+      const mins = sessions.map(s => s.mins);
+      const tokensK = sessions.map(s => s.tokens !== null ? Math.round(s.tokens / 1000) : null);
+      const ns = mins.length;
+      const sumX = mins.reduce((a,_,i) => a+i, 0);
+      const sumY = mins.reduce((a,v) => a+v, 0);
+      const sumXY = mins.reduce((a,v,i) => a+i*v, 0);
+      const sumX2 = mins.reduce((a,_,i) => a+i*i, 0);
+      const slope = (ns*sumXY - sumX*sumY) / (ns*sumX2 - sumX*sumX);
+      const intercept = (sumY - slope*sumX) / ns;
+      const trend = mins.map((_,i) => Math.round(intercept + slope*i));
+
+      new Chart(document.getElementById('sessionChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: sessions.map(s => s.label),
+          datasets: [
+            { type: 'bar', label: 'Session (mins)', data: mins,
+              backgroundColor: sessions.map(s => (pColor[s.project]||'#6b7280')+'bb'),
+              borderColor: sessions.map(s => pColor[s.project]||'#6b7280'),
+              borderWidth: 2, borderRadius: 4, yAxisID: 'y', order: 3 },
+            { type: 'line', label: 'Duration Trend', data: trend,
+              borderColor: '#f59e0b', borderWidth: 2.5, borderDash: [5,3],
+              pointRadius: 3, pointBackgroundColor: '#f59e0b',
+              fill: false, tension: 0.3, yAxisID: 'y', order: 2 },
+            { type: 'line', label: 'Tokens (k)', data: tokensK,
+              borderColor: '#e10600', borderWidth: 2,
+              pointRadius: 5, pointBackgroundColor: '#e10600',
+              fill: false, tension: 0.3, spanGaps: false, yAxisID: 'y2', order: 1 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: true, labels: { boxWidth: 12, font: { size: 11 } } },
+            tooltip: { callbacks: {
+              title: (i) => sessions[i[0].dataIndex].label.replace('\n', ' — '),
+              label: (i) => {
+                if (i.dataset.label === 'Tokens (k)') return i.parsed.y !== null ? `Tokens: ${i.parsed.y}k` : 'Tokens: no data';
+                if (i.dataset.label === 'Duration Trend') return `Trend: ${i.parsed.y} mins`;
+                return `${i.parsed.y} mins`;
+              }
+            }}
+          },
+          scales: {
+            y:  { beginAtZero: true, title: { display: true, text: 'Minutes' }, grid: { color: '#e2e5f0' } },
+            y2: { beginAtZero: true, position: 'right', title: { display: true, text: 'Tokens (k)' }, grid: { display: false } },
+            x:  { grid: { display: false }, ticks: { font: { size: 9 }, maxRotation: 45 } }
           }
         }
       });
