@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preview A — Clear Signal</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #ffffff;
+      --surface:  #ffffff;
+      --border:   #e5e7eb;
+      --text:     #111827;
+      --muted:    #6b7280;
+      --subtle:   #f9fafb;
+      --red:      #e10600;
+      --blue:     #2563eb;
+      --green:    #059669;
+      --amber:    #d97706;
+      --sidebar-w: 220px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      border-right: 1px solid var(--border);
+      padding: 2rem 0;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-logo {
+      padding: 0 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar-logo .wordmark {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .sidebar-logo .name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 0.15rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 1.5rem;
+      font-size: 0.875rem;
+      color: var(--muted);
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: all 0.1s;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .nav-item:hover { color: var(--text); background: var(--subtle); }
+
+    .nav-item.active {
+      color: var(--text);
+      font-weight: 600;
+      border-left-color: var(--red);
+    }
+
+    .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+
+    /* ── Main ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 3rem 2.5rem;
+      max-width: calc(720px + var(--sidebar-w));
+    }
+
+    .page-header {
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .page-header p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* ── Section label ── */
+    .label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      margin-top: 2rem;
+    }
+
+    .label:first-of-type { margin-top: 0; }
+
+    /* ── Row list (replaces tables) ── */
+    .row-list { margin-bottom: 2rem; }
+
+    .row-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+
+    .row-item:last-child { border-bottom: none; }
+
+    .row-item .row-key {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .row-item .row-val {
+      font-size: 0.875rem;
+      color: var(--muted);
+      text-align: right;
+      max-width: 55%;
+    }
+
+    /* ── Inline badge ── */
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: var(--muted);
+    }
+
+    .tag.red   { background: #fff1f0; color: var(--red); }
+    .tag.blue  { background: #eff6ff; color: var(--blue); }
+    .tag.green { background: #ecfdf5; color: var(--green); }
+    .tag.amber { background: #fffbeb; color: var(--amber); }
+
+    /* ── Content block ── */
+    .block {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .block:last-child { border-bottom: none; }
+
+    .block h3 {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .block p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .block .meta {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── Stat row ── */
+    .stat-row {
+      display: flex;
+      gap: 2.5rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat { }
+    .stat .stat-val {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .stat .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    /* ── Option label banner ── */
+    .preview-banner {
+      background: var(--subtle);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .preview-banner strong { color: var(--text); }
+
+    /* ── Mobile ── */
+    @media (max-width: 680px) {
+      body { display: block; }
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 1.5rem 1.25rem 5rem; max-width: 100%; }
+
+      .bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+        overflow-x: auto;
+        padding: 0.25rem 0;
+      }
+
+      .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0.5rem 0.85rem;
+        font-size: 0.6rem;
+        color: var(--muted);
+        white-space: nowrap;
+        cursor: pointer;
+        min-width: 56px;
+        gap: 0.2rem;
+      }
+
+      .bottom-nav-item .bn-icon { font-size: 1.1rem; }
+      .bottom-nav-item.active { color: var(--red); }
+    }
+
+    @media (min-width: 681px) {
+      .bottom-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="wordmark">Claude</div>
+      <div class="name">Command Centre</div>
+    </div>
+    <a class="nav-item active"><span class="nav-icon">🚦</span> Session</a>
+    <a class="nav-item"><span class="nav-icon">🔬</span> Thinking</a>
+    <a class="nav-item"><span class="nav-icon">🏎️</span> Projects</a>
+    <a class="nav-item"><span class="nav-icon">📏</span> Rules</a>
+    <a class="nav-item"><span class="nav-icon">🛠️</span> Tools</a>
+    <a class="nav-item"><span class="nav-icon">📊</span> Efficiency</a>
+    <a class="nav-item"><span class="nav-icon">🔄</span> How We Work</a>
+    <a class="nav-item"><span class="nav-icon">📄</span> Reference</a>
+    <a class="nav-item"><span class="nav-icon">👁️</span> How Claude Sees Me</a>
+  </nav>
+
+  <!-- Main -->
+  <main class="main">
+
+    <div class="preview-banner">
+      <span><strong>Option A — Clear Signal</strong> &nbsp;·&nbsp; Minimal / Focused</span>
+      <span>Preview only — not functional</span>
+    </div>
+
+    <div class="page-header">
+      <h1>Session</h1>
+      <p>Race control — say the word, Claude does the rest.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-val">9</div>
+        <div class="stat-label">Active triggers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">4</div>
+        <div class="stat-label">Live projects</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">12×</div>
+        <div class="stat-label">Avg compression</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">15d</div>
+        <div class="stat-label">Next appraisal</div>
+      </div>
+    </div>
+
+    <!-- Section: Triggers -->
+    <div class="label">Session Triggers</div>
+    <div class="row-list">
+      <div class="row-item">
+        <div class="row-key">
+          <code style="font-family:monospace;font-size:0.82rem;background:#f3f4f6;padding:0.1rem 0.4rem;border-radius:4px">wrap</code>
+          &nbsp; / &nbsp;
+          <code style="font-family:monospace;font-size:0.82rem;background:#f3f4f6;padding:0.1rem 0.4rem;border-radius:4px">packup</code>
+        </div>
+        <div class="row-val">Run session_wrap.md — full wrap protocol</div>
+      </div>
+      <div class="row-item">
+        <div class="row-key">
+          <code style="font-family:monospace;font-size:0.82rem;background:#f3f4f6;padding:0.1rem 0.4rem;border-radius:4px">start</code>
+          &nbsp; / &nbsp;
+          <code style="font-family:monospace;font-size:0.82rem;background:#f3f4f6;padding:0.1rem 0.4rem;border-radius:4px">lights out</code>
+        </div>
+        <div class="row-val">Run lights_out.md — full session start protocol</div>
+      </div>
+      <div class="row-item">
+        <div class="row-key">
+          <code style="font-family:monospace;font-size:0.82rem;background:#f3f4f6;padding:0.1rem 0.4rem;border-radius:4px">abort</code>
+          &nbsp; / &nbsp;
+          <code style="font-family:monospace;font-size:0.82rem;background:#f3f4f6;padding:0.1rem 0.4rem;border-radius:4px">stand down</code>
+        </div>
+        <div class="row-val">Session cancelled after Step 2 — no briefing</div>
+      </div>
+      <div class="row-item">
+        <div class="row-key">
+          <code style="font-family:monospace;font-size:0.82rem;background:#f3f4f6;padding:0.1rem 0.4rem;border-radius:4px">first principles</code>
+        </div>
+        <div class="row-val">Run first_principles.md — Feynman/business/Musk breakdown</div>
+      </div>
+    </div>
+
+    <!-- Section: Agent Protocol -->
+    <div class="label">Agent Protocol</div>
+    <div class="row-list">
+      <div class="row-item">
+        <div class="row-key">Session Start</div>
+        <div class="row-val">Ask time → log → load active project context</div>
+      </div>
+      <div class="row-item">
+        <div class="row-key">Edit Approval Gate</div>
+        <div class="row-val">State files + changes → wait for approval (except clear-cut tasks)</div>
+      </div>
+      <div class="row-item">
+        <div class="row-key">Planning</div>
+        <div class="row-val">Plan mode for 3+ step tasks or architectural decisions</div>
+      </div>
+      <div class="row-item">
+        <div class="row-key">Verification</div>
+        <div class="row-val">Never mark complete without proof it works</div>
+      </div>
+    </div>
+
+    <!-- Section: Roles -->
+    <div class="label">Active Projects</div>
+    <div class="block">
+      <h3>ARIA Advisor Workbench</h3>
+      <p>FastAPI + React advisor platform. Phase 2 in progress.</p>
+      <div class="meta">
+        <span class="tag blue">FastAPI</span>
+        <span class="tag blue">React</span>
+        <span class="tag green">Live</span>
+      </div>
+    </div>
+    <div class="block">
+      <h3>BzHub ERP</h3>
+      <p>v5.0.0 live. Next: FEAT-041 Custom Module Builder.</p>
+      <div class="meta">
+        <span class="tag blue">Next.js</span>
+        <span class="tag blue">Supabase</span>
+        <span class="tag green">Live</span>
+      </div>
+    </div>
+    <div class="block">
+      <h3>ARIA Personal</h3>
+      <p>Consumer self-directed finance app. v0.1.0 shipped, Vercel deploy pending.</p>
+      <div class="meta">
+        <span class="tag blue">Next.js</span>
+        <span class="tag amber">Deploy pending</span>
+      </div>
+    </div>
+    <div class="block">
+      <h3>As Gurudev Says</h3>
+      <p>Oracle RAG agent on Sri Aurobindo's works. Phase 1 pipeline built.</p>
+      <div class="meta">
+        <span class="tag blue">Claude API</span>
+        <span class="tag amber">In progress</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Mobile bottom nav -->
+  <nav class="bottom-nav">
+    <div class="bottom-nav-item active"><span class="bn-icon">🚦</span>Session</div>
+    <div class="bottom-nav-item"><span class="bn-icon">🔬</span>Thinking</div>
+    <div class="bottom-nav-item"><span class="bn-icon">🏎️</span>Projects</div>
+    <div class="bottom-nav-item"><span class="bn-icon">📏</span>Rules</div>
+    <div class="bottom-nav-item"><span class="bn-icon">🛠️</span>Tools</div>
+    <div class="bottom-nav-item"><span class="bn-icon">📊</span>Efficiency</div>
+    <div class="bottom-nav-item"><span class="bn-icon">🔄</span>How We Work</div>
+    <div class="bottom-nav-item"><span class="bn-icon">📄</span>Reference</div>
+    <div class="bottom-nav-item"><span class="bn-icon">👁️</span>Claude Sees Me</div>
+  </nav>
+
+</body>
+</html>

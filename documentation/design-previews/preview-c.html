@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preview C — Broadsheet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #fafaf8;
+      --surface:  #ffffff;
+      --border:   #e5e7eb;
+      --text:     #111827;
+      --muted:    #6b7280;
+      --subtle:   #f3f4f6;
+      --red:      #e10600;
+      --blue:     #2563eb;
+      --green:    #059669;
+      --amber:    #d97706;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Preview banner ── */
+    .preview-banner {
+      background: #111827;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.75rem;
+      padding: 0.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'Inter', sans-serif;
+    }
+    .preview-banner strong { color: #fff; }
+
+    /* ── Page header ── */
+    .page-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 2.5rem 0;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand-serif {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    .brand-serif span { color: var(--red); }
+
+    .header-meta {
+      text-align: right;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .header-meta strong { display: block; font-size: 0.8rem; color: var(--text); }
+
+    /* ── Pill nav ── */
+    .pill-nav {
+      display: flex;
+      gap: 0.35rem;
+      overflow-x: auto;
+      padding-bottom: 0;
+      flex-wrap: nowrap;
+    }
+
+    .pill-nav::-webkit-scrollbar { display: none; }
+
+    .pill {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1rem;
+      border-radius: 999px 999px 0 0;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      border: 1px solid transparent;
+      border-bottom: none;
+      transition: all 0.15s;
+      background: transparent;
+      margin-bottom: -1px;
+    }
+
+    .pill:hover { color: var(--text); background: var(--subtle); }
+
+    .pill.active {
+      color: var(--blue);
+      background: var(--bg);
+      border-color: var(--border);
+      border-bottom-color: var(--bg);
+      font-weight: 600;
+    }
+
+    /* ── Main ── */
+    .main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2.5rem;
+    }
+
+    /* ── Section header ── */
+    .section-head {
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--text);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .section-head h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .section-head .section-count {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ── Card grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .card.feature {
+      border-color: var(--blue);
+      background: #eff6ff;
+      grid-column: span 2;
+    }
+
+    @media (max-width: 640px) {
+      .card.feature { grid-column: span 1; }
+    }
+
+    .card-eyebrow {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .card-eyebrow.red  { color: var(--red); }
+    .card-eyebrow.blue { color: var(--blue); }
+
+    .card h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .card.feature h3 { font-size: 1.25rem; color: var(--blue); }
+
+    .card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .card-footer {
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── Tag ── */
+    .tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+    }
+
+    .tag.red   { background: #fff1f0; color: var(--red); }
+    .tag.blue  { background: #eff6ff; color: var(--blue); }
+    .tag.green { background: #ecfdf5; color: var(--green); }
+    .tag.amber { background: #fffbeb; color: var(--amber); }
+    .tag.gray  { background: var(--subtle); color: var(--muted); }
+
+    /* ── Editorial row list ── */
+    .editorial-list { margin-bottom: 2.5rem; }
+
+    .editorial-item {
+      display: grid;
+      grid-template-columns: 180px 1fr auto;
+      gap: 1.5rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+
+    .editorial-item:last-child { border-bottom: none; }
+
+    .ei-key {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      padding-top: 0.1rem;
+    }
+
+    .ei-val {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── Display stat ── */
+    .display-stats {
+      display: flex;
+      gap: 3rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .display-stat .num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .display-stat .num.red  { color: var(--red); }
+    .display-stat .num.blue { color: var(--blue); }
+
+    .display-stat .lbl {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      .main { padding: 1.5rem 1.25rem; }
+      .page-header { padding: 1.5rem 1.25rem 0; }
+      .brand-serif { font-size: 1.35rem; }
+      .pill { padding: 0.45rem 0.75rem; font-size: 0.75rem; }
+      .editorial-item { grid-template-columns: 1fr; gap: 0.35rem; }
+      .editorial-item .col-tag { display: none; }
+      .display-stats { gap: 2rem; }
+      .display-stat .num { font-size: 2.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preview banner -->
+  <div class="preview-banner">
+    <span><strong>Option C — Broadsheet</strong> &nbsp;·&nbsp; Modern Editorial feel</span>
+    <span>Preview only — not functional</span>
+  </div>
+
+  <!-- Page header -->
+  <header class="page-header">
+    <div class="header-top">
+      <div>
+        <div class="brand-serif">Claude<span>.</span> Command Centre</div>
+        <div style="font-size:0.8rem;color:var(--muted);margin-top:0.3rem;">Sunny Hayes · v2.1.0 · Mar 21, 2026</div>
+      </div>
+      <div class="header-meta">
+        <strong>Appraisal due</strong>
+        15 days · Apr 5
+      </div>
+    </div>
+
+    <!-- Pill nav -->
+    <nav class="pill-nav">
+      <div class="pill active">🚦 Session</div>
+      <div class="pill">🔬 Thinking</div>
+      <div class="pill">🏎️ Projects</div>
+      <div class="pill">📏 Rules</div>
+      <div class="pill">🛠️ Tools</div>
+      <div class="pill">📊 Efficiency</div>
+      <div class="pill">🔄 How We Work</div>
+      <div class="pill">📄 Reference</div>
+      <div class="pill">👁️ Claude Sees Me</div>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Display stats -->
+    <div class="display-stats">
+      <div class="display-stat">
+        <div class="num red">4</div>
+        <div class="lbl">Active projects</div>
+      </div>
+      <div class="display-stat">
+        <div class="num blue">12×</div>
+        <div class="lbl">Avg compression</div>
+      </div>
+      <div class="display-stat">
+        <div class="num">9</div>
+        <div class="lbl">Triggers active</div>
+      </div>
+      <div class="display-stat">
+        <div class="num">15d</div>
+        <div class="lbl">Next appraisal</div>
+      </div>
+    </div>
+
+    <!-- Section: Session Triggers -->
+    <div class="section-head">
+      <h2>Session Triggers</h2>
+      <span class="section-count">4 triggers</span>
+    </div>
+
+    <div class="editorial-list">
+      <div class="editorial-item">
+        <div class="ei-key">wrap / packup</div>
+        <div class="ei-val">Run session_wrap.md — full wrap protocol. Logs projects, decisions, next steps.</div>
+        <span class="tag blue">Session</span>
+      </div>
+      <div class="editorial-item">
+        <div class="ei-key">start / lights out</div>
+        <div class="ei-val">Run lights_out.md — full session start. Ask time, load context, confirm project.</div>
+        <span class="tag blue">Session</span>
+      </div>
+      <div class="editorial-item">
+        <div class="ei-key">abort / stand down</div>
+        <div class="ei-val">Session cancelled after Step 2. No briefing, no scope lock, no memory written.</div>
+        <span class="tag red">Critical</span>
+      </div>
+      <div class="editorial-item">
+        <div class="ei-key">first principles</div>
+        <div class="ei-val">Run first_principles.md — Feynman, business, and Musk breakdown before planning.</div>
+        <span class="tag gray">Mode</span>
+      </div>
+    </div>
+
+    <!-- Section: Projects -->
+    <div class="section-head">
+      <h2>Active Projects</h2>
+      <span class="section-count">4 projects</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="card feature">
+        <div class="card-eyebrow blue">Featured · Priority</div>
+        <h3>ARIA Advisor Workbench</h3>
+        <p>FastAPI + React advisor platform. Phase 2 in progress. Auth (FEAT-036) is the critical unlock.</p>
+        <div class="card-footer">
+          <span class="tag blue">FastAPI</span>
+          <span class="tag blue">React</span>
+          <span class="tag green">Live</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-eyebrow">ERP Platform</div>
+        <h3>BzHub</h3>
+        <p>v5.0.0 live. 9 modules in production. Next: FEAT-041 Custom Module Builder.</p>
+        <div class="card-footer">
+          <span class="tag blue">Next.js</span>
+          <span class="tag green">v5.0.0</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-eyebrow">Consumer App</div>
+        <h3>ARIA Personal</h3>
+        <p>Self-directed finance. v0.1.0 shipped. Vercel deploy pending.</p>
+        <div class="card-footer">
+          <span class="tag blue">Next.js</span>
+          <span class="tag amber">Deploy pending</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-eyebrow">RAG Agent</div>
+        <h3>As Gurudev Says</h3>
+        <p>Oracle RAG on Sri Aurobindo's works. Phase 1 pipeline built. Ingestion + UI next.</p>
+        <div class="card-footer">
+          <span class="tag blue">Claude API</span>
+          <span class="tag amber">In progress</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Agent Protocol -->
+    <div class="section-head">
+      <h2>Agent Protocol</h2>
+      <span class="section-count">5 rules</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-eyebrow red">Always</div>
+        <h3>Session Start</h3>
+        <p>Ask time → log → load active project context only. Subagents skip.</p>
+      </div>
+      <div class="card">
+        <div class="card-eyebrow">Gate</div>
+        <h3>Edit Approval</h3>
+        <p>State files + changes, wait for approval. Clear-cut tasks exempt.</p>
+      </div>
+      <div class="card">
+        <div class="card-eyebrow">Mode</div>
+        <h3>Planning</h3>
+        <p>Plan mode for 3+ step tasks or architectural decisions.</p>
+      </div>
+      <div class="card">
+        <div class="card-eyebrow red">Required</div>
+        <h3>Verification</h3>
+        <p>Never mark complete without proving it works.</p>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>

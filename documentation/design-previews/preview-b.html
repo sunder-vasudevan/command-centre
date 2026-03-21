@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preview B — Operator View</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --header-bg:  #1a1d2e;
+      --bg:         #f4f5f9;
+      --surface:    #ffffff;
+      --border:     #e2e5f0;
+      --text:       #1a1d2e;
+      --muted:      #6b7280;
+      --subtle:     #f0f2f8;
+      --red:        #e10600;
+      --blue:       #2563eb;
+      --green:      #059669;
+      --amber:      #d97706;
+      --sidebar-w:  240px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: var(--header-bg);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 1.5rem;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      gap: 2rem;
+    }
+
+    .header-brand {
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.875rem;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .header-brand span { color: var(--red); }
+
+    .header-tabs {
+      display: flex;
+      gap: 0.15rem;
+      overflow-x: auto;
+      flex: 1;
+    }
+
+    .header-tabs::-webkit-scrollbar { display: none; }
+
+    .htab {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.4rem 0.85rem;
+      border-radius: 5px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+
+    .htab:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.06); }
+    .htab.active { color: #fff; background: var(--red); }
+
+    .header-version {
+      color: rgba(255,255,255,0.35);
+      font-size: 0.7rem;
+      font-family: 'SF Mono', monospace;
+      white-space: nowrap;
+    }
+
+    /* ── Layout ── */
+    .layout {
+      display: flex;
+      margin-top: 56px;
+      min-height: calc(100vh - 56px);
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1.25rem;
+      position: fixed;
+      top: 56px;
+      left: 0;
+      bottom: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-section-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      margin-top: 1.5rem;
+      padding-left: 0.5rem;
+    }
+
+    .sidebar-section-label:first-child { margin-top: 0; }
+
+    .metric-card {
+      background: var(--subtle);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-val {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      font-family: 'SF Mono', monospace;
+    }
+
+    .metric-val.red  { color: var(--red); }
+    .metric-val.blue { color: var(--blue); }
+
+    .metric-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+
+    .sidebar-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.25rem 0;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      cursor: pointer;
+      margin-bottom: 0.1rem;
+      transition: all 0.1s;
+    }
+
+    .sidebar-link:hover { background: var(--subtle); color: var(--text); }
+    .sidebar-link.active { background: #fff1f0; color: var(--red); font-weight: 600; }
+
+    /* ── Main ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 2rem;
+      max-width: 900px;
+    }
+
+    /* ── Data panel ── */
+    .panel-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      margin-top: 1.75rem;
+    }
+
+    .panel-header:first-child { margin-top: 0; }
+
+    .panel-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .panel-count {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: 'SF Mono', monospace;
+    }
+
+    .data-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .data-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr auto;
+      align-items: center;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+
+    .data-row:last-child { border-bottom: none; }
+    .data-row:nth-child(even) { background: #fafbfd; }
+
+    .data-row .col-key {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      font-family: 'SF Mono', monospace;
+    }
+
+    .data-row .col-val {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .data-row .col-tag { justify-self: end; }
+
+    /* ── Tag ── */
+    .tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+    }
+
+    .tag.red   { background: #fff1f0; color: var(--red); }
+    .tag.blue  { background: #eff6ff; color: var(--blue); }
+    .tag.green { background: #ecfdf5; color: var(--green); }
+    .tag.amber { background: #fffbeb; color: var(--amber); }
+    .tag.gray  { background: var(--subtle); color: var(--muted); }
+
+    /* ── Project rows ── */
+    .project-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .project-row:last-child { border-bottom: none; }
+
+    .project-row .proj-name {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .project-row .proj-next {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    .proj-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+
+    /* ── Preview banner ── */
+    .preview-banner {
+      background: var(--header-bg);
+      color: rgba(255,255,255,0.6);
+      font-size: 0.75rem;
+      padding: 0.5rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .preview-banner strong { color: #fff; }
+
+    /* ── Mobile ── */
+    @media (max-width: 700px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 1.25rem; max-width: 100%; }
+      .header-version { display: none; }
+      .data-row { grid-template-columns: 1fr 1fr; }
+      .data-row .col-tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preview banner -->
+  <div class="preview-banner">
+    <span><strong>Option B — Operator View</strong> &nbsp;·&nbsp; Dashboard / Command Centre feel</span>
+    <span>Preview only — not functional</span>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-brand">Claude <span>■</span> Command Centre</div>
+    <div class="header-tabs">
+      <div class="htab active">🚦 Session</div>
+      <div class="htab">🔬 Thinking</div>
+      <div class="htab">🏎️ Projects</div>
+      <div class="htab">📏 Rules</div>
+      <div class="htab">🛠️ Tools</div>
+      <div class="htab">📊 Efficiency</div>
+      <div class="htab">🔄 How We Work</div>
+      <div class="htab">📄 Reference</div>
+      <div class="htab">👁️ Claude Sees Me</div>
+    </div>
+    <div class="header-version">v2.1.0</div>
+  </header>
+
+  <div class="layout">
+
+    <!-- Sidebar — persistent metrics -->
+    <aside class="sidebar">
+      <div class="sidebar-section-label">Live Metrics</div>
+
+      <div class="metric-card">
+        <div class="metric-val red">4</div>
+        <div class="metric-label">Active projects</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val blue">12×</div>
+        <div class="metric-label">Avg compression</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">15d</div>
+        <div class="metric-label">Next appraisal</div>
+      </div>
+
+      <hr class="sidebar-divider" />
+
+      <div class="sidebar-section-label">Quick Nav</div>
+      <div class="sidebar-link active">🚦 Race Control</div>
+      <div class="sidebar-link">⚙️ Agent Protocol</div>
+      <div class="sidebar-link">🏎️ Projects</div>
+      <div class="sidebar-link">📏 Standing Rules</div>
+
+      <hr class="sidebar-divider" />
+
+      <div class="sidebar-section-label">Status</div>
+      <div class="sidebar-link">🔴 ARIA — Phase 2</div>
+      <div class="sidebar-link">🟢 BzHub — v5.0.0</div>
+      <div class="sidebar-link">🟡 ARIA Personal</div>
+      <div class="sidebar-link">🟡 As Gurudev Says</div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main">
+
+      <div class="panel-header">
+        <div class="panel-title">Session Triggers</div>
+        <div class="panel-count">4 triggers</div>
+      </div>
+      <div class="data-panel">
+        <div class="data-row">
+          <div class="col-key">wrap / packup</div>
+          <div class="col-val">Run session_wrap.md — full wrap protocol</div>
+          <div class="col-tag"><span class="tag blue">Session</span></div>
+        </div>
+        <div class="data-row">
+          <div class="col-key">start / lights out</div>
+          <div class="col-val">Run lights_out.md — full session start protocol</div>
+          <div class="col-tag"><span class="tag blue">Session</span></div>
+        </div>
+        <div class="data-row">
+          <div class="col-key">abort / stand down</div>
+          <div class="col-val">Session cancelled after Step 2 — no briefing, no scope lock</div>
+          <div class="col-tag"><span class="tag red">Critical</span></div>
+        </div>
+        <div class="data-row">
+          <div class="col-key">first principles</div>
+          <div class="col-val">Run first_principles.md — Feynman/business/Musk breakdown before planning</div>
+          <div class="col-tag"><span class="tag gray">Mode</span></div>
+        </div>
+      </div>
+
+      <div class="panel-header">
+        <div class="panel-title">Agent Protocol</div>
+        <div class="panel-count">5 rules</div>
+      </div>
+      <div class="data-panel">
+        <div class="data-row">
+          <div class="col-key">Session Start</div>
+          <div class="col-val">Ask time → log → load active project context only</div>
+          <div class="col-tag"><span class="tag blue">Always</span></div>
+        </div>
+        <div class="data-row">
+          <div class="col-key">Edit Gate</div>
+          <div class="col-val">State files + changes → wait for approval. Clear-cut tasks exempt.</div>
+          <div class="col-tag"><span class="tag amber">Gate</span></div>
+        </div>
+        <div class="data-row">
+          <div class="col-key">Planning</div>
+          <div class="col-val">Plan mode for 3+ step tasks or architectural decisions</div>
+          <div class="col-tag"><span class="tag gray">Mode</span></div>
+        </div>
+        <div class="data-row">
+          <div class="col-key">Verification</div>
+          <div class="col-val">Never mark complete without proving it works</div>
+          <div class="col-tag"><span class="tag red">Required</span></div>
+        </div>
+        <div class="data-row">
+          <div class="col-key">Subagents</div>
+          <div class="col-val">Use liberally — offload research, exploration, parallel analysis</div>
+          <div class="col-tag"><span class="tag blue">Preferred</span></div>
+        </div>
+      </div>
+
+      <div class="panel-header">
+        <div class="panel-title">Active Projects</div>
+        <div class="panel-count">4 projects</div>
+      </div>
+      <div class="data-panel">
+        <div class="project-row">
+          <div>
+            <div class="proj-name">ARIA Advisor Workbench</div>
+            <div class="proj-next">Next: Phase 2 backlog</div>
+          </div>
+          <div class="proj-tags">
+            <span class="tag blue">FastAPI</span>
+            <span class="tag blue">React</span>
+            <span class="tag green">Live</span>
+          </div>
+        </div>
+        <div class="project-row">
+          <div>
+            <div class="proj-name">BzHub ERP</div>
+            <div class="proj-next">Next: FEAT-041 Custom Module Builder</div>
+          </div>
+          <div class="proj-tags">
+            <span class="tag blue">Next.js</span>
+            <span class="tag blue">Supabase</span>
+            <span class="tag green">v5.0.0</span>
+          </div>
+        </div>
+        <div class="project-row">
+          <div>
+            <div class="proj-name">ARIA Personal</div>
+            <div class="proj-next">Next: Vercel deploy</div>
+          </div>
+          <div class="proj-tags">
+            <span class="tag blue">Next.js</span>
+            <span class="tag amber">Deploy pending</span>
+          </div>
+        </div>
+        <div class="project-row">
+          <div>
+            <div class="proj-name">As Gurudev Says</div>
+            <div class="proj-next">Next: Ingestion + UI</div>
+          </div>
+          <div class="proj-tags">
+            <span class="tag blue">Claude API</span>
+            <span class="tag amber">In progress</span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>
