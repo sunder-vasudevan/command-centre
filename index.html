@@ -342,6 +342,42 @@
     }
     @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }
 
+    /* About banner */
+    .about-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.82rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .about-summary { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
+    .about-toggle {
+      background: none; border: 1px solid var(--border); border-radius: 4px;
+      padding: 0.15rem 0.5rem; font-size: 0.75rem; cursor: pointer; color: var(--muted);
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .about-toggle:hover { color: var(--text); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1.5rem;
+    }
+    @media (max-width: 640px) { .about-grid { grid-template-columns: 1fr; } }
+    .about-item { font-size: 0.8rem; color: var(--muted); }
+    .about-tab { color: var(--accent2); cursor: pointer; font-weight: 600; }
+    .about-tab:hover { text-decoration: underline; }
+
+    /* Side-by-side chart/panel pairs */
+    .panel-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .panel-pair > div { margin-bottom: 0 !important; }
+    @media (max-width: 768px) { .panel-pair { grid-template-columns: 1fr; } }
+
     .mini-card {
       background: var(--surface2);
       border: 1px solid var(--border);
@@ -678,7 +714,7 @@
         <input type="text" id="searchInput" placeholder="Search…" oninput="doSearch(this.value)">
         <div class="search-results" id="searchResults"></div>
       </div>
-      <div class="version-badge">v2.1.0</div>
+      <div class="version-badge">v2.4.0</div>
     </div>
   </header>
 
@@ -724,6 +760,27 @@
 
     <!-- Main content -->
     <main class="main">
+
+      <!-- ABOUT BANNER -->
+      <div class="about-banner" id="aboutBanner">
+        <div class="about-summary">
+          <strong>Claude Command Centre</strong> is Sunny Hayes (aka Sunder Vasudevan)'s personal dashboard for managing AI-assisted product development. It tracks active projects, session efficiency, working agreements, and tools — all in one place.
+          <button class="about-toggle" onclick="document.getElementById('aboutDetail').style.display=document.getElementById('aboutDetail').style.display==='none'?'block':'none';this.textContent=this.textContent==='▼ Show tab guide'?'▲ Hide tab guide':'▼ Show tab guide'">▼ Show tab guide</button>
+        </div>
+        <div id="aboutDetail" style="display:none;margin-top:0.75rem;display:none">
+          <div class="about-grid">
+            <div class="about-item"><span class="about-tab" onclick="showTab('session',document.querySelector('[onclick*=\'session\']'))">🚦 Session</span> — Start here. Race Control triggers + Agent Protocol rules for every session.</div>
+            <div class="about-item"><span class="about-tab" onclick="showTab('thinking',document.querySelector('[onclick*=\'thinking\']'))">🔬 Thinking</span> — First principles and mental models Claude applies before building anything.</div>
+            <div class="about-item"><span class="about-tab" onclick="showTab('projects',document.querySelector('[onclick*=\'projects\']'))">🏎️ Projects</span> — Live status of all active projects with quick links and docs.</div>
+            <div class="about-item"><span class="about-tab" onclick="showTab('rules',document.querySelector('[onclick*=\'rules\']'))">📏 Rules</span> — Standing rules, Definition of Done, and Design/Code standards.</div>
+            <div class="about-item"><span class="about-tab" onclick="showTab('tools',document.querySelector('[onclick*=\'tools\']'))">🛠️ Tools</span> — The full gstack skill list, role definitions (Sunny / Claude / Copilot).</div>
+            <div class="about-item"><span class="about-tab" onclick="showTab('efficiency',document.querySelector('[onclick*=\'efficiency\']'))">📊 Efficiency</span> — Compression ratio charts and session duration logs vs. a 3-person team baseline.</div>
+            <div class="about-item"><span class="about-tab" onclick="showTab('howwework',document.querySelector('[onclick*=\'howwework\']'))">🔄 How We Work</span> — RACI matrix and a step-by-step breakdown of how a session actually runs.</div>
+            <div class="about-item"><span class="about-tab" onclick="showTab('reference',document.querySelector('[onclick*=\'reference\']'))">📄 Reference</span> — CLAUDE.md standing orders, memory system pointers, and release notes.</div>
+            <div class="about-item"><span class="about-tab" onclick="showTab('seesme',document.querySelector('[onclick*=\'seesme\']'))">👁️ How Claude Sees Me</span> — Claude's live assessment of Sunny's strengths, blindspots, and working style.</div>
+          </div>
+        </div>
+      </div>
 
       <!-- SESSION -->
       <div id="tab-session" class="panel active">
@@ -889,7 +946,7 @@
             <div>
               <div class="proj-name">A-RiA Advisor</div>
               <div class="proj-sub">aria-advisor · FastAPI + React + Supabase</div>
-              <div class="proj-next">→ BUG-001: Load perf audit · FEAT-601: Excel · FEAT-602: PDF</div>
+              <div class="proj-next">→ Parked: email invite flow, superadmin client tree, advisor discovery, accept/reject clients</div>
             </div>
             <div class="proj-tags">
               <span class="tag blue">FastAPI</span>
@@ -904,7 +961,7 @@
             <div>
               <div class="proj-name">ARIA Personal</div>
               <div class="proj-sub">aria-personal · React + Shared backend</div>
-              <div class="proj-next">→ FEAT-601: Excel · FEAT-602: PDF</div>
+              <div class="proj-next">→ Advisor card full details live · direct portal client auto-create</div>
             </div>
             <div class="proj-tags">
               <span class="tag blue">React</span>
@@ -934,6 +991,18 @@
             <div class="proj-tags">
               <span class="tag blue">React</span>
               <span class="badge pending">v0.0.1</span>
+            </div>
+          </div>
+          <div class="project-row">
+            <div>
+              <div class="proj-name">Swara Samipyam</div>
+              <div class="proj-sub">Devotional lyrics link repo · v0.1.0</div>
+              <div class="proj-next">→ FEAT-002: TBD next session</div>
+            </div>
+            <div class="proj-tags">
+              <span class="tag gray">HTML/JS</span>
+              <span class="badge live">v0.1.0</span>
+              <a href="https://sunder-vasudevan.github.io/swara-samipyam/" target="_blank" style="font-size:0.72rem;color:var(--muted);text-decoration:none;">🌐 Live</a>
             </div>
           </div>
           <div class="project-row">
@@ -1257,52 +1326,57 @@
           </div>
         </div>
 
-        <div class="panel-header">
-          <div class="panel-title">Sunny Hayes — Product Owner · The human in the loop</div>
-        </div>
-        <div class="data-panel">
-          <div class="data-row">
-            <div class="col-key">🎯 Product vision</div>
-            <div class="col-val">Defined every product — ARIA Advisor, ARIA Personal, BzHub, As Gurudev Says. Set the north star, picked the markets, drove the roadmap.</div>
-            <div class="col-tag"><span class="tag red">PO</span></div>
+        <div class="panel-pair">
+          <div>
+            <div class="panel-header">
+              <div class="panel-title">Sunny Hayes — Product Owner · The human in the loop</div>
+            </div>
+            <div class="data-panel">
+              <div class="data-row">
+                <div class="col-key">🎯 Product vision</div>
+                <div class="col-val">Defined every product — ARIA Advisor, ARIA Personal, BzHub, As Gurudev Says. Set the north star, picked the markets, drove the roadmap.</div>
+                <div class="col-tag"><span class="tag red">PO</span></div>
+              </div>
+              <div class="data-row">
+                <div class="col-key">🔒 Scope &amp; approval</div>
+                <div class="col-val">Every feature, architecture decision, and deployment goes through Sunny. Nothing ships without explicit approval — the edit gate is the control layer.</div>
+                <div class="col-tag"><span class="tag red">PO</span></div>
+              </div>
+              <div class="data-row">
+                <div class="col-key">🏎️ Session operator</div>
+                <div class="col-val">Runs every session — lights out, scope lock, mid-session decisions, red flags, and wrap. PO interaction time is the only resource being measured.</div>
+                <div class="col-tag"><span class="tag red">PO</span></div>
+              </div>
+              <div class="data-row">
+                <div class="col-key">💡 Domain expertise</div>
+                <div class="col-val">Fintech, wealth management, ERP, and spiritual knowledge (Sri Aurobindo) — domain insight that makes AI output usable in the real world.</div>
+                <div class="col-tag"><span class="tag amber">Domain</span></div>
+              </div>
+            </div>
           </div>
-          <div class="data-row">
-            <div class="col-key">🔒 Scope &amp; approval</div>
-            <div class="col-val">Every feature, architecture decision, and deployment goes through Sunny. Nothing ships without explicit approval — the edit gate is the control layer.</div>
-            <div class="col-tag"><span class="tag red">PO</span></div>
+          <div>
+            <div class="panel-header">
+              <div class="panel-title">Claude AI — Primary technical co-founder</div>
+            </div>
+            <div class="data-panel">
+              <div class="data-row">
+                <div class="col-key">🏗️ Full-stack builds</div>
+                <div class="col-val">Designed and built entire ARIA stack (FastAPI + React + Supabase + Vercel/Render) and BzHub (Next.js 14 + Supabase). Every route, model, component, migration.</div>
+                <div class="col-tag"><span class="tag blue">Claude</span></div>
+              </div>
+              <div class="data-row">
+                <div class="col-key">🧠 AI features</div>
+                <div class="col-val">Built Monte Carlo engine (1,000 paths), What-If modeler, AI Copilot with client context injection, Morning Briefing, Meeting Prep Card — all Claude API.</div>
+                <div class="col-tag"><span class="tag blue">Claude</span></div>
+              </div>
+              <div class="data-row">
+                <div class="col-key">📈 Compression ratio</div>
+                <div class="col-val">9 sessions, 73 commits on ARIA alone. Individual sessions hit 60–80x on active PO interaction time. One PO, no engineering team, two market-ready products.</div>
+                <div class="col-tag"><span class="tag green">~12x avg</span></div>
+              </div>
+            </div>
           </div>
-          <div class="data-row">
-            <div class="col-key">🏎️ Session operator</div>
-            <div class="col-val">Runs every session — lights out, scope lock, mid-session decisions, red flags, and wrap. PO interaction time is the only resource being measured.</div>
-            <div class="col-tag"><span class="tag red">PO</span></div>
-          </div>
-          <div class="data-row">
-            <div class="col-key">💡 Domain expertise</div>
-            <div class="col-val">Fintech, wealth management, ERP, and spiritual knowledge (Sri Aurobindo) — domain insight that makes AI output usable in the real world.</div>
-            <div class="col-tag"><span class="tag amber">Domain</span></div>
-          </div>
-        </div>
-
-        <div class="panel-header">
-          <div class="panel-title">Claude AI — Primary technical co-founder</div>
-        </div>
-        <div class="data-panel">
-          <div class="data-row">
-            <div class="col-key">🏗️ Full-stack builds</div>
-            <div class="col-val">Designed and built entire ARIA stack (FastAPI + React + Supabase + Vercel/Render) and BzHub (Next.js 14 + Supabase). Every route, model, component, migration.</div>
-            <div class="col-tag"><span class="tag blue">Claude</span></div>
-          </div>
-          <div class="data-row">
-            <div class="col-key">🧠 AI features</div>
-            <div class="col-val">Built Monte Carlo engine (1,000 paths), What-If modeler, AI Copilot with client context injection, Morning Briefing, Meeting Prep Card — all Claude API.</div>
-            <div class="col-tag"><span class="tag blue">Claude</span></div>
-          </div>
-          <div class="data-row">
-            <div class="col-key">📈 Compression ratio</div>
-            <div class="col-val">9 sessions, 73 commits on ARIA alone. Individual sessions hit 60–80x on active PO interaction time. One PO, no engineering team, two market-ready products.</div>
-            <div class="col-tag"><span class="tag green">~12x avg</span></div>
-          </div>
-        </div>
+        </div><!-- /panel-pair -->
 
         <div class="panel-header">
           <div class="panel-title">GitHub Copilot · Microsoft Copilot</div>
@@ -1325,17 +1399,20 @@
       <!-- EFFICIENCY -->
       <div id="tab-efficiency" class="panel">
 
-        <div class="panel-header">
-          <div class="panel-title">Compression Ratio — sessions vs. 3-person team baseline</div>
-        </div>
-        <div class="card" style="margin-bottom:1.5rem">
-          <canvas id="efficiencyChart"></canvas>
-        </div>
-
-        <div class="panel-header">
-          <div class="panel-title">My Time with Claude — session duration over time</div>
-        </div>
-        <div class="card" style="margin-bottom:0.75rem">
+        <div class="panel-pair">
+          <div>
+            <div class="panel-header">
+              <div class="panel-title">Compression Ratio — sessions vs. 3-person team baseline</div>
+            </div>
+            <div class="card">
+              <canvas id="efficiencyChart"></canvas>
+            </div>
+          </div>
+          <div>
+            <div class="panel-header">
+              <div class="panel-title">My Time with Claude — session duration over time</div>
+            </div>
+            <div class="card">
           <canvas id="timeChart"></canvas>
           <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.65rem;font-size:0.72rem;align-items:center;">
             <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#2563eb;display:inline-block"></span>ARIA Advisor</span>
@@ -1346,6 +1423,8 @@
             <span style="display:flex;align-items:center;gap:0.3rem;margin-left:0.5rem;"><span style="width:20px;height:2px;background:#f59e0b;display:inline-block"></span>trend</span>
           </div>
         </div>
+          </div>
+        </div><!-- /panel-pair -->
         <div class="grid2" style="margin-bottom:1.5rem">
           <div class="mini-card">
             <div style="font-size:1.3rem;font-weight:900;color:var(--accent2)">17</div>
@@ -1367,7 +1446,7 @@
 
         <div class="panel-header">
           <div class="panel-title">Session Log</div>
-          <div class="panel-count">4 logged</div>
+          <div class="panel-count">6 logged</div>
         </div>
         <div class="data-panel" style="margin-bottom:1.5rem">
           <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
@@ -1392,6 +1471,18 @@
             <div class="col-key">2026-03-21</div>
             <div class="col-val">Helm — Project created, named, scoped. Full data model (12 tables), signal engine, 8 decisions logged</div>
             <div class="col-val" style="color:var(--muted)">~60 min · ~1 eng-day</div>
+            <div class="col-tag"><span class="tag green">~8x</span></div>
+          </div>
+          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
+            <div class="col-key">2026-03-21</div>
+            <div class="col-val">ARIA — Production outage RCA: Python 3.14 SQLAlchemy bugs (boolean filter, unmapped column, string order_by, CORS). 4 root causes fixed. runtime.txt pinned. Deep-dive RCA docs written.</div>
+            <div class="col-val" style="color:var(--muted)">~2 hrs · ~2 eng-days</div>
+            <div class="col-tag"><span class="tag green">~8x</span></div>
+          </div>
+          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
+            <div class="col-key">2026-03-21</div>
+            <div class="col-val">ARIA — Advisor profile page (self-edit), full advisor card on Personal, direct portal client auto-create + violet Direct badge, superadmin shown on login, source column migration</div>
+            <div class="col-val" style="color:var(--muted)">~1.5 hrs · ~1.5 eng-days</div>
             <div class="col-tag"><span class="tag green">~8x</span></div>
           </div>
         </div>
@@ -1576,43 +1667,62 @@
         <div class="panel-header">
           <div class="panel-title">CLAUDE.md — Claude's permanent standing orders</div>
         </div>
-        <div class="data-panel" style="margin-bottom:1.5rem">
-          <div class="data-row">
-            <div class="col-key">📍 Where it lives</div>
-            <div class="col-val"><code>~/.claude/CLAUDE.md</code> — global file, applies to every project. Projects can layer their own CLAUDE.md on top.</div>
-            <div class="col-tag"><span class="tag gray">Global</span></div>
+        <div class="panel-pair">
+          <div class="data-panel" style="margin-bottom:1.5rem">
+            <div class="data-row">
+              <div class="col-key">📍 Where it lives</div>
+              <div class="col-val"><code>~/.claude/CLAUDE.md</code> — global file, applies to every project. Projects can layer their own CLAUDE.md on top.</div>
+              <div class="col-tag"><span class="tag gray">Global</span></div>
+            </div>
+            <div class="data-row">
+              <div class="col-key">🔁 Always loaded</div>
+              <div class="col-val">Unlike memory files (loaded selectively), CLAUDE.md is always in context. Every conversation starts with these rules already active.</div>
+              <div class="col-tag"><span class="tag blue">Always</span></div>
+            </div>
+            <div class="data-row">
+              <div class="col-key">⚡ What's in yours</div>
+              <div class="col-val">Standing rules (no Co-Author tag) · Agent Protocol (edit gate, planning, subagents, verification, elegance, bugs) · gstack skills list · Session start time rule</div>
+              <div class="col-tag"><span class="tag green">Active</span></div>
+            </div>
           </div>
-          <div class="data-row">
-            <div class="col-key">🔁 Always loaded</div>
-            <div class="col-val">Unlike memory files (loaded selectively), CLAUDE.md is always in context. Every conversation starts with these rules already active.</div>
-            <div class="col-tag"><span class="tag blue">Always</span></div>
+          <div class="data-panel" style="margin-bottom:1.5rem">
+            <div class="data-row">
+              <div class="col-key">🧠 Memory vs CLAUDE.md</div>
+              <div class="col-val">Memory files store project state and feedback — loaded when relevant. CLAUDE.md stores rules that must always be active regardless of project.</div>
+              <div class="col-tag"><span class="tag gray">Distinction</span></div>
+            </div>
+            <div class="data-row">
+              <div class="col-key">🪝 Hooks (settings.json)</div>
+              <div class="col-val">Hooks in <code>~/.claude/settings.json</code> fire when you say trigger words (wrap, lights out, first principles). They inject the trigger file instructions before Claude reads your message.</div>
+              <div class="col-tag"><span class="tag blue">Hooks</span></div>
+            </div>
+            <div class="data-row">
+              <div class="col-key">✏️ When to update</div>
+              <div class="col-val">When a rule should apply to every project forever. Project-specific things go in project memory files or a project-level CLAUDE.md.</div>
+              <div class="col-tag"><span class="tag gray">Guide</span></div>
+            </div>
           </div>
-          <div class="data-row">
-            <div class="col-key">⚡ What's in yours</div>
-            <div class="col-val">Standing rules (no Co-Author tag) · Agent Protocol (edit gate, planning, subagents, verification, elegance, bugs) · gstack skills list · Session start time rule</div>
-            <div class="col-tag"><span class="tag green">Active</span></div>
-          </div>
-          <div class="data-row">
-            <div class="col-key">🧠 Memory vs CLAUDE.md</div>
-            <div class="col-val">Memory files store project state and feedback — loaded when relevant. CLAUDE.md stores rules that must always be active regardless of project.</div>
-            <div class="col-tag"><span class="tag gray">Distinction</span></div>
-          </div>
-          <div class="data-row">
-            <div class="col-key">🪝 Hooks (settings.json)</div>
-            <div class="col-val">Hooks in <code>~/.claude/settings.json</code> fire when you say trigger words (wrap, lights out, first principles). They inject the trigger file instructions before Claude reads your message.</div>
-            <div class="col-tag"><span class="tag blue">Hooks</span></div>
-          </div>
-          <div class="data-row">
-            <div class="col-key">✏️ When to update</div>
-            <div class="col-val">When a rule should apply to every project forever. Project-specific things go in project memory files or a project-level CLAUDE.md.</div>
-            <div class="col-tag"><span class="tag gray">Guide</span></div>
-          </div>
-        </div>
+        </div><!-- /panel-pair -->
 
         <div class="panel-header">
           <div class="panel-title">Release Notes — Command Centre</div>
         </div>
         <div class="card">
+          <div class="release"><span class="rel-version">v2.4.0</span><span class="rel-date">2026-03-21</span>
+            <ul>
+              <li>Swara Samipyam added to projects panel — v0.1.0 live on GitHub Pages</li>
+              <li>/wrap and /lights-out skills created</li>
+              <li>session_wrap.md updated with command-centre update step</li>
+              <li>Efficiency chart + time chart updated with Swara + Meta sessions</li>
+            </ul>
+          </div>
+          <div class="release"><span class="rel-version">v2.3.0</span><span class="rel-date">2026-03-21</span>
+            <ul>
+              <li>Projects updated: ARIA Advisor next steps, ARIA Personal status</li>
+              <li>Session log: ARIA RCA + advisor profile + direct client features</li>
+              <li>Version badge bumped to v2.3.0</li>
+            </ul>
+          </div>
           <div class="release"><span class="rel-version">v2.2.0</span><span class="rel-date">2026-03-21</span>
             <ul>
               <li>Full redesign — Option B "Operator View": dark header, Inter font, persistent sidebar, data panels with alternating row tints</li>
@@ -1947,8 +2057,12 @@
         { label: 'Mar 20\nMeta',         project: 'Meta',            mins: 90,  tokens: 85297  },
         { label: 'Mar 21\nMeta',         project: 'Meta',            mins: 120, tokens: null   },
         { label: 'Mar 21\nHelm',         project: 'Helm',            mins: 60,  tokens: 215079 },
+        { label: 'Mar 21\nARIA RCA',     project: 'ARIA Advisor',    mins: 120, tokens: null   },
+        { label: 'Mar 21\nARIA Feats',   project: 'ARIA Advisor',    mins: 90,  tokens: null   },
+        { label: 'Mar 21\nSwara',        project: 'Swara Samipyam',  mins: 45,  tokens: null   },
+        { label: 'Mar 21\nMeta',         project: 'Meta',            mins: 30,  tokens: null   },
       ];
-      const pColor = { 'ARIA Advisor': '#2563eb', 'BzHub': '#059669', 'Meta': '#e10600', 'As Gurudev Says': '#7c3aed', 'Helm': '#0ea5e9' };
+      const pColor = { 'ARIA Advisor': '#2563eb', 'BzHub': '#059669', 'Meta': '#e10600', 'As Gurudev Says': '#7c3aed', 'Helm': '#0ea5e9', 'Swara Samipyam': '#d97706' };
       const mins = sessions.map(s => s.mins);
       const tokensK = sessions.map(s => s.tokens !== null ? Math.round(s.tokens / 1000) : null);
       const n = mins.length;
@@ -2005,11 +2119,11 @@
       new Chart(document.getElementById('efficiencyChart').getContext('2d'), {
         type: 'bar',
         data: {
-          labels: ['2026-03-18 Meta', '2026-03-18 ARIA', '2026-03-20 Meta'],
+          labels: ['03-18 Meta', '03-18 ARIA', '03-20 Meta', '03-21 Meta', '03-21 Helm', '03-21 ARIA RCA', '03-21 ARIA Feats', '03-21 Swara', '03-21 Meta'],
           datasets: [
-            { label: 'PO Time (hrs)', data: [1, 2, 1.5],
+            { label: 'PO Time (hrs)', data: [1, 2, 1.5, 2, 1, 2, 1.5, 0.75, 0.5],
               backgroundColor: '#2563ebcc', borderColor: '#2563eb', borderWidth: 2, borderRadius: 6 },
-            { label: '3-Person Team Equiv. (hrs)', data: [12, 16, 7.5],
+            { label: '3-Person Team Equiv. (hrs)', data: [12, 16, 7.5, 8, 8, 16, 12, 12, 4],
               backgroundColor: '#e10600cc', borderColor: '#e10600', borderWidth: 2, borderRadius: 6 }
           ]
         },
