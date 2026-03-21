@@ -2048,55 +2048,42 @@
         { label: 'Mar 21\nMeta',         project: 'Meta',            mins: 30,  tokens: null   },
       ];
       const pColor = { 'ARIA Advisor': '#2563eb', 'BzHub': '#059669', 'Meta': '#e10600', 'As Gurudev Says': '#7c3aed', 'Helm': '#0ea5e9', 'Swara Samipyam': '#d97706' };
-      const mins = sessions.map(s => s.mins);
-      const tokensK = sessions.map(s => s.tokens !== null ? Math.round(s.tokens / 1000) : null);
-      const n = mins.length;
-      const sumX = mins.reduce((a,_,i) => a+i, 0);
-      const sumY = mins.reduce((a,v) => a+v, 0);
-      const sumXY = mins.reduce((a,v,i) => a+i*v, 0);
-      const sumX2 = mins.reduce((a,_,i) => a+i*i, 0);
-      const slope = (n*sumXY - sumX*sumY) / (n*sumX2 - sumX*sumX);
-      const intercept = (sumY - slope*sumX) / n;
-      const trend = mins.map((_,i) => Math.round(intercept + slope*i));
+
+      // Build stacked chart — group by date, stack by project
+      const projects = Object.keys(pColor);
+      const dayMap = {}; // { 'Mar 12': { BzHub: 105, ... }, ... }
+      const dayOrder = [];
+      sessions.forEach(s => {
+        const day = s.label.split('\n')[0];
+        if (!dayMap[day]) { dayMap[day] = {}; dayOrder.push(day); }
+        dayMap[day][s.project] = (dayMap[day][s.project] || 0) + s.mins;
+      });
+      const stackDays = [...new Set(dayOrder)];
+      const stackDatasets = projects.map(proj => ({
+        label: proj,
+        data: stackDays.map(d => dayMap[d]?.[proj] || 0),
+        backgroundColor: pColor[proj] + 'cc',
+        borderColor: pColor[proj],
+        borderWidth: 1,
+        borderRadius: 3,
+        stack: 'stack'
+      }));
 
       new Chart(document.getElementById('timeChart').getContext('2d'), {
         type: 'bar',
-        data: {
-          labels: sessions.map(s => s.label),
-          datasets: [
-            { type: 'bar', label: 'Session (mins)', data: mins,
-              backgroundColor: sessions.map(s => (pColor[s.project]||'#6b7280')+'bb'),
-              borderColor: sessions.map(s => pColor[s.project]||'#6b7280'),
-              borderWidth: 2, borderRadius: 4, yAxisID: 'y', order: 3 },
-            { type: 'line', label: 'Duration Trend', data: trend,
-              borderColor: '#f59e0b', borderWidth: 2.5, borderDash: [5,3],
-              pointRadius: 3, pointBackgroundColor: '#f59e0b',
-              fill: false, tension: 0.3, yAxisID: 'y', order: 2 },
-            { type: 'line', label: 'Tokens (k)', data: tokensK,
-              borderColor: '#e10600', borderWidth: 2,
-              pointRadius: 5, pointBackgroundColor: '#e10600',
-              fill: false, tension: 0.3, spanGaps: false, yAxisID: 'y2', order: 1 }
-          ]
-        },
+        data: { labels: stackDays, datasets: stackDatasets },
         options: {
           responsive: true,
-          maintainAspectRatio: true,
-          aspectRatio: 2.5,
+          maintainAspectRatio: false,
           plugins: {
             legend: { display: true, labels: { boxWidth: 12, font: { size: 11 } } },
             tooltip: { callbacks: {
-              title: (i) => sessions[i[0].dataIndex].label.replace('\n', ' — '),
-              label: (i) => {
-                if (i.dataset.label === 'Tokens (k)') return i.parsed.y !== null ? `Tokens: ${i.parsed.y}k` : 'Tokens: no data';
-                if (i.dataset.label === 'Duration Trend') return `Trend: ${i.parsed.y} mins`;
-                return `${i.parsed.y} mins`;
-              }
+              label: (i) => i.parsed.y > 0 ? `${i.dataset.label}: ${i.parsed.y} mins` : null
             }}
           },
           scales: {
-            y:  { beginAtZero: true, title: { display: true, text: 'Minutes' }, grid: { color: '#e2e5f0' } },
-            y2: { beginAtZero: true, position: 'right', title: { display: true, text: 'Tokens (k)' }, grid: { display: false } },
-            x:  { grid: { display: false }, ticks: { font: { size: 9 }, maxRotation: 45 } }
+            y: { stacked: true, beginAtZero: true, title: { display: true, text: 'Minutes' }, grid: { color: '#e2e5f0' } },
+            x: { stacked: true, grid: { display: false } }
           }
         }
       });
