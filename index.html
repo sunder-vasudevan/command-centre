@@ -714,7 +714,7 @@
         <input type="text" id="searchInput" placeholder="Search…" oninput="doSearch(this.value)">
         <div class="search-results" id="searchResults"></div>
       </div>
-      <div class="version-badge">v2.4.0</div>
+      <div class="version-badge">2026-03-21 23:17</div>
     </div>
   </header>
 
@@ -724,7 +724,7 @@
     <aside class="sidebar">
       <div class="sidebar-label">Live Metrics</div>
       <div class="metric-card">
-        <div class="metric-val red">4</div>
+        <div class="metric-val red">5</div>
         <div class="metric-lbl">Active projects</div>
       </div>
       <div class="metric-card">
@@ -765,20 +765,6 @@
       <div class="about-banner" id="aboutBanner">
         <div class="about-summary">
           <strong>Claude Command Centre</strong> is Sunny Hayes (aka Sunder Vasudevan)'s personal dashboard for managing AI-assisted product development. It tracks active projects, session efficiency, working agreements, and tools — all in one place.
-          <button class="about-toggle" onclick="document.getElementById('aboutDetail').style.display=document.getElementById('aboutDetail').style.display==='none'?'block':'none';this.textContent=this.textContent==='▼ Show tab guide'?'▲ Hide tab guide':'▼ Show tab guide'">▼ Show tab guide</button>
-        </div>
-        <div id="aboutDetail" style="display:none;margin-top:0.75rem;display:none">
-          <div class="about-grid">
-            <div class="about-item"><span class="about-tab" onclick="showTab('session',document.querySelector('[onclick*=\'session\']'))">🚦 Session</span> — Start here. Race Control triggers + Agent Protocol rules for every session.</div>
-            <div class="about-item"><span class="about-tab" onclick="showTab('thinking',document.querySelector('[onclick*=\'thinking\']'))">🔬 Thinking</span> — First principles and mental models Claude applies before building anything.</div>
-            <div class="about-item"><span class="about-tab" onclick="showTab('projects',document.querySelector('[onclick*=\'projects\']'))">🏎️ Projects</span> — Live status of all active projects with quick links and docs.</div>
-            <div class="about-item"><span class="about-tab" onclick="showTab('rules',document.querySelector('[onclick*=\'rules\']'))">📏 Rules</span> — Standing rules, Definition of Done, and Design/Code standards.</div>
-            <div class="about-item"><span class="about-tab" onclick="showTab('tools',document.querySelector('[onclick*=\'tools\']'))">🛠️ Tools</span> — The full gstack skill list, role definitions (Sunny / Claude / Copilot).</div>
-            <div class="about-item"><span class="about-tab" onclick="showTab('efficiency',document.querySelector('[onclick*=\'efficiency\']'))">📊 Efficiency</span> — Compression ratio charts and session duration logs vs. a 3-person team baseline.</div>
-            <div class="about-item"><span class="about-tab" onclick="showTab('howwework',document.querySelector('[onclick*=\'howwework\']'))">🔄 How We Work</span> — RACI matrix and a step-by-step breakdown of how a session actually runs.</div>
-            <div class="about-item"><span class="about-tab" onclick="showTab('reference',document.querySelector('[onclick*=\'reference\']'))">📄 Reference</span> — CLAUDE.md standing orders, memory system pointers, and release notes.</div>
-            <div class="about-item"><span class="about-tab" onclick="showTab('seesme',document.querySelector('[onclick*=\'seesme\']'))">👁️ How Claude Sees Me</span> — Claude's live assessment of Sunny's strengths, blindspots, and working style.</div>
-          </div>
         </div>
       </div>
 
@@ -939,7 +925,7 @@
 
         <div class="panel-header">
           <div class="panel-title">Active Projects</div>
-          <div class="panel-count">4 projects</div>
+          <div class="panel-count">5 projects</div>
         </div>
         <div class="data-panel">
           <div class="project-row">
@@ -1399,32 +1385,31 @@
       <!-- EFFICIENCY -->
       <div id="tab-efficiency" class="panel">
 
-        <div class="panel-pair">
-          <div>
-            <div class="panel-header">
-              <div class="panel-title">Compression Ratio — sessions vs. 3-person team baseline</div>
-            </div>
-            <div class="card">
-              <canvas id="efficiencyChart"></canvas>
-            </div>
+        <div style="margin-bottom:1.5rem">
+          <div class="panel-header">
+            <div class="panel-title">Compression Ratio — sessions vs. 3-person team baseline</div>
           </div>
-          <div>
-            <div class="panel-header">
-              <div class="panel-title">My Time with Claude — session duration over time</div>
-            </div>
-            <div class="card">
-          <canvas id="timeChart"></canvas>
-          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.65rem;font-size:0.72rem;align-items:center;">
-            <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#2563eb;display:inline-block"></span>ARIA Advisor</span>
-            <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#059669;display:inline-block"></span>BzHub</span>
-            <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#e10600;display:inline-block"></span>Meta</span>
-            <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#7c3aed;display:inline-block"></span>As Gurudev Says</span>
-            <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#0ea5e9;display:inline-block"></span>Helm</span>
-            <span style="display:flex;align-items:center;gap:0.3rem;margin-left:0.5rem;"><span style="width:20px;height:2px;background:#f59e0b;display:inline-block"></span>trend</span>
+          <div class="card">
+            <div style="position:relative;height:280px;"><canvas id="efficiencyChart"></canvas></div>
           </div>
         </div>
+        <div style="margin-bottom:1.5rem">
+          <div class="panel-header">
+            <div class="panel-title">My Time with Claude — session duration over time</div>
           </div>
-        </div><!-- /panel-pair -->
+          <div class="card">
+            <div style="position:relative;height:280px;"><canvas id="timeChart"></canvas></div>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.65rem;font-size:0.72rem;align-items:center;">
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#2563eb;display:inline-block"></span>ARIA Advisor</span>
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#059669;display:inline-block"></span>BzHub</span>
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#e10600;display:inline-block"></span>Meta</span>
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#7c3aed;display:inline-block"></span>As Gurudev Says</span>
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#0ea5e9;display:inline-block"></span>Helm</span>
+              <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#d97706;display:inline-block"></span>Swara Samipyam</span>
+              <span style="display:flex;align-items:center;gap:0.3rem;margin-left:0.5rem;"><span style="width:20px;height:2px;background:#f59e0b;display:inline-block"></span>trend</span>
+            </div>
+          </div>
+        </div>
         <div class="grid2" style="margin-bottom:1.5rem">
           <div class="mini-card">
             <div style="font-size:1.3rem;font-weight:900;color:var(--accent2)">17</div>
