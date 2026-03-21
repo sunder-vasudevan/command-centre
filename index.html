@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Command Centre — Sunny Hayes</title>
+  <title>🏁 Claude Command Centre — Sunny Hayes</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -51,11 +51,15 @@
     .header-brand {
       color: #fff;
       font-weight: 800;
-      font-size: 0.85rem;
-      letter-spacing: -0.01em;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
       white-space: nowrap;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
+    .header-brand .flag { font-size: 1.2rem; line-height: 1; }
     .header-brand span { color: var(--accent); }
 
     .header-tabs {
@@ -656,7 +660,7 @@
 
   <!-- Header -->
   <header class="app-header">
-    <div class="header-brand">Claude <span>■</span> Command Centre</div>
+    <div class="header-brand"><span class="flag">🏁</span> Claude <span>■</span> Command Centre</div>
     <div class="header-tabs">
       <button class="tab-btn active"  onclick="showTab('session',this)">🚦 Session</button>
       <button class="tab-btn"         onclick="showTab('thinking',this)">🔬 Thinking</button>
@@ -1311,14 +1315,14 @@
           <div class="panel-title">Compression Ratio — sessions vs. 3-person team baseline</div>
         </div>
         <div class="card" style="margin-bottom:1.5rem">
-          <canvas id="efficiencyChart" height="120"></canvas>
+          <canvas id="efficiencyChart"></canvas>
         </div>
 
         <div class="panel-header">
           <div class="panel-title">My Time with Claude — session duration over time</div>
         </div>
         <div class="card" style="margin-bottom:0.75rem">
-          <canvas id="timeChart" height="110"></canvas>
+          <canvas id="timeChart"></canvas>
           <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.65rem;font-size:0.72rem;align-items:center;">
             <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#2563eb;display:inline-block"></span>ARIA Advisor</span>
             <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#059669;display:inline-block"></span>BzHub</span>
@@ -1955,6 +1959,8 @@
         },
         options: {
           responsive: true,
+          maintainAspectRatio: true,
+          aspectRatio: 2.5,
           plugins: {
             legend: { display: true, labels: { boxWidth: 12, font: { size: 11 } } },
             tooltip: { callbacks: {
