@@ -700,7 +700,7 @@
         <div class="metric-lbl">Next appraisal</div>
       </div>
       <div class="metric-card">
-        <div class="metric-val">16</div>
+        <div class="metric-val">17</div>
         <div class="metric-lbl">Sessions logged</div>
       </div>
 
@@ -719,6 +719,7 @@
       <div class="sidebar-link" onclick="showTab('projects', document.querySelector('[onclick*=\'projects\']'))">🟢 BzHub — v5.1.0</div>
       <div class="sidebar-link" onclick="showTab('projects', document.querySelector('[onclick*=\'projects\']'))">🟡 ARIA Personal</div>
       <div class="sidebar-link" onclick="showTab('projects', document.querySelector('[onclick*=\'projects\']'))">🟡 As Gurudev Says</div>
+      <div class="sidebar-link" onclick="showTab('projects', document.querySelector('[onclick*=\'projects\']'))">🔵 Helm — v0.0.1</div>
     </aside>
 
     <!-- Main content -->
@@ -1328,31 +1329,32 @@
             <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#059669;display:inline-block"></span>BzHub</span>
             <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#e10600;display:inline-block"></span>Meta</span>
             <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#7c3aed;display:inline-block"></span>As Gurudev Says</span>
+            <span style="display:flex;align-items:center;gap:0.3rem;"><span style="width:10px;height:10px;border-radius:50%;background:#0ea5e9;display:inline-block"></span>Helm</span>
             <span style="display:flex;align-items:center;gap:0.3rem;margin-left:0.5rem;"><span style="width:20px;height:2px;background:#f59e0b;display:inline-block"></span>trend</span>
           </div>
         </div>
         <div class="grid2" style="margin-bottom:1.5rem">
           <div class="mini-card">
-            <div style="font-size:1.3rem;font-weight:900;color:var(--accent2)">16</div>
+            <div style="font-size:1.3rem;font-weight:900;color:var(--accent2)">17</div>
             <div style="font-size:0.72rem;color:var(--muted)">Sessions logged</div>
           </div>
           <div class="mini-card">
-            <div style="font-size:1.3rem;font-weight:900;color:var(--accent2)">~720 min</div>
-            <div style="font-size:0.72rem;color:var(--muted)">Total (~12 hrs)</div>
+            <div style="font-size:1.3rem;font-weight:900;color:var(--accent2)">~780 min</div>
+            <div style="font-size:0.72rem;color:var(--muted)">Total (~13 hrs)</div>
           </div>
           <div class="mini-card">
-            <div style="font-size:1.3rem;font-weight:900;color:var(--accent2)">4</div>
+            <div style="font-size:1.3rem;font-weight:900;color:var(--accent2)">5</div>
             <div style="font-size:0.72rem;color:var(--muted)">Projects</div>
           </div>
           <div class="mini-card">
-            <div style="font-size:1.3rem;font-weight:900;color:var(--accent2)">~45 min</div>
+            <div style="font-size:1.3rem;font-weight:900;color:var(--accent2)">~46 min</div>
             <div style="font-size:0.72rem;color:var(--muted)">Avg session</div>
           </div>
         </div>
 
         <div class="panel-header">
           <div class="panel-title">Session Log</div>
-          <div class="panel-count">3 logged</div>
+          <div class="panel-count">4 logged</div>
         </div>
         <div class="data-panel" style="margin-bottom:1.5rem">
           <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
@@ -1372,6 +1374,12 @@
             <div class="col-val">Meta — CLAUDE.md, first_principles trigger, HELP.html v1.0–v1.4, VS Code setup</div>
             <div class="col-val" style="color:var(--muted)">~90 min · ~1 eng-day</div>
             <div class="col-tag"><span class="tag green">~5x</span></div>
+          </div>
+          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
+            <div class="col-key">2026-03-21</div>
+            <div class="col-val">Helm — Project created, named, scoped. Full data model (12 tables), signal engine, 8 decisions logged</div>
+            <div class="col-val" style="color:var(--muted)">~60 min · ~1 eng-day</div>
+            <div class="col-tag"><span class="tag green">~8x</span></div>
           </div>
         </div>
 
@@ -1925,8 +1933,9 @@
         { label: 'Mar 18\nMeta',         project: 'Meta',            mins: 60,  tokens: null   },
         { label: 'Mar 20\nMeta',         project: 'Meta',            mins: 90,  tokens: 85297  },
         { label: 'Mar 21\nMeta',         project: 'Meta',            mins: 120, tokens: null   },
+        { label: 'Mar 21\nHelm',         project: 'Helm',            mins: 60,  tokens: 215079 },
       ];
-      const pColor = { 'ARIA Advisor': '#2563eb', 'BzHub': '#059669', 'Meta': '#e10600', 'As Gurudev Says': '#7c3aed' };
+      const pColor = { 'ARIA Advisor': '#2563eb', 'BzHub': '#059669', 'Meta': '#e10600', 'As Gurudev Says': '#7c3aed', 'Helm': '#0ea5e9' };
       const mins = sessions.map(s => s.mins);
       const tokensK = sessions.map(s => s.tokens !== null ? Math.round(s.tokens / 1000) : null);
       const n = mins.length;
