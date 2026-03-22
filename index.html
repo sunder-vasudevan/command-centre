@@ -1544,7 +1544,7 @@
   </style>
 <!-- CONTEXT-DUMP-START -->
 <script>window.__CONTEXT_DUMP__ = `# Sunny Hayes — AI Context Dump
-_Generated: 2026-03-22 19:25_
+_Generated: 2026-03-22 19:32_
 _Paste this at the start of any AI chat (Copilot, Claude.ai web) to give full context._
 
 ---
@@ -3635,10 +3635,10 @@ _End of context dump_
         </div>
         <div class="card">
 
-          <div class="release">
-            <span class="rel-version">2026-03-22</span>
+          <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;">
+            <span class="rel-version" style="color:#64748b">2026-03-22 · Meta</span>
             <div style="margin-top:0.5rem">
-              <div class="rel-session">~19:06 · Meta — Copy Context system + cross-tool context bridge</div>
+              <div class="rel-session">~19:06 · Cross-tool context bridge</div>
               <ul>
                 <li>Copy Context button added to Command Centre header — one click copies full context-dump.md to clipboard</li>
                 <li><code>generate-context-dump.sh</code> built — pulls from memory files, injects into index.html at every /wrap</li>
@@ -3646,9 +3646,13 @@ _End of context dump_
                 <li>MCP context server parked as long-term Option 2 for full cross-client context sync</li>
                 <li>Root-caused Vercel stale alias issue — confirmed in memory, fixed in one command</li>
               </ul>
-              <div class="rel-learn">💡 Learnt: Vercel stale content = stale alias (not CDN cache). Always re-alias after vercel --prod. Other AI tools go in circles without persistent context — a paste-ready dump breaks the loop.</div>
+              <div class="rel-learn">💡 Learnt: Context gap between Claude Code and other tools is the real problem. Copy Context button is the fix. Vercel stale = stale alias not CDN cache.</div>
             </div>
-            <div style="margin-top:0.75rem">
+          </div>
+
+          <div class="release">
+            <span class="rel-version">2026-03-22</span>
+            <div style="margin-top:0.5rem">
               <div class="rel-session">felt — v0.2.0 Playground layout rewrite</div>
               <ul>
                 <li>Complete UI rewrite: playground layout with always-visible 6-emoji sidebar (desktop) / bottom panel
