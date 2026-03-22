@@ -1544,7 +1544,7 @@
   </style>
 <!-- CONTEXT-DUMP-START -->
 <script>window.__CONTEXT_DUMP__ = `# Sunny Hayes — AI Context Dump
-_Generated: 2026-03-22 20:07_
+_Generated: 2026-03-22 20:12_
 _Paste this at the start of any AI chat (Copilot, Claude.ai web) to give full context._
 
 ---
@@ -2111,6 +2111,34 @@ _End of context dump_
             <li><strong style="color:var(--text)">Vercel alias root cause</strong> — stale alias (not CDN cache) was why Command Centre showed yesterday's content; re-alias step confirmed in memory</li>
             <li><strong style="color:var(--text)">MCP context server parked</strong> — long-term solution for full cross-client persistent context without copy-paste</li>
           </ul>
+        </div>
+
+        <div class="panel-header" style="margin-top:1.5rem">
+          <div class="panel-title">Meta Learnings — How the System Works</div>
+        </div>
+        <div class="card">
+          <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;">
+            <span class="rel-version" style="color:#64748b">2026-03-22</span>
+            <ul style="margin-top:0.5rem">
+              <li>Vercel stale content = stale alias, not CDN cache. Re-alias after every <code>vercel --prod</code>. One command, 10 seconds.</li>
+              <li>The gap between Claude Code and other AI tools is not capability — it's context. Memory + CLAUDE.md = instant grounding. Without it, capable tools like Copilot go in circles.</li>
+              <li>Copy Context button closes the cross-tool gap — one click, paste into any AI chat.</li>
+            </ul>
+          </div>
+          <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;margin-top:0.75rem">
+            <span class="rel-version" style="color:#64748b">2026-03-21</span>
+            <ul style="margin-top:0.5rem">
+              <li>Token cost is not just what you type — hooks inject full trigger files before you send a word. Plugin skill lists load into every session context.</li>
+              <li>CSS @media + display:none on a wrapped span collapses header brand on mobile with zero JS.</li>
+              <li>Session log in a dashboard should be git log-driven — never rely on memory alone.</li>
+            </ul>
+          </div>
+          <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;margin-top:0.75rem">
+            <span class="rel-version" style="color:#64748b">2026-03-20</span>
+            <ul style="margin-top:0.5rem">
+              <li>GitHub Pages serves rendered HTML at the Pages URL — clicking a file in the repo always shows source code, not the rendered page. Always link to the Pages URL.</li>
+            </ul>
+          </div>
         </div>
 
       </div><!-- /tab-session -->
@@ -3629,34 +3657,6 @@ _End of context dump_
             </div>
           </div>
         </div><!-- /panel-pair -->
-
-        <div class="panel-header">
-  <div class="panel-title">Meta Learnings — How the System Works</div>
-</div>
-<div class="card">
-  <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;">
-    <span class="rel-version" style="color:#64748b">2026-03-22</span>
-    <ul style="margin-top:0.5rem">
-      <li>Vercel stale content = stale alias, not CDN cache. Re-alias after every <code>vercel --prod</code>. One command, 10 seconds.</li>
-      <li>The gap between Claude Code and other AI tools is not capability — it's context. Memory + CLAUDE.md = instant grounding. Without it, capable tools like Copilot go in circles.</li>
-      <li>Copy Context button closes the cross-tool gap — one click, paste into any AI chat.</li>
-    </ul>
-  </div>
-  <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;margin-top:0.75rem">
-    <span class="rel-version" style="color:#64748b">2026-03-21</span>
-    <ul style="margin-top:0.5rem">
-      <li>Token cost is not just what you type — hooks inject full trigger files before you send a word. Plugin skill lists load into every session context.</li>
-      <li>CSS @media + display:none on a wrapped span collapses header brand on mobile with zero JS.</li>
-      <li>Session log in a dashboard should be git log-driven — never rely on memory alone.</li>
-    </ul>
-  </div>
-  <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;margin-top:0.75rem">
-    <span class="rel-version" style="color:#64748b">2026-03-20</span>
-    <ul style="margin-top:0.5rem">
-      <li>GitHub Pages serves rendered HTML at the Pages URL — clicking a file in the repo always shows source code, not the rendered page. Always link to the Pages URL.</li>
-    </ul>
-  </div>
-</div>
 
         <div class="panel-header">
           <div class="panel-title">Session Log — What Shipped</div>
