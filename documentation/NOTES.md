@@ -9,7 +9,10 @@
 - **Why:** Command Centre is a personal tool with sensitive session/appraisal data. CLI-only gives full control over when changes go live. Auto-deploy disabled to prevent accidental exposure.
 - **Convention:** `vercel --prod` run manually at each major release only.
 - **Live URL:** https://claude-command-centre.vercel.app
-- **Alias set:** `claude-command-centre.vercel.app` → `command-centre-hr08oww8c-sunder-vasudevans-projects.vercel.app`
+- **Deploy protocol:** After every `vercel --prod`, always re-run the alias command — Vercel creates a new deployment URL each time and the alias must be re-pointed manually.
+  ```
+  vercel alias <new-deployment-url> claude-command-centre.vercel.app
+  ```
 
 ### 2026-03-21 — "How Claude Sees Me" Tab
 - **Decision:** Added as a new tab using existing `<details class="section">` collapsible pattern. Four collapsible sections: Assessment (open), Trait Profile, Strengths, Honest Gaps. 15-Day Focus (open) with countdown bar.
