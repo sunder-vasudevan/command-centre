@@ -1544,7 +1544,7 @@
   </style>
 <!-- CONTEXT-DUMP-START -->
 <script>window.__CONTEXT_DUMP__ = `# Sunny Hayes — AI Context Dump
-_Generated: 2026-03-22 20:12_
+_Generated: 2026-03-22 20:16_
 _Paste this at the start of any AI chat (Copilot, Claude.ai web) to give full context._
 
 ---
@@ -2119,10 +2119,14 @@ _End of context dump_
         <div class="card">
           <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;">
             <span class="rel-version" style="color:#64748b">2026-03-22</span>
-            <ul style="margin-top:0.5rem">
-              <li>Vercel stale content = stale alias, not CDN cache. Re-alias after every <code>vercel --prod</code>. One command, 10 seconds.</li>
-              <li>The gap between Claude Code and other AI tools is not capability — it's context. Memory + CLAUDE.md = instant grounding. Without it, capable tools like Copilot go in circles.</li>
-              <li>Copy Context button closes the cross-tool gap — one click, paste into any AI chat.</li>
+            <div class="rel-session" style="margin-top:0.5rem;font-size:0.78rem;color:#64748b">~19:06 · Cross-tool context bridge</div>
+            <ul style="margin-top:0.4rem">
+              <li>Copy Context button — one click copies full context-dump.md to clipboard for pasting into any AI tool</li>
+              <li><code>generate-context-dump.sh</code> built — pulls from memory files, injects into Command Centre at every /wrap</li>
+              <li><code>inbox.md</code> pattern — paste findings from Copilot/Claude.ai web, Claude Code picks up at lights-out</li>
+              <li>MCP context server parked as long-term cross-client context sync solution</li>
+              <li>Vercel stale content = stale alias, not CDN cache. Re-alias after every <code>vercel --prod</code>.</li>
+              <li>Context gap between Claude Code and other tools is not capability — it's context. Memory + CLAUDE.md = instant grounding.</li>
             </ul>
           </div>
           <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;margin-top:0.75rem">
@@ -3662,21 +3666,6 @@ _End of context dump_
           <div class="panel-title">Session Log — What Shipped</div>
         </div>
         <div class="card">
-
-          <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;">
-            <span class="rel-version" style="color:#64748b">2026-03-22 · Meta</span>
-            <div style="margin-top:0.5rem">
-              <div class="rel-session">~19:06 · Cross-tool context bridge</div>
-              <ul>
-                <li>Copy Context button added to Command Centre header — one click copies full context-dump.md to clipboard</li>
-                <li><code>generate-context-dump.sh</code> built — pulls from memory files, injects into index.html at every /wrap</li>
-                <li><code>inbox.md</code> pattern established — paste findings from Copilot/Claude.ai web, picked up at lights-out</li>
-                <li>MCP context server parked as long-term Option 2 for full cross-client context sync</li>
-                <li>Root-caused Vercel stale alias issue — confirmed in memory, fixed in one command</li>
-              </ul>
-              <div class="rel-learn">💡 Learnt: Context gap between Claude Code and other tools is the real problem. Copy Context button is the fix. Vercel stale = stale alias not CDN cache.</div>
-            </div>
-          </div>
 
           <div class="release">
             <span class="rel-version">2026-03-22</span>
