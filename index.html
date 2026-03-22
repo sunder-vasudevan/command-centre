@@ -1544,7 +1544,7 @@
   </style>
 <!-- CONTEXT-DUMP-START -->
 <script>window.__CONTEXT_DUMP__ = `# Sunny Hayes — AI Context Dump
-_Generated: 2026-03-22 19:23_
+_Generated: 2026-03-22 19:25_
 _Paste this at the start of any AI chat (Copilot, Claude.ai web) to give full context._
 
 ---
@@ -2101,20 +2101,15 @@ _End of context dump_
         </div>
 
         <div class="panel-header" style="margin-top:1.5rem">
-          <div class="panel-title">Last Session — 2026-03-22</div>
+          <div class="panel-title">Last Session — 2026-03-22 · 19:06</div>
         </div>
         <div class="mini-card">
           <ul style="padding-left:1.1rem;margin:0;font-size:0.78rem;color:var(--muted);line-height:1.8">
-            <li><strong style="color:var(--text)">felt v0.2.0 shipped</strong> — complete UI rewrite, playground layout
-              with tap-to-spawn emoji sidebar, dark/light theme, mobile responsive</li>
-            <li><strong style="color:var(--text)">Command Centre restructured</strong> — project-centric layout with
-              per-project detail sections (about, stack, design, learnings, flow, pending, stats)</li>
-            <li><strong style="color:var(--text)">Collapsible headers</strong> — all sections collapse by default,
-              colored backgrounds with 10-color rotating palette, 1.3rem arrows</li>
-            <li><strong style="color:var(--text)">Chart fixes</strong> — Mar 22 sessions added to stacked chart,
-              felt added to pColor + legend, duplicate Chart.js legend removed</li>
-            <li><strong style="color:var(--text)">Efficiency updated</strong> — 25 sessions, ~960 min, 7 projects,
-              sidebar metrics synced</li>
+            <li><strong style="color:var(--text)">Copy Context button</strong> — one-click copy of full AI context (who you are, projects, rules) to paste into Copilot / Claude.ai web</li>
+            <li><strong style="color:var(--text)">context-dump.md system</strong> — <code>generate-context-dump.sh</code> auto-regenerates at every /wrap and injects into Command Centre</li>
+            <li><strong style="color:var(--text)">inbox.md pattern</strong> — drop findings from other AI tools here; Claude Code picks them up at next lights-out</li>
+            <li><strong style="color:var(--text)">Vercel alias root cause</strong> — stale alias (not CDN cache) was why Command Centre showed yesterday's content; re-alias step confirmed in memory</li>
+            <li><strong style="color:var(--text)">MCP context server parked</strong> — long-term solution for full cross-client persistent context without copy-paste</li>
           </ul>
         </div>
 
@@ -3374,6 +3369,12 @@ _End of context dump_
             <div class="col-val" style="color:var(--muted)">~1 hr · ~1 eng-day</div>
             <div class="col-tag"><span class="tag green">~8x</span></div>
           </div>
+          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
+            <div class="col-key">2026-03-22</div>
+            <div class="col-val">Meta — Copy Context button, context-dump system, inbox.md cross-tool bridge</div>
+            <div class="col-val" style="color:var(--muted)">~45 min · ~2 hrs eng</div>
+            <div class="col-tag"><span class="tag green">~3x</span></div>
+          </div>
         </div>
 
         <div class="panel-header">
@@ -3637,6 +3638,17 @@ _End of context dump_
           <div class="release">
             <span class="rel-version">2026-03-22</span>
             <div style="margin-top:0.5rem">
+              <div class="rel-session">~19:06 · Meta — Copy Context system + cross-tool context bridge</div>
+              <ul>
+                <li>Copy Context button added to Command Centre header — one click copies full context-dump.md to clipboard</li>
+                <li><code>generate-context-dump.sh</code> built — pulls from memory files, injects into index.html at every /wrap</li>
+                <li><code>inbox.md</code> pattern established — paste findings from Copilot/Claude.ai web, picked up at lights-out</li>
+                <li>MCP context server parked as long-term Option 2 for full cross-client context sync</li>
+                <li>Root-caused Vercel stale alias issue — confirmed in memory, fixed in one command</li>
+              </ul>
+              <div class="rel-learn">💡 Learnt: Vercel stale content = stale alias (not CDN cache). Always re-alias after vercel --prod. Other AI tools go in circles without persistent context — a paste-ready dump breaks the loop.</div>
+            </div>
+            <div style="margin-top:0.75rem">
               <div class="rel-session">felt — v0.2.0 Playground layout rewrite</div>
               <ul>
                 <li>Complete UI rewrite: playground layout with always-visible 6-emoji sidebar (desktop) / bottom panel
@@ -4181,6 +4193,7 @@ _End of context dump_
         { label: 'Mar 22\nfelt', project: 'felt', mins: 120, tokens: null },
         { label: 'Mar 22\nfelt wrap', project: 'felt', mins: 60, tokens: null },
         { label: 'Mar 22\nMeta CC', project: 'Meta', mins: 60, tokens: null },
+        { label: 'Mar 22\nCtx System', project: 'Meta', mins: 45, tokens: 7424 },
       ];
       window._allSessions = sessions;
       const pColor = window._pColor = { 'ARIA Advisor': '#2563eb', 'BzHub': '#059669', 'Meta': '#e10600', 'As Gurudev Says': '#7c3aed', 'Helm': '#0ea5e9', 'Swara Samipyam': '#d97706', 'felt': '#ec4899' };
