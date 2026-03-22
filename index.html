@@ -1545,7 +1545,7 @@
   </style>
 <!-- CONTEXT-DUMP-START -->
 <script>window.__CONTEXT_DUMP__ = `# Sunny Hayes — AI Context Dump
-_Generated: 2026-03-22 20:22_
+_Generated: 2026-03-22 20:24_
 _Paste this at the start of any AI chat (Copilot, Claude.ai web) to give full context._
 
 ---
@@ -3671,6 +3671,18 @@ _End of context dump_
           <div class="release">
             <span class="rel-version">2026-03-22</span>
             <div style="margin-top:0.5rem">
+              <div class="rel-session">~19:06 · Command Centre — Cross-tool context bridge + UI polish</div>
+              <ul>
+                <li>Copy Context button in header — one click copies full AI context to clipboard, blue hover + tooltip</li>
+                <li><code>generate-context-dump.sh</code> — auto-regenerates context-dump.md and injects into Command Centre at every /wrap</li>
+                <li><code>inbox.md</code> pattern — route findings from Copilot/Claude.ai back into Claude Code memory</li>
+                <li>Meta Learnings panel added to Race Control — operational/tooling insights separate from project releases</li>
+                <li>Mobile tabs — icon-only at ≤700px with long-press tooltips</li>
+                <li>Session log: Meta entries separated from project releases with grey styling</li>
+              </ul>
+              <div class="rel-learn">💡 Learnt: Session Log = what shipped. Meta Learnings = what was understood. Keep them separate.</div>
+            </div>
+            <div style="margin-top:0.75rem">
               <div class="rel-session">felt — v0.2.0 Playground layout rewrite</div>
               <ul>
                 <li>Complete UI rewrite: playground layout with always-visible 6-emoji sidebar (desktop) / bottom panel
@@ -3688,6 +3700,7 @@ _End of context dump_
                 <li>Deployed to <a href="https://feltit.vercel.app" target="_blank"
                     style="color:var(--accent2)">feltit.vercel.app</a></li>
               </ul>
+            </div>
             </div>
           </div>
 
