@@ -1544,7 +1544,7 @@
   </style>
 <!-- CONTEXT-DUMP-START -->
 <script>window.__CONTEXT_DUMP__ = `# Sunny Hayes — AI Context Dump
-_Generated: 2026-03-22 19:32_
+_Generated: 2026-03-22 20:07_
 _Paste this at the start of any AI chat (Copilot, Claude.ai web) to give full context._
 
 ---
@@ -1915,7 +1915,7 @@ _End of context dump_
         <input type="text" id="searchInput" placeholder="Search…" oninput="doSearch(this.value)">
         <div class="search-results" id="searchResults"></div>
       </div>
-      <div class="version-badge">2026-03-22 17:00</div>
+      <div class="version-badge">2026-03-22 19:45</div>
       <button id="copy-ctx-btn" onclick="copyContext()" style="font-size:0.75rem;padding:0.3rem 0.8rem;border-radius:999px;border:1px solid #cbd5e1;background:#f1f5f9;color:#334155;cursor:pointer;white-space:nowrap;">Copy Context</button>
     </div>
   </header>
@@ -3629,6 +3629,34 @@ _End of context dump_
             </div>
           </div>
         </div><!-- /panel-pair -->
+
+        <div class="panel-header">
+  <div class="panel-title">Meta Learnings — How the System Works</div>
+</div>
+<div class="card">
+  <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;">
+    <span class="rel-version" style="color:#64748b">2026-03-22</span>
+    <ul style="margin-top:0.5rem">
+      <li>Vercel stale content = stale alias, not CDN cache. Re-alias after every <code>vercel --prod</code>. One command, 10 seconds.</li>
+      <li>The gap between Claude Code and other AI tools is not capability — it's context. Memory + CLAUDE.md = instant grounding. Without it, capable tools like Copilot go in circles.</li>
+      <li>Copy Context button closes the cross-tool gap — one click, paste into any AI chat.</li>
+    </ul>
+  </div>
+  <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;margin-top:0.75rem">
+    <span class="rel-version" style="color:#64748b">2026-03-21</span>
+    <ul style="margin-top:0.5rem">
+      <li>Token cost is not just what you type — hooks inject full trigger files before you send a word. Plugin skill lists load into every session context.</li>
+      <li>CSS @media + display:none on a wrapped span collapses header brand on mobile with zero JS.</li>
+      <li>Session log in a dashboard should be git log-driven — never rely on memory alone.</li>
+    </ul>
+  </div>
+  <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;margin-top:0.75rem">
+    <span class="rel-version" style="color:#64748b">2026-03-20</span>
+    <ul style="margin-top:0.5rem">
+      <li>GitHub Pages serves rendered HTML at the Pages URL — clicking a file in the repo always shows source code, not the rendered page. Always link to the Pages URL.</li>
+    </ul>
+  </div>
+</div>
 
         <div class="panel-header">
           <div class="panel-title">Session Log — What Shipped</div>
