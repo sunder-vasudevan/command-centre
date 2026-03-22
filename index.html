@@ -3957,7 +3957,23 @@
     });
 
     // Collapsible panel headers — start collapsed, click to expand
-    document.querySelectorAll('.panel-header').forEach(h => {
+    const hdrColors = [
+      { bg: '#eff6ff', border: '#2563eb' },  // blue
+      { bg: '#f0fdf4', border: '#16a34a' },  // green
+      { bg: '#fef3c7', border: '#d97706' },  // amber
+      { bg: '#fce7f3', border: '#db2777' },  // pink
+      { bg: '#f0f9ff', border: '#0ea5e9' },  // sky
+      { bg: '#faf5ff', border: '#7c3aed' },  // violet
+      { bg: '#fff7ed', border: '#ea580c' },  // orange
+      { bg: '#ecfdf5', border: '#059669' },  // emerald
+      { bg: '#fef2f2', border: '#e10600' },  // red
+      { bg: '#f5f3ff', border: '#6366f1' },  // indigo
+    ];
+    document.querySelectorAll('.panel-header').forEach((h, i) => {
+      const c = hdrColors[i % hdrColors.length];
+      h.style.background = c.bg;
+      h.style.borderLeftColor = c.border;
+      h.querySelector('.panel-title').style.color = c.border;
       h.classList.add('collapsed');
       h.addEventListener('click', () => h.classList.toggle('collapsed'));
     });
