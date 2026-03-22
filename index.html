@@ -1536,15 +1536,16 @@
       }
 
       .tab-btn {
-        font-size: 0.7rem;
-        padding: 0.3rem 0.6rem;
+        font-size: 1rem;
+        padding: 0.4rem 0.6rem;
         white-space: nowrap;
       }
+      .tab-label { display: none; }
     }
   </style>
 <!-- CONTEXT-DUMP-START -->
 <script>window.__CONTEXT_DUMP__ = `# Sunny Hayes — AI Context Dump
-_Generated: 2026-03-22 20:16_
+_Generated: 2026-03-22 20:22_
 _Paste this at the start of any AI chat (Copilot, Claude.ai web) to give full context._
 
 ---
@@ -1899,15 +1900,15 @@ _End of context dump_
     <div class="header-brand"><span class="flag">🏁</span><span class="brand-text"> Claude <span>■</span> Command
         Centre</span></div>
     <div class="header-tabs">
-      <button class="tab-btn active" onclick="showTab('session',this)">🚦 Session</button>
-      <button class="tab-btn" onclick="showTab('thinking',this)">🔬 Thinking</button>
-      <button class="tab-btn" onclick="showTab('projects',this)">🏎️ Projects</button>
-      <button class="tab-btn" onclick="showTab('rules',this)">📏 Rules</button>
-      <button class="tab-btn" onclick="showTab('tools',this)">🛠️ Tools</button>
-      <button class="tab-btn" onclick="showTab('efficiency',this)">📊 Efficiency</button>
-      <button class="tab-btn" onclick="showTab('howwework',this)">🔄 How We Work</button>
-      <button class="tab-btn" onclick="showTab('reference',this)">📄 Reference</button>
-      <button class="tab-btn" onclick="showTab('seesme',this)">👁️ How Claude Sees Me</button>
+      <button class="tab-btn active" onclick="showTab('session',this)" title="Race Control">🚦 <span class="tab-label">Session</span></button>
+      <button class="tab-btn" onclick="showTab('thinking',this)" title="Thinking Modes">🔬 <span class="tab-label">Thinking</span></button>
+      <button class="tab-btn" onclick="showTab('projects',this)" title="Projects">🏎️ <span class="tab-label">Projects</span></button>
+      <button class="tab-btn" onclick="showTab('rules',this)" title="Standing Rules">📏 <span class="tab-label">Rules</span></button>
+      <button class="tab-btn" onclick="showTab('tools',this)" title="Skills & Tools">🛠️ <span class="tab-label">Tools</span></button>
+      <button class="tab-btn" onclick="showTab('efficiency',this)" title="Efficiency">📊 <span class="tab-label">Efficiency</span></button>
+      <button class="tab-btn" onclick="showTab('howwework',this)" title="How We Work">🔄 <span class="tab-label">How We Work</span></button>
+      <button class="tab-btn" onclick="showTab('reference',this)" title="Reference">📄 <span class="tab-label">Reference</span></button>
+      <button class="tab-btn" onclick="showTab('seesme',this)" title="See Me">👁️ <span class="tab-label">How Claude Sees Me</span></button>
     </div>
     <div class="header-right">
       <div class="header-search">
@@ -1916,7 +1917,7 @@ _End of context dump_
         <div class="search-results" id="searchResults"></div>
       </div>
       <div class="version-badge">2026-03-22 19:45</div>
-      <button id="copy-ctx-btn" onclick="copyContext()" style="font-size:0.75rem;padding:0.3rem 0.8rem;border-radius:999px;border:1px solid #cbd5e1;background:#f1f5f9;color:#334155;cursor:pointer;white-space:nowrap;">Copy Context</button>
+      <button id="copy-ctx-btn" onclick="copyContext()" title="Copy your full AI context (projects, rules, preferences) to paste into Copilot, Claude.ai, or any AI chat" style="font-size:0.75rem;padding:0.3rem 0.8rem;border-radius:999px;border:1px solid #cbd5e1;background:#f1f5f9;color:#334155;cursor:pointer;white-space:nowrap;transition:background 0.15s,color 0.15s,border-color 0.15s;" onmouseover="this.style.background='#2563eb';this.style.color='#fff';this.style.borderColor='#2563eb'" onmouseout="this.style.background='#f1f5f9';this.style.color='#334155';this.style.borderColor='#cbd5e1'">Copy Context</button>
     </div>
   </header>
 
