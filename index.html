@@ -3800,6 +3800,9 @@
         { label: 'Mar 21\nSwara', project: 'Swara Samipyam', mins: 45, tokens: null },
         { label: 'Mar 21\nMeta', project: 'Meta', mins: 30, tokens: null },
         { label: 'Mar 21\nMeta CC', project: 'Meta', mins: 60, tokens: null },
+        { label: 'Mar 22\nfelt', project: 'felt', mins: 120, tokens: null },
+        { label: 'Mar 22\nfelt wrap', project: 'felt', mins: 60, tokens: null },
+        { label: 'Mar 22\nMeta CC', project: 'Meta', mins: 60, tokens: null },
       ];
       window._allSessions = sessions;
       const pColor = window._pColor = { 'ARIA Advisor': '#2563eb', 'BzHub': '#059669', 'Meta': '#e10600', 'As Gurudev Says': '#7c3aed', 'Helm': '#0ea5e9', 'Swara Samipyam': '#d97706', 'felt': '#ec4899' };
@@ -3943,8 +3946,9 @@
       });
     });
 
-    // Collapsible panel headers
+    // Collapsible panel headers — start collapsed, click to expand
     document.querySelectorAll('.panel-header').forEach(h => {
+      h.classList.add('collapsed');
       h.addEventListener('click', () => h.classList.toggle('collapsed'));
     });
   </script>
