@@ -347,9 +347,7 @@
       transform: rotate(-90deg);
     }
 
-    .panel-header.collapsed + * {
-      display: none !important;
-    }
+    /* collapsed siblings hidden via JS — see toggleCollapse() */
 
     .panel-header:first-child {
       margin-top: 0;
@@ -1751,20 +1749,20 @@
         </div>
 
         <div class="panel-header" style="margin-top:1.5rem">
-          <div class="panel-title">Last Session — 2026-03-21</div>
+          <div class="panel-title">Last Session — 2026-03-22</div>
         </div>
         <div class="mini-card">
           <ul style="padding-left:1.1rem;margin:0;font-size:0.78rem;color:var(--muted);line-height:1.8">
-            <li><strong style="color:var(--text)">P1 outage fixed</strong> — ARIA back up, 4 root causes resolved
-              (Python 3.14 SQLAlchemy), runtime pinned</li>
-            <li><strong style="color:var(--text)">Advisor profile</strong> — self-edit page + full advisor card on ARIA
-              Personal</li>
-            <li><strong style="color:var(--text)">Direct portal clients</strong> — auto-create on registration, violet
-              Direct badge, source column</li>
-            <li><strong style="color:var(--text)">Command Centre</strong> — session log, skills panel, project
-              descriptions, mobile nav, charts updated</li>
-            <li><strong style="color:var(--text)">Wrap protocol locked</strong> — git log as source of truth, one row
-              per session, MEMORY.md + index both mandatory</li>
+            <li><strong style="color:var(--text)">felt v0.2.0 shipped</strong> — complete UI rewrite, playground layout
+              with tap-to-spawn emoji sidebar, dark/light theme, mobile responsive</li>
+            <li><strong style="color:var(--text)">Command Centre restructured</strong> — project-centric layout with
+              per-project detail sections (about, stack, design, learnings, flow, pending, stats)</li>
+            <li><strong style="color:var(--text)">Collapsible headers</strong> — all sections collapse by default,
+              colored backgrounds with 10-color rotating palette, 1.3rem arrows</li>
+            <li><strong style="color:var(--text)">Chart fixes</strong> — Mar 22 sessions added to stacked chart,
+              felt added to pColor + legend, duplicate Chart.js legend removed</li>
+            <li><strong style="color:var(--text)">Efficiency updated</strong> — 25 sessions, ~960 min, 7 projects,
+              sidebar metrics synced</li>
           </ul>
         </div>
 
@@ -3972,13 +3970,27 @@
       { bg: '#fef2f2', border: '#e10600' },  // red
       { bg: '#f5f3ff', border: '#6366f1' },  // indigo
     ];
+    function toggleCollapse(header) {
+      header.classList.toggle('collapsed');
+      const show = !header.classList.contains('collapsed');
+      let sib = header.nextElementSibling;
+      while (sib && !sib.classList.contains('panel-header')) {
+        sib.style.display = show ? '' : 'none';
+        sib = sib.nextElementSibling;
+      }
+    }
     document.querySelectorAll('.panel-header').forEach((h, i) => {
       const c = hdrColors[i % hdrColors.length];
       h.style.background = c.bg;
       h.style.borderLeftColor = c.border;
       h.querySelector('.panel-title').style.color = c.border;
       h.classList.add('collapsed');
-      h.addEventListener('click', () => h.classList.toggle('collapsed'));
+      let sib = h.nextElementSibling;
+      while (sib && !sib.classList.contains('panel-header')) {
+        sib.style.display = 'none';
+        sib = sib.nextElementSibling;
+      }
+      h.addEventListener('click', () => toggleCollapse(h));
     });
   </script>
 
