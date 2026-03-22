@@ -766,6 +766,7 @@
       <div class="sidebar-link" onclick="showTab('projects', document.querySelector('[onclick*=\'projects\']'))">🟡 As Gurudev Says</div>
       <div class="sidebar-link" onclick="showTab('projects', document.querySelector('[onclick*=\'projects\']'))">🔵 Helm — v0.0.1</div>
       <div class="sidebar-link" onclick="showTab('projects', document.querySelector('[onclick*=\'projects\']'))">🟠 Swara Samipyam — v0.1.0</div>
+      <div class="sidebar-link" onclick="showTab('projects', document.querySelector('[onclick*=\'projects\']'))">🟢 felt — v0.2.0</div>
     </aside>
 
     <!-- Main content -->
@@ -885,6 +886,19 @@
           </div>
         </div>
 
+        <div class="panel-header" style="margin-top:1.5rem">
+          <div class="panel-title">Last Session — 2026-03-21</div>
+        </div>
+        <div class="mini-card">
+          <ul style="padding-left:1.1rem;margin:0;font-size:0.78rem;color:var(--muted);line-height:1.8">
+            <li><strong style="color:var(--text)">P1 outage fixed</strong> — ARIA back up, 4 root causes resolved (Python 3.14 SQLAlchemy), runtime pinned</li>
+            <li><strong style="color:var(--text)">Advisor profile</strong> — self-edit page + full advisor card on ARIA Personal</li>
+            <li><strong style="color:var(--text)">Direct portal clients</strong> — auto-create on registration, violet Direct badge, source column</li>
+            <li><strong style="color:var(--text)">Command Centre</strong> — session log, skills panel, project descriptions, mobile nav, charts updated</li>
+            <li><strong style="color:var(--text)">Wrap protocol locked</strong> — git log as source of truth, one row per session, MEMORY.md + index both mandatory</li>
+          </ul>
+        </div>
+
       </div><!-- /tab-session -->
 
       <!-- THINKING -->
@@ -935,7 +949,7 @@
 
         <div class="panel-header">
           <div class="panel-title">Active Projects</div>
-          <div class="panel-count">6 projects</div>
+          <div class="panel-count">7 projects</div>
         </div>
         <div class="data-panel">
           <div class="project-row">
@@ -999,6 +1013,19 @@
               <span class="tag gray">HTML/JS</span>
               <span class="badge live">v0.1.0</span>
               <a href="https://sunder-vasudevan.github.io/swara-samipyam/" target="_blank" style="font-size:0.72rem;color:var(--muted);text-decoration:none;">🌐 Live</a>
+            </div>
+          </div>
+          <div class="project-row">
+            <div>
+              <div class="proj-name">felt</div>
+              <div class="proj-desc">A shared emotional canvas for people who are close. Tap an emotion, drop it on the canvas — the other person sees it appear. No words needed. Playground layout with physics animation, dark/light theme.</div>
+              <div class="proj-next">→ Cleanup dead Firebase files, tune physics, multi-bond testing</div>
+            </div>
+            <div class="proj-tags">
+              <span class="tag blue">Next.js</span>
+              <span class="tag blue">Vercel Blob</span>
+              <span class="badge live">v0.2.0</span>
+              <a href="https://feltit.vercel.app" target="_blank" style="font-size:0.72rem;color:var(--accent2);text-decoration:none;">🌐 feltit.vercel.app</a>
             </div>
           </div>
           <div class="project-row">
