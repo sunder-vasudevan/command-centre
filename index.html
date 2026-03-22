@@ -1542,6 +1542,354 @@
       }
     }
   </style>
+<!-- CONTEXT-DUMP-START -->
+<script>window.__CONTEXT_DUMP__ = `# Sunny Hayes — AI Context Dump
+_Generated: 2026-03-22 19:23_
+_Paste this at the start of any AI chat (Copilot, Claude.ai web) to give full context._
+
+---
+
+## Who I Am
+
+## 3-Year Vision
+
+## Active Projects
+### aria
+
+ARIA = Advisor Relationship Intelligence Assistant. AI-powered workbench for bank Relationship Managers.
+
+Repo: https://github.com/sunder-vasudevan/aria-advisor
+Local: ~/Daytona/aria-advisor
+
+**Stack:** FastAPI backend, React/Vite frontend, PostgreSQL (Supabase), Claude API
+
+**Deployed:**
+- Advisor Frontend: https://a-ria.vercel.app (Vercel)
+- Personal Frontend: https://aria-personal.vercel.app (Vercel)
+- Backend: https://aria-advisor.onrender.com (Render, free tier — UptimeRobot keep-alive active, cold starts resolved)
+- Backend Health: https://aria-advisor.onrender.com/health
+- Database: Supabase (PostgreSQL, pooler URL on port 6543)
+
+**Quick Links (add to index/bookmark file next session):**
+- https://a-ria.vercel.app — Advisor app
+- https://aria-personal.vercel.app — Personal app
+- https://aria-advisor.onrender.com/health — Backend health check
+- https://aria-advisor.onrender.com/docs — FastAPI Swagger UI
+
+**Phase 1:** Complete — client book, Client 360, AI copilot, situation summary, morning briefing, audit logs, 20 seeded clients.
+
+
+## Architecture — Key Facts
+
+- Both apps share ONE FastAPI backend (Render) and ONE Supabase DB
+- Personal app routes are all prefixed \`/personal/\`
+- \`portfolios\`, \`goals\`, \`life_events\` tables have BOTH \`client_id\` AND \`personal_user_id\` columns (dual ownership — already built)
+- \`personal_users\` table: JWT auth (bcrypt + HS256, 7-day expiry)
+
+### aria_personal
+
+ARIA Personal is a consumer product for self-directed users to manage their own portfolio, goals, life events, and chat with ARIA. No advisor needed.
+
+**Repo:** https://github.com/sunder-vasudevan/aria-personal
+**Local:** ~/Daytona/aria-personal
+**Stack:** React 18 + Vite + Tailwind CSS | FastAPI (shared with aria-advisor) | Supabase (shared DB)
+**Auth:** JWT (python-jose + passlib), email + password, 7-day tokens in localStorage
+
+**Backend:** Shared Render service at https://aria-advisor.onrender.com
+- New routes under /personal/ prefix
+- new PersonalUser + PersonalCopilotLog tables
+- personal_user_id FK added to portfolios, goals, life_events (nullable)
+
+**Frontend deploy:** Live on Vercel.
+**Render env vars:** JWT_SECRET_KEY + PERSONAL_FRONTEND_URL set.
+
+**v0.1.0 shipped (2026-03-18):**
+- Register / Login with JWT auth
+- Dashboard, Goals (What-if v2), Life Events, Ask ARIA copilot
+- Mobile-first layout
+
+**Updates (2026-03-18):**
+- **ARIALogo component** — \`src/components/ARIALogo.jsx\` — dotless-i + round blue dot wordmark.
+- **Login page redesigned** — split layout: left dark navy panel (tagline + stats), right slate-50 panel (form). Matches advisor app.
+- **Goal create form fixed** — lifted date state to parent; replaced date input with month/year selects to fix Safari onChange bug.
+
+**Next to build (priority order):**
+- FEAT-P001: Portfolio add/edit UI (currently empty state only)
+- FEAT-P002: Onboarding risk questionnaire (5 questions → risk_score on PersonalUser)
+
+
+### bzhub
+
+BzHub = Full-stack ERP/business management web app. SMB-focused, Odoo-inspired. Goal: multi-tenant SaaS.
+
+**Repo:** https://github.com/sunder-vasudevan/bzhub
+**Local:** ~/Daytona/BzHub
+
+**Stack:** Next.js 14 (App Router), Tailwind CSS, shadcn/ui, Supabase (PostgreSQL + RLS), Vercel (CI/CD)
+
+**Deployed:** https://bzhub.vercel.app (Vercel, auto-deploy on push to main)
+
+**Current version:** v5.1.0 (2026-03-17)
+
+**Live modules:** 9 modules across Operations, HR, CRM, Settings, Reports, Help, Notifications, Employee Self-Service, Dashboard
+
+**Known debt:** Auth hardcoded admin/admin123 — FEAT-036 (Supabase Auth, Phase 3 blocker for multi-tenancy). RLS open until auth ships.
+
+**Next feature:** FEAT-041 Phase 2.5b — Custom Module Builder (schema-defined CRUD modules)
+
+**Ultimate goal:** WhatsApp-first operations + Multi-tenant SaaS.
+
+**Phase 2 backlog (priority order):**
+- FEAT-041: Custom Module Builder — ❌ not started ← NEXT
+- FEAT-040: GST/Tax Compliance India — ❌ not started
+- FEAT-032: AI-Powered Insights — ❌ not started
+- FEAT-039: Offline-First Mode — ❌ not started ← lowest priority
+- FEAT-036: Supabase Auth — ❌ Phase 3 blocker
+- FEAT-037: Multi-Tenancy — ❌ Phase 3
+- FEAT-033: WhatsApp/SMS — ❌ Phase 4 (crown jewel)
+
+### helm
+
+**What it is:** PM-first project management app. Core bet: bring the programme/project manager to the centre. v0.1 scope = daily command centre view + stakeholder visibility.
+
+**Repo:** https://github.com/sunder-vasudevan/helm (private)
+**Local:** ~/Daytona/helm
+**Deployed URL:** Not yet deployed
+**Current version:** v0.0.1
+
+**Stack:** Next.js 14 (App Router) + Supabase (PostgreSQL + Auth) + Vercel
+
+**Current phase:** Phase 1 — Scaffold + full data model designed and agreed
+
+**Next feature:** FEAT-001 — Supabase schema migrations + Next.js 14 init
+- All 12 tables agreed (orgs, users, projects, project_members, stakeholders, project_stakeholders, workstreams, blockers, risks, decisions, stakeholder_updates, access_requests)
+- Signal-weighted command centre engine designed (B), Claude API brief deferred to v0.2
+- Score transparency UI ships v0.1 — every item shows ranking reasoning on hover
+- Hosting must be resolved before first deploy (ARIA infra session first)
+
+**Why:** Existing PM tools (Jira, Asana, Monday) are built for devs or executives. The PM orchestrating dependencies, stakeholders, risks is an afterthought. Helm puts the PM in the driver's seat.
+
+**How to apply:** When resuming Helm, read ~/Daytona/helm/NOTES.md. FEAT-001 (data model) is the first real build task — design before code.
+
+### swarasamipyam
+
+Personal devotional lyrics link collection app, organized by deity.
+
+**Stack:** Plain HTML/CSS/JS (single file) + Neon PostgreSQL (serverless HTTP via esm.sh CDN)
+**Repo:** https://github.com/sunder-vasudevan/swara-samipyam
+**Local:** ~/Daytona/swara-samipyam
+**Deployed:** https://sunder-vasudevan.github.io/swara-samipyam/ (GitHub Pages)
+**Current version:** v0.1.0
+
+**What's built:**
+- Full core app: collapsible deity categories, add/edit/delete songs, clickable links, mobile-first UI
+- Neon DB: \`categories\` + \`songs\` tables, seeded with Rama/Krishna/Shiva/Ganesh/Hanuman/Devi Durga
+- Restricted DB role \`swara_app\` (DML only) — safe to have in public repo
+- Blue gradient header + per-deity colour-coded category names
+
+**Neon project:** soft-glitter-22228024 (region: ap-southeast-1)
+**DB role:** swara_app (DML only — SELECT/INSERT/UPDATE/DELETE on categories + songs)
+
+**Next:** FEAT-002 — TBD next session. Ideas: search/filter, song notes, PWA support
+
+**Why:** Personal utility to collate devotional lyrics links, organized by deity
+
+### as-gurudev-says
+
+An Oracle AI agent that answers any question through Sri Aurobindo's (Gurudev's) own words.
+
+**Why:** Sunny Hayes wants to understand how Gurudev thinks in any situation — grounded in actual text, never fabricated.
+
+**Repo:** https://github.com/sunder-vasudevan/as-gurudev-says (private)
+**Local:** ~/Daytona/as-gurudev-says
+**Current version:** v0.1.0 — project init, Phase 1 pipeline built
+
+## Architecture
+RAG (no fine-tuning). LLM synthesizes only from retrieved passages, every claim cited.
+- Embeddings: sentence-transformers all-MiniLM-L6-v2 (free, local)
+- Vector DB: Supabase pgvector
+- LLM: Claude API (claude-sonnet-4-6)
+- Data source: library.sriaurobindoashram.org (HTML scrape)
+- Frontend: Next.js on Vercel (Phase 2)
+
+## UI: The Oracle
+Single question → single deep answer. Dark/ochre aesthetic, cream/gold serif.
+After answer: [Bookmark this] + [Ask another]. Bookmarks saved to Supabase.
+
+## What's Built (Session 1 — 2026-03-17)
+- ingestion/scrape_cwsa.py — HTML scraper for CWSA
+- ingestion/chunk_and_embed.py — chunk + embed → Supabase
+- ingestion/query.py — CLI test: embed → search → Claude synthesis
+- supabase/migrations/001_pgvector_setup.sql — pgvector + bookmarks schema
+- Next.js scaffolded, @supabase/supabase-js + @anthropic-ai/sdk installed
+
+## Next Session ← START HERE
+**FEAT-001** — Run ingestion pipeline, validate RAG quality, then build Oracle UI
+
+## Standing Rules (How I Work With AI)
+
+## Relationship & Roles
+- **Co-collaborators** — Sunny Hayes is Product Owner, Claude is technical co-founder equivalent
+- Co-operate on options, decide jointly — not a director/executor relationship
+
+## Direction Style
+- Sunny Hayes gives direction in bullets — respond concisely, act directly, don't over-explain
+
+## Prompt Coaching (active, every session — no exceptions)
+
+Claude intercepts and pushes back before acting on any of these:
+
+| Pattern | Claude's response |
+|---------|------------------|
+| Topic switch mid-session | "Prompt check — are we switching topics? Park it or finish current task first." |
+| Open-ended question (unless planning/brainstorming mode) | "Prompt check — rephrase with a constraint (top N / bullets only / specific outcome). Resend." |
+| Reversing a confirmed decision | "Prompt check — you confirmed X. What changed? One line, then I'll redo." |
+| Serial single questions that could be batched | "Prompt check — batch these into one prompt. List all, I'll answer once." |
+| Vague re-anchor after topic gap | "Prompt check — too vague. 'Back to [topic] — specifically [what]'." |
+
+**Exception:** Planning mode and brainstorming mode — open-ended questions are allowed. Claude must confirm mode before skipping the check.
+
+**Why:** Sunny Hayes asked Claude to actively intercept bad prompting habits to build token discipline. Push back every time — no exceptions, no softening.
+
+## Pushback (mandatory, not optional)
+- **Priority** — flag when build order looks wrong
+- **Scope creep** — call it out when a new feature idea arrives mid-session or before committed backlog is done
+- **Deprioritization** — if a backlog item keeps getting skipped, name it and ask for an explicit decision: ship it, defer it, or kill it
+- **Technical** — push back when there's a better option; present alternatives with trade-offs
+- **Financial** — flag hidden cost (infra, complexity, maintenance burden)
+- Never assume on UI design or tech specs — surface options, get a decision before building
+
+## Cross-Project Context
+- Load **only the active project's** memory and NOTES.md at session start
+
+## Wrap — Project Discovery Rule
+- At wrap, always check \`~/Daytona/\` to identify ALL projects that may have been touched this session.
+- Do not rely on memory alone — Glob \`~/Daytona/\` to see the full project list, then confirm which were active.
+- Wrap every affected project before closing.
+- **Why:** Sunny Hayes caught on 2026-03-20 that ARIA Advisor wrap was missed because the session started from ARIA Personal context.
+
+## Session Trigger Words
+| Word / phrase | Action |
+|---|---|
+| \`wrap\`, \`packup\`, \`pack up\`, \`session wrap\` | Run session_wrap.md — full wrap protocol |
+| \`start\`, \`lights out\`, \`cold start\` | Run lights_out.md — full session start protocol |
+| \`abort\`, \`stand down\`, \`pit in\` | Session cancelled after Step 2 — no briefing, no scope lock |
+| \`first principles\`, \`break it down\` | Run first_principles.md — Feynman/business/Musk breakdown before planning |
+
+## Session Start — Project Confirmation Rule
+- At \`start\` or \`lights out\`, Glob \`~/Daytona/\` to list all projects.
+- Ask Sunny Hayes which project(s) to work on this session before loading any context.
+- Only load NOTES.md / memory for confirmed active projects.
+- **Why:** Sunny Hayes wants to explicitly pick projects at session start — not have Claude assume from last session.
+
+## Multi-Project Sessions — Wrap Rule
+- If a session touches more than one project (even design-only), wrap ALL affected projects.
+- Do not wrap only the project where files were created — wrap every project where decisions were made.
+- **Why:** Sunny Hayes caught this missed on 2026-03-20 — Advisor NOTES/SESSION_LOG were not updated even though design decisions applied to both apps.
+
+## ARIA Personal ↔ Advisor — Design Sync Rule
+- Personal and Advisor share the same design system (nav, header, cards, colour tokens).
+- Whenever a UI/design change is made to one, **always ask Sunny Hayes** before applying it to the other.
+- Do not assume the change applies to both — confirm first, every time.
+- **Why:** Sunny Hayes flagged this explicitly — the two apps share design DNA but may diverge intentionally.
+
+## Memory & Design Decisions
+- **Proactively save to memory** — don't wait to be asked. Any significant design decision, architecture choice, or feature rationale gets saved during or immediately after the discussion.
+- Timing: save at the moment the decision is made, not just at wrap. Wrap is a backstop, not the primary trigger.
+- **Why:** Sunny Hayes has explicitly flagged that important design decisions must not be missed. Prompting him to save them is not acceptable.
+
+## Wrap — Command Centre Index Update (mandatory)
+- At every wrap, update the command centre index file with any new URLs, endpoints, or quick links added during the session.
+- This is non-negotiable — do it autonomously, no need to be asked.
+- **Why:** Sunny Hayes flagged on 2026-03-21 that this was missed after new deployed URLs and health endpoints were added.
+
+## Wrap — "Next Session" Block
+- Do NOT list decisions made in the current session as "next session" items.
+- At wrap, read the actual backlog (PLAN.md / PRD.md / NOTES.md next agenda) and surface the top 2-3 pending features from there.
+- If nothing has changed in the backlog, say so — don't fabricate next steps.
+- Full backlog review belongs at **session start (lights_out)**, not wrap.
+- **Why:** Sunny Hayes flagged on 2026-03-20 that wrap was repeating current-session decisions instead of pulling real pending work.
+
+## Session Naming Convention
+- Session headers in INTERACTION_LOG and NOTES.md use \`YYYY-MM-DD HH:MM — [topic]\`
+- Never use "Session N" numbering — dates are self-documenting and survive context resets
+
+## Edit Approval Gate — Clear-Cut Exception
+- The gate (state files + wait for approval) applies to all edits **except** tasks that are clear-cut: single file, well-scoped, no architectural decisions, no visible content additions.
+- Clear-cut = the task is unambiguous, the scope is obvious from the request, and there's no design/content decision to make.
+- When in doubt, still gate. Exception applies only when it's genuinely obvious.
+- **Why:** Sunny Hayes confirmed 2026-03-21 — clear-cut tasks don't need the approval gate. The gate is for ambiguous or risky changes, not every edit.
+
+## Additions & Approval Gate
+- Never add content, text, links, attribution, or any visible element to any file without explicit approval.
+- If multiple additions are pending, collate them into a single approval list and resolve one by one.
+- When in doubt — ask first, don't add.
+- **Why:** Sunny Hayes flagged on 2026-03-20 that footer text was added without approval. Err on the side of caution always.
+
+**Rule: Use Glob tool for directory listing — never \`bash ls\`.**
+**Why:** \`ls\` via Bash triggers permission prompts. Glob doesn't.
+**How to apply:** Use \`Glob pattern="*"\` with path, not \`Bash ls\`.
+
+## Code & Deploy Standards
+
+## Branch Strategy
+- **Trunk-based** — work directly on \`main\` for solo development
+- Feature branches only when: the work spans 3+ sessions OR carries high breakage risk
+- Branch naming: \`feat/FEAT-XXX-short-description\` or \`fix/issue-description\`
+- Always commit before session ends — no uncommitted work left overnight
+
+## Environment Variables
+- Never hardcode secrets, API keys, or URLs that differ between environments
+- Every project must have a \`.env.example\` with all keys listed (values blank)
+- \`.env\` always in \`.gitignore\` — verify before first commit on any new project
+- Supabase, Claude API, and any third-party keys always in env vars
+
+## Security Baseline (before every ship)
+- No secrets in code or git history
+- User input validated at the API boundary — never trust the frontend
+- Auth checked on every protected route/endpoint
+- Dependencies checked for known CVEs on new installs (\`npm audit\` / \`pip-audit\`)
+
+## README Standard (every project must have)
+- What it is (1 sentence)
+- Tech stack
+- Local setup (step by step)
+- Env vars needed
+- Deploy process
+- Current version
+
+## Code Style
+- Consistency over perfection — match the existing file's style
+- No dead code left in — remove before committing
+
+## Key Preferences & Known AI Blind Spots
+
+## Confirmed tendencies (corrected by Sunny Hayes)
+
+| Tendency | Correction |
+|----------|-----------|
+| Adding Co-Authored-By tag to commits | Never. No exceptions. |
+| Summarising what was just done at end of response | Stop — Sunny Hayes can read the diff |
+| Creating files in wrong location (e.g. Daytona vs claude-memory) | All project files and new projects live in \`~/Daytona/\`. Never create project files on Desktop or elsewhere. |
+| Asking for bash confirmation on basic safe commands | Covered by settings.json allow list |
+| Verbose responses with preamble before the answer | Lead with the answer, cut the wind-up |
+
+## Watch for (known AI tendencies in this workflow)
+- Over-engineering simple features — adding configurability nobody asked for
+- Abstracting too early — three similar lines > premature utility function
+- Treating every session like a fresh start — memory exists, use it
+- Generating URLs or paths without verifying they exist
+- Adding error handling for scenarios that can't happen
+- **Asserting external API/library behaviour from training memory — always verify with a file read or web search first. Never state "this method exists" or "this endpoint works" without checking.**
+
+**How to apply:** Before responding, check if the response falls into any of these patterns. Self-correct before sending.
+
+**Update this file** whenever Sunny Hayes corrects a repeated behaviour.
+
+---
+_End of context dump_
+`;</script>
+<!-- CONTEXT-DUMP-END -->
 </head>
 
 <body>
@@ -1568,6 +1916,7 @@
         <div class="search-results" id="searchResults"></div>
       </div>
       <div class="version-badge">2026-03-22 17:00</div>
+      <button id="copy-ctx-btn" onclick="copyContext()" style="font-size:0.75rem;padding:0.3rem 0.8rem;border-radius:999px;border:1px solid #cbd5e1;background:#f1f5f9;color:#334155;cursor:pointer;white-space:nowrap;">Copy Context</button>
     </div>
   </header>
 
@@ -3661,6 +4010,17 @@
   </div>
 
   <script>
+    function copyContext() {
+      if (!window.__CONTEXT_DUMP__) { alert('No context dump found. Run /wrap first.'); return; }
+      navigator.clipboard.writeText(window.__CONTEXT_DUMP__).then(() => {
+        const btn = document.getElementById('copy-ctx-btn');
+        const orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.style.background = '#16a34a';
+        setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
+      });
+    }
+
     function showTab(name, btn) {
       document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
