@@ -1759,6 +1759,24 @@
         <div class="card">
 
           <div class="release">
+            <span class="rel-version">2026-03-22</span>
+            <div style="margin-top:0.5rem">
+              <div class="rel-session">felt — v0.2.0 Playground layout rewrite</div>
+              <ul>
+                <li>Complete UI rewrite: playground layout with always-visible 6-emoji sidebar (desktop) / bottom panel (mobile)</li>
+                <li>Instant tap-to-spawn — no bottom sheet, no multi-step picker. 1 tap = 1 emoji on canvas</li>
+                <li>Dark/light theme toggle with CSS custom properties + localStorage persistence. Inline script prevents FOUC</li>
+                <li>Mobile responsive at 680px breakpoint — sidebar becomes bottom panel, 3-col grid, safe-area padding</li>
+                <li>Landing page simplified — "felt" wordmark + name/catchphrase input, no animated comets</li>
+                <li>Canvas physics preserved and made theme-aware (glow, dot-grid, blob colours adapt to theme)</li>
+                <li>4 files rewritten: <code>globals.css</code>, <code>layout.tsx</code>, <code>page.tsx</code>, <code>canvas/page.tsx</code></li>
+                <li>Deployed to <a href="https://feltit.vercel.app" target="_blank" style="color:var(--accent2)">feltit.vercel.app</a></li>
+              </ul>
+              <div class="rel-learn">💡 Learnt: When the playground IS the design spec, match it exactly — don't over-engineer with bottom sheets and multi-step pickers. CSS custom properties on :root + [data-theme] with an inline script in layout.tsx is the cleanest dark/light toggle for Next.js — no extra lib, no FOUC.</div>
+            </div>
+          </div>
+
+          <div class="release">
             <span class="rel-version">2026-03-21</span>
             <div style="margin-top:0.5rem">
               <div class="rel-session">~7:03 PM · ARIA — Production outage RCA (Python 3.14 SQLAlchemy)</div>
