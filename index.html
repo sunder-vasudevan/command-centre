@@ -1916,7 +1916,7 @@ _End of context dump_
         <input type="text" id="searchInput" placeholder="Search…" oninput="doSearch(this.value)">
         <div class="search-results" id="searchResults"></div>
       </div>
-      <div class="version-badge">2026-03-22 19:45</div>
+      <div class="version-badge">2026-03-23 wrap</div>
       <button id="copy-ctx-btn" onclick="copyContext()" title="Copy your full AI context (projects, rules, preferences) to paste into Copilot, Claude.ai, or any AI chat" style="font-size:0.75rem;padding:0.3rem 0.8rem;border-radius:999px;border:1px solid #cbd5e1;background:#f1f5f9;color:#334155;cursor:pointer;white-space:nowrap;transition:background 0.15s,color 0.15s,border-color 0.15s;" onmouseover="this.style.background='#2563eb';this.style.color='#fff';this.style.borderColor='#2563eb'" onmouseout="this.style.background='#f1f5f9';this.style.color='#334155';this.style.borderColor='#cbd5e1'">Copy Context</button>
     </div>
   </header>
@@ -2488,7 +2488,7 @@ _End of context dump_
               <div class="proj-accordion-status">🟢</div>
               <div class="proj-accordion-title">felt</div>
               <div class="proj-accordion-tags">
-                <span class="badge live">v0.2.0</span>
+                <span class="badge live">v0.3.0</span>
               </div>
               <div class="proj-accordion-chevron">▸</div>
             </div>
@@ -2507,7 +2507,7 @@ _End of context dump_
                 <div class="proj-stack-pills">
                   <span class="proj-stack-pill">Next.js 16.2.1</span>
                   <span class="proj-stack-pill">Tailwind CSS v4</span>
-                  <span class="proj-stack-pill">Vercel Blob</span>
+                  <span class="proj-stack-pill">Upstash Redis</span>
                   <span class="proj-stack-pill">HTML5 Canvas</span>
                   <span class="proj-stack-pill green">Vercel</span>
                   <span class="proj-stack-pill gray">localStorage identity</span>
@@ -2530,7 +2530,7 @@ _End of context dump_
                   <span class="proj-flow-arrow">→</span>
                   <span class="proj-flow-box">API Routes</span>
                   <span class="proj-flow-arrow">→</span>
-                  <span class="proj-flow-box">Vercel Blob (JSON)</span>
+                  <span class="proj-flow-box">Upstash Redis</span>
                 </div>
                 <div class="proj-flow-diagram" style="margin-top:0.2rem">
                   <span class="proj-flow-box">Identity</span>
@@ -2557,18 +2557,23 @@ _End of context dump_
                   <div class="learn-source">Session: 2026-03-22</div>
                 </div>
                 <div class="proj-learn-item">
-                  <p>Vercel Blob with <code>allowOverwrite: true</code> is sufficient as a simple JSON document store
-                    for low-traffic 2-person apps. No need for Firebase or Supabase.</p>
-                  <div class="learn-source">Sessions: 2026-03-22</div>
+                  <p>Vercel Blob free tier has cumulative quota limits — once suspended, deleting blobs doesn't unsuspend
+                    it. Migrate early to Upstash Redis (10k commands/day free) before hitting limits in dev.</p>
+                  <div class="learn-source">Session: 2026-03-23</div>
+                </div>
+                <div class="proj-learn-item">
+                  <p>HTTP 200 on a write ≠ data is readable. Always verify read-after-write for every key type after a
+                    storage migration. A single curl round-trip catches serialisation bugs that smoke tests miss.</p>
+                  <div class="learn-source">Session: 2026-03-23</div>
                 </div>
               </div>
               <div class="proj-section">
                 <div class="proj-section-title">What's Pending</div>
                 <ul>
-                  <li>Delete dead Firebase config files (.firebaserc, firebase.json, etc.)</li>
-                  <li>Remove .old/.removed backup files</li>
-                  <li>Tune physics constants (drift speed, collision radius)</li>
-                  <li>Multi-bond UX testing</li>
+                  <li>Mobile UI overhaul — emoji-only grid, smaller touch targets, blob circles smaller, selected emotion persists</li>
+                  <li>Logout button + login with catchphrase for returning users</li>
+                  <li>Landing page analytics (Vercel Analytics or Plausible)</li>
+                  <li>Remove legacy Firebase env vars from Vercel</li>
                   <li>Optional 80-char note on dots</li>
                 </ul>
               </div>
@@ -3408,6 +3413,12 @@ _End of context dump_
             <div class="col-val" style="color:var(--muted)">~45 min · ~2 hrs eng</div>
             <div class="col-tag"><span class="tag green">~3x</span></div>
           </div>
+          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
+            <div class="col-key">2026-03-23</div>
+            <div class="col-val">felt — v0.3.0: Upstash Redis migration, dbGet string fix, mobile share UX, E2E test</div>
+            <div class="col-val" style="color:var(--muted)">~25 min · ~1 eng-day</div>
+            <div class="col-tag"><span class="tag green">~20x</span></div>
+          </div>
         </div>
 
         <div class="panel-header">
@@ -3681,6 +3692,19 @@ _End of context dump_
                 <li>Session log: Meta entries separated from project releases with grey styling</li>
               </ul>
               <div class="rel-learn">💡 Learnt: Session Log = what shipped. Meta Learnings = what was understood. Keep them separate.</div>
+            </div>
+            <div style="margin-top:0.75rem">
+              <div class="rel-session">felt — v0.3.0 Storage migration + mobile share + bug fixes</div>
+              <ul>
+                <li>Migrated storage from Vercel Blob (suspended, quota exhausted) → Upstash Redis. Zero API route changes — same dbPut/dbGet/dbDel/dbList interface</li>
+                <li>Fix: <code>dbGet</code> returned null for plain string keys — Upstash auto-parses JSON strings back to primitives, then JSON.parse("abc") threw. Fixed: fall back to raw value</li>
+                <li>Fix: invite phrase lookup returning 404 — root cause was the dbGet bug above</li>
+                <li>Mobile share UX on invite done screen: 📋 Copy link, 💬 WhatsApp, ↑ native Share (iOS/Android)</li>
+                <li>Full creator→joiner E2E flow verified via automated browser test (gstack/browse)</li>
+                <li>RCA written: <code>RCA_STORAGE_MIGRATION.md</code>. Read-after-write checklist added to TEST_REPORT.md</li>
+                <li>felt_wrap.md created as proper trigger file; added to session_wrap.md table</li>
+              </ul>
+              <div class="rel-learn">💡 Learnt: HTTP 200 on write ≠ readable. Always run read-after-write for every key type after a storage migration. One curl catches what smoke tests miss.</div>
             </div>
             <div style="margin-top:0.75rem">
               <div class="rel-session">felt — v0.2.0 Playground layout rewrite</div>
@@ -4227,6 +4251,7 @@ _End of context dump_
         { label: 'Mar 21\nMeta CC', project: 'Meta', mins: 60, tokens: null },
         { label: 'Mar 22\nfelt', project: 'felt', mins: 120, tokens: null },
         { label: 'Mar 22\nfelt wrap', project: 'felt', mins: 60, tokens: null },
+        { label: 'Mar 23\nfelt', project: 'felt', mins: 25, tokens: null },
         { label: 'Mar 22\nMeta CC', project: 'Meta', mins: 60, tokens: null },
         { label: 'Mar 22\nCtx System', project: 'Meta', mins: 45, tokens: 7424 },
       ];
@@ -4337,14 +4362,14 @@ _End of context dump_
       new Chart(document.getElementById('efficiencyChart').getContext('2d'), {
         type: 'bar',
         data: {
-          labels: ['03-18 Meta', '03-18 ARIA', '03-20 Meta', '03-21 Meta', '03-21 Helm', '03-21 ARIA RCA', '03-21 ARIA Feats', '03-21 Swara', '03-21 Meta', '03-21 Meta CC', '03-22 felt'],
+          labels: ['03-18 Meta', '03-18 ARIA', '03-20 Meta', '03-21 Meta', '03-21 Helm', '03-21 ARIA RCA', '03-21 ARIA Feats', '03-21 Swara', '03-21 Meta', '03-21 Meta CC', '03-22 felt', '03-23 felt'],
           datasets: [
             {
-              label: 'PO Time (hrs)', data: [1, 2, 1.5, 2, 1, 2, 1.5, 0.75, 0.5, 1, 3],
+              label: 'PO Time (hrs)', data: [1, 2, 1.5, 2, 1, 2, 1.5, 0.75, 0.5, 1, 3, 0.4],
               backgroundColor: '#2563ebcc', borderColor: '#2563eb', borderWidth: 2, borderRadius: 6
             },
             {
-              label: '3-Person Team Equiv. (hrs)', data: [12, 16, 7.5, 8, 8, 16, 12, 12, 4, 4, 24],
+              label: '3-Person Team Equiv. (hrs)', data: [12, 16, 7.5, 8, 8, 16, 12, 12, 4, 4, 24, 8],
               backgroundColor: '#e10600cc', borderColor: '#e10600', borderWidth: 2, borderRadius: 6
             }
           ]

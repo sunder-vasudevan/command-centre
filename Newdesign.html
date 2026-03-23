@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Claude Command Centre — New Design</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4f5fb;
+            --surface: #ffffff;
+            --surface-soft: #f3f4ff;
+            --border: #e2e8f0;
+            --accent: #e11d48;
+            --accent-soft: rgba(248, 113, 113, 0.1);
+            --accent2: #2563eb;
+            --text: #0f172a;
+            --muted: #6b7280;
+            --good: #16a34a;
+            --danger: #dc2626;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(to bottom right, #eef2ff, #f9fafb);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(18px);
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid var(--border);
+            padding: 0.6rem 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            font-size: 0.95rem;
+        }
+
+        .brand span.flag {
+            font-size: 1.2rem;
+        }
+
+        .brand span.dot {
+            color: var(--accent);
+        }
+
+        .header-tabs {
+            display: flex;
+            gap: 0.25rem;
+            overflow-x: auto;
+            flex: 1;
+        }
+
+        .tab-btn {
+            border: none;
+            background: transparent;
+            color: #4b5563;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.7rem;
+            border-radius: 999px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            white-space: nowrap;
+            transition: background 0.16s, color 0.16s, transform 0.08s;
+        }
+
+        .tab-btn span.icon {
+            font-size: 0.95rem;
+        }
+
+        .tab-btn.active {
+            background: radial-gradient(circle at top left, var(--accent2), var(--accent));
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .tab-btn:hover {
+            background: rgba(148, 163, 184, 0.16);
+            transform: translateY(-0.5px);
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.7rem;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .badge {
+            border-radius: 999px;
+            padding: 0.15rem 0.55rem;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            font-size: 0.7rem;
+        }
+
+        .badge.live {
+            border-color: rgba(34, 197, 94, 0.7);
+            color: #bbf7d0;
+        }
+
+        /* Layout */
+        .shell {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 1.5rem 1.75rem 2rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr);
+            gap: 1.4rem;
+        }
+
+        @media (max-width: 900px) {
+            .shell {
+                grid-template-columns: minmax(0, 1fr);
+                padding: 1.2rem 1rem 2rem;
+            }
+
+            .header-meta {
+                display: none;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--surface);
+            border-radius: 0.9rem;
+            border: 1px solid var(--border);
+            padding: 1rem 1.1rem;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.04);
+        }
+
+        .card.soft {
+            background: var(--surface-soft);
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
+        }
+
+        .card-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #9ca3af;
+            margin-bottom: 0.5rem;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.12rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            background: #f9fafb;
+            border: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        .pill span.dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: var(--good);
+        }
+
+        /* Hero */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: #9ca3af;
+        }
+
+        .hero-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .hero-sub {
+            font-size: 0.82rem;
+            color: var(--muted);
+            max-width: 30rem;
+        }
+
+        .primary-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.35rem;
+        }
+
+        .btn {
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.45rem 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: transform 0.08s, box-shadow 0.1s, background 0.15s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--accent2), var(--accent));
+            color: #020617;
+            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.55);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 40px rgba(56, 189, 248, 0.7);
+        }
+
+        .btn-ghost {
+            background: #ffffff;
+            color: #111827;
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            background: #f9fafb;
+            transform: translateY(-1px);
+        }
+
+        /* Session status */
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-top: 0.4rem;
+            font-size: 0.74rem;
+            color: var(--muted);
+            flex-wrap: wrap;
+        }
+
+        .status-metrics {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .status-chip {
+            padding: 0.12rem 0.55rem;
+            border-radius: 999px;
+            background: #f9fafb;
+            border: 1px solid var(--border);
+            font-size: 0.7rem;
+        }
+
+        /* Columns below hero */
+        .stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .mini-label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #9ca3af;
+            margin-bottom: 0.3rem;
+        }
+
+        .last-list {
+            list-style: none;
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+
+        .last-list li {
+            display: flex;
+            gap: 0.4rem;
+            padding: 0.2rem 0;
+        }
+
+        .last-list li span.bullet {
+            margin-top: 0.1rem;
+        }
+
+        .trigger-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.35rem 0.5rem;
+            border-radius: 0.55rem;
+            background: #f9fafb;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            margin-bottom: 0.3rem;
+            cursor: pointer;
+            transition: background 0.12s, transform 0.08s, border-color 0.12s;
+            font-size: 0.78rem;
+        }
+
+        .trigger-row:hover {
+            background: #eef2ff;
+            border-color: rgba(37, 99, 235, 0.7);
+            transform: translateY(-0.5px);
+        }
+
+        .trigger-main {
+            display: flex;
+            flex-direction: column;
+            gap: 0.08rem;
+        }
+
+        .trigger-name {
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-size: 0.68rem;
+        }
+
+        .trigger-desc {
+            color: var(--muted);
+        }
+
+        .trigger-tag {
+            font-size: 0.68rem;
+            padding: 0.1rem 0.5rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+        }
+
+        /* Right column cards */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.5rem;
+        }
+
+        .metric {
+            padding: 0.65rem 0.7rem;
+            background: #f9fafb;
+            border-radius: 0.7rem;
+            border: 1px solid var(--border);
+        }
+
+        .metric-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #9ca3af;
+            margin-bottom: 0.16rem;
+        }
+
+        .metric-val {
+            font-family: "SF Mono", ui-monospace, Menlo, monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+        }
+
+        .metric-val.good {
+            color: #4ade80;
+        }
+
+        .metric-val.warn {
+            color: #facc15;
+        }
+
+        .mini-table {
+            margin-top: 0.5rem;
+            font-size: 0.76rem;
+            color: var(--muted);
+            border-radius: 0.7rem;
+            border: 1px solid var(--border);
+            background: #f9fafb;
+        }
+
+        .mini-row {
+            padding: 0.45rem 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .mini-row:last-child {
+            border-bottom: none;
+        }
+
+        .mini-row span.label {
+            font-size: 0.72rem;
+            color: var(--text);
+        }
+
+        .mini-row span.value {
+            font-size: 0.72rem;
+            color: var(--muted);
+        }
+
+        /* Footer */
+        .footer {
+            max-width: 1120px;
+            margin: 0 auto 1.5rem;
+            padding: 0.8rem 1.75rem 0;
+            font-size: 0.7rem;
+            color: var(--muted);
+            opacity: 0.85;
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 900px) {
+            .footer {
+                padding: 0.8rem 1rem 0;
+            }
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .desktop-only {
+            display: block;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
+        /* Focus states for keyboard navigation */
+        .tab-btn:focus-visible,
+        .btn:focus-visible,
+        .trigger-row:focus-visible {
+            outline: 2px solid var(--accent2);
+            outline-offset: 2px;
+        }
+
+        .header-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .header-tabs::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .header-tabs::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.6);
+            border-radius: 999px;
+        }
+
+        @media (max-width: 900px) {
+            .desktop-only {
+                display: none;
+            }
+
+            .mobile-only {
+                display: block;
+            }
+
+            .mobile-trim li:nth-child(n+3) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="app-header">
+        <div class="brand">
+            <span class="flag">🏁</span>
+            <span>Claude <span class="dot">■</span> Command Centre</span>
+        </div>
+        <div class="header-tabs">
+            <button class="tab-btn active" data-tab-target="session"><span
+                    class="icon">🚦</span><span>Session</span></button>
+            <button class="tab-btn" data-tab-target="thinking"><span
+                    class="icon">🔬</span><span>Thinking</span></button>
+            <button class="tab-btn" data-tab-target="projects"><span
+                    class="icon">🏎️</span><span>Projects</span></button>
+            <button class="tab-btn" data-tab-target="rules"><span class="icon">📏</span><span>Rules</span></button>
+            <button class="tab-btn" data-tab-target="tools"><span class="icon">🛠️</span><span>Tools</span></button>
+            <button class="tab-btn" data-tab-target="efficiency"><span
+                    class="icon">📊</span><span>Efficiency</span></button>
+            <button class="tab-btn" data-tab-target="howwework"><span class="icon">🤝</span><span>How we
+                    work</span></button>
+            <button class="tab-btn" data-tab-target="reference"><span
+                    class="icon">📚</span><span>Reference</span></button>
+            <button class="tab-btn" data-tab-target="seesme"><span class="icon">👁️</span><span>How Claude sees
+                    me</span></button>
+        </div>
+        <div class="header-meta">
+            <span class="badge live">Live · Session in progress</span>
+            <span>Last session: 2026‑03‑22 · 19:06</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="tab-panel active" data-tab="session">
+            <div class="shell">
+                <!-- Left: Session control -->
+                <section class="card">
+                    <div class="hero">
+                        <div class="hero-eyebrow">Session</div>
+                        <div class="hero-row">
+                            <div>
+                                <div class="hero-title">
+                                    Race Control
+                                    <span style="font-size:0.9rem;color:var(--accent2);">— say the word, Claude does the
+                                        rest</span>
+                                </div>
+                                <p class="hero-sub">
+                                    Start, steer, and close each work block with a single phrase.
+                                    This board keeps you and Claude in sync on what matters now.
+                                </p>
+                            </div>
+                            <div class="primary-actions">
+                                <button class="btn btn-primary">
+                                    🚦 lights out
+                                    <span style="font-weight:500;font-size:0.7rem;">Start new session</span>
+                                </button>
+                                <button class="btn btn-ghost">
+                                    ⏮ Resume last session
+                                </button>
+                            </div>
+                        </div>
+                        <div class="status-row">
+                            <div class="status-metrics">
+                                <div class="status-chip">Today: 1 active block</div>
+                                <div class="status-chip">Avg compression: 12×</div>
+                            </div>
+                            <div class="status-chip">Next appraisal in 15 days</div>
+                        </div>
+                    </div>
+
+                    <div class="stack">
+                        <div class="desktop-only">
+                            <div class="mini-label">Last session — 2026‑03‑22 · 19:06</div>
+                            <ul class="last-list">
+                                <li>
+                                    <span class="bullet">•</span>
+                                    <span><strong>Copy Context button</strong> added for one‑click full context to any
+                                        AI
+                                        tool.</span>
+                                </li>
+                                <li>
+                                    <span class="bullet">•</span>
+                                    <span><code>generate-context-dump.sh</code> wired into /wrap to keep this board in
+                                        sync.</span>
+                                </li>
+                                <li>
+                                    <span class="bullet">•</span>
+                                    <span><strong>Vercel alias root cause</strong> fixed — stale alias, not CDN
+                                        cache.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="mobile-only">
+                            <div class="mini-label">Last session — 2026‑03‑22 · 19:06</div>
+                            <ul class="last-list">
+                                <li>
+                                    <span class="bullet">•</span>
+                                    <span><strong>Copy Context button</strong> added for one‑click full context to any
+                                        AI
+                                        tool.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="mini-label">Quick triggers</div>
+
+                            <div class="trigger-row">
+                                <div class="trigger-main">
+                                    <div class="trigger-name">lights out</div>
+                                    <div class="trigger-desc">Full briefing → scope lock → build until green.</div>
+                                </div>
+                                <div class="trigger-tag">Start</div>
+                            </div>
+
+                            <div class="trigger-row">
+                                <div class="trigger-main">
+                                    <div class="trigger-name">fury road</div>
+                                    <div class="trigger-desc">Skip briefing, focus on one clear outcome.</div>
+                                </div>
+                                <div class="trigger-tag" style="border-color:rgba(239,68,68,0.7);color:#fecaca;">Crunch
+                                </div>
+                            </div>
+
+                            <div class="trigger-row">
+                                <div class="trigger-main">
+                                    <div class="trigger-name">first principles</div>
+                                    <div class="trigger-desc">Strip assumptions before any new domain or feature.</div>
+                                </div>
+                                <div class="trigger-tag">Thinking</div>
+                            </div>
+
+                            <div class="trigger-row">
+                                <div class="trigger-main">
+                                    <div class="trigger-name">wrap / packup</div>
+                                    <div class="trigger-desc">DoD check, docs, git, next‑session entry in one go.</div>
+                                </div>
+                                <div class="trigger-tag">End</div>
+                            </div>
+                        </div>
+                </section>
+
+                <!-- Right: Metrics & meta -->
+                <aside class="card soft">
+                    <div class="card-title">Today at a glance</div>
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <div class="metric-label">Active projects</div>
+                            <div class="metric-val warn">7</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Sessions logged</div>
+                            <div class="metric-val good">25</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Avg compression</div>
+                            <div class="metric-val">12×</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Next appraisal</div>
+                            <div class="metric-val">15d</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:0.9rem;">
+                        <div class="mini-label">Meta learnings (recent)</div>
+                        <div class="mini-table">
+                            <div class="mini-row">
+                                <span class="label">Context bridge</span>
+                                <span class="value">Copy Context + context‑dump keeps tools aligned.</span>
+                            </div>
+                            <div class="mini-row">
+                                <span class="label">Aliases</span>
+                                <span class="value">Vercel alias ≠ CDN cache; re‑alias after prod deploy.</span>
+                            </div>
+                            <div class="mini-row">
+                                <span class="label">Token cost</span>
+                                <span class="value">Hooks + skills load before you type a word.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:0.9rem;">
+                        <div class="mini-label">Next best move</div>
+                        <p style="font-size:0.76rem;color:var(--muted);line-height:1.5;">
+                            When you’re ready, hit <strong>lights out</strong>, pick one project from the Projects
+                            tab, and let Claude own the execution plan until the next <strong>wrap</strong>.
+                        </p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+        <div class="tab-panel" data-tab="thinking">
+            <div class="shell">
+                <section class="card">
+                    <div class="hero">
+                        <div class="hero-eyebrow">Thinking Modes</div>
+                        <div class="hero-row">
+                            <div>
+                                <div class="hero-title">First principles before every big move</div>
+                                <p class="hero-sub">
+                                    Pick a thinking mode to strip assumptions or deepen understanding before you ship.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stack">
+                        <div>
+                            <div class="mini-label">Core modes</div>
+                            <ul class="last-list mobile-trim">
+                                <li><span class="bullet">•</span><span><strong>Feynman</strong> — explain it like I’m 12
+                                        until it’s genuinely simple.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Learning</strong> — surface the 5
+                                        assumptions most people never question.</span></li>
+                                <li><span class="bullet">•</span><span><strong>First principles</strong> — rebuild the
+                                        problem only from what’s provably true.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Business</strong> — map assumptions to
+                                        revenue, cost, and risk.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Musk test</strong> — if we were starting
+                                        today, what would we design instead?</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="tab-panel" data-tab="projects">
+            <div class="shell">
+                <section class="card">
+                    <div class="hero">
+                        <div class="hero-eyebrow">Projects</div>
+                        <div class="hero-row">
+                            <div>
+                                <div class="hero-title">Active track</div>
+                                <p class="hero-sub">
+                                    High-level view of the work on your plate right now.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stack">
+                        <div>
+                            <div class="mini-label">Today’s lane</div>
+                            <ul class="last-list mobile-trim">
+                                <li><span class="bullet">•</span><span><strong>ARIA</strong> — Advisor copilot · Phase
+                                        2, backend stable, UX iteration in progress.</span></li>
+                                <li><span class="bullet">•</span><span><strong>BzHub</strong> — v5.1.0 live · Custom
+                                        module builder is the next big bet.</span></li>
+                                <li><span class="bullet">•</span><span><strong>felt</strong> — v0.2.0 shipped · Command
+                                        Centre restructure and collapsibles live.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="tab-panel" data-tab="rules">
+            <div class="shell">
+                <section class="card">
+                    <div class="hero">
+                        <div class="hero-eyebrow">Standing Rules</div>
+                        <div class="hero-row">
+                            <div>
+                                <div class="hero-title">How Claude works with you</div>
+                                <p class="hero-sub">
+                                    Guardrails that keep sessions fast, safe, and predictable.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stack">
+                        <div>
+                            <div class="mini-label">Core protocol</div>
+                            <ul class="last-list mobile-trim">
+                                <li><span class="bullet">•</span><span><strong>Edit gate</strong> — state files +
+                                        changes, wait for a clear "go ahead".</span></li>
+                                <li><span class="bullet">•</span><span><strong>Planning</strong> — anything 3+ steps
+                                        goes through plan mode first.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Subagents</strong> — research and
+                                        exploration get offloaded so build stays clean.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Verification</strong> — nothing is "done"
+                                        without proof it works.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Elegance</strong> — pause on non‑trivial
+                                        changes, look for the cleaner path.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="tab-panel" data-tab="tools">
+            <div class="shell">
+                <section class="card">
+                    <div class="hero">
+                        <div class="hero-eyebrow">Tools & Skills</div>
+                        <div class="hero-row">
+                            <div>
+                                <div class="hero-title">What Claude can spin up for you</div>
+                                <p class="hero-sub">
+                                    Quick mental map of the skills you’ve wired into this workspace.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stack">
+                        <div>
+                            <div class="mini-label">Execution</div>
+                            <ul class="last-list mobile-trim">
+                                <li><span class="bullet">•</span><span><strong>qa / qa-only / qa-design-review</strong>
+                                        — testing and visual QA across your apps.</span></li>
+                                <li><span class="bullet">•</span><span><strong>ship</strong> — tests, version bump,
+                                        changelog, PR in one flow.</span></li>
+                                <li><span class="bullet">•</span><span><strong>review</strong> — pre‑landing PR analysis
+                                        for structural issues.</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="mini-label">Design & product</div>
+                            <ul class="last-list mobile-trim">
+                                <li><span class="bullet">•</span><span><strong>design-consultation</strong> — full
+                                        design system thinking when you need it.</span></li>
+                                <li><span class="bullet">•</span><span><strong>plan-design-review</strong> —
+                                        designer’s‑eye pass on a live UI, report‑only.</span></li>
+                                <li><span class="bullet">•</span><span><strong>plan-ceo-review /
+                                            plan-eng-review</strong> — zoom‑out CEO or Eng‑manager mode on a
+                                        plan.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="tab-panel" data-tab="efficiency">
+            <div class="shell">
+                <section class="card">
+                    <div class="hero">
+                        <div class="hero-eyebrow">Efficiency</div>
+                        <div class="hero-row">
+                            <div>
+                                <div class="hero-title">Compression, without a team</div>
+                                <p class="hero-sub">
+                                    A lightweight read on how much work you and Claude are getting
+                                    done versus a 3-person team baseline.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stack">
+                        <div class="metric-grid">
+                            <div class="metric">
+                                <div class="metric-label">Sessions logged</div>
+                                <div class="metric-val good">25</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Total PO time</div>
+                                <div class="metric-val">~16 hrs</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Projects</div>
+                                <div class="metric-val">7</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Avg session</div>
+                                <div class="metric-val">~38 min</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="mini-label">What this panel is really saying</div>
+                            <ul class="last-list mobile-trim">
+                                <li><span class="bullet">•</span><span><strong>Compression ratio</strong> compares a
+                                        full 3-person sprint to your actual minutes of hands-on time.</span></li>
+                                <li><span class="bullet">•</span><span>Sessions are logged one by one, so you can see
+                                        which projects are soaking time.</span></li>
+                                <li><span class="bullet">•</span><span>When a bar looks too tall for "Meta", it’s time
+                                        to shift hours back to product.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="tab-panel" data-tab="howwework">
+            <div class="shell">
+                <section class="card">
+                    <div class="hero">
+                        <div class="hero-eyebrow">How we work</div>
+                        <div class="hero-row">
+                            <div>
+                                <div class="hero-title">Who does what, every session</div>
+                                <p class="hero-sub">
+                                    RACI and the three phases of a session, distilled from the full
+                                    Operator View into something you can scan in 20 seconds.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stack">
+                        <div>
+                            <div class="mini-label">RACI at a glance</div>
+                            <ul class="last-list mobile-trim">
+                                <li><span class="bullet">•</span><span><strong>Pick the feature</strong> — Sunny
+                                        <strong>R · A</strong>, Claude <span style="color:var(--muted)">C</span>.</span>
+                                </li>
+                                <li><span class="bullet">•</span><span><strong>Scope lock</strong> — one-sentence goal;
+                                        Sunny <strong>A</strong>, Claude <strong
+                                            style="color:var(--accent2)">R</strong>.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Write the code</strong> — Claude <strong
+                                            style="color:var(--accent2)">R</strong>, Sunny <span
+                                            style="color:var(--muted)">I</span>.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Deployment approval</strong> — Sunny
+                                        <strong>A</strong>, Claude <strong
+                                            style="color:var(--accent2)">R</strong>.</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="mini-label">Shape of a good session</div>
+                            <ul class="last-list mobile-trim">
+                                <li><span class="bullet">•</span><span><strong>Phase 1 — Start</strong>: say the
+                                        trigger, lock scope, no code until the sentence feels right.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Phase 2 — Build loop</strong>: diagnose
+                                        first, get edit approval, ship in thin slices with subagents running in
+                                        parallel.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Phase 3 — Wrap</strong>: DoD, docs,
+                                        commit, push, and a clean "wrap" before you close the tab.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="tab-panel" data-tab="reference">
+            <div class="shell">
+                <section class="card">
+                    <div class="hero">
+                        <div class="hero-eyebrow">Reference</div>
+                        <div class="hero-row">
+                            <div>
+                                <div class="hero-title">The operating manual behind this board</div>
+                                <p class="hero-sub">
+                                    A quick map of CLAUDE.md, memory, hooks, and the release log so you
+                                    always know where the rules actually live.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stack">
+                        <div>
+                            <div class="mini-label">CLAUDE.md vs memory</div>
+                            <ul class="last-list mobile-trim">
+                                <li><span class="bullet">•</span><span><strong>CLAUDE.md</strong> — global standing
+                                        orders, always loaded for every project.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Memory files</strong> — project state,
+                                        RCA notes, and feedback that load when relevant.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Hooks</strong> in settings.json wire
+                                        trigger words like <code>lights out</code> and <code>wrap</code> into these
+                                        files.</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="mini-label">Release log in plain language</div>
+                            <ul class="last-list mobile-trim">
+                                <li><span class="bullet">•</span><span>Each entry captures <strong>what
+                                            shipped</strong>, not every keystroke.</span></li>
+                                <li><span class="bullet">•</span><span>Meta work (like this Command Centre) is logged
+                                        separately from product releases.</span></li>
+                                <li><span class="bullet">•</span><span>You can scan it to remember why a decision was
+                                        made before starting the next session.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="tab-panel" data-tab="seesme">
+            <div class="shell">
+                <section class="card">
+                    <div class="hero">
+                        <div class="hero-eyebrow">How Claude sees you</div>
+                        <div class="hero-row">
+                            <div>
+                                <div class="hero-title">Honest appraisal, updated in cycles</div>
+                                <p class="hero-sub">
+                                    A narrative view of strengths, gaps, and the next 15-day focus — based
+                                    on actual sessions, not generic coaching.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stack">
+                        <div>
+                            <div class="mini-label">Trait profile</div>
+                            <ul class="last-list mobile-trim">
+                                <li><span class="bullet">•</span><span><strong>Bias to ship</strong> — prefers a working
+                                        thing over a perfect plan.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Systems builder</strong> — triggers,
+                                        memory, and protocols that most teams never formalise.</span></li>
+                                <li><span class="bullet">•</span><span><strong>Active ownership</strong> is still
+                                        evolving — the goal is to challenge Claude’s big decisions at least once a
+                                        session.</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="mini-label">Next 15-day focus</div>
+                            <ul class="last-list mobile-trim">
+                                <li><span class="bullet">•</span><span>Ship auth on one product — ARIA or BzHub — end to
+                                        end.</span></li>
+                                <li><span class="bullet">•</span><span>Challenge one architectural decision per session
+                                        before approving it.</span></li>
+                                <li><span class="bullet">•</span><span>Make mobile view the starting point, not a late
+                                        QA pass.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <span>Claude Command Centre · Newdesign mockup layout.</span>
+        <span>Keyboard-friendly: triggers 1‑4 can map to shortcuts later.</span>
+    </footer>
+
+    <script>
+        (function () {
+            const buttons = document.querySelectorAll('.tab-btn');
+            const panels = document.querySelectorAll('.tab-panel');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const target = btn.dataset.tabTarget;
+                    buttons.forEach(b => b.classList.toggle('active', b === btn));
+                    panels.forEach(p => p.classList.toggle('active', p.dataset.tab === target));
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>
