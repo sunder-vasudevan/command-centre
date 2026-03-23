@@ -2102,15 +2102,14 @@ _End of context dump_
         </div>
 
         <div class="panel-header" style="margin-top:1.5rem">
-          <div class="panel-title">Last Session — 2026-03-22 · 19:06</div>
+          <div class="panel-title">Last Session — 2026-03-23 · wrap</div>
         </div>
         <div class="mini-card">
           <ul style="padding-left:1.1rem;margin:0;font-size:0.78rem;color:var(--muted);line-height:1.8">
-            <li><strong style="color:var(--text)">Copy Context button</strong> — one-click copy of full AI context (who you are, projects, rules) to paste into Copilot / Claude.ai web</li>
-            <li><strong style="color:var(--text)">context-dump.md system</strong> — <code>generate-context-dump.sh</code> auto-regenerates at every /wrap and injects into Command Centre</li>
-            <li><strong style="color:var(--text)">inbox.md pattern</strong> — drop findings from other AI tools here; Claude Code picks them up at next lights-out</li>
-            <li><strong style="color:var(--text)">Vercel alias root cause</strong> — stale alias (not CDN cache) was why Command Centre showed yesterday's content; re-alias step confirmed in memory</li>
-            <li><strong style="color:var(--text)">MCP context server parked</strong> — long-term solution for full cross-client persistent context without copy-paste</li>
+            <li><strong style="color:var(--text)">felt v0.3.0</strong> — Upstash Redis migration verified; invite phrase lookup 404 fixed (dbGet string fallback); mobile share UX added (Copy link, WhatsApp, native Share API)</li>
+            <li><strong style="color:var(--text)">Read-after-write rule</strong> — HTTP 200 on write ≠ readable. Must verify round-trip for every key type after any storage migration</li>
+            <li><strong style="color:var(--text)">felt_wrap.md</strong> — created as proper trigger file; added to session_wrap.md table</li>
+            <li><strong style="color:var(--text)">Parked</strong> — Mobile UI overhaul, logout button, login with catchphrase, landing analytics, dot counts, Command Centre Newdesign.html</li>
           </ul>
         </div>
 
@@ -2119,6 +2118,15 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;">
+            <span class="rel-version" style="color:#64748b">2026-03-23</span>
+            <div class="rel-session" style="margin-top:0.5rem;font-size:0.78rem;color:#64748b">felt v0.3.0 — Storage migration + mobile share + bug fixes</div>
+            <ul style="margin-top:0.4rem">
+              <li>HTTP 200 on write ≠ readable — always verify read-after-write for every key type after a storage migration. One curl round-trip catches what smoke tests miss.</li>
+              <li>Vercel Blob free tier tracks cumulative operations — deleting blobs doesn't unsuspend a quota-exceeded store. Migrate early.</li>
+              <li>Web Share API (<code>navigator.share</code>) detected at runtime — hidden on desktop, shown only where available.</li>
+            </ul>
+          </div>
+          <div class="release" style="background:#f8f9fb;border-left:3px solid #94a3b8;margin-top:0.75rem">
             <span class="rel-version" style="color:#64748b">2026-03-22</span>
             <div class="rel-session" style="margin-top:0.5rem;font-size:0.78rem;color:#64748b">~19:06 · Cross-tool context bridge</div>
             <ul style="margin-top:0.4rem">
@@ -3337,20 +3345,61 @@ _End of context dump_
 
         <div class="panel-header">
           <div class="panel-title">Session Log</div>
-          <div class="panel-count">10 logged</div>
+          <div class="panel-count">11 logged</div>
         </div>
         <div class="data-panel" style="margin-bottom:1.5rem">
           <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
-            <div class="col-key">2026-03-18</div>
-            <div class="col-val">Meta — Working system redesign: triggers, growth protocol, wrap system</div>
-            <div class="col-val" style="color:var(--muted)">~60 min · 1–2 eng-days</div>
-            <div class="col-tag"><span class="tag green">~12x</span></div>
+            <div class="col-key">2026-03-23</div>
+            <div class="col-val">felt — v0.3.0: Upstash Redis migration verified, dbGet string fix, mobile share UX (Copy/WhatsApp/Share), E2E test</div>
+            <div class="col-val" style="color:var(--muted)">~25 min · ~1 eng-day</div>
+            <div class="col-tag"><span class="tag green">~20x</span></div>
           </div>
           <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
-            <div class="col-key">2026-03-18</div>
-            <div class="col-val">ARIA — Goal bugs, Safari fix, login redesign × 2 apps, design system, whitepaper + deck
-            </div>
+            <div class="col-key">2026-03-22</div>
+            <div class="col-val">Meta — Copy Context button, context-dump system, inbox.md cross-tool bridge</div>
+            <div class="col-val" style="color:var(--muted)">~45 min · ~2 hrs eng</div>
+            <div class="col-tag"><span class="tag green">~3x</span></div>
+          </div>
+          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
+            <div class="col-key">2026-03-22</div>
+            <div class="col-val">Meta — Command centre restructure: collapsible projects, per-project learnings, session log cleanup</div>
+            <div class="col-val" style="color:var(--muted)">~1 hr · ~1 eng-day</div>
+            <div class="col-tag"><span class="tag green">~8x</span></div>
+          </div>
+          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
+            <div class="col-key">2026-03-22</div>
+            <div class="col-val">felt — v0.1.0 → v0.2.0: Playground layout rewrite, dark/light theme, mobile responsive, physics animations</div>
+            <div class="col-val" style="color:var(--muted)">~3 hrs · ~3 eng-days</div>
+            <div class="col-tag"><span class="tag green">~8x</span></div>
+          </div>
+          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
+            <div class="col-key">2026-03-21</div>
+            <div class="col-val">Meta — Command centre mobile nav, charts, session log, project descriptions</div>
+            <div class="col-val" style="color:var(--muted)">~60 min · ~0.5 eng-day</div>
+            <div class="col-tag"><span class="tag green">~4x</span></div>
+          </div>
+          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
+            <div class="col-key">2026-03-21</div>
+            <div class="col-val">Swara Samipyam — Neon serverless HTTP, CRUD UI, deity colour-coding, mobile polish</div>
+            <div class="col-val" style="color:var(--muted)">~45 min · ~1.5 eng-days</div>
+            <div class="col-tag"><span class="tag green">~16x</span></div>
+          </div>
+          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
+            <div class="col-key">2026-03-21</div>
+            <div class="col-val">ARIA — Advisor profile page (self-edit), full advisor card on Personal, direct portal client auto-create + violet Direct badge, superadmin shown on login, source column migration</div>
+            <div class="col-val" style="color:var(--muted)">~1.5 hrs · ~1.5 eng-days</div>
+            <div class="col-tag"><span class="tag green">~8x</span></div>
+          </div>
+          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
+            <div class="col-key">2026-03-21</div>
+            <div class="col-val">ARIA — Production outage RCA: Python 3.14 SQLAlchemy bugs (boolean filter, unmapped column, string order_by, CORS). 4 root causes fixed. runtime.txt pinned.</div>
             <div class="col-val" style="color:var(--muted)">~2 hrs · ~2 eng-days</div>
+            <div class="col-tag"><span class="tag green">~8x</span></div>
+          </div>
+          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
+            <div class="col-key">2026-03-21</div>
+            <div class="col-val">Helm — Project created, named, scoped. Full data model (12 tables), signal engine, 8 decisions logged</div>
+            <div class="col-val" style="color:var(--muted)">~60 min · ~1 eng-day</div>
             <div class="col-tag"><span class="tag green">~8x</span></div>
           </div>
           <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
@@ -3360,64 +3409,16 @@ _End of context dump_
             <div class="col-tag"><span class="tag green">~5x</span></div>
           </div>
           <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
-            <div class="col-key">2026-03-21</div>
-            <div class="col-val">Helm — Project created, named, scoped. Full data model (12 tables), signal engine, 8
-              decisions logged</div>
-            <div class="col-val" style="color:var(--muted)">~60 min · ~1 eng-day</div>
-            <div class="col-tag"><span class="tag green">~8x</span></div>
-          </div>
-          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
-            <div class="col-key">2026-03-21</div>
-            <div class="col-val">ARIA — Production outage RCA: Python 3.14 SQLAlchemy bugs (boolean filter, unmapped
-              column, string order_by, CORS). 4 root causes fixed. runtime.txt pinned. Deep-dive RCA docs written.</div>
+            <div class="col-key">2026-03-18</div>
+            <div class="col-val">ARIA — Goal bugs, Safari fix, login redesign × 2 apps, design system, whitepaper + deck</div>
             <div class="col-val" style="color:var(--muted)">~2 hrs · ~2 eng-days</div>
             <div class="col-tag"><span class="tag green">~8x</span></div>
           </div>
           <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
-            <div class="col-key">2026-03-21</div>
-            <div class="col-val">ARIA — Advisor profile page (self-edit), full advisor card on Personal, direct portal
-              client auto-create + violet Direct badge, superadmin shown on login, source column migration</div>
-            <div class="col-val" style="color:var(--muted)">~1.5 hrs · ~1.5 eng-days</div>
-            <div class="col-tag"><span class="tag green">~8x</span></div>
-          </div>
-          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
-            <div class="col-key">2026-03-21</div>
-            <div class="col-val">Swara Samipyam — Neon serverless HTTP, CRUD UI, deity colour-coding, mobile polish
-            </div>
-            <div class="col-val" style="color:var(--muted)">~45 min · ~1.5 eng-days</div>
-            <div class="col-tag"><span class="tag green">~16x</span></div>
-          </div>
-          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
-            <div class="col-key">2026-03-21</div>
-            <div class="col-val">Meta — Command centre mobile nav, charts, session log, project descriptions</div>
-            <div class="col-val" style="color:var(--muted)">~60 min · ~0.5 eng-day</div>
-            <div class="col-tag"><span class="tag green">~4x</span></div>
-          </div>
-          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
-            <div class="col-key">2026-03-22</div>
-            <div class="col-val">felt — v0.1.0 → v0.2.0: Playground layout rewrite, dark/light theme, mobile responsive,
-              physics animations</div>
-            <div class="col-val" style="color:var(--muted)">~3 hrs · ~3 eng-days</div>
-            <div class="col-tag"><span class="tag green">~8x</span></div>
-          </div>
-          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
-            <div class="col-key">2026-03-22</div>
-            <div class="col-val">Meta — Command centre restructure: collapsible projects, per-project learnings, session
-              log cleanup</div>
-            <div class="col-val" style="color:var(--muted)">~1 hr · ~1 eng-day</div>
-            <div class="col-tag"><span class="tag green">~8x</span></div>
-          </div>
-          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
-            <div class="col-key">2026-03-22</div>
-            <div class="col-val">Meta — Copy Context button, context-dump system, inbox.md cross-tool bridge</div>
-            <div class="col-val" style="color:var(--muted)">~45 min · ~2 hrs eng</div>
-            <div class="col-tag"><span class="tag green">~3x</span></div>
-          </div>
-          <div class="data-row" style="grid-template-columns:1fr 2fr 1fr 1fr;">
-            <div class="col-key">2026-03-23</div>
-            <div class="col-val">felt — v0.3.0: Upstash Redis migration, dbGet string fix, mobile share UX, E2E test</div>
-            <div class="col-val" style="color:var(--muted)">~25 min · ~1 eng-day</div>
-            <div class="col-tag"><span class="tag green">~20x</span></div>
+            <div class="col-key">2026-03-18</div>
+            <div class="col-val">Meta — Working system redesign: triggers, growth protocol, wrap system</div>
+            <div class="col-val" style="color:var(--muted)">~60 min · 1–2 eng-days</div>
+            <div class="col-tag"><span class="tag green">~12x</span></div>
           </div>
         </div>
 
@@ -3680,6 +3681,21 @@ _End of context dump_
         <div class="card">
 
           <div class="release">
+            <span class="rel-version">2026-03-23</span>
+            <div style="margin-top:0.5rem">
+              <div class="rel-session">felt — v0.3.0 Storage migration verified + mobile share + bug fixes</div>
+              <ul>
+                <li>Fix: <code>dbGet</code> returned null for plain string keys — Upstash auto-parses JSON strings back to primitives, then JSON.parse("abc") threw. Fixed: fall back to raw value</li>
+                <li>Fix: invite phrase lookup returning 404 — root cause was the dbGet bug above</li>
+                <li>Mobile share UX on invite done screen: 📋 Copy link, 💬 WhatsApp, ↑ native Share (iOS/Android)</li>
+                <li>Full creator→joiner E2E flow verified via automated browser test (gstack/browse)</li>
+                <li>felt_wrap.md created as proper trigger file; added to session_wrap.md table</li>
+              </ul>
+              <div class="rel-learn">💡 Learnt: HTTP 200 on write ≠ readable. Always run read-after-write for every key type after a storage migration. One curl catches what smoke tests miss.</div>
+            </div>
+          </div>
+
+          <div class="release" style="margin-top:0.75rem">
             <span class="rel-version">2026-03-22</span>
             <div style="margin-top:0.5rem">
               <div class="rel-session">~19:06 · Command Centre — Cross-tool context bridge + UI polish</div>
@@ -3692,19 +3708,6 @@ _End of context dump_
                 <li>Session log: Meta entries separated from project releases with grey styling</li>
               </ul>
               <div class="rel-learn">💡 Learnt: Session Log = what shipped. Meta Learnings = what was understood. Keep them separate.</div>
-            </div>
-            <div style="margin-top:0.75rem">
-              <div class="rel-session">felt — v0.3.0 Storage migration + mobile share + bug fixes</div>
-              <ul>
-                <li>Migrated storage from Vercel Blob (suspended, quota exhausted) → Upstash Redis. Zero API route changes — same dbPut/dbGet/dbDel/dbList interface</li>
-                <li>Fix: <code>dbGet</code> returned null for plain string keys — Upstash auto-parses JSON strings back to primitives, then JSON.parse("abc") threw. Fixed: fall back to raw value</li>
-                <li>Fix: invite phrase lookup returning 404 — root cause was the dbGet bug above</li>
-                <li>Mobile share UX on invite done screen: 📋 Copy link, 💬 WhatsApp, ↑ native Share (iOS/Android)</li>
-                <li>Full creator→joiner E2E flow verified via automated browser test (gstack/browse)</li>
-                <li>RCA written: <code>RCA_STORAGE_MIGRATION.md</code>. Read-after-write checklist added to TEST_REPORT.md</li>
-                <li>felt_wrap.md created as proper trigger file; added to session_wrap.md table</li>
-              </ul>
-              <div class="rel-learn">💡 Learnt: HTTP 200 on write ≠ readable. Always run read-after-write for every key type after a storage migration. One curl catches what smoke tests miss.</div>
             </div>
             <div style="margin-top:0.75rem">
               <div class="rel-session">felt — v0.2.0 Playground layout rewrite</div>
@@ -4362,7 +4365,7 @@ _End of context dump_
       new Chart(document.getElementById('efficiencyChart').getContext('2d'), {
         type: 'bar',
         data: {
-          labels: ['03-18 Meta', '03-18 ARIA', '03-20 Meta', '03-21 Meta', '03-21 Helm', '03-21 ARIA RCA', '03-21 ARIA Feats', '03-21 Swara', '03-21 Meta', '03-21 Meta CC', '03-22 felt', '03-23 felt'],
+          labels: ['03-18\nMeta', '03-18\nARIA', '03-20\nMeta', '03-21\nHelm', '03-21\nARIA RCA', '03-21\nARIA Feats', '03-21\nSwara', '03-21\nMeta', '03-22\nfelt v0.2', '03-22\nMeta CC', '03-23\nfelt v0.3'],
           datasets: [
             {
               label: 'PO Time (hrs)', data: [1, 2, 1.5, 2, 1, 2, 1.5, 0.75, 0.5, 1, 3, 0.4],
