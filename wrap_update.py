@@ -425,13 +425,9 @@ def cmd_sync(args):
     html = patch_sessions_array(html, data["sessions"])
     html = patch_efficiency_chart(html, data["efficiency"])
 
-    # Inject what_shipped data
+    # Inject what_shipped data — always use regex for reliable replacement
     shipped_js = shipped_to_js(data.get("what_shipped", []))
-    if "window._what_shipped" not in html:
-        # If not present, add before buildCharts call
-        html = html.replace("buildCharts({", shipped_js + "\nbuildCharts({")
-    else:
-        html = re.sub(r"window\._what_shipped = \[[\s\S]*?\];", shipped_js, html, count=1)
+    html = re.sub(r"window\._what_shipped = \[[\s\S]*?\];", shipped_js + ";", html, count=1)
 
     INDEX_HTML.write_text(html)
     print(f"✓ index.html synced ({len(html):,} bytes)")
