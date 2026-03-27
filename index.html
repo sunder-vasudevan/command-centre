@@ -1556,7 +1556,7 @@ function showTab(id, btn) {
   const panel = document.getElementById('tab-' + id);
   if (panel) panel.classList.add('active');
   if (btn) btn.classList.add('active');
-  if (id === 'command' && !window._chartsBuilt && typeof Chart !== 'undefined') { buildCharts({sessions, what_shipped:window._what_shipped}); }
+  if (id === 'command' && !window._chartsBuilt && typeof Chart !== 'undefined') { buildCharts(window._what_shipped || []); }
 }
 
 function copyContext() {
@@ -1592,11 +1592,10 @@ function copyContext() {
 })();
 
 window._chartsBuilt = false;
-function buildCharts(data) {
+function buildCharts(whatsShippedData) {
   if (window._chartsBuilt) return;
   window._chartsBuilt = true;
-  if (!data) data = {sessions:[],what_shipped:[]};
-  if (!data.what_shipped) data.what_shipped = [];
+  if (!whatsShippedData) whatsShippedData = [];
   const accent = '#059669', tc = '#475569', gc = '#e2e8f0';
 
   const sessions = [
@@ -1865,7 +1864,7 @@ function buildCharts(data) {
 
   // What Shipped Timeline — horizontal bars grouped by date
   const shippedByDate = {};
-  const whatsShipped = data.what_shipped || [];
+  const whatsShipped = whatsShippedData || [];
   whatsShipped.forEach(ws => {
     if (!shippedByDate[ws.date]) shippedByDate[ws.date] = [];
     shippedByDate[ws.date].push({project:ws.project,items:(ws.items || []).length});
@@ -1906,7 +1905,7 @@ function buildCharts(data) {
 
 // Collapsible cards
 // Build charts before collapsibles collapse them
-buildCharts({sessions, what_shipped:window._what_shipped});
+buildCharts(window._what_shipped || []);
 
 (function initCollapsibles() {
   document.querySelectorAll('.ct.tog').forEach(ct => {
