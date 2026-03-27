@@ -82,6 +82,18 @@ def sessions_to_js(sessions):
     return "\n".join(lines)
 
 
+def shipped_to_js(what_shipped):
+    """Convert what_shipped data to JavaScript const."""
+    lines = ["window._what_shipped = ["]
+    for ws in what_shipped:
+        items_str = ",".join(f"'{item}'" for item in ws.get("items", []))
+        lines.append(f"  {{date:'{ws['date']}',project:'{ws['project']}',items:[{items_str}]}},")
+    if lines[-1].endswith(","):
+        lines[-1] = lines[-1].rstrip(",")
+    lines.append("];")
+    return "\n".join(lines)
+
+
 def efficiency_to_js(efficiency):
     labels = [e["label"] for e in efficiency]
     po = [round(e["po_mins"] / 60, 2) for e in efficiency]
@@ -392,6 +404,15 @@ def cmd_sync(args):
 
     html = patch_sessions_array(html, data["sessions"])
     html = patch_efficiency_chart(html, data["efficiency"])
+
+    # Inject what_shipped data
+    shipped_js = shipped_to_js(data.get("what_shipped", []))
+    if "window._what_shipped" not in html:
+        # If not present, add before buildCharts call
+        html = html.replace("buildCharts({", shipped_js + "\nbuildCharts({")
+    else:
+        html = re.sub(r"window\._what_shipped = \[[\s\S]*?\];", shipped_js, html, count=1)
+
     INDEX_HTML.write_text(html)
     print(f"✓ index.html synced ({len(html):,} bytes)")
     sync_mobile(sessions_js)
