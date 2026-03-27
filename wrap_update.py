@@ -94,6 +94,26 @@ def shipped_to_js(what_shipped):
     return "\n".join(lines)
 
 
+# ── Chart generation functions (auto-sync via wrap_update) ──────────────────
+
+def generate_chart_canvases():
+    """Generate chart canvas HTML blocks."""
+    return """
+        <div class="card" style="grid-column:1/-1">
+          <div class="ct">Tokens Burned — Budget Tracking</div>
+          <div class="cw" ondblclick="expandChart('tokensChart','Tokens Burned — Budget Tracking')"><canvas id="tokensChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="ct">Project Time Investment</div>
+          <div class="cw" ondblclick="expandChart('projectPieChart','Project Time Investment')"><canvas id="projectPieChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="ct">What Shipped Timeline</div>
+          <div class="cw" ondblclick="expandChart('shippedChart','What Shipped Timeline')"><canvas id="shippedChart"></canvas></div>
+        </div>
+    """
+
+
 def efficiency_to_js(efficiency):
     labels = [e["label"] for e in efficiency]
     po = [round(e["po_mins"] / 60, 2) for e in efficiency]
