@@ -1773,50 +1773,43 @@ function buildCharts(data) {
     });
   }
 
-  // Tokens Burned chart — cumulative tokens by date
+  // Tokens Burned chart — tokens by date, stacked by project
   const tokensCtx = document.getElementById('tokensChart');
   if (tokensCtx) {
-    const tokenDates = [], tokenValues = [], cumulative = 0;
+    const tokensByDateAndProj = {};
+    const tokenDates = [];
     sessions.forEach(s => {
       const date = s.label.split('\n')[0];
+      if (!tokensByDateAndProj[date]) {
+        tokensByDateAndProj[date] = {};
+        tokenDates.push(date);
+      }
       if (s.tokens) {
-        cumulative += s.tokens;
-        const lastDate = tokenDates[tokenDates.length-1];
-        if (lastDate !== date) {
-          tokenDates.push(date);
-          tokenValues.push(cumulative);
-        } else {
-          tokenValues[tokenValues.length-1] = cumulative;
-        }
+        tokensByDateAndProj[date][s.project] = (tokensByDateAndProj[date][s.project] || 0) + s.tokens;
       }
     });
+    const tokenDatasets = projects.map(p => ({
+      label:p,
+      data:tokenDates.map(d => (tokensByDateAndProj[d]?.[p] || 0) / 1000),
+      backgroundColor:pColor[p]+'cc',
+      borderColor:pColor[p],
+      borderWidth:1
+    }));
     new Chart(tokensCtx.getContext('2d'), {
-      type:'line',
+      type:'bar',
       data:{
         labels:tokenDates,
-        datasets:[{
-          label:'Cumulative Tokens',
-          data:tokenValues,
-          borderColor:'#f59e0b',
-          backgroundColor:'#f59e0b22',
-          fill:true,
-          borderWidth:3,
-          pointBackgroundColor:'#f59e0b',
-          pointRadius:5,
-          pointHoverRadius:7,
-          tension:0.3,
-          spanGaps:true
-        }]
+        datasets:tokenDatasets
       },
       options:{
         responsive:true,maintainAspectRatio:false,
         plugins:{
           legend:{display:true,position:'bottom',labels:{boxWidth:8,font:{size:9},color:tc,padding:6}},
-          tooltip:{callbacks:{label:i=>'Total: '+Math.round(i.parsed.y/1000)+'k tokens'}}
+          tooltip:{callbacks:{label:i=>i.dataset.label+': '+Math.round(i.parsed.y)+'k'}}
         },
         scales:{
-          y:{beginAtZero:true,grid:{color:gc},ticks:{color:tc,font:{size:9},callback:l=>Math.round(l/1000)+'k'}},
-          x:{grid:{display:false},ticks:{color:tc,font:{size:8},maxRotation:45}}
+          y:{stacked:true,beginAtZero:true,grid:{color:gc},ticks:{color:tc,font:{size:9},callback:l=>l+'k'}},
+          x:{stacked:true,grid:{display:false},ticks:{color:tc,font:{size:8},maxRotation:45}}
         }
       }
     });
