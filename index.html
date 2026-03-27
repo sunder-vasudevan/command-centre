@@ -1595,7 +1595,8 @@ window._chartsBuilt = false;
 function buildCharts(data) {
   if (window._chartsBuilt) return;
   window._chartsBuilt = true;
-  if (!data) { console.warn('buildCharts: no data provided'); return; }
+  if (!data) data = {sessions:[],what_shipped:[]};
+  if (!data.what_shipped) data.what_shipped = [];
   const accent = '#059669', tc = '#475569', gc = '#e2e8f0';
 
   const sessions = [
@@ -1864,12 +1865,13 @@ function buildCharts(data) {
 
   // What Shipped Timeline — horizontal bars grouped by date
   const shippedByDate = {};
-  data.what_shipped.forEach(ws => {
+  const whatsShipped = data.what_shipped || [];
+  whatsShipped.forEach(ws => {
     if (!shippedByDate[ws.date]) shippedByDate[ws.date] = [];
-    shippedByDate[ws.date].push({project:ws.project,items:ws.items.length});
+    shippedByDate[ws.date].push({project:ws.project,items:(ws.items || []).length});
   });
   const shippedDates = Object.keys(shippedByDate).sort().reverse();
-  const shippedProjects = [...new Set(data.what_shipped.map(ws => ws.project))];
+  const shippedProjects = [...new Set(whatsShipped.map(ws => ws.project))];
   const shippedCtx = document.getElementById('shippedChart');
   if (shippedCtx) {
     const shippedDatasets = shippedProjects.map(proj => ({
