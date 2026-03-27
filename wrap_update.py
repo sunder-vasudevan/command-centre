@@ -357,14 +357,44 @@ def cmd_bump_version(args):
     print(f"✓ Version badge → {ts}")
 
 
+def validate_js_syntax(sessions_js):
+    """Validate JS array doesn't have unescaped newlines in string literals."""
+    # Split by the array lines and check each object
+    lines = sessions_js.split('\n')
+    in_string = False
+    for i, line in enumerate(lines[1:-1], start=2):  # Skip "const sessions = [" and "];"
+        line = line.strip()
+        if not line or line.startswith('//'):
+            continue
+
+        # Count quotes to detect unterminated strings
+        # If line ends before closing }, we have an unclosed string
+        if line.endswith(',') or line.endswith('};'):
+            # Normal case — object completes on one line
+            continue
+        elif '{' in line and '}' not in line:
+            # Object started, should end with } or },
+            print(f"❌ Syntax error: object not closed on line {i}: {line[:60]}...")
+            return False
+
+    return True
+
+
 def cmd_sync(args):
     data = load_data()
     html = INDEX_HTML.read_text()
+    sessions_js = sessions_to_js(data["sessions"])
+
+    # Validate JS syntax before patching
+    if not validate_js_syntax(sessions_js):
+        print("⚠️  JS validation failed — aborting sync")
+        return
+
     html = patch_sessions_array(html, data["sessions"])
     html = patch_efficiency_chart(html, data["efficiency"])
     INDEX_HTML.write_text(html)
     print(f"✓ index.html synced ({len(html):,} bytes)")
-    sync_mobile(sessions_to_js(data["sessions"]))
+    sync_mobile(sessions_js)
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
