@@ -331,7 +331,7 @@ td:first-child { font-weight: 600; color: var(--text); }
 </style>
 <!-- CONTEXT-DUMP-START -->
 <script>window.__CONTEXT_DUMP__ = `# Sunny Hayes — AI Context Dump
-_Generated: 2026-03-27 06:15_
+_Generated: 2026-03-27 11:32_
 _Paste this at the start of any AI chat (Copilot, Claude.ai web) to give full context._
 
 ---
@@ -437,26 +437,35 @@ BzHub = Full-stack ERP/business management web app. SMB-focused, Odoo-inspired. 
 
 ### helm
 
-**What it is:** PM-first project management app. Core bet: bring the programme/project manager to the centre. v0.1 scope = daily command centre view + stakeholder visibility.
+**What it is:** PM command centre app. Daily sweep across all projects — surfaces relationship debt, blocked workstreams, open risks, unresolved blockers as ranked signals.
 
 **Repo:** https://github.com/sunder-vasudevan/helm (private)
 **Local:** ~/Daytona/helm
-**Deployed URL:** Not yet deployed
-**Current version:** v0.0.1
+**Deployed URL:** https://usehelm.vercel.app
+**Current version:** v0.1.0
 
-**Stack:** Next.js 14 (App Router) + Supabase (PostgreSQL + Auth) + Vercel
+**Stack:** Next.js 14 (App Router) + Neon PostgreSQL + NextAuth v5 + Vercel
 
-**Current phase:** Phase 1 — Scaffold + full data model designed and agreed
+**Auth:** Credentials provider (email/password). No bcrypt yet — any registered user can sign in (v0.2 fix).
 
-**Next feature:** FEAT-001 — Supabase schema migrations + Next.js 14 init
-- All 12 tables agreed (orgs, users, projects, project_members, stakeholders, project_stakeholders, workstreams, blockers, risks, decisions, stakeholder_updates, access_requests)
-- Signal-weighted command centre engine designed (B), Claude API brief deferred to v0.2
-- Score transparency UI ships v0.1 — every item shows ranking reasoning on hover
-- Hosting must be resolved before first deploy (ARIA infra session first)
+**What's built:**
+- Signal scoring engine: blocker, relationship_debt, workstream_risk, risk
+- Dashboard: left panel (signals grouped by stakeholder or project, collapsible), right panel (detail + actions)
+- All 8 real projects seeded with workstreams, blockers, risks
+- Stakeholders: Ajay Sanyal (ARIA Advisor, ARIA Personal, Helm, As Gurudev Says) + Vito Corleone (BzHub, Felt, Swara, Command Centre)
+- Actions: resolve blocker, escalate, acknowledge risk, update workstream, log note (inline textarea)
+- Notifications: bell icon, activity log, unread badge
+- /signals full list page, /help page
+- signal_notes + activity_log tables
 
-**Why:** Existing PM tools (Jira, Asana, Monday) are built for devs or executives. The PM orchestrating dependencies, stakeholders, risks is an afterthought. Helm puts the PM in the driver's seat.
+**Known gaps / parked:**
+- Scoring engine needs full PO review (weights, signal types, actions — Claude made assumptions)
+- Log a touchpoint needs proper form (date/time, mode, notes)
+- Bcrypt auth deferred to v0.2
+- org_id hardcoded (single-tenant v0.1)
+- Not tested at 375px mobile
+- Hosting: Vercel cold starts still unresolved (DECISION-001 open)
 
-**How to apply:** When resuming Helm, read ~/Daytona/helm/NOTES.md. FEAT-001 (data model) is the first real build task — design before code.
 
 ### swarasamipyam
 
@@ -696,7 +705,7 @@ _End of context dump_
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-03-27 06:14</div>
+    <div class="ver-badge">2026-03-27 11:31</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -724,13 +733,12 @@ _End of context dump_
 
       <div class="g2">
         <div class="card">
-                    <div class="ct">Last Session — 2026-03-27</div>
+                                        <div class="ct">Last Session — 2026-03-27</div>
           <ul class="bl">
-            <li>Paperclip embed broke collapsibles + graphs — reverted to backup</li>
-            <li>Decision: Paperclip = link to Railway URL, not embedded fetch</li>
+            <li>Advisor profile + portal client features + Python 3.14 SQLAlchemy RCA</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            <span class="b bp">Meta</span><span class="b bsl">~0.5 hrs PO</span><span class="b bg">~4x compression</span>
+            <span class="b bp">ARIA Advisor</span><span class="b bsl">~2.5 hrs PO</span><span class="b bg">~3x compression</span>
           </div>
           </div>
         </div>
@@ -812,7 +820,18 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct tog">What Shipped — Full Log · Updated 2026-03-24</div>
-                          <div class="rb"><div class="rd">2026-03-27</div>
+                                          <div class="rb"><div class="rd">2026-03-27</div>
+          <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Trade Management Module fully designed and documented (FEAT-1001-1008)</div></div>
+          <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Comprehensive spec (11k+ lines) with data model, API endpoints, execution flows</div></div>
+          <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">3 critical architectural decisions locked via design</div></div>
+          <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Memory file + PRD updates + NOTES locked design section</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-03-27</div>
+          <div class="ri"><div class="rtag">Helm</div><div class="rdet">Helm v0.1.0 live at usehelm.vercel.app</div></div>
+          <div class="ri"><div class="rtag">Helm</div><div class="rdet">Signal engine: blocker, debt, workstream, risk</div></div>
+          <div class="ri"><div class="rtag">Helm</div><div class="rdet">Dashboard: stakeholder/project grouping, actions, notifications, help</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-03-27</div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Paperclip migration: 43 issues seeded, COMPANY.md 16 sections</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Paperclip embed reverted — link-in-new-tab decision locked</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Clean restore deployed to claude-command-centre.vercel.app</div></div>
@@ -1252,8 +1271,8 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct">Real Numbers — Mar 12–24</div>
-          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">30 sessions across 24 days</div></div>
-          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~24.5 hours (est)</div></div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">40 sessions across 21 days</div></div>
+          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~28.0 hours (est)</div></div>
           <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
           <div class="rr"><div class="rk">Projects touched</div><div class="rv">8 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt, CC + Meta</div></div>
           <div class="rr"><div class="rk">Features shipped</div><div class="rv">felt v0.1→0.3, Swara v0.1, Helm scaffold, ARIA advisor profile + portal, CC v3.0.0</div></div>
@@ -1604,7 +1623,9 @@ function buildCharts() {
     {label:'Mar 23\nfelt',project:'felt',mins:180,tokens:null},
     {label:'Mar 24\nMeta CC',project:'Meta',mins:360,tokens:null},
     {label:'Mar 27\nPaperclip',project:'Meta',mins:45,tokens:null},
-    {label:'Mar 27\nMeta CC',project:'Meta',mins:47,tokens:null}
+    {label:'Mar 27\nMeta CC',project:'Meta',mins:47,tokens:null},
+    {label:'Mar 27\nHelm v0.1',project:'Helm',mins:210,tokens:null},
+    {label:'Mar 27\nTM Design',project:'ARIA Advisor',mins:180,tokens:null}
   ];
 
   const pColor = {
@@ -1710,17 +1731,17 @@ function buildCharts() {
     new Chart(effCtx.getContext('2d'), {
       type:'bar',
       data:{
-        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC"],
+        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-27 Helm v0.1", "03-27 TM Design"],
         datasets:[
           {
             label:'PO Time (hrs)',
-            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5],
+            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 2.5],
             backgroundColor:accent+'cc', borderColor:accent,
             borderWidth:2, borderRadius:4
           },
           {
             label:'3-Person Equiv (hrs)',
-            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0],
+            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 32.0, 8.0],
             backgroundColor:'#0f172912', borderColor:'#0f172944',
             borderWidth:1, borderRadius:4
           }

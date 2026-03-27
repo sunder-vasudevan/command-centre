@@ -2027,66 +2027,46 @@ document.querySelector('.search-input').addEventListener('input', function() {
 (function buildCharts() {
   const accent = '#e10600', tc = '#475569', gc = '#e2e8f0';
   const sessions = [
-    {label:'Mar 12
-BzHub',project:'BzHub',mins:45,tokens:null},
-    {label:'Mar 12
-BzHub',project:'BzHub',mins:25,tokens:null},
-    {label:'Mar 12
-BzHub',project:'BzHub',mins:35,tokens:null},
-    {label:'Mar 13
-ARIA',project:'ARIA Advisor',mins:90,tokens:null},
-    {label:'Mar 13
-BzHub',project:'BzHub',mins:30,tokens:null},
-    {label:'Mar 13
-BzHub',project:'BzHub',mins:20,tokens:null},
-    {label:'Mar 14
-ARIA',project:'ARIA Advisor',mins:15,tokens:null},
-    {label:'Mar 15
-ARIA',project:'ARIA Advisor',mins:20,tokens:null},
-    {label:'Mar 16
-ARIA',project:'ARIA Advisor',mins:35,tokens:86050},
-    {label:'Mar 17
-ARIA',project:'ARIA Advisor',mins:180,tokens:118860},
-    {label:'Mar 17
-ARIA',project:'ARIA Advisor',mins:105,tokens:null},
-    {label:'Mar 17
-Gurudev',project:'As Gurudev Says',mins:30,tokens:null},
-    {label:'Mar 17
-BzHub',project:'BzHub',mins:15,tokens:null},
-    {label:'Mar 18
-ARIA',project:'ARIA Advisor',mins:120,tokens:255502},
-    {label:'Mar 18
-Meta',project:'Meta',mins:60,tokens:null},
-    {label:'Mar 20
-Meta',project:'Meta',mins:90,tokens:85297},
-    {label:'Mar 21
-Meta',project:'Meta',mins:120,tokens:null},
-    {label:'Mar 21
-Helm',project:'Helm',mins:60,tokens:215079},
-    {label:'Mar 21
-ARIA RCA',project:'ARIA Advisor',mins:120,tokens:null},
-    {label:'Mar 21
-ARIA Feats',project:'ARIA Advisor',mins:90,tokens:null},
-    {label:'Mar 21
-Swara',project:'Swara Samipyam',mins:45,tokens:null},
-    {label:'Mar 21
-Meta',project:'Meta',mins:30,tokens:null},
-    {label:'Mar 21
-Meta CC',project:'Meta',mins:60,tokens:null},
-    {label:'Mar 22
-felt',project:'felt',mins:180,tokens:null},
-    {label:'Mar 22
-Meta CC',project:'Meta',mins:60,tokens:null},
-    {label:'Mar 22
-Ctx Sys',project:'Meta',mins:45,tokens:7424},
-    {label:'Mar 23
-felt',project:'felt',mins:180,tokens:null},
-    {label:'Mar 24
-Meta CC',project:'Meta',mins:360,tokens:null},
-    {label:'Mar 27
-Paperclip',project:'Meta',mins:45,tokens:null},
-    {label:'Mar 27
-Meta CC',project:'Meta',mins:47,tokens:null}
+    {label:'Feb 10\nBzHub',project:'BzHub',mins:120,tokens:null},
+    {label:'Feb 16\nBzHub',project:'BzHub',mins:90,tokens:null},
+    {label:'Feb 17\nBzHub',project:'BzHub',mins:60,tokens:null},
+    {label:'Feb 18\nBzHub',project:'BzHub',mins:180,tokens:null},
+    {label:'Feb 19\nBzHub',project:'BzHub',mins:90,tokens:null},
+    {label:'Mar 9\nBzHub',project:'BzHub',mins:120,tokens:null},
+    {label:'Mar 10\nBzHub',project:'BzHub',mins:240,tokens:null},
+    {label:'Mar 11\nBzHub',project:'BzHub',mins:180,tokens:null},
+    {label:'Mar 12\nBzHub',project:'BzHub',mins:45,tokens:null},
+    {label:'Mar 12\nBzHub',project:'BzHub',mins:25,tokens:null},
+    {label:'Mar 12\nBzHub',project:'BzHub',mins:35,tokens:null},
+    {label:'Mar 13\nARIA',project:'ARIA Advisor',mins:90,tokens:null},
+    {label:'Mar 13\nBzHub',project:'BzHub',mins:30,tokens:null},
+    {label:'Mar 13\nBzHub',project:'BzHub',mins:20,tokens:null},
+    {label:'Mar 14\nARIA',project:'ARIA Advisor',mins:15,tokens:null},
+    {label:'Mar 15\nARIA',project:'ARIA Advisor',mins:20,tokens:null},
+    {label:'Mar 16\nARIA',project:'ARIA Advisor',mins:35,tokens:86050},
+    {label:'Mar 17\nARIA',project:'ARIA Advisor',mins:180,tokens:118860},
+    {label:'Mar 17\nARIA',project:'ARIA Advisor',mins:105,tokens:null},
+    {label:'Mar 17\nGurudev',project:'As Gurudev Says',mins:30,tokens:null},
+    {label:'Mar 17\nBzHub',project:'BzHub',mins:15,tokens:null},
+    {label:'Mar 18\nARIA',project:'ARIA Advisor',mins:120,tokens:255502},
+    {label:'Mar 18\nMeta',project:'Meta',mins:60,tokens:null},
+    {label:'Mar 20\nMeta',project:'Meta',mins:90,tokens:85297},
+    {label:'Mar 21\nMeta',project:'Meta',mins:120,tokens:null},
+    {label:'Mar 21\nHelm',project:'Helm',mins:60,tokens:215079},
+    {label:'Mar 21\nARIA RCA',project:'ARIA Advisor',mins:120,tokens:null},
+    {label:'Mar 21\nARIA Feats',project:'ARIA Advisor',mins:90,tokens:null},
+    {label:'Mar 21\nSwara',project:'Swara Samipyam',mins:45,tokens:null},
+    {label:'Mar 21\nMeta',project:'Meta',mins:30,tokens:null},
+    {label:'Mar 21\nMeta CC',project:'Meta',mins:60,tokens:null},
+    {label:'Mar 22\nfelt',project:'felt',mins:180,tokens:null},
+    {label:'Mar 22\nMeta CC',project:'Meta',mins:60,tokens:null},
+    {label:'Mar 22\nCtx Sys',project:'Meta',mins:45,tokens:7424},
+    {label:'Mar 23\nfelt',project:'felt',mins:180,tokens:null},
+    {label:'Mar 24\nMeta CC',project:'Meta',mins:360,tokens:null},
+    {label:'Mar 27\nPaperclip',project:'Meta',mins:45,tokens:null},
+    {label:'Mar 27\nMeta CC',project:'Meta',mins:47,tokens:null},
+    {label:'Mar 27\nHelm v0.1',project:'Helm',mins:210,tokens:null},
+    {label:'Mar 27\nTM Design',project:'ARIA Advisor',mins:180,tokens:null}
   ];
   const pColor = {
     'ARIA Advisor':'#2563eb','BzHub':'#059669','Meta':'#e10600',

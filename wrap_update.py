@@ -69,9 +69,14 @@ def sessions_to_js(sessions):
     lines = ["  const sessions = ["]
     for s in sessions:
         tokens = s["tokens"] if s["tokens"] is not None else "null"
-        # Ensure label never contains literal newlines — always escaped \n
-        label = s["label"].replace("\\n", "\n").replace("\n", "\\n")
-        lines.append(f'    {{label:\'{label}\',project:\'{s["project"]}\',mins:{s["mins"]},tokens:{tokens}}},')
+        # JSON has \\n which becomes backslash-n string in Python (not actual newline)
+        # When written to JS, we need it as \\n so it renders as newline in browser
+        # The label already has \n (backslash-n), we just need to escape the backslash once more
+        # Actually: label is 'Mar 27\nTM' with backslash-n, write it directly and Python will preserve it
+        label = s["label"]  # Keep as-is; Python repr() will add escaping
+        # Build the line carefully to avoid Python interpreting escape sequences
+        line = f'    {{label:\'{repr(label)[1:-1]}\',project:\'{s["project"]}\',mins:{s["mins"]},tokens:{tokens}}},'
+        lines.append(line)
     lines[-1] = lines[-1].rstrip(",")
     lines.append("  ];")
     return "\n".join(lines)
