@@ -1692,21 +1692,14 @@ function buildCharts() {
             data:sessMins,
             backgroundColor:sessColors,
             borderColor:sessions.map(s=>pColor[s.project]||'#888'),
-            borderWidth:1, borderRadius:2, yAxisID:'y'
+            borderWidth:1, borderRadius:2, stack:'sessionStack', yAxisID:'y'
           },
           {
             label:'Tokens (k)',
             data:sessTokens,
-            type:'line',
+            backgroundColor:'#f59e0b99',
             borderColor:'#f59e0b',
-            backgroundColor:'#f59e0b33',
-            pointBackgroundColor:'#f59e0b',
-            pointRadius:sessTokens.map(t=>t?5:0),
-            pointHoverRadius:7,
-            borderWidth:2,
-            tension:0.3,
-            yAxisID:'y2',
-            spanGaps:true
+            borderWidth:1, borderRadius:2, stack:'sessionStack', yAxisID:'y'
           }
         ]
       },
@@ -1714,11 +1707,10 @@ function buildCharts() {
         responsive:false, maintainAspectRatio:false,
         plugins:{
           legend:{display:true,position:'bottom',labels:{boxWidth:8,font:{size:9},color:tc,padding:6}},
-          tooltip:{mode:'index',intersect:false}
+          tooltip:{mode:'index',intersect:false,callbacks:{label:ctx=>ctx.dataset.label+': '+(ctx.parsed.y||0)+(ctx.dataset.label.includes('Tokens')?'k':'m')}}
         },
         scales:{
-          y:{beginAtZero:true,grid:{color:gc},ticks:{color:tc,font:{size:9}}},
-          y2:{beginAtZero:true,position:'right',grid:{display:false},ticks:{color:'#f59e0b',font:{size:9}}},
+          y:{stacked:true,beginAtZero:true,grid:{color:gc},ticks:{color:tc,font:{size:9}}},
           x:{grid:{display:false},ticks:{color:tc,font:{size:9},maxRotation:45}}
         }
       }
