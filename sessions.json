@@ -1,0 +1,304 @@
+{
+  "sessions": [
+    {
+      "label": "Mar 12\nBzHub",
+      "project": "BzHub",
+      "mins": 45,
+      "tokens": null
+    },
+    {
+      "label": "Mar 12\nBzHub",
+      "project": "BzHub",
+      "mins": 25,
+      "tokens": null
+    },
+    {
+      "label": "Mar 12\nBzHub",
+      "project": "BzHub",
+      "mins": 35,
+      "tokens": null
+    },
+    {
+      "label": "Mar 13\nARIA",
+      "project": "ARIA Advisor",
+      "mins": 90,
+      "tokens": null
+    },
+    {
+      "label": "Mar 13\nBzHub",
+      "project": "BzHub",
+      "mins": 30,
+      "tokens": null
+    },
+    {
+      "label": "Mar 13\nBzHub",
+      "project": "BzHub",
+      "mins": 20,
+      "tokens": null
+    },
+    {
+      "label": "Mar 14\nARIA",
+      "project": "ARIA Advisor",
+      "mins": 15,
+      "tokens": null
+    },
+    {
+      "label": "Mar 15\nARIA",
+      "project": "ARIA Advisor",
+      "mins": 20,
+      "tokens": null
+    },
+    {
+      "label": "Mar 16\nARIA",
+      "project": "ARIA Advisor",
+      "mins": 35,
+      "tokens": 86050
+    },
+    {
+      "label": "Mar 17\nARIA",
+      "project": "ARIA Advisor",
+      "mins": 180,
+      "tokens": 118860
+    },
+    {
+      "label": "Mar 17\nARIA",
+      "project": "ARIA Advisor",
+      "mins": 105,
+      "tokens": null
+    },
+    {
+      "label": "Mar 17\nGurudev",
+      "project": "As Gurudev Says",
+      "mins": 30,
+      "tokens": null
+    },
+    {
+      "label": "Mar 17\nBzHub",
+      "project": "BzHub",
+      "mins": 15,
+      "tokens": null
+    },
+    {
+      "label": "Mar 18\nARIA",
+      "project": "ARIA Advisor",
+      "mins": 120,
+      "tokens": 255502
+    },
+    {
+      "label": "Mar 18\nMeta",
+      "project": "Meta",
+      "mins": 60,
+      "tokens": null
+    },
+    {
+      "label": "Mar 20\nMeta",
+      "project": "Meta",
+      "mins": 90,
+      "tokens": 85297
+    },
+    {
+      "label": "Mar 21\nMeta",
+      "project": "Meta",
+      "mins": 120,
+      "tokens": null
+    },
+    {
+      "label": "Mar 21\nHelm",
+      "project": "Helm",
+      "mins": 60,
+      "tokens": 215079
+    },
+    {
+      "label": "Mar 21\nARIA RCA",
+      "project": "ARIA Advisor",
+      "mins": 120,
+      "tokens": null
+    },
+    {
+      "label": "Mar 21\nARIA Feats",
+      "project": "ARIA Advisor",
+      "mins": 90,
+      "tokens": null
+    },
+    {
+      "label": "Mar 21\nSwara",
+      "project": "Swara Samipyam",
+      "mins": 45,
+      "tokens": null
+    },
+    {
+      "label": "Mar 21\nMeta",
+      "project": "Meta",
+      "mins": 30,
+      "tokens": null
+    },
+    {
+      "label": "Mar 21\nMeta CC",
+      "project": "Meta",
+      "mins": 60,
+      "tokens": null
+    },
+    {
+      "label": "Mar 22\nfelt",
+      "project": "felt",
+      "mins": 180,
+      "tokens": null
+    },
+    {
+      "label": "Mar 22\nMeta CC",
+      "project": "Meta",
+      "mins": 60,
+      "tokens": null
+    },
+    {
+      "label": "Mar 22\nCtx Sys",
+      "project": "Meta",
+      "mins": 45,
+      "tokens": 7424
+    },
+    {
+      "label": "Mar 23\nfelt",
+      "project": "felt",
+      "mins": 180,
+      "tokens": null
+    },
+    {
+      "label": "Mar 24\nMeta CC",
+      "project": "Meta",
+      "mins": 360,
+      "tokens": null
+    },
+    {
+      "label": "Mar 27\\nPaperclip",
+      "project": "Meta",
+      "mins": 45,
+      "tokens": null
+    }
+  ],
+  "efficiency": [
+    {
+      "label": "03-18 Meta",
+      "po_mins": 60,
+      "equiv_mins": 720
+    },
+    {
+      "label": "03-18 ARIA",
+      "po_mins": 120,
+      "equiv_mins": 960
+    },
+    {
+      "label": "03-20 Meta",
+      "po_mins": 90,
+      "equiv_mins": 450
+    },
+    {
+      "label": "03-21 Helm",
+      "po_mins": 60,
+      "equiv_mins": 480
+    },
+    {
+      "label": "03-21 ARIA RCA",
+      "po_mins": 120,
+      "equiv_mins": 480
+    },
+    {
+      "label": "03-21 ARIA Feats",
+      "po_mins": 90,
+      "equiv_mins": 960
+    },
+    {
+      "label": "03-21 Swara",
+      "po_mins": 45,
+      "equiv_mins": 720
+    },
+    {
+      "label": "03-21 Meta",
+      "po_mins": 30,
+      "equiv_mins": 720
+    },
+    {
+      "label": "03-22 felt v0.2",
+      "po_mins": 180,
+      "equiv_mins": 240
+    },
+    {
+      "label": "03-22 Meta CC",
+      "po_mins": 60,
+      "equiv_mins": 240
+    },
+    {
+      "label": "03-23 felt v0.3",
+      "po_mins": 180,
+      "equiv_mins": 1440
+    },
+    {
+      "label": "03-24 Meta CC",
+      "po_mins": 360,
+      "equiv_mins": 1440
+    },
+    {
+      "label": "Mar 27 Paperclip",
+      "po_mins": 45,
+      "equiv_mins": 480
+    }
+  ],
+  "what_shipped": [
+    {
+      "date": "2026-03-27",
+      "project": "Meta",
+      "items": [
+        "Paperclip Best of Both Combined \u2014 8 parking lot issues, 18 done issues, 4 growth issues seeded",
+        "COMPANY.md enriched: 16 new sections (Session History, Token Audit, Standards, Profile, Quick Links)",
+        "CEO SOUL.md: Race Control triggers + Agent Protocol appended",
+        "CEO HEARTBEAT.md: How a Session Runs 3-phase protocol appended",
+        "index_backup_2026-03-27.html created"
+      ]
+    },
+    {
+      "date": "2026-03-24",
+      "project": "Meta",
+      "items": [
+        "Newdesign.html rebuilt from scratch with 6-tab layout (Command, Projects, Parking, Standards, Profile, Reference)",
+        "All 27-session data migrated from old index.html",
+        "Parking Lot tab added with 45 items across 7 projects",
+        "mobile.html restructured: Insights removed, Parking Lot added, charts added to Command tab",
+        "Sessions.json data layer created",
+        "wrap_update.py automation script created",
+        "Deployed to claude-command-centre.vercel.app"
+      ]
+    },
+    {
+      "date": "2026-03-23",
+      "project": "felt",
+      "items": [
+        "felt v0.3.0: User presence system with Firestore real-time listeners",
+        "Online/offline status badges on canvas",
+        "Gesture broadcasting (brush strokes visible to partner in real-time)",
+        "Reconnection handling with exponential backoff"
+      ]
+    },
+    {
+      "date": "2026-03-22",
+      "project": "Meta",
+      "items": [
+        "Context recovery system: SESSION_SNAPSHOT.md protocol",
+        "lights_out.md updated with interaction time tracking rule",
+        "feedback_context_recovery.md memory written"
+      ]
+    },
+    {
+      "date": "2026-03-22",
+      "project": "felt",
+      "items": [
+        "felt v0.2.0: Firebase project wired, Firestore rules deployed",
+        "Canvas persistence: strokes saved to Firestore, reload restores state",
+        "Shared rooms via URL hash (#room-id)",
+        "Clear canvas synced across both users"
+      ]
+    }
+  ],
+  "meta": {
+    "last_updated": "2026-03-27",
+    "version": "v2026.03.24"
+  }
+}
