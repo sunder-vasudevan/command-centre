@@ -173,6 +173,12 @@
       "project": "Meta",
       "mins": 45,
       "tokens": null
+    },
+    {
+      "label": "Mar 27\\nMeta CC",
+      "project": "Meta",
+      "mins": 47,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -240,9 +246,23 @@
       "label": "Mar 27 Paperclip",
       "po_mins": 45,
       "equiv_mins": 480
+    },
+    {
+      "label": "03-27 Meta CC",
+      "po_mins": 30,
+      "equiv_mins": 120
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-03-27",
+      "project": "Meta",
+      "items": [
+        "Paperclip migration: 43 issues seeded, COMPANY.md 16 sections",
+        "Paperclip embed reverted \u2014 link-in-new-tab decision locked",
+        "Clean restore deployed to claude-command-centre.vercel.app"
+      ]
+    },
     {
       "date": "2026-03-27",
       "project": "Meta",

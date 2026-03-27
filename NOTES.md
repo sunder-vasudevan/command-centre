@@ -1,5 +1,49 @@
 # Command Centre — NOTES.md
 
+## Current State: v3.1.0 (2026-03-27) — restored
+
+← START HERE NEXT SESSION
+
+### Session 2026-03-27 — Paperclip migration + revert
+- Paperclip "Best of Both Combined" migration executed: 43 todo issues, 18 done issues seeded, COMPANY.md enriched with 16 sections
+- Attempted Paperclip live API integration into index.html (Parking Lot + What Shipped tabs fetching from localhost:3100)
+- Integration broke collapsibles + graphs — reverted to index_backup_2026-03-27.html
+- Deployed clean restore to claude-command-centre.vercel.app
+- **Decision locked:** Paperclip integration = link to Railway URL in new tab, not embedded fetch. Build when Railway deploy is ready.
+
+### Open flags (updated)
+- Add "Open Paperclip →" button to Command Centre once Railway deploy is live (swap localhost:3100 for Railway URL)
+- Fix "Sunny Hews" typo in Paperclip user profile (not in index.html — in Paperclip UI settings)
+- Set Git Repo field for all Paperclip projects
+
+### What shipped — v3.1.0 (2026-03-24)
+- **Parking Lot**: single column layout (was 4-col grid), all cards open by default, per-project border colors (Felt=pink, ARIA=blue, BzHub=green, Helm=sky, Gurudev=purple, Swara=amber, ARIA Personal=indigo, Command Module=emerald)
+- **expandChart() fixed**: was broken due to `JSON.stringify` deep-copy of Chart.js internal proxy. Now rebuilds config manually from `src.data` — modal chart renders correctly.
+- **Collapse bug fixed**: cards in non-active tabs had `scrollHeight=0` at init (tab was hidden). On expand now forces `max-height: none` to measure natural height, then sets it. Token Audit and all non-Command-tab cards now collapse/expand correctly.
+- **CLAUDE.md updated**: added verification rule for command-centre HTML changes — open in browser before marking done.
+- **Bug audit documented**: 5 Claude oversights, 1 unclear prompt, 3 real bugs — all resolved this session.
+
+### What shipped — v3.0.0 (2026-03-24)
+- **Full redesign shipped**: Newdesign.html → index.html (6-tab layout replacing 9-tab dark design)
+- **Tabs**: Command | Projects | Parking Lot | Standards | Profile | Reference
+- **All content migrated**: 27 sessions, full What Shipped, all Meta Learnings, all project data
+- **Parking Lot tab**: 45 items across 7 projects
+- **mobile.html restructured**: Insights tab removed, Parking Lot added, charts added to Command tab
+- **sessions.json**: Data layer created — source of truth for all session/efficiency data
+- **wrap_update.py**: CLI tool for adding sessions, efficiency rows, shipped items without touching HTML
+- **Deployed**: claude-command-centre.vercel.app
+
+### Next up
+- FEAT-001: Wire wrap_update.py into session_wrap.md so wrap auto-updates sessions.json + syncs HTML
+- FEAT-002: Add last-session summary card to Command tab (auto-populated from sessions.json)
+- FEAT-003: sessions.json data layer → consider whether index.html can fetch it at load time (static JSON on Vercel)
+
+### Open flags
+- Newdesign.html can be deleted after confirming index.html is stable for 1 week
+- wrap_update.py sync() regex needs testing against real index.html — do a dry run before trusting it
+
+---
+
 ## Current State: v2.5.0 (2026-03-21)
 
 ### What shipped in this session

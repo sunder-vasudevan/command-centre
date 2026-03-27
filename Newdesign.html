@@ -1,1058 +1,1321 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <title>Claude Command Centre — New Design</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #f4f5fb;
-            --surface: #ffffff;
-            --surface-soft: #f3f4ff;
-            --border: #e2e8f0;
-            --accent: #e11d48;
-            --accent-soft: rgba(248, 113, 113, 0.1);
-            --accent2: #2563eb;
-            --text: #0f172a;
-            --muted: #6b7280;
-            --good: #16a34a;
-            --danger: #dc2626;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(to bottom right, #eef2ff, #f9fafb);
-            color: var(--text);
-            min-height: 100vh;
-        }
-
-        /* Header */
-        .app-header {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            backdrop-filter: blur(18px);
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid var(--border);
-            padding: 0.6rem 1.75rem;
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            white-space: nowrap;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            font-size: 0.95rem;
-        }
-
-        .brand span.flag {
-            font-size: 1.2rem;
-        }
-
-        .brand span.dot {
-            color: var(--accent);
-        }
-
-        .header-tabs {
-            display: flex;
-            gap: 0.25rem;
-            overflow-x: auto;
-            flex: 1;
-        }
-
-        .tab-btn {
-            border: none;
-            background: transparent;
-            color: #4b5563;
-            font-size: 0.8rem;
-            padding: 0.25rem 0.7rem;
-            border-radius: 999px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            white-space: nowrap;
-            transition: background 0.16s, color 0.16s, transform 0.08s;
-        }
-
-        .tab-btn span.icon {
-            font-size: 0.95rem;
-        }
-
-        .tab-btn.active {
-            background: radial-gradient(circle at top left, var(--accent2), var(--accent));
-            color: #ffffff;
-            font-weight: 600;
-        }
-
-        .tab-btn:hover {
-            background: rgba(148, 163, 184, 0.16);
-            transform: translateY(-0.5px);
-        }
-
-        .header-meta {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.7rem;
-            color: var(--muted);
-            white-space: nowrap;
-        }
-
-        .badge {
-            border-radius: 999px;
-            padding: 0.15rem 0.55rem;
-            border: 1px solid rgba(148, 163, 184, 0.5);
-            font-size: 0.7rem;
-        }
-
-        .badge.live {
-            border-color: rgba(34, 197, 94, 0.7);
-            color: #bbf7d0;
-        }
-
-        /* Layout */
-        .shell {
-            max-width: 1120px;
-            margin: 0 auto;
-            padding: 1.5rem 1.75rem 2rem;
-            display: grid;
-            grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr);
-            gap: 1.4rem;
-        }
-
-        @media (max-width: 900px) {
-            .shell {
-                grid-template-columns: minmax(0, 1fr);
-                padding: 1.2rem 1rem 2rem;
-            }
-
-            .header-meta {
-                display: none;
-            }
-        }
-
-        /* Cards */
-        .card {
-            background: var(--surface);
-            border-radius: 0.9rem;
-            border: 1px solid var(--border);
-            padding: 1rem 1.1rem;
-            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.04);
-        }
-
-        .card.soft {
-            background: var(--surface-soft);
-            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
-        }
-
-        .card-title {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: #9ca3af;
-            margin-bottom: 0.5rem;
-        }
-
-        .pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            padding: 0.12rem 0.5rem;
-            border-radius: 999px;
-            font-size: 0.7rem;
-            background: #f9fafb;
-            border: 1px solid var(--border);
-            color: var(--muted);
-        }
-
-        .pill span.dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 999px;
-            background: var(--good);
-        }
-
-        /* Hero */
-        .hero {
-            display: flex;
-            flex-direction: column;
-            gap: 0.55rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .hero-eyebrow {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            color: #9ca3af;
-        }
-
-        .hero-row {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .hero-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .hero-sub {
-            font-size: 0.82rem;
-            color: var(--muted);
-            max-width: 30rem;
-        }
-
-        .primary-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-            margin-top: 0.35rem;
-        }
-
-        .btn {
-            border-radius: 999px;
-            border: none;
-            cursor: pointer;
-            font-size: 0.78rem;
-            font-weight: 600;
-            padding: 0.45rem 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            transition: transform 0.08s, box-shadow 0.1s, background 0.15s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(to right, var(--accent2), var(--accent));
-            color: #020617;
-            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.55);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 16px 40px rgba(56, 189, 248, 0.7);
-        }
-
-        .btn-ghost {
-            background: #ffffff;
-            color: #111827;
-            border: 1px solid var(--border);
-        }
-
-        .btn-ghost:hover {
-            background: #f9fafb;
-            transform: translateY(-1px);
-        }
-
-        /* Session status */
-        .status-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.75rem;
-            margin-top: 0.4rem;
-            font-size: 0.74rem;
-            color: var(--muted);
-            flex-wrap: wrap;
-        }
-
-        .status-metrics {
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-        }
-
-        .status-chip {
-            padding: 0.12rem 0.55rem;
-            border-radius: 999px;
-            background: #f9fafb;
-            border: 1px solid var(--border);
-            font-size: 0.7rem;
-        }
-
-        /* Columns below hero */
-        .stack {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            margin-top: 0.5rem;
-        }
-
-        .mini-label {
-            font-size: 0.68rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: #9ca3af;
-            margin-bottom: 0.3rem;
-        }
-
-        .last-list {
-            list-style: none;
-            font-size: 0.78rem;
-            color: var(--muted);
-        }
-
-        .last-list li {
-            display: flex;
-            gap: 0.4rem;
-            padding: 0.2rem 0;
-        }
-
-        .last-list li span.bullet {
-            margin-top: 0.1rem;
-        }
-
-        .trigger-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.35rem 0.5rem;
-            border-radius: 0.55rem;
-            background: #f9fafb;
-            border: 1px solid rgba(148, 163, 184, 0.7);
-            margin-bottom: 0.3rem;
-            cursor: pointer;
-            transition: background 0.12s, transform 0.08s, border-color 0.12s;
-            font-size: 0.78rem;
-        }
-
-        .trigger-row:hover {
-            background: #eef2ff;
-            border-color: rgba(37, 99, 235, 0.7);
-            transform: translateY(-0.5px);
-        }
-
-        .trigger-main {
-            display: flex;
-            flex-direction: column;
-            gap: 0.08rem;
-        }
-
-        .trigger-name {
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            font-size: 0.68rem;
-        }
-
-        .trigger-desc {
-            color: var(--muted);
-        }
-
-        .trigger-tag {
-            font-size: 0.68rem;
-            padding: 0.1rem 0.5rem;
-            border-radius: 999px;
-            border: 1px solid rgba(148, 163, 184, 0.5);
-        }
-
-        /* Right column cards */
-        .metric-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 0.5rem;
-        }
-
-        .metric {
-            padding: 0.65rem 0.7rem;
-            background: #f9fafb;
-            border-radius: 0.7rem;
-            border: 1px solid var(--border);
-        }
-
-        .metric-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: #9ca3af;
-            margin-bottom: 0.16rem;
-        }
-
-        .metric-val {
-            font-family: "SF Mono", ui-monospace, Menlo, monospace;
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: -0.05em;
-        }
-
-        .metric-val.good {
-            color: #4ade80;
-        }
-
-        .metric-val.warn {
-            color: #facc15;
-        }
-
-        .mini-table {
-            margin-top: 0.5rem;
-            font-size: 0.76rem;
-            color: var(--muted);
-            border-radius: 0.7rem;
-            border: 1px solid var(--border);
-            background: #f9fafb;
-        }
-
-        .mini-row {
-            padding: 0.45rem 0.6rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .mini-row:last-child {
-            border-bottom: none;
-        }
-
-        .mini-row span.label {
-            font-size: 0.72rem;
-            color: var(--text);
-        }
-
-        .mini-row span.value {
-            font-size: 0.72rem;
-            color: var(--muted);
-        }
-
-        /* Footer */
-        .footer {
-            max-width: 1120px;
-            margin: 0 auto 1.5rem;
-            padding: 0.8rem 1.75rem 0;
-            font-size: 0.7rem;
-            color: var(--muted);
-            opacity: 0.85;
-            display: flex;
-            justify-content: space-between;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        @media (max-width: 900px) {
-            .footer {
-                padding: 0.8rem 1rem 0;
-            }
-        }
-
-        .tab-panel {
-            display: none;
-        }
-
-        .tab-panel.active {
-            display: block;
-        }
-
-        .desktop-only {
-            display: block;
-        }
-
-        .mobile-only {
-            display: none;
-        }
-
-        /* Focus states for keyboard navigation */
-        .tab-btn:focus-visible,
-        .btn:focus-visible,
-        .trigger-row:focus-visible {
-            outline: 2px solid var(--accent2);
-            outline-offset: 2px;
-        }
-
-        .header-tabs::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .header-tabs::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .header-tabs::-webkit-scrollbar-thumb {
-            background: rgba(148, 163, 184, 0.6);
-            border-radius: 999px;
-        }
-
-        @media (max-width: 900px) {
-            .desktop-only {
-                display: none;
-            }
-
-            .mobile-only {
-                display: block;
-            }
-
-            .mobile-trim li:nth-child(n+3) {
-                display: none;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏁 Command Centre — Sunny Hayes</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #f1f5f9;
+  --surface:   #ffffff;
+  --border:    #e2e8f0;
+  --border2:   #cbd5e1;
+  --accent:    #059669;
+  --accent-lt: #d1fae5;
+  --accent-dk: #047857;
+  --text:      #0f172a;
+  --text2:     #475569;
+  --text3:     #94a3b8;
+  --sidebar-w: 52px;
+  --header-h:  52px;
+  --r:         8px;
+  --gap:       16px;
+  --pad:       20px;
+}
+
+body {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+header {
+  height: var(--header-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px 0 calc(var(--sidebar-w) + 16px);
+  gap: 10px;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.brand { font-size: 15px; font-weight: 700; color: var(--text); white-space: nowrap; letter-spacing: -0.02em; }
+.brand em { font-style: normal; color: var(--accent); }
+
+.search-box {
+  flex: 1; max-width: 300px;
+  display: flex; align-items: center; gap: 6px;
+  background: var(--bg); border: 1px solid var(--border2);
+  border-radius: 999px; padding: 5px 12px;
+  font-size: 13px; color: var(--text3);
+}
+.search-box input { border: none; background: transparent; outline: none; color: var(--text); font-size: 13px; font-family: inherit; width: 100%; }
+
+.hdr-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+.status-row { display: flex; gap: 10px; }
+.sdot { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text2); white-space: nowrap; }
+.sdot-c { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+.ver-badge {
+  padding: 3px 10px; background: var(--accent-lt); border: 1px solid var(--accent);
+  border-radius: 999px; font-size: 11px; font-weight: 600; color: var(--accent-dk); white-space: nowrap;
+}
+
+.ctx-btn {
+  padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border2);
+  background: var(--surface); color: var(--text2); font-size: 12px; font-family: inherit;
+  cursor: pointer; white-space: nowrap; transition: all 0.15s;
+}
+.ctx-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.layout { flex: 1; display: flex; min-height: 0; overflow: hidden; }
+
+.sidebar {
+  width: var(--sidebar-w); flex-shrink: 0;
+  background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 10px 0; gap: 4px; z-index: 5;
+}
+
+.nb {
+  width: 36px; height: 36px; border-radius: var(--r); border: none;
+  background: transparent; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: var(--text3); position: relative;
+  transition: background 0.12s, color 0.12s;
+}
+.nb:hover { background: var(--bg); color: var(--text2); }
+.nb.active { background: var(--accent-lt); color: var(--accent-dk); }
+.nb.active::before {
+  content: ''; position: absolute; left: -1px; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 18px; background: var(--accent); border-radius: 0 2px 2px 0;
+}
+.nb[data-tip]:hover::after {
+  content: attr(data-tip); position: absolute; left: calc(100% + 10px); top: 50%;
+  transform: translateY(-50%); background: var(--text); color: #fff;
+  font-size: 11px; font-family: inherit; font-weight: 500; padding: 4px 8px;
+  border-radius: 5px; white-space: nowrap; pointer-events: none; z-index: 100;
+}
+
+.sb-spacer { flex: 1; }
+
+.content { flex: 1; overflow-y: auto; padding: var(--pad); display: flex; flex-direction: column; gap: var(--gap); min-width: 0; }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: contents; }
+
+.ph { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.ph-title { font-size: 21px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; line-height: 1.2; }
+.ph-sub { font-size: 12px; color: var(--text3); margin-top: 3px; }
+
+.g2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap); }
+.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+.gauto { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--gap); }
+@media (max-width: 820px) { .g2, .g3 { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--surface); border-radius: var(--r);
+  border-left: 3px solid var(--accent); padding: var(--pad); overflow: hidden;
+}
+.ct { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 12px; }
+.ct.tog { cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+.ct.tog::after { content: '▾'; font-size: 13px; margin-left: 6px; opacity: 0.5; transition: transform 0.2s; }
+.card.collapsed .ct.tog::after { transform: rotate(-90deg); }
+.card-body { overflow: hidden; transition: max-height 0.25s ease, opacity 0.2s ease; }
+.card.collapsed .card-body { max-height: 0 !important; opacity: 0; }
+
+.bl { display: flex; flex-direction: column; gap: 6px; list-style: none; }
+.bl li { display: flex; gap: 8px; font-size: 13px; color: var(--text2); }
+.bl li::before { content: '→'; color: var(--accent); flex-shrink: 0; font-weight: 600; }
+
+.rr { display: flex; gap: 10px; font-size: 13px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.rr:last-child { border-bottom: none; }
+.rk { font-weight: 600; color: var(--text); white-space: nowrap; min-width: 155px; flex-shrink: 0; }
+.rv { color: var(--text2); }
+
+.kv { display: flex; gap: 8px; font-size: 13px; padding: 4px 0; }
+.kk { font-weight: 600; color: var(--accent); min-width: 130px; flex-shrink: 0; white-space: nowrap; }
+.kv2 { color: var(--text2); }
+
+.b { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.bg { background: #d1fae5; color: #047857; }
+.bb { background: #dbeafe; color: #1d40ae; }
+.by { background: #fef3c7; color: #92400e; }
+.br { background: #fee2e2; color: #991b1b; }
+.bp { background: #fce7f3; color: #9d174d; }
+.bv { background: #ede9fe; color: #5b21b6; }
+.bsk { background: #e0f2fe; color: #0c4a6e; }
+.bsl { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+.tgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+.ti { background: var(--bg); border-radius: var(--r); padding: 9px 11px; border-left: 3px solid var(--accent); }
+.tw { font-size: 12px; font-weight: 700; color: var(--text); font-family: 'SF Mono','Fira Code',monospace; }
+.td2 { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+.pr { display: flex; gap: 10px; font-size: 13px; align-items: flex-start; padding: 5px 0; }
+.pn { width: 22px; height: 22px; border-radius: 50%; background: var(--accent-lt); color: var(--accent-dk); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.pt { color: var(--text2); }
+.pt strong { color: var(--text); font-weight: 600; }
+
+.pc { background: var(--surface); border-radius: var(--r); border-left: 3px solid var(--border2); padding: var(--pad); display: flex; flex-direction: column; gap: 10px; }
+.pch { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.pname { font-size: 15px; font-weight: 700; color: var(--text); }
+.ptag { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.purl { font-size: 11px; color: var(--accent); text-decoration: none; }
+.purl:hover { text-decoration: underline; }
+.pstack { display: flex; gap: 4px; flex-wrap: wrap; }
+.pill { padding: 1px 7px; background: var(--bg); border: 1px solid var(--border2); border-radius: 4px; font-size: 10px; color: var(--text2); font-weight: 500; }
+.pstats { display: flex; gap: 14px; }
+.psv { font-size: 16px; font-weight: 700; color: var(--text); }
+.psl2 { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.04em; }
+.pst { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); margin-bottom: 5px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); padding: 8px 10px; border-bottom: 2px solid var(--border); }
+td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg); }
+td:first-child { font-weight: 600; color: var(--text); }
+
+.sr { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.sr:last-child { border-bottom: none; }
+.sc { font-family: 'SF Mono','Fira Code',monospace; font-size: 12px; font-weight: 600; color: var(--accent); min-width: 190px; flex-shrink: 0; }
+.sd { font-size: 12px; color: var(--text2); }
+
+.rb { margin-bottom: 18px; }
+.rd { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); margin-bottom: 7px; }
+.ri { display: flex; gap: 8px; font-size: 13px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+.ri:last-child { border-bottom: none; }
+.rtag { font-weight: 600; color: var(--text); min-width: 120px; flex-shrink: 0; }
+.rdet { color: var(--text2); }
+
+.metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+.mbox { background: var(--surface); border-radius: var(--r); border-left: 3px solid var(--accent); padding: 14px 18px; }
+.mv { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.03em; line-height: 1; }
+.ml { font-size: 10px; color: var(--text3); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+.lr { display: grid; grid-template-columns: 82px 1fr 68px 62px 62px; gap: 6px; font-size: 12px; padding: 6px 0; border-bottom: 1px solid var(--border); align-items: center; }
+.lr:last-child { border-bottom: none; }
+.lrh { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); }
+
+.cw { position: relative; height: 200px; }
+
+.thgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: var(--gap); }
+.thcard { background: var(--surface); border-radius: var(--r); border-left: 3px solid var(--accent); padding: var(--pad); }
+.thtrig { font-family: 'SF Mono','Fira Code',monospace; font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 5px; }
+.thname { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.thdesc { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+.trgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.trcard { padding: 11px; border-radius: var(--r); background: var(--bg); border-top: 3px solid var(--border2); }
+.trcard.strength { border-top-color: #059669; }
+.trcard.caution { border-top-color: #f59e0b; }
+.trcard.gap { border-top-color: #e10600; }
+.trtype { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); }
+.trname { font-size: 12px; font-weight: 700; color: var(--text); margin-top: 2px; }
+
+.mb { padding: 10px 0; border-bottom: 1px solid var(--border); }
+.mb:last-child { border-bottom: none; }
+.mbd { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 5px; }
+.mbi { font-size: 13px; color: var(--text2); padding: 2px 0 2px 13px; position: relative; }
+.mbi::before { content: '·'; position: absolute; left: 3px; color: var(--accent); font-weight: 700; }
+
+.stitle { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); padding-bottom: 8px; border-bottom: 2px solid var(--border); margin-bottom: var(--gap); }
+
+/* Gap rows */
+.gap-row { display: flex; gap: 10px; font-size: 13px; padding: 8px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+.gap-row:last-child { border-bottom: none; }
+.gap-row-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.gap-row-title { font-weight: 600; color: var(--text); font-size: 13px; }
+.gap-row-desc { font-size: 12px; color: var(--text2); margin-top: 2px; }
+.gap-row-fix { font-size: 11px; color: var(--accent-dk); background: var(--accent-lt); padding: 1px 7px; border-radius: 4px; margin-top: 4px; display: inline-block; }
+
+/* Focus cards */
+.focus-card { background: var(--bg); border-radius: var(--r); padding: 14px; border-top: 3px solid var(--accent); }
+.focus-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.focus-card-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.focus-card-tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 999px; white-space: nowrap; }
+
+/* Appraisal countdown */
+.countdown-bar-wrap { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.countdown-label { font-size: 12px; color: var(--text2); display: flex; justify-content: space-between; }
+.countdown-val { font-weight: 700; color: var(--text); }
+.progress-bar-outer { height: 8px; background: var(--bg); border-radius: 999px; overflow: hidden; }
+.progress-bar-inner { height: 100%; background: var(--accent); border-radius: 999px; transition: width 0.5s ease; }
+
+/* Seesme badge */
+.seesme-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; background: var(--accent-lt); border: 1px solid var(--accent); border-radius: 999px; font-size: 11px; font-weight: 600; color: var(--accent-dk); }
+
+/* Baseline grid */
+.baseline-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap); }
+
+/* Parking lot */
+.parking-project { background: var(--surface); border-radius: var(--r); border-left: 3px solid var(--border2); padding: var(--pad); display: flex; flex-direction: column; gap: 10px; }
+.parking-project-header { font-size: 14px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.parking-item { display: flex; gap: 10px; font-size: 13px; padding: 6px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+.parking-item:last-child { border-bottom: none; }
+.parking-item-tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: var(--bg); border: 1px solid var(--border2); color: var(--text2); white-space: nowrap; flex-shrink: 0; }
+.parking-item-text { color: var(--text2); line-height: 1.5; }
+
+/* rel- classes for what shipped */
+.rel-version { font-size: 13px; font-weight: 700; color: var(--text); }
+
+/* About banner */
+.about-banner { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: 12px 16px; font-size: 12px; color: var(--text3); line-height: 1.6; }
+
+/* Session chart with 3 panels */
+.chart-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+@media (max-width: 900px) { .chart-trio { grid-template-columns: 1fr; } }
+@media (max-width: 680px) { .metrics { grid-template-columns: repeat(2, 1fr); } }
+
+@media (max-width: 680px) {
+  :root { --sidebar-w: 0px; --header-h: 48px; --pad: 14px; --gap: 12px; }
+  header { padding: 0 12px; }
+  .search-box { display: none; }
+  .status-row { display: none; }
+  .sidebar { display: none; }
+  .mob-nav {
+    display: flex; position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--surface); border-top: 1px solid var(--border);
+    z-index: 20; height: 56px;
+    justify-content: space-around; align-items: center;
+  }
+  .mob-nb {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px; border: none; background: transparent; cursor: pointer;
+    font-size: 18px; color: var(--text3); padding: 6px 0; transition: color 0.12s;
+  }
+  .mob-nb span { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: inherit; }
+  .mob-nb.active { color: var(--accent); }
+  .content { padding-bottom: 70px; }
+  .ph-title { font-size: 18px; }
+  .lr { grid-template-columns: 72px 1fr 55px; }
+  .lr > *:nth-child(4), .lr > *:nth-child(5) { display: none; }
+  .baseline-grid { grid-template-columns: 1fr; }
+  .chart-trio { grid-template-columns: 1fr; }
+}
+@media (min-width: 681px) { .mob-nav { display: none; } }
+</style>
 </head>
-
 <body>
-    <header class="app-header">
-        <div class="brand">
-            <span class="flag">🏁</span>
-            <span>Claude <span class="dot">■</span> Command Centre</span>
+<script>window.__CONTEXT_DUMP__ = `# Sunny Hayes — AI Context Dump
+_Generated: 2026-03-24_
+
+## Who I Am
+Sunny Hayes (Sunder Vasudevan). Product-minded builder. 3-year goal: tech-expert Product Owner who ships fast.
+
+## 3-Year Vision
+Tech-expert Product Owner who ships fast. Vehicles: ARIA Advisor + BzHub. Methodology: Claude Code as primary co-engineer.
+
+## Active Projects
+- ARIA Advisor: AI workbench for wealth managers. FastAPI + React + Supabase + Render. https://a-ria.vercel.app
+- BzHub: Modular ERP for SMEs. Next.js 14 v5.1.0. https://bzhub.vercel.app
+- felt: Shared emotional canvas. Next.js 16 + Upstash Redis. https://feltit.vercel.app
+- Helm: PM command centre. v0.0.1 scaffold.
+- Swara Samipyam: Devotional lyrics. HTML/Neon. https://sunder-vasudevan.github.io/swara-samipyam/
+- ARIA Personal: Consumer finance app. React/Vite. https://aria-personal.vercel.app
+- As Gurudev Says: Oracle RAG on Sri Aurobindo works. Phase 1 done.
+
+## Standing Rules
+No Co-Author commits. Edit gate. Mobile first (680px). No type=date. Free tier first. Docs at wrap.
+
+## Protocol
+Edit gate → Planning (3+ steps) → Subagents → Verify before done. /wrap at session end.
+`;</script>
+
+<header>
+  <div class="brand">🏁 Command <em>Centre</em></div>
+  <div class="search-box">
+    <svg width="13" height="13" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="7" stroke="#94a3b8" stroke-width="2"/><path d="M14.5 14.5L19 19" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></svg>
+    <input type="text" placeholder="Search…">
+  </div>
+  <div class="hdr-right">
+    <div class="status-row">
+      <div class="sdot"><div class="sdot-c" style="background:#ec4899"></div>Felt v0.3.0</div>
+      <div class="sdot"><div class="sdot-c" style="background:#f59e0b"></div>ARIA · 2 open</div>
+      <div class="sdot"><div class="sdot-c" style="background:#2563eb"></div>BzHub FEAT-041</div>
+    </div>
+    <div class="ver-badge">2026-03-23 22:46</div>
+    <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <button class="nb active" onclick="showTab('command',this)" data-tip="Command">🚦</button>
+    <button class="nb" onclick="showTab('projects',this)" data-tip="Projects">🏎️</button>
+    <button class="nb" onclick="showTab('parking',this)" data-tip="Parking Lot">🅿️</button>
+    <button class="nb" onclick="showTab('standards',this)" data-tip="Standards">📏</button>
+    <button class="nb" onclick="showTab('profile',this)" data-tip="Profile">👁️</button>
+    <div class="sb-spacer"></div>
+    <button class="nb" onclick="showTab('reference',this)" data-tip="Reference">📄</button>
+  </nav>
+
+  <main class="content">
+
+    <!-- ===== COMMAND TAB ===== -->
+    <div class="tab-panel active" id="tab-command">
+      <div class="ph">
+        <div><div class="ph-title">Command</div><div class="ph-sub">Race control · Protocol · Charts · Session log · Baseline</div></div>
+        <span class="b bg">2026-03-24 · Active</span>
+      </div>
+
+      <div class="about-banner">Claude Command Centre is Sunny Hayes (aka Sunder Vasudevan)'s personal dashboard for managing AI-assisted product development. It tracks active projects, session efficiency, agent protocol, and personal growth metrics in one place.</div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="ct">Last Session — 2026-03-23</div>
+          <ul class="bl">
+            <li>Fixed Upstash Redis dbGet string fallback bug (JSON.parse on plain strings returning null)</li>
+            <li>Mobile share UX on Felt invite — Copy link, WhatsApp, native Share API</li>
+            <li>Full E2E creator→joiner browser test verified via gstack/browse</li>
+            <li>Felt v0.3.0 shipped to feltit.vercel.app</li>
+            <li>Command Centre session log fixed — latest-first, version badge corrected to timestamp</li>
+          </ul>
+          <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
+            <span class="b bp">felt v0.3.0</span><span class="b bsl">~3 hrs PO</span><span class="b bg">~10x compression</span>
+          </div>
         </div>
-        <div class="header-tabs">
-            <button class="tab-btn active" data-tab-target="session"><span
-                    class="icon">🚦</span><span>Session</span></button>
-            <button class="tab-btn" data-tab-target="thinking"><span
-                    class="icon">🔬</span><span>Thinking</span></button>
-            <button class="tab-btn" data-tab-target="projects"><span
-                    class="icon">🏎️</span><span>Projects</span></button>
-            <button class="tab-btn" data-tab-target="rules"><span class="icon">📏</span><span>Rules</span></button>
-            <button class="tab-btn" data-tab-target="tools"><span class="icon">🛠️</span><span>Tools</span></button>
-            <button class="tab-btn" data-tab-target="efficiency"><span
-                    class="icon">📊</span><span>Efficiency</span></button>
-            <button class="tab-btn" data-tab-target="howwework"><span class="icon">🤝</span><span>How we
-                    work</span></button>
-            <button class="tab-btn" data-tab-target="reference"><span
-                    class="icon">📚</span><span>Reference</span></button>
-            <button class="tab-btn" data-tab-target="seesme"><span class="icon">👁️</span><span>How Claude sees
-                    me</span></button>
+        <div class="card">
+          <div class="ct tog">Race Control — say the word</div>
+          <div class="tgrid">
+            <div class="ti"><div class="tw">lights out</div><div class="td2">Start a session</div></div>
+            <div class="ti"><div class="tw">fury road</div><div class="td2">Crunch — max speed</div></div>
+            <div class="ti"><div class="tw">cold start</div><div class="td2">Revival after 3+ weeks</div></div>
+            <div class="ti"><div class="tw">first principles</div><div class="td2">Strip all assumptions</div></div>
+            <div class="ti"><div class="tw">the offer</div><div class="td2">Major architecture call</div></div>
+            <div class="ti"><div class="tw">park that</div><div class="td2">Capture, don't derail</div></div>
+            <div class="ti"><div class="tw">red flag</div><div class="td2">Security/cost/breaking</div></div>
+            <div class="ti"><div class="tw">wrap / packup</div><div class="td2">Close the session</div></div>
+            <div class="ti"><div class="tw">abort / stand down</div><div class="td2">Cancel cleanly</div></div>
+            <div class="ti"><div class="tw">retro</div><div class="td2">Quarterly health check</div></div>
+            <div class="ti"><div class="tw">growth</div><div class="td2">Learning debrief</div></div>
+            <div class="ti"><div class="tw">/compact</div><div class="td2">Compress context</div></div>
+          </div>
         </div>
-        <div class="header-meta">
-            <span class="badge live">Live · Session in progress</span>
-            <span>Last session: 2026‑03‑22 · 19:06</span>
+      </div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="ct tog">Agent Protocol</div>
+          <div class="pr"><div class="pn">1</div><div class="pt"><strong>Edit Gate</strong> — State files + intent. Wait for "go ahead". Exception: wrap tasks autonomous.</div></div>
+          <div class="pr"><div class="pn">2</div><div class="pt"><strong>Planning</strong> — Enter plan mode for 3+ step tasks or architectural decisions.</div></div>
+          <div class="pr"><div class="pn">3</div><div class="pt"><strong>Subagents</strong> — Use liberally for research and parallel analysis. One task per subagent.</div></div>
+          <div class="pr"><div class="pn">4</div><div class="pt"><strong>Verification</strong> — Never mark done without proof. Would a staff engineer approve this?</div></div>
+          <div class="pr"><div class="pn">5</div><div class="pt"><strong>Elegance</strong> — For non-trivial changes, ask: is there a simpler way?</div></div>
+          <div class="pr"><div class="pn">6</div><div class="pt"><strong>Bug Reports</strong> — Fix it. Logs → root cause → fix → report back.</div></div>
         </div>
-    </header>
+        <div class="card">
+          <div class="ct tog">Meta Learnings — How the System Works</div>
+          <div class="mb"><div class="mbd">2026-03-23</div>
+            <div class="mbi">HTTP 200 on write ≠ data is readable. Always read-back after storage layer changes.</div>
+            <div class="mbi">Vercel Blob free tier: cumulative ops limit — deleting blobs doesn't unsuspend. Migrate early.</div>
+          </div>
+          <div class="mb"><div class="mbd">2026-03-22</div>
+            <div class="mbi">Vercel stale content = stale alias, not CDN cache. Re-alias after every vercel --prod.</div>
+            <div class="mbi">The gap between Claude Code and other AI tools is context. Memory + CLAUDE.md = instant grounding.</div>
+          </div>
+          <div class="mb"><div class="mbd">2026-03-21</div>
+            <div class="mbi">Token cost: hooks inject full trigger files before your first word. Budget accordingly.</div>
+            <div class="mbi">Session log must be git log-driven — never rely on memory alone.</div>
+          </div>
+          <div class="mb"><div class="mbd">2026-03-20</div>
+            <div class="mbi">GitHub Pages: clicking a file in repo shows source code, not the rendered page.</div>
+          </div>
+        </div>
+      </div>
 
-    <main>
-        <div class="tab-panel active" data-tab="session">
-            <div class="shell">
-                <!-- Left: Session control -->
-                <section class="card">
-                    <div class="hero">
-                        <div class="hero-eyebrow">Session</div>
-                        <div class="hero-row">
-                            <div>
-                                <div class="hero-title">
-                                    Race Control
-                                    <span style="font-size:0.9rem;color:var(--accent2);">— say the word, Claude does the
-                                        rest</span>
-                                </div>
-                                <p class="hero-sub">
-                                    Start, steer, and close each work block with a single phrase.
-                                    This board keeps you and Claude in sync on what matters now.
-                                </p>
-                            </div>
-                            <div class="primary-actions">
-                                <button class="btn btn-primary">
-                                    🚦 lights out
-                                    <span style="font-weight:500;font-size:0.7rem;">Start new session</span>
-                                </button>
-                                <button class="btn btn-ghost">
-                                    ⏮ Resume last session
-                                </button>
-                            </div>
-                        </div>
-                        <div class="status-row">
-                            <div class="status-metrics">
-                                <div class="status-chip">Today: 1 active block</div>
-                                <div class="status-chip">Avg compression: 12×</div>
-                            </div>
-                            <div class="status-chip">Next appraisal in 15 days</div>
-                        </div>
-                    </div>
+      <div class="stitle">Charts</div>
 
-                    <div class="stack">
-                        <div class="desktop-only">
-                            <div class="mini-label">Last session — 2026‑03‑22 · 19:06</div>
-                            <ul class="last-list">
-                                <li>
-                                    <span class="bullet">•</span>
-                                    <span><strong>Copy Context button</strong> added for one‑click full context to any
-                                        AI
-                                        tool.</span>
-                                </li>
-                                <li>
-                                    <span class="bullet">•</span>
-                                    <span><code>generate-context-dump.sh</code> wired into /wrap to keep this board in
-                                        sync.</span>
-                                </li>
-                                <li>
-                                    <span class="bullet">•</span>
-                                    <span><strong>Vercel alias root cause</strong> fixed — stale alias, not CDN
-                                        cache.</span>
-                                </li>
-                            </ul>
-                        </div>
+      <div class="chart-trio">
+        <div class="card">
+          <div class="ct">My Time — Session Duration by Day</div>
+          <div class="cw"><canvas id="timeChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="ct">Per-Session Bar + Tokens</div>
+          <div class="cw"><canvas id="sessionChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="ct">Compression — PO vs 3-Person Team</div>
+          <div class="cw"><canvas id="efficiencyChart"></canvas></div>
+        </div>
+      </div>
 
-                        <div class="mobile-only">
-                            <div class="mini-label">Last session — 2026‑03‑22 · 19:06</div>
-                            <ul class="last-list">
-                                <li>
-                                    <span class="bullet">•</span>
-                                    <span><strong>Copy Context button</strong> added for one‑click full context to any
-                                        AI
-                                        tool.</span>
-                                </li>
-                            </ul>
-                        </div>
+      <div class="stitle">Session Log</div>
 
-                        <div>
-                            <div class="mini-label">Quick triggers</div>
+      <div class="card">
+        <div class="ct tog">What Shipped — Full Log</div>
+        <div class="rb"><div class="rd">2026-03-23</div>
+          <div class="ri"><div class="rtag">felt v0.3.0</div><div class="rdet">Upstash Redis complete · dbGet string fallback fix (JSON.parse on plain string was returning null) · mobile share UX — Copy Link, WhatsApp deep link, native Web Share API with runtime detection · full E2E creator→joiner browser test verified via gstack/browse · ship to feltit.vercel.app</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-03-22</div>
+          <div class="ri"><div class="rtag">Meta — CC</div><div class="rdet">Copy Context button on Command Centre header · context-dump system via window.__CONTEXT_DUMP__ · session log reversed to latest-first · version badge corrected to timestamp format</div></div>
+          <div class="ri"><div class="rtag">felt v0.2.0</div><div class="rdet">Full Upstash Redis migration replacing Vercel Blob · catchphrase-based bond system · dark/light theme toggle · HTML5 canvas physics (bouncing emojis) · mobile responsive layout · invite flow with QR + short link · SSO protection disabled on Vercel</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-03-21</div>
+          <div class="ri"><div class="rtag">Swara v0.1.0</div><div class="rdet">CRUD UI with deity category filtering · Neon serverless PostgreSQL backend · DML-only restricted Postgres roles for public-facing credentials · GitHub Pages deploy · browser-native DB access (no backend)</div></div>
+          <div class="ri"><div class="rtag">ARIA — RCA</div><div class="rdet">4 SQLAlchemy bugs fixed: .is_(True) for Python 3.14 booleans, no string order_by, always map migrated columns in ORM, hardcode CORS origins · CORS error on 500s root cause identified · advisor profile page · portal client list view</div></div>
+          <div class="ri"><div class="rtag">Helm v0.0.1</div><div class="rdet">Full data model · signal engine architecture design · 12-table schema (signals, projects, sprints, team, stakeholders, risks, metrics, decisions, retros, ceremonies, integrations, audit) · PM command centre scaffold · cold-start hosting decision deferred</div></div>
+          <div class="ri"><div class="rtag">Meta</div><div class="rdet">/wrap + /lights-out skills built and tested · race-control trigger word system · command centre v1 deployed to Vercel · TRIGGERS.md cheat sheet written</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-03-20</div>
+          <div class="ri"><div class="rtag">Meta</div><div class="rdet">Memory system architecture · CLAUDE.md protocol established · session start time auto-capture · interaction time logging · portable claude-memory repo structure (triggers/, memory/) · feedback files written</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-03-18</div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Portal client features · Morning Briefing module · getMe() singleton pattern · claude-sonnet-4-6 streaming integration · lazy client init for Next.js API routes</div></div>
+          <div class="ri"><div class="rtag">Meta</div><div class="rdet">Session system design · context window strategy · subagent protocol documented</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-03-16–17</div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Portfolio rebalancing · risk profile features · household overview · advisor dashboard v2 · 86k tokens tracked (Mar 16) · 119k tokens Mar 17 main session</div></div>
+          <div class="ri"><div class="rtag">As Gurudev Says</div><div class="rdet">Phase 1 RAG pipeline architecture · Claude API integration design · ingestion strategy planned</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Mar 17 maintenance session · minor fixes and module audit</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-03-12–15</div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Mar 12: three sessions (45m + 25m + 35m) — module audit, v5.0.0 stabilisation · Mar 13: 30m + 20m maintenance</div></div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Mar 13: 90m feature sprint · Mar 14: 15m hotfix · Mar 15: 20m — advisor flow improvements</div></div>
+        </div>
+      </div>
 
-                            <div class="trigger-row">
-                                <div class="trigger-main">
-                                    <div class="trigger-name">lights out</div>
-                                    <div class="trigger-desc">Full briefing → scope lock → build until green.</div>
-                                </div>
-                                <div class="trigger-tag">Start</div>
-                            </div>
+      <div class="stitle">Baseline</div>
 
-                            <div class="trigger-row">
-                                <div class="trigger-main">
-                                    <div class="trigger-name">fury road</div>
-                                    <div class="trigger-desc">Skip briefing, focus on one clear outcome.</div>
-                                </div>
-                                <div class="trigger-tag" style="border-color:rgba(239,68,68,0.7);color:#fecaca;">Crunch
-                                </div>
-                            </div>
+      <div class="baseline-grid">
+        <div class="card">
+          <div class="ct">3-Person Startup Baseline</div>
+          <div class="rr"><div class="rk">Team</div><div class="rv">1 PM + 1 senior engineer + 1 designer = 3 people × 8h = 24 person-hours/day</div></div>
+          <div class="rr"><div class="rk">Sprint output</div><div class="rv">1–2 features/week when aligned. 0.5 features/week when blocked by reviews or context-switching.</div></div>
+          <div class="rr"><div class="rk">Ramp cost</div><div class="rv">New engineer: 2–4 weeks to productive output. PR review cycles: 1–3 days per feature.</div></div>
+          <div class="rr"><div class="rk">Communication tax</div><div class="rv">~30% of team time goes to standups, Slack, reviews, alignment — not code.</div></div>
+        </div>
+        <div class="card">
+          <div class="ct">Sunny + Claude Baseline</div>
+          <div class="rr"><div class="rk">Team</div><div class="rv">1 PO + Claude Code = 1 person × focused sessions</div></div>
+          <div class="rr"><div class="rk">Sprint output</div><div class="rv">1 full feature per 1–2h session when scoped. Multiple shipped per day possible.</div></div>
+          <div class="rr"><div class="rk">Ramp cost</div><div class="rv">Session start: ~2 min via lights_out.md trigger. No onboarding. Memory persists.</div></div>
+          <div class="rr"><div class="rk">Communication tax</div><div class="rv">~5% — edit gate + scope lock. Everything else is execution.</div></div>
+        </div>
+        <div class="card">
+          <div class="ct">Compression Target</div>
+          <div class="rr"><div class="rk">Observed range</div><div class="rv">4x (meta/docs work) to 20x (ARIA bug sprint, Swara full build)</div></div>
+          <div class="rr"><div class="rk">Typical feature</div><div class="rv">~8–12x compression vs. 3-person team estimate</div></div>
+          <div class="rr"><div class="rk">Where it breaks</div><div class="rv">Auth, multi-tenancy, complex migrations — still require deep PO involvement</div></div>
+          <div class="rr"><div class="rk">Target by Apr 5</div><div class="rv">Consistent ≥10x on every shipped feature. Auth shipped on one product.</div></div>
+        </div>
+        <div class="card">
+          <div class="ct">Real Numbers — Mar 12–23</div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">27 sessions across 12 days</div></div>
+          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~38.5 hours (est)</div></div>
+          <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
+          <div class="rr"><div class="rk">Projects touched</div><div class="rv">7 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt + Meta</div></div>
+          <div class="rr"><div class="rk">Features shipped</div><div class="rv">felt v0.1→0.3, Swara v0.1, Helm scaffold, ARIA advisor profile + portal, Meta system</div></div>
+        </div>
+      </div>
 
-                            <div class="trigger-row">
-                                <div class="trigger-main">
-                                    <div class="trigger-name">first principles</div>
-                                    <div class="trigger-desc">Strip assumptions before any new domain or feature.</div>
-                                </div>
-                                <div class="trigger-tag">Thinking</div>
-                            </div>
+    </div>
 
-                            <div class="trigger-row">
-                                <div class="trigger-main">
-                                    <div class="trigger-name">wrap / packup</div>
-                                    <div class="trigger-desc">DoD check, docs, git, next‑session entry in one go.</div>
-                                </div>
-                                <div class="trigger-tag">End</div>
-                            </div>
-                        </div>
-                </section>
+    <!-- ===== PROJECTS TAB ===== -->
+    <div class="tab-panel" id="tab-projects">
+      <div class="ph"><div><div class="ph-title">Projects</div><div class="ph-sub">7 active · North star: tech-expert PO who ships fast</div></div></div>
 
-                <!-- Right: Metrics & meta -->
-                <aside class="card soft">
-                    <div class="card-title">Today at a glance</div>
-                    <div class="metric-grid">
-                        <div class="metric">
-                            <div class="metric-label">Active projects</div>
-                            <div class="metric-val warn">7</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Sessions logged</div>
-                            <div class="metric-val good">25</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Avg compression</div>
-                            <div class="metric-val">12×</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Next appraisal</div>
-                            <div class="metric-val">15d</div>
-                        </div>
-                    </div>
+      <div class="pc" style="border-left-color:#ec4899">
+        <div class="pch"><div><div class="pname">Felt</div><div class="ptag">A shared emotional canvas for two bonded people</div></div><div style="display:flex;gap:6px"><span class="b bp">v0.3.0</span><span class="b bg">Live</span></div></div>
+        <div><a href="https://feltit.vercel.app" class="purl" target="_blank">feltit.vercel.app</a></div>
+        <div class="pstack"><span class="pill">Next.js 16.2.1</span><span class="pill">Tailwind v4</span><span class="pill">Upstash Redis</span><span class="pill">HTML5 Canvas</span><span class="pill">Vercel</span></div>
+        <div class="g2" style="gap:var(--gap)">
+          <div>
+            <div class="pst">What's Next</div>
+            <ul class="bl" style="font-size:12px">
+              <li>Mobile UI overhaul — emoji-only grid, no labels, smaller targets</li>
+              <li>Logout button + login with catchphrase on landing page</li>
+              <li>Landing page analytics (Vercel Analytics or Plausible)</li>
+              <li>Remove legacy Firebase env vars from Vercel</li>
+            </ul>
+          </div>
+          <div>
+            <div class="ct tog" style="margin-bottom:6px">What Was Learnt</div>
+            <ul class="bl" style="font-size:12px">
+              <li>HTTP 200 on write ≠ readable. Always read-back after storage changes.</li>
+              <li>Vercel Blob free tier: cumulative ops limit. Migrate early.</li>
+              <li>Web Share API needs runtime detection — never SSR-check.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="pstats"><div><div class="psv">5</div><div class="psl2">Sessions</div></div><div><div class="psv">~4h</div><div class="psl2">PO Time</div></div><div><div class="psv">~10x</div><div class="psl2">Compression</div></div></div>
+      </div>
 
-                    <div style="margin-top:0.9rem;">
-                        <div class="mini-label">Meta learnings (recent)</div>
-                        <div class="mini-table">
-                            <div class="mini-row">
-                                <span class="label">Context bridge</span>
-                                <span class="value">Copy Context + context‑dump keeps tools aligned.</span>
-                            </div>
-                            <div class="mini-row">
-                                <span class="label">Aliases</span>
-                                <span class="value">Vercel alias ≠ CDN cache; re‑alias after prod deploy.</span>
-                            </div>
-                            <div class="mini-row">
-                                <span class="label">Token cost</span>
-                                <span class="value">Hooks + skills load before you type a word.</span>
-                            </div>
-                        </div>
-                    </div>
+      <div class="pc" style="border-left-color:#2563eb">
+        <div class="pch"><div><div class="pname">ARIA Advisor</div><div class="ptag">AI-powered wealth manager workbench</div></div><div style="display:flex;gap:6px"><span class="b bb">v2.x</span><span class="b br">Render Live</span></div></div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <a href="https://a-ria.vercel.app" class="purl" target="_blank">a-ria.vercel.app</a>
+          <span style="color:var(--text3);font-size:11px">|</span>
+          <a href="https://aria-api.onrender.com/docs" class="purl" target="_blank">API Docs (Render)</a>
+        </div>
+        <div class="pstack"><span class="pill">FastAPI</span><span class="pill">React/Vite</span><span class="pill">Supabase PostgreSQL</span><span class="pill">Render</span><span class="pill">Claude API</span></div>
+        <div style="font-size:11px;color:var(--text3);padding:8px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:4px 0">
+          <strong style="color:var(--text2)">Tech Flow:</strong> React/Vite (Vercel) → FastAPI (Render) → Supabase PostgreSQL → Claude API (claude-sonnet-4-6 streaming)
+        </div>
+        <div class="g2" style="gap:var(--gap)">
+          <div>
+            <div class="pst">What's Next</div>
+            <ul class="bl" style="font-size:12px">
+              <li>FEAT-036 — Supabase Auth (next major unlock)</li>
+              <li>Email invite for advisor → client onboarding</li>
+              <li>Superadmin household tree view</li>
+              <li>Advisor discovery + multi-advisor households</li>
+              <li>ARIA Personal shared auth unification</li>
+            </ul>
+          </div>
+          <div>
+            <div class="ct tog" style="margin-bottom:6px">What Was Learnt</div>
+            <ul class="bl" style="font-size:12px">
+              <li>Python 3.14 + SQLAlchemy: use .is_(True) not == True for booleans</li>
+              <li>CORS error on 500s — server crash suppresses Access-Control headers</li>
+              <li>Safari: never use type="date" — use month/year selects</li>
+              <li>FastAPI 204: always explicit Response(status_code=204)</li>
+              <li>No cross-model ORM FKs between models.py and personal_models.py</li>
+            </ul>
+          </div>
+        </div>
+        <div class="pstats"><div><div class="psv">8</div><div class="psl2">Sessions</div></div><div><div class="psv">~9.6h</div><div class="psl2">PO Time</div></div><div><div class="psv">~8x</div><div class="psl2">Compression</div></div><div><div class="psv">375k</div><div class="psl2">Tokens</div></div></div>
+      </div>
 
-                    <div style="margin-top:0.9rem;">
-                        <div class="mini-label">Next best move</div>
-                        <p style="font-size:0.76rem;color:var(--muted);line-height:1.5;">
-                            When you’re ready, hit <strong>lights out</strong>, pick one project from the Projects
-                            tab, and let Claude own the execution plan until the next <strong>wrap</strong>.
-                        </p>
-                    </div>
-                </aside>
+      <div class="pc" style="border-left-color:#059669">
+        <div class="pch"><div><div class="pname">BzHub</div><div class="ptag">Modular ERP for SMEs — 9 modules live</div></div><div style="display:flex;gap:6px"><span class="b bg">v5.0.0</span><span class="b bg">Live</span></div></div>
+        <div><a href="https://bzhub.vercel.app" class="purl" target="_blank">bzhub.vercel.app</a></div>
+        <div class="pstack"><span class="pill">Next.js 14</span><span class="pill">App Router</span><span class="pill">Supabase</span><span class="pill">Vercel</span></div>
+        <div class="g2" style="gap:var(--gap)">
+          <div>
+            <div class="pst">What's Next</div>
+            <ul class="bl" style="font-size:12px">
+              <li>FEAT-041 — Custom Module Builder</li>
+              <li>FEAT-036 — Auth implementation</li>
+              <li>Multi-tenancy patterns (Phase 3)</li>
+              <li>Analytics dashboard per module</li>
+              <li>Mobile-first overhaul of all 9 modules</li>
+              <li>Supabase RLS policies per module</li>
+              <li>API rate limiting + usage tracking</li>
+              <li>White-label theming system</li>
+            </ul>
+          </div>
+          <div>
+            <div class="pst">Modules Live</div>
+            <ul class="bl" style="font-size:12px">
+              <li>Inventory · Orders · Invoicing</li>
+              <li>HR · Payroll · Attendance</li>
+              <li>CRM · Support · Analytics</li>
+            </ul>
+          </div>
+        </div>
+        <div class="pstats"><div><div class="psv">5</div><div class="psl2">Sessions</div></div><div><div class="psv">~2.5h</div><div class="psl2">PO Time</div></div><div><div class="psv">~10x</div><div class="psl2">Compression</div></div></div>
+      </div>
+
+      <div class="g2">
+        <div class="pc" style="border-left-color:#0ea5e9">
+          <div class="pch"><div><div class="pname">Helm</div><div class="ptag">PM command centre · signal engine</div></div><span class="b bsk">v0.0.1</span></div>
+          <div class="pstack" style="margin-top:4px"><span class="pill">TBD</span><span class="pill">12 tables designed</span></div>
+          <div style="margin-top:10px"><div class="pst">What's Next</div><ul class="bl" style="font-size:12px"><li>FEAT-001 — data model implementation</li><li>UI scaffold + signal ingestion</li><li>Hosting decision (resolve cold-start first)</li></ul></div>
+          <div class="pstats" style="margin-top:10px"><div><div class="psv">1</div><div class="psl2">Session</div></div><div><div class="psv">215k</div><div class="psl2">Tokens</div></div></div>
+        </div>
+        <div class="pc" style="border-left-color:#d97706">
+          <div class="pch"><div><div class="pname">Swara Samipyam</div><div class="ptag">Devotional lyrics link repository</div></div><span class="b by">v0.1.0</span></div>
+          <div style="margin-top:4px"><a href="https://sunder-vasudevan.github.io/swara-samipyam/" class="purl" target="_blank">GitHub Pages</a></div>
+          <div class="pstack"><span class="pill">HTML/JS</span><span class="pill">Neon PostgreSQL</span><span class="pill">GitHub Pages</span></div>
+          <div style="margin-top:10px">
+            <div class="ct tog" style="margin-bottom:6px">What Was Learnt</div>
+            <ul class="bl" style="font-size:12px"><li>Neon serverless HTTP driver works from browser — no backend needed</li><li>DML-only restricted Postgres roles as security for public repos</li></ul>
+          </div>
+          <div class="pstats" style="margin-top:10px"><div><div class="psv">~45m</div><div class="psl2">PO Time</div></div><div><div class="psv">~16x</div><div class="psl2">Compression</div></div></div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="pc" style="border-left-color:#6366f1">
+          <div class="pch"><div><div class="pname">ARIA Personal</div><div class="ptag">Consumer self-directed finance app</div></div><span class="b bv">v0.1.0</span></div>
+          <div style="margin-top:4px"><a href="https://aria-personal.vercel.app" class="purl" target="_blank">aria-personal.vercel.app</a></div>
+          <div class="pstack"><span class="pill">React/Vite</span><span class="pill">Shared Render backend</span></div>
+          <div style="margin-top:10px">
+            <div class="pst">What's Next</div>
+            <ul class="bl" style="font-size:12px"><li>Advisor card details view</li><li>Portal client auto-create flow</li><li>Shared Auth with ARIA Advisor</li></ul>
+          </div>
+          <div style="margin-top:10px">
+            <div class="ct tog" style="margin-bottom:6px">What Was Learnt</div>
+            <ul class="bl" style="font-size:12px"><li>Lazy singleton pattern critical for external clients in Next.js API routes</li></ul>
+          </div>
+        </div>
+        <div class="pc" style="border-left-color:#7c3aed">
+          <div class="pch"><div><div class="pname">As Gurudev Says</div><div class="ptag">Oracle RAG agent on Sri Aurobindo's works</div></div><span class="b bv">Phase 1</span></div>
+          <div class="pstack" style="margin-top:4px"><span class="pill">Claude API</span><span class="pill">RAG pipeline</span></div>
+          <div style="margin-top:10px"><div class="pst">What's Next</div><ul class="bl" style="font-size:12px"><li>Document ingestion pipeline</li><li>UI scaffold</li><li>Awaiting Sunny direction</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PARKING LOT TAB ===== -->
+    <div class="tab-panel" id="tab-parking">
+      <div class="ph"><div><div class="ph-title">Parking Lot</div><div class="ph-sub">Ideas captured mid-session, reviewed at next session start</div></div></div>
+
+      <div class="parking-project">
+        <div class="parking-project-header"><span style="color:#ec4899">●</span> Felt <span class="b bp" style="font-size:10px">v0.3.0</span></div>
+        <div class="parking-item"><span class="parking-item-tag">UX</span><div class="parking-item-text">Emoji-only grid on mobile — no text labels, smaller tap targets, full-bleed emotion picker</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Auth</span><div class="parking-item-text">Logout button + "enter your catchphrase" login on landing page (no email, no password)</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Analytics</span><div class="parking-item-text">Landing page analytics — Vercel Analytics or Plausible. Track invite funnel conversion.</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Cleanup</span><div class="parking-item-text">Remove legacy Firebase env vars from Vercel project settings</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Feature</span><div class="parking-item-text">Emotion history timeline — scroll back through shared feelings over past 7 days</div></div>
+      </div>
+
+      <div class="parking-project">
+        <div class="parking-project-header"><span style="color:#2563eb">●</span> ARIA Advisor</div>
+        <div class="parking-item"><span class="parking-item-tag">FEAT-036</span><div class="parking-item-text">Supabase Auth — full login/logout, JWT validation in FastAPI, advisor + client role separation. This is the next major unlock for the entire ARIA suite.</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Email</span><div class="parking-item-text">Advisor → client email invite flow with magic link or temp password</div></div>
+        <div class="parking-item"><span class="parking-item-tag">UI</span><div class="parking-item-text">Superadmin household tree view — all advisors, all clients, hierarchical layout</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Multi-tenant</span><div class="parking-item-text">Advisor discovery + multi-advisor household support (Phase 3 architecture)</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Infra</span><div class="parking-item-text">Pin runtime.txt to Python 3.12 on Render to avoid 3.14 SQLAlchemy compat issues long-term</div></div>
+      </div>
+
+      <div class="parking-project">
+        <div class="parking-project-header"><span style="color:#059669">●</span> BzHub</div>
+        <div class="parking-item"><span class="parking-item-tag">FEAT-041</span><div class="parking-item-text">Custom Module Builder — low-code drag-and-drop module definition with field types, views, and automation rules</div></div>
+        <div class="parking-item"><span class="parking-item-tag">FEAT-036</span><div class="parking-item-text">Auth implementation — Supabase Auth, RLS policies per module, team member roles</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Phase 3</span><div class="parking-item-text">Multi-tenancy — isolated workspaces per company, subdomain routing, white-label theming</div></div>
+      </div>
+
+      <div class="parking-project">
+        <div class="parking-project-header"><span style="color:#0ea5e9">●</span> Helm</div>
+        <div class="parking-item"><span class="parking-item-tag">FEAT-001</span><div class="parking-item-text">Data model implementation — migrate 12-table schema to real DB (Supabase or Neon), seeded with test data</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Hosting</span><div class="parking-item-text">Resolve cold-start problem before picking hosting. Render free tier has 50s cold start — evaluate Vercel edge functions or Railway.</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Signal</span><div class="parking-item-text">Signal ingestion pipeline — webhook receivers for GitHub, Linear, Slack, calendar events</div></div>
+      </div>
+
+      <div class="parking-project">
+        <div class="parking-project-header"><span style="color:#7c3aed">●</span> As Gurudev Says</div>
+        <div class="parking-item"><span class="parking-item-tag">Ingest</span><div class="parking-item-text">Document ingestion pipeline — PDF chunking, embedding via Voyage AI or OpenAI, store in pgvector</div></div>
+        <div class="parking-item"><span class="parking-item-tag">UI</span><div class="parking-item-text">Minimal oracle UI — single question input, streaming answer with source passages cited</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Direction</span><div class="parking-item-text">Awaiting Sunny direction on scope — personal use vs. public oracle</div></div>
+      </div>
+
+      <div class="parking-project">
+        <div class="parking-project-header"><span style="color:#d97706">●</span> Swara Samipyam</div>
+        <div class="parking-item"><span class="parking-item-tag">Feature</span><div class="parking-item-text">Audio preview links — embed YouTube/Spotify player for each lyric entry</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Search</span><div class="parking-item-text">Full-text search across lyrics, composers, ragas</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Content</span><div class="parking-item-text">Bulk import of existing personal lyrics collection (100+ entries)</div></div>
+      </div>
+
+      <div class="parking-project">
+        <div class="parking-project-header"><span style="color:#6366f1">●</span> ARIA Personal</div>
+        <div class="parking-item"><span class="parking-item-tag">Feature</span><div class="parking-item-text">Advisor card details view — full advisor profile, contact, portfolio approach</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Auth</span><div class="parking-item-text">Shared Auth with ARIA Advisor — single Supabase project, client + advisor roles</div></div>
+        <div class="parking-item"><span class="parking-item-tag">Flow</span><div class="parking-item-text">Portal client auto-create flow — advisor invites client → ARIA Personal auto-provisions account</div></div>
+      </div>
+
+    </div>
+
+    <!-- ===== STANDARDS TAB ===== -->
+    <div class="tab-panel" id="tab-standards">
+      <div class="ph"><div><div class="ph-title">Standards</div><div class="ph-sub">Standing rules · DoD · Design system · RACI · Skills · Thinking modes · How we work</div></div></div>
+
+      <div class="card">
+        <div class="ct tog">Standing Rules — every session, every project, no exceptions</div>
+        <div class="rr"><div class="rk">Session start time</div><div class="rv">Captured automatically via <code>date</code>. Never ask Sunny. New session = new chat OR 2h+ gap.</div></div>
+        <div class="rr"><div class="rk">Edit gate</div><div class="rv">State what files change and what will be done. Wait for "go ahead". Exception: wrap tasks autonomous.</div></div>
+        <div class="rr"><div class="rk">No Co-Author tag</div><div class="rv">Never add Co-Authored-By to git commits. Overrides all defaults.</div></div>
+        <div class="rr"><div class="rk">Mobile first</div><div class="rv">All apps mobile-compatible from day one. 680px breakpoint. Test mobile before shipping.</div></div>
+        <div class="rr"><div class="rk">Safari date inputs</div><div class="rv">Never use type="date" — Safari WebKit doesn't fire React onChange. Use month/year selects.</div></div>
+        <div class="rr"><div class="rk">Logging</div><div class="rv">Mandatory — verify in place before building any new feature.</div></div>
+        <div class="rr"><div class="rk">Infrastructure</div><div class="rv">Free/open tier first. Only paid with concrete justification.</div></div>
+        <div class="rr"><div class="rk">In-app Help</div><div class="rv">Updated for every new feature. If UX changes, help text changes too.</div></div>
+        <div class="rr"><div class="rk">Version bump</div><div class="rv">Every release. Patch for fixes, minor for features, major for breaking changes.</div></div>
+        <div class="rr"><div class="rk">Token efficiency</div><div class="rv">Scope lock at session start. One feature per session. /compact when context fills.</div></div>
+        <div class="rr"><div class="rk">Design changes</div><div class="rv">Collaborate on UI direction before finalising. Never implement design unilaterally.</div></div>
+        <div class="rr"><div class="rk">ARIA ↔ Personal sync</div><div class="rv">Changes to shared backend/auth must be reflected in both ARIA products simultaneously.</div></div>
+        <div class="rr"><div class="rk">Docs at wrap</div><div class="rv">DECISION_LOG, TEST_LOG, RELEASE_NOTES, NOTES.md updated at every wrap. Non-negotiable.</div></div>
+      </div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="ct tog">Definition of Done — every feature</div>
+          <div style="margin-bottom:12px"><div class="pst">Code</div><ul class="bl" style="font-size:12px"><li>Works on mobile (680px verified)</li><li>No console errors in production</li><li>Logging in place</li><li>Read-after-write verified for any storage change</li></ul></div>
+          <div style="margin-bottom:12px"><div class="pst">Security</div><ul class="bl" style="font-size:12px"><li>No secrets in client-side code or public repos</li><li>Env vars via Vercel/Render config — never committed</li><li>Restricted DB roles for public-facing credentials</li></ul></div>
+          <div style="margin-bottom:12px"><div class="pst">Mobile</div><ul class="bl" style="font-size:12px"><li>Tested at 375px viewport</li><li>No horizontal scroll on mobile</li><li>Touch targets ≥ 44px</li></ul></div>
+          <div><div class="pst">Shipping</div><ul class="bl" style="font-size:12px"><li>Version bumped, RELEASE_NOTES entry added</li><li>Deployed + Vercel alias re-set</li><li>NOTES.md updated: what shipped + what's next</li></ul></div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:var(--gap)">
+            <div class="ct tog">Design System</div>
+            <div class="kv"><div class="kk">Default theme</div><div class="kv2">Light (never dark unless asked)</div></div>
+            <div class="kv"><div class="kk">Primary</div><div class="kv2"><span style="display:inline-block;width:11px;height:11px;background:#00328a;border-radius:2px;vertical-align:middle;margin-right:5px"></span>#00328a</div></div>
+            <div class="kv"><div class="kk">CTA Blue</div><div class="kv2"><span style="display:inline-block;width:11px;height:11px;background:#0047bb;border-radius:2px;vertical-align:middle;margin-right:5px"></span>#0047bb</div></div>
+            <div class="kv"><div class="kk">Headlines</div><div class="kv2">Manrope — geometric, modern</div></div>
+            <div class="kv"><div class="kk">Body / UI</div><div class="kv2">Inter — clean, readable at small sizes</div></div>
+            <div class="kv" style="margin-top:8px"><div class="kk">CLAUDE.md global</div><div class="kv2"><code style="font-size:11px">~/.claude/CLAUDE.md</code></div></div>
+            <div class="kv"><div class="kk">CLAUDE.md project</div><div class="kv2"><code style="font-size:11px">.claude/CLAUDE.md</code></div></div>
+          </div>
+          <div class="card">
+            <div class="ct tog">RACI — Who Does What</div>
+            <table>
+              <thead><tr><th>Activity</th><th>Sunny</th><th>Claude</th></tr></thead>
+              <tbody>
+                <tr><td>Feature picking</td><td>Decides</td><td>Flags risk</td></tr>
+                <tr><td>Scope lock</td><td>Owns "why"</td><td>Asks questions</td></tr>
+                <tr><td>Architecture</td><td>Approves</td><td>Designs</td></tr>
+                <tr><td>Code</td><td>Reviews</td><td>Writes + tests</td></tr>
+                <tr><td>Bugs</td><td>Reports symptoms</td><td>Diagnoses + fixes</td></tr>
+                <tr><td>Deployment</td><td>Monitors</td><td>Executes</td></tr>
+                <tr><td>Memory + docs</td><td>Approves wrap</td><td>Writes all</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ct tog">Skills — slash commands every session</div>
+        <div class="g2">
+          <div>
+            <div class="sr"><div class="sc">/lights-out</div><div class="sd">Session start — pit wall checks, briefing, scope lock</div></div>
+            <div class="sr"><div class="sc">/wrap</div><div class="sd">Session close — DoD, docs, memory, deploy</div></div>
+            <div class="sr"><div class="sc">/browse</div><div class="sd">Persistent headless Chromium — navigate, fill, screenshot</div></div>
+            <div class="sr"><div class="sc">/qa</div><div class="sd">Systematic QA — all flows, edge cases, visual review</div></div>
+            <div class="sr"><div class="sc">/qa-only</div><div class="sd">Report-only QA — findings, no fixes</div></div>
+            <div class="sr"><div class="sc">/ship</div><div class="sd">Ship workflow — merge base, release notes, tag, push</div></div>
+            <div class="sr"><div class="sc">/review</div><div class="sd">Pre-landing PR review — diff vs. base branch</div></div>
+            <div class="sr"><div class="sc">/retro</div><div class="sd">Weekly engineering retrospective</div></div>
+          </div>
+          <div>
+            <div class="sr"><div class="sc">/plan-ceo-review</div><div class="sd">CEO mode — rethink the problem first</div></div>
+            <div class="sr"><div class="sc">/plan-eng-review</div><div class="sd">Eng manager mode — lock in implementation</div></div>
+            <div class="sr"><div class="sc">/plan-design-review</div><div class="sd">Designer's eye review of a live site</div></div>
+            <div class="sr"><div class="sc">/qa-design-review</div><div class="sd">Visual QA — spacing, colour, type</div></div>
+            <div class="sr"><div class="sc">/design-consultation</div><div class="sd">Design consultation — product + visual direction</div></div>
+            <div class="sr"><div class="sc">/document-release</div><div class="sd">Post-ship doc update — all project files</div></div>
+            <div class="sr"><div class="sc">/setup-browser-cookies</div><div class="sd">Import cookies for authenticated QA</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stitle">Thinking Modes — First Principles</div>
+      <div class="thgrid">
+        <div class="thcard"><div class="thtrig">"feynman"</div><div class="thname">Feynman Method</div><div class="thdesc">Explain it like I'm 12. If you can't simplify it, you don't understand it. Strip jargon first.</div></div>
+        <div class="thcard"><div class="thtrig">"learning"</div><div class="thname">Learning Mode</div><div class="thdesc">Don't just build it — explain why. Connect to what I already know. Flag what I should understand first.</div></div>
+        <div class="thcard"><div class="thtrig">"first principles"</div><div class="thname">First Principles</div><div class="thdesc">Strip all assumptions. Start from fundamentals. What is actually true vs. assumed?</div></div>
+        <div class="thcard"><div class="thtrig">"business"</div><div class="thname">Business Lens</div><div class="thdesc">Frame every technical decision as a product/business trade-off. Cost of getting it wrong?</div></div>
+        <div class="thcard"><div class="thtrig">"musk test"</div><div class="thname">Musk Test</div><div class="thdesc">Is this actually necessary? Delete it. Can't delete? Simplify. Then automate — in that order only.</div></div>
+        <div class="thcard"><div class="thtrig">"full stack"</div><div class="thname">Full Stack Review</div><div class="thdesc">Consider frontend, backend, DB, security, mobile, performance, cost. Don't optimise one layer in isolation.</div></div>
+      </div>
+
+      <div class="stitle">How a Session Actually Runs</div>
+      <div class="g3">
+        <div class="card">
+          <div class="ct tog">Phase 1 — Start</div>
+          <div class="pr"><div class="pn">1</div><div class="pt"><strong>Trigger word</strong> → session start protocol fires</div></div>
+          <div class="pr"><div class="pn">2</div><div class="pt"><strong>Read NOTES.md</strong> → briefing: last shipped, next up, open flags</div></div>
+          <div class="pr"><div class="pn">3</div><div class="pt"><strong>Scope in one sentence</strong> → Sunny writes the "why". Claude does not define the problem.</div></div>
+          <div class="pr"><div class="pn">4</div><div class="pt"><strong>Lock constraints</strong> → time, scope, budget. Vague goals = wasted tokens.</div></div>
+        </div>
+        <div class="card">
+          <div class="ct tog">Phase 2 — Build Loop</div>
+          <div class="pr"><div class="pn">5</div><div class="pt"><strong>Diagnose before coding</strong> → read the error, understand the cause</div></div>
+          <div class="pr"><div class="pn">6</div><div class="pt"><strong>Edit gate</strong> → state files + intent, wait for approval</div></div>
+          <div class="pr"><div class="pn">7</div><div class="pt"><strong>Subagents for research</strong> → keep main context clean</div></div>
+          <div class="pr"><div class="pn">8</div><div class="pt"><strong>Redirect loop</strong> → if blocked after 2 attempts, stop and re-plan</div></div>
+          <div class="pr"><div class="pn">9</div><div class="pt"><strong>Park ideas</strong> → "park that" captures without derailing</div></div>
+        </div>
+        <div class="card">
+          <div class="ct tog">Phase 3 — Wrap</div>
+          <div class="pr"><div class="pn">10</div><div class="pt"><strong>DoD checklist</strong> → code, security, mobile, shipping</div></div>
+          <div class="pr"><div class="pn">11</div><div class="pt"><strong>Docs</strong> → DECISION_LOG, TEST_LOG, RELEASE_NOTES updated</div></div>
+          <div class="pr"><div class="pn">12</div><div class="pt"><strong>Commit + push</strong> → version bumped, no Co-Author tag</div></div>
+          <div class="pr"><div class="pn">13</div><div class="pt"><strong>Memory + dashboard</strong> → NOTES.md, project_*.md, Command Centre deployed</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ct">Real Numbers — Benchmark vs 3-Person Startup</div>
+        <div class="rr"><div class="rk">Observed range</div><div class="rv">4x (meta/docs work) to 20x (ARIA bug sprint, Swara full build) compression vs. 3-person team equivalent</div></div>
+        <div class="rr"><div class="rk">Typical feature</div><div class="rv">~8–12x compression · felt v0.1–0.3 shipped in 4h PO time · 3-person team estimate: 2–3 days (48–72h)</div></div>
+        <div class="rr"><div class="rk">Session efficiency</div><div class="rv">Best sessions: scoped, single feature, constraint stated upfront · Worst: open-ended + context switches</div></div>
+        <div class="rr"><div class="rk">Target</div><div class="rv">Consistent ≥10x on every shipped feature by Apr 5, 2026</div></div>
+      </div>
+    </div>
+
+    <!-- ===== PROFILE TAB ===== -->
+    <div class="tab-panel" id="tab-profile">
+      <div class="ph">
+        <div><div class="ph-title">Profile</div><div class="ph-sub">How Claude sees Sunny Hayes — evidence-based, no sugarcoating</div></div>
+        <span id="appraisal-badge" class="b bsl">Next review: Apr 5, 2026</span>
+      </div>
+
+      <div class="card">
+        <div class="ct">Claude's Assessment — In Plain English</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.8;max-width:720px">
+          <strong style="color:var(--text)">Product-minded builder who moves fast.</strong> Genuine bias to ship — not just plan. Thinks in systems (memory architecture, trigger words, wrap protocol) and builds feedback loops that compound. Strategic clarity is high: knows which problems are worth solving.<br><br>
+          Consistent gaps: <strong style="color:var(--text)">passive receiving</strong> (accepting Claude output without deep challenge), <strong style="color:var(--text)">auth permanently deferred</strong> (FEAT-036 has been "next" for 3 cycles), <strong style="color:var(--text)">mobile-first not yet reflexive</strong>, and <strong style="color:var(--text)">token discipline</strong> (open-ended questions burn quota).<br><br>
+          Biggest gap: no product has shipped with real auth. Everything lives on public/demo access. This is the next unlock. The memory system, trigger protocols, and command centre represent genuine infrastructure investment — rare in solo builders. The question is whether the same systems thinking gets applied to auth, security, and production-grade reliability.
+        </div>
+        <div class="countdown-bar-wrap">
+          <div class="countdown-label"><span>Appraisal cycle: Mar 21 → Apr 5, 2026</span><span class="countdown-val" id="countdown-days">15 days remaining</span></div>
+          <div class="progress-bar-outer"><div class="progress-bar-inner" id="appraisal-progress" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ct">Trait Profile</div>
+        <div class="trgrid">
+          <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Bias to Ship</div></div>
+          <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Strategic Clarity</div></div>
+          <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Systems Builder</div></div>
+          <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Scope Instinct</div></div>
+          <div class="trcard caution"><div class="trtype">Watch</div><div class="trname">Context Switcher</div></div>
+          <div class="trcard caution"><div class="trtype">Watch</div><div class="trname">Shortcut Temptation</div></div>
+          <div class="trcard gap"><div class="trtype">Gap</div><div class="trname">Active Ownership</div></div>
+          <div class="trcard gap"><div class="trtype">Gap</div><div class="trname">Auth & Multi-tenancy</div></div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="ct">Observed Strengths</div>
+          <div class="rr">
+            <div class="rk">🚀 Ships real products</div>
+            <div class="rv">7 projects deployed. Live URLs, real stack decisions. Not prototypes — production-grade apps on free tier infra.</div>
+          </div>
+          <div class="rr">
+            <div class="rk">📚 Builds learning in</div>
+            <div class="rv">Every session adds to user_learning_log. Learning is a first-class output alongside shipping.</div>
+          </div>
+          <div class="rr">
+            <div class="rk">⚡ Cross-stack fluency</div>
+            <div class="rv">Comfortable across FastAPI, Next.js, Supabase, Redis, HTML/JS without full expertise in any one layer.</div>
+          </div>
+          <div class="rr">
+            <div class="rk">🔄 Feedback culture</div>
+            <div class="rv">Corrects Claude in real time. Post-mortems are genuine, not rhetorical. Memory files accumulate real signal.</div>
+          </div>
+          <div class="rr">
+            <div class="rk">🏗️ Long-game thinking</div>
+            <div class="rv">Memory system, trigger protocols, command centre are infrastructure investments that compound over time.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ct">Honest Gaps</div>
+          <div class="gap-row">
+            <div class="gap-row-icon">⚠️</div>
+            <div>
+              <div class="gap-row-title">Passive receiving</div>
+              <div class="gap-row-desc">Tendency to accept Claude output without deep challenge. Outputs get shipped without question.</div>
+              <span class="gap-row-fix">Fix: challenge one technical decision per session before accepting</span>
             </div>
-        </div>
-
-        <div class="tab-panel" data-tab="thinking">
-            <div class="shell">
-                <section class="card">
-                    <div class="hero">
-                        <div class="hero-eyebrow">Thinking Modes</div>
-                        <div class="hero-row">
-                            <div>
-                                <div class="hero-title">First principles before every big move</div>
-                                <p class="hero-sub">
-                                    Pick a thinking mode to strip assumptions or deepen understanding before you ship.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stack">
-                        <div>
-                            <div class="mini-label">Core modes</div>
-                            <ul class="last-list mobile-trim">
-                                <li><span class="bullet">•</span><span><strong>Feynman</strong> — explain it like I’m 12
-                                        until it’s genuinely simple.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Learning</strong> — surface the 5
-                                        assumptions most people never question.</span></li>
-                                <li><span class="bullet">•</span><span><strong>First principles</strong> — rebuild the
-                                        problem only from what’s provably true.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Business</strong> — map assumptions to
-                                        revenue, cost, and risk.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Musk test</strong> — if we were starting
-                                        today, what would we design instead?</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+          </div>
+          <div class="gap-row">
+            <div class="gap-row-icon">🔐</div>
+            <div>
+              <div class="gap-row-title">Auth permanently deferred</div>
+              <div class="gap-row-desc">FEAT-036 has been "next" for 3 cycles. No product has real auth. Everything is demo-access.</div>
+              <span class="gap-row-fix">Fix: ship auth on one product this cycle. No more deferral.</span>
             </div>
-        </div>
-
-        <div class="tab-panel" data-tab="projects">
-            <div class="shell">
-                <section class="card">
-                    <div class="hero">
-                        <div class="hero-eyebrow">Projects</div>
-                        <div class="hero-row">
-                            <div>
-                                <div class="hero-title">Active track</div>
-                                <p class="hero-sub">
-                                    High-level view of the work on your plate right now.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stack">
-                        <div>
-                            <div class="mini-label">Today’s lane</div>
-                            <ul class="last-list mobile-trim">
-                                <li><span class="bullet">•</span><span><strong>ARIA</strong> — Advisor copilot · Phase
-                                        2, backend stable, UX iteration in progress.</span></li>
-                                <li><span class="bullet">•</span><span><strong>BzHub</strong> — v5.1.0 live · Custom
-                                        module builder is the next big bet.</span></li>
-                                <li><span class="bullet">•</span><span><strong>felt</strong> — v0.2.0 shipped · Command
-                                        Centre restructure and collapsibles live.</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+          </div>
+          <div class="gap-row">
+            <div class="gap-row-icon">📱</div>
+            <div>
+              <div class="gap-row-title">Mobile-first reflex</div>
+              <div class="gap-row-desc">Mobile gets added post-build rather than designed in. Rule exists; practice lags.</div>
+              <span class="gap-row-fix">Fix: design for 375px first — write the mobile layout before desktop</span>
             </div>
-        </div>
-
-        <div class="tab-panel" data-tab="rules">
-            <div class="shell">
-                <section class="card">
-                    <div class="hero">
-                        <div class="hero-eyebrow">Standing Rules</div>
-                        <div class="hero-row">
-                            <div>
-                                <div class="hero-title">How Claude works with you</div>
-                                <p class="hero-sub">
-                                    Guardrails that keep sessions fast, safe, and predictable.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stack">
-                        <div>
-                            <div class="mini-label">Core protocol</div>
-                            <ul class="last-list mobile-trim">
-                                <li><span class="bullet">•</span><span><strong>Edit gate</strong> — state files +
-                                        changes, wait for a clear "go ahead".</span></li>
-                                <li><span class="bullet">•</span><span><strong>Planning</strong> — anything 3+ steps
-                                        goes through plan mode first.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Subagents</strong> — research and
-                                        exploration get offloaded so build stays clean.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Verification</strong> — nothing is "done"
-                                        without proof it works.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Elegance</strong> — pause on non‑trivial
-                                        changes, look for the cleaner path.</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+          </div>
+          <div class="gap-row">
+            <div class="gap-row-icon">💸</div>
+            <div>
+              <div class="gap-row-title">Token discipline</div>
+              <div class="gap-row-desc">Open-ended questions and mid-session switches burn quota faster than constrained prompts.</div>
+              <span class="gap-row-fix">Fix: one question per message, explicit scope, no open-ended exploration</span>
             </div>
-        </div>
-
-        <div class="tab-panel" data-tab="tools">
-            <div class="shell">
-                <section class="card">
-                    <div class="hero">
-                        <div class="hero-eyebrow">Tools & Skills</div>
-                        <div class="hero-row">
-                            <div>
-                                <div class="hero-title">What Claude can spin up for you</div>
-                                <p class="hero-sub">
-                                    Quick mental map of the skills you’ve wired into this workspace.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stack">
-                        <div>
-                            <div class="mini-label">Execution</div>
-                            <ul class="last-list mobile-trim">
-                                <li><span class="bullet">•</span><span><strong>qa / qa-only / qa-design-review</strong>
-                                        — testing and visual QA across your apps.</span></li>
-                                <li><span class="bullet">•</span><span><strong>ship</strong> — tests, version bump,
-                                        changelog, PR in one flow.</span></li>
-                                <li><span class="bullet">•</span><span><strong>review</strong> — pre‑landing PR analysis
-                                        for structural issues.</span></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <div class="mini-label">Design & product</div>
-                            <ul class="last-list mobile-trim">
-                                <li><span class="bullet">•</span><span><strong>design-consultation</strong> — full
-                                        design system thinking when you need it.</span></li>
-                                <li><span class="bullet">•</span><span><strong>plan-design-review</strong> —
-                                        designer’s‑eye pass on a live UI, report‑only.</span></li>
-                                <li><span class="bullet">•</span><span><strong>plan-ceo-review /
-                                            plan-eng-review</strong> — zoom‑out CEO or Eng‑manager mode on a
-                                        plan.</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+          </div>
+          <div class="gap-row">
+            <div class="gap-row-icon">📝</div>
+            <div>
+              <div class="gap-row-title">Wrap discipline</div>
+              <div class="gap-row-desc">Projects close without docs, or command centre gets partial updates only.</div>
+              <span class="gap-row-fix">Fix: run /wrap before closing browser — no exceptions</span>
             </div>
+          </div>
         </div>
+      </div>
 
-        <div class="tab-panel" data-tab="efficiency">
-            <div class="shell">
-                <section class="card">
-                    <div class="hero">
-                        <div class="hero-eyebrow">Efficiency</div>
-                        <div class="hero-row">
-                            <div>
-                                <div class="hero-title">Compression, without a team</div>
-                                <p class="hero-sub">
-                                    A lightweight read on how much work you and Claude are getting
-                                    done versus a 3-person team baseline.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stack">
-                        <div class="metric-grid">
-                            <div class="metric">
-                                <div class="metric-label">Sessions logged</div>
-                                <div class="metric-val good">25</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-label">Total PO time</div>
-                                <div class="metric-val">~16 hrs</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-label">Projects</div>
-                                <div class="metric-val">7</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-label">Avg session</div>
-                                <div class="metric-val">~38 min</div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="mini-label">What this panel is really saying</div>
-                            <ul class="last-list mobile-trim">
-                                <li><span class="bullet">•</span><span><strong>Compression ratio</strong> compares a
-                                        full 3-person sprint to your actual minutes of hands-on time.</span></li>
-                                <li><span class="bullet">•</span><span>Sessions are logged one by one, so you can see
-                                        which projects are soaking time.</span></li>
-                                <li><span class="bullet">•</span><span>When a bar looks too tall for "Meta", it’s time
-                                        to shift hours back to product.</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+      <div class="card">
+        <div class="ct">Next 15-Day Focus — Mar 21 – Apr 5, 2026</div>
+        <div class="g2" style="gap:var(--gap)">
+          <div class="focus-card" style="border-top-color:#2563eb">
+            <div class="focus-card-header">
+              <div class="focus-card-title">Ship auth on one product</div>
+              <span class="focus-card-tag" style="background:#dbeafe;color:#1d40ae">Critical</span>
             </div>
-        </div>
-
-        <div class="tab-panel" data-tab="howwework">
-            <div class="shell">
-                <section class="card">
-                    <div class="hero">
-                        <div class="hero-eyebrow">How we work</div>
-                        <div class="hero-row">
-                            <div>
-                                <div class="hero-title">Who does what, every session</div>
-                                <p class="hero-sub">
-                                    RACI and the three phases of a session, distilled from the full
-                                    Operator View into something you can scan in 20 seconds.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stack">
-                        <div>
-                            <div class="mini-label">RACI at a glance</div>
-                            <ul class="last-list mobile-trim">
-                                <li><span class="bullet">•</span><span><strong>Pick the feature</strong> — Sunny
-                                        <strong>R · A</strong>, Claude <span style="color:var(--muted)">C</span>.</span>
-                                </li>
-                                <li><span class="bullet">•</span><span><strong>Scope lock</strong> — one-sentence goal;
-                                        Sunny <strong>A</strong>, Claude <strong
-                                            style="color:var(--accent2)">R</strong>.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Write the code</strong> — Claude <strong
-                                            style="color:var(--accent2)">R</strong>, Sunny <span
-                                            style="color:var(--muted)">I</span>.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Deployment approval</strong> — Sunny
-                                        <strong>A</strong>, Claude <strong
-                                            style="color:var(--accent2)">R</strong>.</span></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <div class="mini-label">Shape of a good session</div>
-                            <ul class="last-list mobile-trim">
-                                <li><span class="bullet">•</span><span><strong>Phase 1 — Start</strong>: say the
-                                        trigger, lock scope, no code until the sentence feels right.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Phase 2 — Build loop</strong>: diagnose
-                                        first, get edit approval, ship in thin slices with subagents running in
-                                        parallel.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Phase 3 — Wrap</strong>: DoD, docs,
-                                        commit, push, and a clean "wrap" before you close the tab.</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+            <div style="font-size:12px;color:var(--text2)">FEAT-036 on ARIA or BzHub. Full Supabase Auth — login, logout, JWT in FastAPI, role separation. This cycle. No more deferral.</div>
+          </div>
+          <div class="focus-card" style="border-top-color:#059669">
+            <div class="focus-card-header">
+              <div class="focus-card-title">Challenge one Claude decision per session</div>
+              <span class="focus-card-tag" style="background:#d1fae5;color:#047857">Habit</span>
             </div>
-        </div>
-
-        <div class="tab-panel" data-tab="reference">
-            <div class="shell">
-                <section class="card">
-                    <div class="hero">
-                        <div class="hero-eyebrow">Reference</div>
-                        <div class="hero-row">
-                            <div>
-                                <div class="hero-title">The operating manual behind this board</div>
-                                <p class="hero-sub">
-                                    A quick map of CLAUDE.md, memory, hooks, and the release log so you
-                                    always know where the rules actually live.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stack">
-                        <div>
-                            <div class="mini-label">CLAUDE.md vs memory</div>
-                            <ul class="last-list mobile-trim">
-                                <li><span class="bullet">•</span><span><strong>CLAUDE.md</strong> — global standing
-                                        orders, always loaded for every project.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Memory files</strong> — project state,
-                                        RCA notes, and feedback that load when relevant.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Hooks</strong> in settings.json wire
-                                        trigger words like <code>lights out</code> and <code>wrap</code> into these
-                                        files.</span></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <div class="mini-label">Release log in plain language</div>
-                            <ul class="last-list mobile-trim">
-                                <li><span class="bullet">•</span><span>Each entry captures <strong>what
-                                            shipped</strong>, not every keystroke.</span></li>
-                                <li><span class="bullet">•</span><span>Meta work (like this Command Centre) is logged
-                                        separately from product releases.</span></li>
-                                <li><span class="bullet">•</span><span>You can scan it to remember why a decision was
-                                        made before starting the next session.</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+            <div style="font-size:12px;color:var(--text2)">Active ownership, not passive receiving. Before saying "go ahead" — ask: why this approach? what are the tradeoffs?</div>
+          </div>
+          <div class="focus-card" style="border-top-color:#f59e0b">
+            <div class="focus-card-header">
+              <div class="focus-card-title">Mobile-first as ritual</div>
+              <span class="focus-card-tag" style="background:#fef3c7;color:#92400e">Practice</span>
             </div>
-        </div>
-
-        <div class="tab-panel" data-tab="seesme">
-            <div class="shell">
-                <section class="card">
-                    <div class="hero">
-                        <div class="hero-eyebrow">How Claude sees you</div>
-                        <div class="hero-row">
-                            <div>
-                                <div class="hero-title">Honest appraisal, updated in cycles</div>
-                                <p class="hero-sub">
-                                    A narrative view of strengths, gaps, and the next 15-day focus — based
-                                    on actual sessions, not generic coaching.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stack">
-                        <div>
-                            <div class="mini-label">Trait profile</div>
-                            <ul class="last-list mobile-trim">
-                                <li><span class="bullet">•</span><span><strong>Bias to ship</strong> — prefers a working
-                                        thing over a perfect plan.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Systems builder</strong> — triggers,
-                                        memory, and protocols that most teams never formalise.</span></li>
-                                <li><span class="bullet">•</span><span><strong>Active ownership</strong> is still
-                                        evolving — the goal is to challenge Claude’s big decisions at least once a
-                                        session.</span></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <div class="mini-label">Next 15-day focus</div>
-                            <ul class="last-list mobile-trim">
-                                <li><span class="bullet">•</span><span>Ship auth on one product — ARIA or BzHub — end to
-                                        end.</span></li>
-                                <li><span class="bullet">•</span><span>Challenge one architectural decision per session
-                                        before approving it.</span></li>
-                                <li><span class="bullet">•</span><span>Make mobile view the starting point, not a late
-                                        QA pass.</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+            <div style="font-size:12px;color:var(--text2)">Design for 375px first, then expand. Write the mobile layout before desktop. DevTools mobile mode on from session start.</div>
+          </div>
+          <div class="focus-card" style="border-top-color:#7c3aed">
+            <div class="focus-card-header">
+              <div class="focus-card-title">Constrained prompts</div>
+              <span class="focus-card-tag" style="background:#ede9fe;color:#5b21b6">Efficiency</span>
             </div>
+            <div style="font-size:12px;color:var(--text2)">One question per message. Explicit scope upfront. No open-ended exploration. Scope lock = token lock.</div>
+          </div>
         </div>
-    </main>
+      </div>
+    </div>
 
-    <footer class="footer">
-        <span>Claude Command Centre · Newdesign mockup layout.</span>
-        <span>Keyboard-friendly: triggers 1‑4 can map to shortcuts later.</span>
-    </footer>
+    <!-- ===== REFERENCE TAB ===== -->
+    <div class="tab-panel" id="tab-reference">
+      <div class="ph"><div><div class="ph-title">Reference</div><div class="ph-sub">Quick links · 3-year vision · CLAUDE.md · Project docs</div></div></div>
 
-    <script>
-        (function () {
-            const buttons = document.querySelectorAll('.tab-btn');
-            const panels = document.querySelectorAll('.tab-panel');
-            buttons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const target = btn.dataset.tabTarget;
-                    buttons.forEach(b => b.classList.toggle('active', b === btn));
-                    panels.forEach(p => p.classList.toggle('active', p.dataset.tab === target));
-                });
-            });
-        })();
-    </script>
+      <div class="g2">
+        <div class="card">
+          <div class="ct">Quick Links</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <a href="https://vercel.com/dashboard" target="_blank" style="font-size:13px;color:var(--accent)">Vercel Dashboard</a>
+            <a href="https://github.com" target="_blank" style="font-size:13px;color:var(--accent)">GitHub</a>
+            <a href="https://supabase.com/dashboard" target="_blank" style="font-size:13px;color:var(--accent)">Supabase</a>
+            <a href="https://render.com/dashboard" target="_blank" style="font-size:13px;color:var(--accent)">Render</a>
+            <a href="https://console.anthropic.com" target="_blank" style="font-size:13px;color:var(--accent)">Anthropic Console</a>
+            <a href="https://console.upstash.com" target="_blank" style="font-size:13px;color:var(--accent)">Upstash Console</a>
+            <a href="https://neon.tech" target="_blank" style="font-size:13px;color:var(--accent)">Neon Console</a>
+            <a href="https://a-ria.vercel.app" target="_blank" style="font-size:13px;color:var(--accent)">ARIA Advisor</a>
+            <a href="https://bzhub.vercel.app" target="_blank" style="font-size:13px;color:var(--accent)">BzHub</a>
+            <a href="https://feltit.vercel.app" target="_blank" style="font-size:13px;color:var(--accent)">Felt</a>
+            <a href="https://aria-personal.vercel.app" target="_blank" style="font-size:13px;color:var(--accent)">ARIA Personal</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ct">3-Year North Star</div>
+          <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px">Tech-expert Product Owner who ships fast</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7">Understands technology deeply enough to make great product decisions without needing a full team. Vehicles: ARIA Advisor + BzHub. Methodology: Claude Code as primary co-engineer.</div>
+          <div style="margin-top:12px"><div class="pst">Shipped &amp; Understood</div>
+            <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">
+              <span class="b bg">FastAPI</span><span class="b bb">React/Vite</span><span class="b bg">Supabase PostgreSQL</span><span class="b bb">Next.js App Router</span><span class="b bg">Vercel CI/CD</span><span class="b bv">Claude API</span><span class="b bsl">Portable memory</span><span class="b by">Neon PostgreSQL</span><span class="b bsk">Upstash Redis</span><span class="b bp">HTML5 Canvas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ct">CLAUDE.md — Global Rules Reference</div>
+        <div class="rr"><div class="rk">No Co-Author commits</div><div class="rv">Never add Co-Authored-By lines to any git commit message. Overrides all defaults. Non-negotiable.</div></div>
+        <div class="rr"><div class="rk">Session start</div><div class="rv">New chat OR 2h+ gap = new session. Capture start time via <code>date</code>. Log internally. Subagents skip.</div></div>
+        <div class="rr"><div class="rk">Edit approval gate</div><div class="rv">State upfront: what files + what will be done. Wait for explicit approval. Exception: wrap/session tasks.</div></div>
+        <div class="rr"><div class="rk">Planning mode</div><div class="rv">Enter plan mode for 3+ step tasks or architectural decisions. Stop and re-plan if blocked mid-task.</div></div>
+        <div class="rr"><div class="rk">Subagents</div><div class="rv">Use liberally for research, exploration, parallel analysis. Keep main context clean. One task per subagent.</div></div>
+        <div class="rr"><div class="rk">Verification</div><div class="rv">Never mark done without proving it works. "Would a staff engineer approve this?" before presenting.</div></div>
+      </div>
+
+      <div class="card">
+        <div class="ct">Project Documentation</div>
+        <table>
+          <thead><tr><th>Project</th><th>Document</th><th>Path</th></tr></thead>
+          <tbody>
+            <tr><td>ARIA Advisor</td><td>NOTES.md</td><td><code style="font-size:11px">~/Daytona/aria-advisor/NOTES.md</code></td></tr>
+            <tr><td>BzHub</td><td>NOTES.md</td><td><code style="font-size:11px">~/Daytona/BzHub/chat_persistent_notes/NOTES.md</code></td></tr>
+            <tr><td>Felt</td><td>NOTES.md + Wrap</td><td><code style="font-size:11px">~/Daytona/felt/NOTES.md</code></td></tr>
+            <tr><td>Helm</td><td>NOTES.md</td><td><code style="font-size:11px">~/Daytona/helm/NOTES.md</code></td></tr>
+            <tr><td>Swara</td><td>NOTES.md</td><td><code style="font-size:11px">~/Daytona/swara-samipyam/NOTES.md</code></td></tr>
+            <tr><td>ARIA Personal</td><td>NOTES.md</td><td><code style="font-size:11px">~/Daytona/aria-personal/NOTES.md</code></td></tr>
+            <tr><td>As Gurudev Says</td><td>NOTES.md</td><td><code style="font-size:11px">~/Daytona/as-gurudev-says/NOTES.md</code></td></tr>
+            <tr><td>Memory index</td><td>MEMORY.md</td><td><code style="font-size:11px">~/.claude/projects/-Users-sunnyhayes/memory/MEMORY.md</code></td></tr>
+            <tr><td>Global CLAUDE.md</td><td>Rules</td><td><code style="font-size:11px">~/.claude/CLAUDE.md</code></td></tr>
+            <tr><td>Triggers</td><td>TRIGGERS.md</td><td><code style="font-size:11px">~/claude-memory/triggers/TRIGGERS.md</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<nav class="mob-nav">
+  <button class="mob-nb active" onclick="showTab('command',this)">🚦<span>Command</span></button>
+  <button class="mob-nb" onclick="showTab('projects',this)">🏎️<span>Projects</span></button>
+  <button class="mob-nb" onclick="showTab('parking',this)">🅿️<span>Parking</span></button>
+  <button class="mob-nb" onclick="showTab('standards',this)">📏<span>Standards</span></button>
+  <button class="mob-nb" onclick="showTab('profile',this)">👁️<span>Profile</span></button>
+</nav>
+
+<div class="footer" style="text-align:center;padding:20px;font-size:12px;color:var(--text3)">Made with ❤️ in Hyderabad</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nb, .mob-nb').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('tab-' + id);
+  if (panel) panel.classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (id === 'command' && !window._chartsBuilt) { setTimeout(buildCharts, 50); }
+}
+
+function copyContext() {
+  const ctx = window.__CONTEXT_DUMP__ || 'Projects: ARIA Advisor, BzHub, Felt, Helm, Swara Samipyam, ARIA Personal, As Gurudev Says. Rules: No Co-Author commits. Edit gate. Mobile first (680px). No type=date. Free tier first.';
+  navigator.clipboard.writeText(ctx).then(() => {
+    const btn = document.querySelector('.ctx-btn');
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.background = '#059669'; btn.style.color = '#fff'; btn.style.borderColor = '#059669';
+    setTimeout(() => { btn.textContent = orig; btn.removeAttribute('style'); }, 1500);
+  });
+}
+
+// Appraisal countdown
+(function() {
+  const start = new Date('2026-03-21');
+  const end = new Date('2026-04-05');
+  const now = new Date();
+  const days = Math.ceil((end - now) / 86400000);
+  const el = document.getElementById('appraisal-badge');
+  const prog = document.getElementById('appraisal-progress');
+  const cdDays = document.getElementById('countdown-days');
+  const total = (end - start) / 86400000;
+  const elapsed = (now - start) / 86400000;
+  const pct = Math.min(100, Math.max(0, (elapsed / total) * 100));
+  if (prog) prog.style.width = pct.toFixed(1) + '%';
+  if (cdDays) cdDays.textContent = days <= 0 ? 'Due now!' : days + ' days remaining';
+  if (el) {
+    if (days <= 0) { el.textContent = 'Appraisal due!'; el.className = 'b br'; }
+    else if (days <= 3) { el.textContent = 'Due in ' + days + 'd'; el.className = 'b by'; }
+    else { el.textContent = 'Next review: Apr 5, 2026'; el.className = 'b bsl'; }
+  }
+})();
+
+window._chartsBuilt = false;
+function buildCharts() {
+  if (window._chartsBuilt) return;
+  window._chartsBuilt = true;
+  const accent = '#059669', tc = '#475569', gc = '#e2e8f0';
+
+  const sessions = [
+    {label:'Mar 12\nBzHub',project:'BzHub',mins:45,tokens:null},
+    {label:'Mar 12\nBzHub',project:'BzHub',mins:25,tokens:null},
+    {label:'Mar 12\nBzHub',project:'BzHub',mins:35,tokens:null},
+    {label:'Mar 13\nARIA',project:'ARIA Advisor',mins:90,tokens:null},
+    {label:'Mar 13\nBzHub',project:'BzHub',mins:30,tokens:null},
+    {label:'Mar 13\nBzHub',project:'BzHub',mins:20,tokens:null},
+    {label:'Mar 14\nARIA',project:'ARIA Advisor',mins:15,tokens:null},
+    {label:'Mar 15\nARIA',project:'ARIA Advisor',mins:20,tokens:null},
+    {label:'Mar 16\nARIA',project:'ARIA Advisor',mins:35,tokens:86050},
+    {label:'Mar 17\nARIA',project:'ARIA Advisor',mins:180,tokens:118860},
+    {label:'Mar 17\nARIA',project:'ARIA Advisor',mins:105,tokens:null},
+    {label:'Mar 17\nGurudev',project:'As Gurudev Says',mins:30,tokens:null},
+    {label:'Mar 17\nBzHub',project:'BzHub',mins:15,tokens:null},
+    {label:'Mar 18\nARIA',project:'ARIA Advisor',mins:120,tokens:255502},
+    {label:'Mar 18\nMeta',project:'Meta',mins:60,tokens:null},
+    {label:'Mar 20\nMeta',project:'Meta',mins:90,tokens:85297},
+    {label:'Mar 21\nMeta',project:'Meta',mins:120,tokens:null},
+    {label:'Mar 21\nHelm',project:'Helm',mins:60,tokens:215079},
+    {label:'Mar 21\nARIA RCA',project:'ARIA Advisor',mins:120,tokens:null},
+    {label:'Mar 21\nARIA Feats',project:'ARIA Advisor',mins:90,tokens:null},
+    {label:'Mar 21\nSwara',project:'Swara Samipyam',mins:45,tokens:null},
+    {label:'Mar 21\nMeta',project:'Meta',mins:30,tokens:null},
+    {label:'Mar 21\nMeta CC',project:'Meta',mins:60,tokens:null},
+    {label:'Mar 22\nfelt',project:'felt',mins:180,tokens:null},
+    {label:'Mar 22\nMeta CC',project:'Meta',mins:60,tokens:null},
+    {label:'Mar 22\nCtx Sys',project:'Meta',mins:45,tokens:7424},
+    {label:'Mar 23\nfelt',project:'felt',mins:180,tokens:null}
+  ];
+
+  const pColor = {
+    'ARIA Advisor':'#2563eb','BzHub':'#059669','Meta':'#e10600',
+    'As Gurudev Says':'#7c3aed','Helm':'#0ea5e9','Swara Samipyam':'#d97706','felt':'#ec4899'
+  };
+  const projects = Object.keys(pColor);
+
+  // Time chart — stacked daily
+  const dayMap = {}, dayOrder = [];
+  sessions.forEach(s => {
+    const day = s.label.split('\n')[0];
+    if (!dayMap[day]) { dayMap[day] = {}; dayOrder.push(day); }
+    dayMap[day][s.project] = (dayMap[day][s.project] || 0) + s.mins;
+  });
+  const stackDays = [...new Set(dayOrder)];
+  const timeCtx = document.getElementById('timeChart');
+  if (timeCtx) {
+    new Chart(timeCtx.getContext('2d'), {
+      type:'bar',
+      data:{
+        labels:stackDays,
+        datasets:projects.map(p=>({
+          label:p, stack:'stack',
+          data:stackDays.map(d=>dayMap[d]?.[p]||0),
+          backgroundColor:pColor[p]+'cc', borderColor:pColor[p],
+          borderWidth:1, borderRadius:2
+        }))
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{display:true,position:'bottom',labels:{boxWidth:8,font:{size:9},color:tc,padding:6}},
+          tooltip:{callbacks:{label:i=>i.parsed.y>0?i.dataset.label+': '+i.parsed.y+'m':null}}
+        },
+        scales:{
+          y:{stacked:true,beginAtZero:true,grid:{color:gc},ticks:{color:tc,font:{size:9}}},
+          x:{grid:{display:false},ticks:{color:tc,font:{size:8},maxRotation:45}}
+        }
+      }
+    });
+  }
+
+  // Session chart — per-session bars + token overlay
+  const sessLabels = sessions.map(s => s.label.replace('\n',' '));
+  const sessMins = sessions.map(s => s.mins);
+  const sessColors = sessions.map(s => (pColor[s.project] || '#888') + 'cc');
+  const sessTokens = sessions.map(s => s.tokens ? Math.round(s.tokens/1000) : null);
+  const sessionCtx = document.getElementById('sessionChart');
+  if (sessionCtx) {
+    new Chart(sessionCtx.getContext('2d'), {
+      type:'bar',
+      data:{
+        labels:sessLabels,
+        datasets:[
+          {
+            label:'Duration (min)',
+            data:sessMins,
+            backgroundColor:sessColors,
+            borderColor:sessions.map(s=>pColor[s.project]||'#888'),
+            borderWidth:1, borderRadius:2, yAxisID:'y'
+          },
+          {
+            label:'Tokens (k)',
+            data:sessTokens,
+            type:'line',
+            borderColor:'#f59e0b',
+            backgroundColor:'#f59e0b33',
+            pointBackgroundColor:'#f59e0b',
+            pointRadius:4,
+            borderWidth:2,
+            tension:0.3,
+            yAxisID:'y2',
+            spanGaps:false
+          }
+        ]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{display:true,position:'bottom',labels:{boxWidth:8,font:{size:9},color:tc,padding:6}},
+          tooltip:{mode:'index',intersect:false}
+        },
+        scales:{
+          y:{beginAtZero:true,grid:{color:gc},ticks:{color:tc,font:{size:9}}},
+          y2:{beginAtZero:true,position:'right',grid:{display:false},ticks:{color:'#f59e0b',font:{size:9}}},
+          x:{grid:{display:false},ticks:{color:tc,font:{size:7},maxRotation:60}}
+        }
+      }
+    });
+  }
+
+  // Efficiency chart
+  const effCtx = document.getElementById('efficiencyChart');
+  if (effCtx) {
+    new Chart(effCtx.getContext('2d'), {
+      type:'bar',
+      data:{
+        labels:['03-18 Meta','03-18 ARIA','03-20 Meta','03-21 Helm','03-21 ARIA RCA','03-21 ARIA Feats','03-21 Swara','03-21 Meta','03-22 felt v0.2','03-22 Meta CC','03-23 felt v0.3'],
+        datasets:[
+          {
+            label:'PO Time (hrs)',
+            data:[1,2,1.5,2,1,2,1.5,0.75,0.5,1,3],
+            backgroundColor:accent+'cc', borderColor:accent,
+            borderWidth:2, borderRadius:4
+          },
+          {
+            label:'3-Person Equiv (hrs)',
+            data:[12,16,7.5,8,8,16,12,12,4,4,24],
+            backgroundColor:'#0f172912', borderColor:'#0f172944',
+            borderWidth:1, borderRadius:4
+          }
+        ]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{display:true,position:'bottom',labels:{boxWidth:8,font:{size:9},color:tc,padding:6}},
+          tooltip:{callbacks:{
+            afterBody:items=>{
+              const po=items.find(i=>i.dataset.label.includes('PO'));
+              const t=items.find(i=>i.dataset.label.includes('Equiv'));
+              if(po&&t&&po.parsed.y>0) return['Compression: ~'+Math.round(t.parsed.y/po.parsed.y)+'x'];
+              return[];
+            }
+          }}
+        },
+        scales:{
+          y:{beginAtZero:true,grid:{color:gc},ticks:{color:tc,font:{size:9}}},
+          x:{grid:{display:false},ticks:{color:tc,font:{size:8},maxRotation:45}}
+        }
+      }
+    });
+  }
+}
+
+// Collapsible cards
+(function initCollapsibles() {
+  document.querySelectorAll('.ct.tog').forEach(ct => {
+    const card = ct.closest('.card');
+    if (!card) return;
+    const body = document.createElement('div');
+    body.className = 'card-body';
+    const siblings = [];
+    let node = ct.nextSibling;
+    while (node) { siblings.push(node); node = node.nextSibling; }
+    siblings.forEach(s => body.appendChild(s));
+    card.appendChild(body);
+    body.style.maxHeight = body.scrollHeight + 'px';
+    ct.addEventListener('click', () => {
+      const collapsed = card.classList.toggle('collapsed');
+      if (!collapsed) body.style.maxHeight = body.scrollHeight + 'px';
+    });
+  });
+  // Pre-collapse verbose sections
+  const preCollapse = [
+    'Meta Learnings', 'Agent Protocol', 'Skills —',
+    'Standing Rules —', 'Definition of Done', 'Design System', 'RACI —',
+    'What Shipped', 'Thinking Modes', 'Phase 1 —', 'Phase 2 —', 'Phase 3 —',
+    'What Was Learnt'
+  ];
+  document.querySelectorAll('.ct.tog').forEach(ct => {
+    if (preCollapse.some(k => ct.textContent.trim().startsWith(k) || ct.textContent.includes(k))) {
+      ct.closest('.card').classList.add('collapsed');
+    }
+  });
+})();
+
+// Build charts on load (command tab is active)
+window.addEventListener('load', function() {
+  setTimeout(buildCharts, 100);
+});
+</script>
 </body>
-
 </html>

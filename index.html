@@ -331,7 +331,7 @@ td:first-child { font-weight: 600; color: var(--text); }
 </style>
 <!-- CONTEXT-DUMP-START -->
 <script>window.__CONTEXT_DUMP__ = `# Sunny Hayes — AI Context Dump
-_Generated: 2026-03-24 07:06_
+_Generated: 2026-03-27 06:15_
 _Paste this at the start of any AI chat (Copilot, Claude.ai web) to give full context._
 
 ---
@@ -522,6 +522,12 @@ After answer: [Bookmark this] + [Ask another]. Bookmarks saved to Supabase.
 ## Direction Style
 - Sunny Hayes gives direction in bullets — respond concisely, act directly, don't over-explain
 
+## Prompt Clarity — Ask First (active, every session — no exceptions)
+- **If a prompt is unclear in any way, ask probing questions before acting.** Do not guess intent. Do not pick the most likely interpretation and proceed. Ask.
+- One or two focused questions is enough — don't interrogate.
+- This applies to all tasks, not just the pattern list below.
+- **Why:** Sunny Hayes explicitly asked for this. Guessing wastes tokens and produces wrong output.
+
 ## Prompt Coaching (active, every session — no exceptions)
 
 Claude intercepts and pushes back before acting on any of these:
@@ -655,12 +661,14 @@ Claude intercepts and pushes back before acting on any of these:
 
 | Tendency | Correction |
 |----------|-----------|
-| Skipping session start time capture at session open | \`date\` must be the FIRST action in any new session, before reading context or planning. Log \`SESSION START: <date> <time>\` internally. |
+| Skipping session start time capture at session open | \`date\` must be the ABSOLUTE FIRST tool call in any new session — before subagents, before Explore, before any planning. No exceptions. Recurring failure: subagent is launched first, then \`date\` only runs after Sunny Hayes corrects it. |
 | Adding Co-Authored-By tag to commits | Never. No exceptions. |
 | Summarising what was just done at end of response | Stop — Sunny Hayes can read the diff |
 | Creating files in wrong location (e.g. Daytona vs claude-memory) | All project files and new projects live in \`~/Daytona/\`. Never create project files on Desktop or elsewhere. |
 | Asking for bash confirmation on basic safe commands | Covered by settings.json allow list |
 | Verbose responses with preamble before the answer | Lead with the answer, cut the wind-up |
+
+| Patching symptoms instead of reading the error message | When something is broken, read the console/error output first. The error message is almost always the answer. Don't try fixes until you've read it. |
 
 ## Watch for (known AI tendencies in this workflow)
 - Over-engineering simple features — adding configurability nobody asked for
@@ -712,7 +720,7 @@ Edit gate → Planning (3+ steps) → Subagents → Verify before done. /wrap at
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">v3.1.0 · 2026-03-24</div>
+    <div class="ver-badge">2026-03-27 06:14</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -740,18 +748,14 @@ Edit gate → Planning (3+ steps) → Subagents → Verify before done. /wrap at
 
       <div class="g2">
         <div class="card">
-          <div class="ct">Last Session — 2026-03-24 · 13:41 IST</div>
+                    <div class="ct">Last Session — 2026-03-27</div>
           <ul class="bl">
-            <li>Renamed Command Centre → Command Module</li>
-            <li>Reference moved to main sidebar (no longer pinned bottom)</li>
-            <li>Parking Lot cards made collapsible</li>
-            <li>Charts fixed (literal newline bug in sessions JS array)</li>
-            <li>Token audit auto-script built + wired to lights_out.md</li>
-            <li>INTERACTION_LOG auto-trim script built + wired to session_wrap.md</li>
-            <li>wrap_update.py extended to full one-call wrap CLI</li>
+            <li>Paperclip embed broke collapsibles + graphs — reverted to backup</li>
+            <li>Decision: Paperclip = link to Railway URL, not embedded fetch</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            <span class="b bp">Meta CC v3.1.0</span><span class="b bsl">~8 hrs PO</span><span class="b bg">~4x compression</span>
+            <span class="b bp">Meta</span><span class="b bsl">~0.5 hrs PO</span><span class="b bg">~4x compression</span>
+          </div>
           </div>
         </div>
         <div class="card">
@@ -830,7 +834,12 @@ Edit gate → Planning (3+ steps) → Subagents → Verify before done. /wrap at
         </div>
         <div class="card">
           <div class="ct tog">What Shipped — Full Log · Updated 2026-03-24</div>
-                  <div class="rb"><div class="rd">2026-03-24</div>
+                          <div class="rb"><div class="rd">2026-03-27</div>
+          <div class="ri"><div class="rtag">Meta</div><div class="rdet">Paperclip migration: 43 issues seeded, COMPANY.md 16 sections</div></div>
+          <div class="ri"><div class="rtag">Meta</div><div class="rdet">Paperclip embed reverted — link-in-new-tab decision locked</div></div>
+          <div class="ri"><div class="rtag">Meta</div><div class="rdet">Clean restore deployed to claude-command-centre.vercel.app</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-03-24</div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">wrap_update.py extended with full wrap command</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">session_wrap.md updated to use CLI</div></div>
         </div>
@@ -1265,8 +1274,8 @@ Edit gate → Planning (3+ steps) → Subagents → Verify before done. /wrap at
         </div>
         <div class="card">
           <div class="ct">Real Numbers — Mar 12–24</div>
-          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">29 sessions across 24 days</div></div>
-          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~24.0 hours (est)</div></div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">30 sessions across 24 days</div></div>
+          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~24.5 hours (est)</div></div>
           <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
           <div class="rr"><div class="rk">Projects touched</div><div class="rv">8 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt, CC + Meta</div></div>
           <div class="rr"><div class="rk">Features shipped</div><div class="rv">felt v0.1→0.3, Swara v0.1, Helm scaffold, ARIA advisor profile + portal, CC v3.0.0</div></div>
@@ -1580,34 +1589,66 @@ function buildCharts() {
   const accent = '#059669', tc = '#475569', gc = '#e2e8f0';
 
   const sessions = [
-    {label:'Mar 12\nBzHub',project:'BzHub',mins:45,tokens:null},
-    {label:'Mar 12\nBzHub',project:'BzHub',mins:25,tokens:null},
-    {label:'Mar 12\nBzHub',project:'BzHub',mins:35,tokens:null},
-    {label:'Mar 13\nARIA',project:'ARIA Advisor',mins:90,tokens:null},
-    {label:'Mar 13\nBzHub',project:'BzHub',mins:30,tokens:null},
-    {label:'Mar 13\nBzHub',project:'BzHub',mins:20,tokens:null},
-    {label:'Mar 14\nARIA',project:'ARIA Advisor',mins:15,tokens:null},
-    {label:'Mar 15\nARIA',project:'ARIA Advisor',mins:20,tokens:null},
-    {label:'Mar 16\nARIA',project:'ARIA Advisor',mins:35,tokens:86050},
-    {label:'Mar 17\nARIA',project:'ARIA Advisor',mins:180,tokens:118860},
-    {label:'Mar 17\nARIA',project:'ARIA Advisor',mins:105,tokens:null},
-    {label:'Mar 17\nGurudev',project:'As Gurudev Says',mins:30,tokens:null},
-    {label:'Mar 17\nBzHub',project:'BzHub',mins:15,tokens:null},
-    {label:'Mar 18\nARIA',project:'ARIA Advisor',mins:120,tokens:255502},
-    {label:'Mar 18\nMeta',project:'Meta',mins:60,tokens:null},
-    {label:'Mar 20\nMeta',project:'Meta',mins:90,tokens:85297},
-    {label:'Mar 21\nMeta',project:'Meta',mins:120,tokens:null},
-    {label:'Mar 21\nHelm',project:'Helm',mins:60,tokens:215079},
-    {label:'Mar 21\nARIA RCA',project:'ARIA Advisor',mins:120,tokens:null},
-    {label:'Mar 21\nARIA Feats',project:'ARIA Advisor',mins:90,tokens:null},
-    {label:'Mar 21\nSwara',project:'Swara Samipyam',mins:45,tokens:null},
-    {label:'Mar 21\nMeta',project:'Meta',mins:30,tokens:null},
-    {label:'Mar 21\nMeta CC',project:'Meta',mins:60,tokens:null},
-    {label:'Mar 22\nfelt',project:'felt',mins:180,tokens:null},
-    {label:'Mar 22\nMeta CC',project:'Meta',mins:60,tokens:null},
-    {label:'Mar 22\nCtx Sys',project:'Meta',mins:45,tokens:7424},
-    {label:'Mar 23\nfelt',project:'felt',mins:180,tokens:null},
-    {label:'Mar 24\nMeta CC',project:'Meta',mins:360,tokens:null}
+    {label:'Mar 12
+BzHub',project:'BzHub',mins:45,tokens:null},
+    {label:'Mar 12
+BzHub',project:'BzHub',mins:25,tokens:null},
+    {label:'Mar 12
+BzHub',project:'BzHub',mins:35,tokens:null},
+    {label:'Mar 13
+ARIA',project:'ARIA Advisor',mins:90,tokens:null},
+    {label:'Mar 13
+BzHub',project:'BzHub',mins:30,tokens:null},
+    {label:'Mar 13
+BzHub',project:'BzHub',mins:20,tokens:null},
+    {label:'Mar 14
+ARIA',project:'ARIA Advisor',mins:15,tokens:null},
+    {label:'Mar 15
+ARIA',project:'ARIA Advisor',mins:20,tokens:null},
+    {label:'Mar 16
+ARIA',project:'ARIA Advisor',mins:35,tokens:86050},
+    {label:'Mar 17
+ARIA',project:'ARIA Advisor',mins:180,tokens:118860},
+    {label:'Mar 17
+ARIA',project:'ARIA Advisor',mins:105,tokens:null},
+    {label:'Mar 17
+Gurudev',project:'As Gurudev Says',mins:30,tokens:null},
+    {label:'Mar 17
+BzHub',project:'BzHub',mins:15,tokens:null},
+    {label:'Mar 18
+ARIA',project:'ARIA Advisor',mins:120,tokens:255502},
+    {label:'Mar 18
+Meta',project:'Meta',mins:60,tokens:null},
+    {label:'Mar 20
+Meta',project:'Meta',mins:90,tokens:85297},
+    {label:'Mar 21
+Meta',project:'Meta',mins:120,tokens:null},
+    {label:'Mar 21
+Helm',project:'Helm',mins:60,tokens:215079},
+    {label:'Mar 21
+ARIA RCA',project:'ARIA Advisor',mins:120,tokens:null},
+    {label:'Mar 21
+ARIA Feats',project:'ARIA Advisor',mins:90,tokens:null},
+    {label:'Mar 21
+Swara',project:'Swara Samipyam',mins:45,tokens:null},
+    {label:'Mar 21
+Meta',project:'Meta',mins:30,tokens:null},
+    {label:'Mar 21
+Meta CC',project:'Meta',mins:60,tokens:null},
+    {label:'Mar 22
+felt',project:'felt',mins:180,tokens:null},
+    {label:'Mar 22
+Meta CC',project:'Meta',mins:60,tokens:null},
+    {label:'Mar 22
+Ctx Sys',project:'Meta',mins:45,tokens:7424},
+    {label:'Mar 23
+felt',project:'felt',mins:180,tokens:null},
+    {label:'Mar 24
+Meta CC',project:'Meta',mins:360,tokens:null},
+    {label:'Mar 27
+Paperclip',project:'Meta',mins:45,tokens:null},
+    {label:'Mar 27
+Meta CC',project:'Meta',mins:47,tokens:null}
   ];
 
   const pColor = {
@@ -1707,17 +1748,17 @@ function buildCharts() {
     new Chart(effCtx.getContext('2d'), {
       type:'bar',
       data:{
-        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC"],
+        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC"],
         datasets:[
           {
             label:'PO Time (hrs)',
-            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0],
+            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5],
             backgroundColor:accent+'cc', borderColor:accent,
             borderWidth:2, borderRadius:4
           },
           {
             label:'3-Person Equiv (hrs)',
-            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0],
+            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0],
             backgroundColor:'#0f172912', borderColor:'#0f172944',
             borderWidth:1, borderRadius:4
           }

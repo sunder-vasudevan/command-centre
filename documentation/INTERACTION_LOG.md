@@ -2,6 +2,35 @@
 
 ---
 
+## 2026-03-27 06:11 IST — Meta / Paperclip Integration Attempt + Revert
+
+**Session date:** 2026-03-27
+**PO interaction time:** ~30 min
+**Start time:** 06:11 IST (continuation of earlier session)
+**Version shipped:** revert to v3.1.0
+**Estimated 3-person equivalent:** ~2 hrs (debug + decision + deploy)
+**Compression ratio:** ~4x
+
+### What happened
+- Attempted live Paperclip API integration into index.html: Parking Lot + What Shipped tabs fetching from localhost:3100
+- Integration broke card collapsibles and graphs
+- Diagnosis: async fetch + innerHTML replacement conflicted with static `initCollapsibles` IIFE
+- Decision: revert to backup — embed = wrong approach. Paperclip link in new tab when Railway is live.
+- Restored index_backup_2026-03-27.html → index.html
+- Committed + deployed to claude-command-centre.vercel.app
+- Re-aliased claude-command-centre.vercel.app
+
+### Prompt Log
+
+| # | Prompt | Output | Time |
+|---|--------|--------|------|
+| 1 | Tabs like Parking lot projects not opening on Index file | Diagnosed collapsible conflict, attempted fix | ~06:00 |
+| 2 | Dint we have a wrapper to update the Index file without touching the html file? | Identified wrap_update.py — recommended restore from backup | ~06:05 |
+| 3 | Yes. restore. Once paperclip is live, we can add link directly to that page and open a new tab. | Restored from backup | ~06:08 |
+| 4 | Yes.. Now deploy and all the learnings. | Deployed + /wrap | ~06:11 |
+
+---
+
 ## 2026-03-27 05:24 IST — Meta / Paperclip Setup + Command Module Migration
 
 **Session date:** 2026-03-27

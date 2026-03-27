@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Command Centre — Design Direction Explorer</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── Top bar ── */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: #161b27;
+    border-bottom: 1px solid #1e2535;
+    flex-shrink: 0;
+  }
+  .topbar-title { font-size: 13px; font-weight: 600; color: #94a3b8; letter-spacing: 0.05em; text-transform: uppercase; }
+  .preset-row { display: flex; gap: 6px; }
+  .preset-btn {
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid #2d3748;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .preset-btn:hover { border-color: #4f7fff; color: #4f7fff; }
+  .preset-btn.active { background: #4f7fff; border-color: #4f7fff; color: #fff; }
+
+  /* ── Main layout ── */
+  .main {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* ── Controls panel ── */
+  .controls {
+    width: 280px;
+    flex-shrink: 0;
+    background: #161b27;
+    border-right: 1px solid #1e2535;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .ctrl-group { display: flex; flex-direction: column; gap: 10px; }
+  .ctrl-group-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #4f7fff;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #1e2535;
+  }
+
+  .ctrl-row { display: flex; flex-direction: column; gap: 4px; }
+  .ctrl-label { font-size: 11px; color: #64748b; display: flex; justify-content: space-between; }
+  .ctrl-label span { color: #94a3b8; font-weight: 500; }
+
+  input[type=range] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: #2d3748;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #4f7fff;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  select {
+    width: 100%;
+    background: #1e2535;
+    border: 1px solid #2d3748;
+    border-radius: 6px;
+    color: #e2e8f0;
+    padding: 5px 8px;
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+  }
+  select:focus { border-color: #4f7fff; }
+
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; }
+  .toggle-label { font-size: 12px; color: #94a3b8; }
+  .toggle {
+    width: 36px; height: 20px;
+    background: #2d3748;
+    border-radius: 999px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    border: none;
+  }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    top: 3px; left: 3px;
+    transition: left 0.2s;
+  }
+  .toggle.on { background: #4f7fff; }
+  .toggle.on::after { left: 19px; }
+
+  .swatch-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .swatch {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.1s, border-color 0.1s;
+  }
+  .swatch:hover { transform: scale(1.15); }
+  .swatch.selected { border-color: #fff; }
+
+  /* ── Preview panel ── */
+  .preview-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: #0f1117;
+  }
+
+  .preview-frame {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+
+  iframe#preview {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  /* ── Prompt output ── */
+  .prompt-bar {
+    flex-shrink: 0;
+    background: #161b27;
+    border-top: 1px solid #1e2535;
+    padding: 12px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .prompt-text {
+    flex: 1;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 11px;
+    color: #94a3b8;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    min-height: 32px;
+  }
+  .copy-btn {
+    padding: 6px 14px;
+    background: #4f7fff;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+  .copy-btn:hover { background: #3b6de8; }
+  .copy-btn.copied { background: #059669; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-title">Command Centre — Design Direction</div>
+  <div class="preset-row">
+    <button class="preset-btn active" onclick="applyPreset('linear')" id="preset-linear">Linear</button>
+    <button class="preset-btn" onclick="applyPreset('vercel')" id="preset-vercel">Vercel</button>
+    <button class="preset-btn" onclick="applyPreset('notion')" id="preset-notion">Notion</button>
+    <button class="preset-btn" onclick="applyPreset('f1')" id="preset-f1">F1 Dark</button>
+    <button class="preset-btn" onclick="applyPreset('minimal')" id="preset-minimal">Minimal Light</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="controls">
+
+    <div class="ctrl-group">
+      <div class="ctrl-group-title">Colour & Theme</div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Background <span id="lbl-bg"></span></div>
+        <div class="swatch-row" id="bg-swatches"></div>
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Accent <span id="lbl-accent"></span></div>
+        <div class="swatch-row" id="accent-swatches"></div>
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Surface contrast <span id="lbl-contrast"></span></div>
+        <input type="range" id="ctrl-contrast" min="0" max="100" step="1">
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <div class="ctrl-group-title">Typography</div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Font family</div>
+        <select id="ctrl-font">
+          <option value="system">System UI (default)</option>
+          <option value="inter">Inter</option>
+          <option value="geist">Geist / DM Sans</option>
+          <option value="mono">Mono accent</option>
+        </select>
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Base size <span id="lbl-fontsize"></span></div>
+        <input type="range" id="ctrl-fontsize" min="12" max="16" step="1">
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Heading weight <span id="lbl-headwt"></span></div>
+        <input type="range" id="ctrl-headwt" min="400" max="800" step="100">
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <div class="ctrl-group-title">Layout & Spacing</div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Nav position</div>
+        <select id="ctrl-nav">
+          <option value="top">Top tab bar</option>
+          <option value="sidebar">Left sidebar</option>
+          <option value="sidebar-icons">Sidebar icons only</option>
+        </select>
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Density <span id="lbl-density"></span></div>
+        <input type="range" id="ctrl-density" min="0" max="100" step="1">
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Card radius <span id="lbl-radius"></span></div>
+        <input type="range" id="ctrl-radius" min="0" max="20" step="1">
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Panel style</div>
+        <select id="ctrl-panelstyle">
+          <option value="card">Cards with shadow</option>
+          <option value="flat">Flat (border only)</option>
+          <option value="ghost">Ghost (no border)</option>
+          <option value="filled">Filled surface</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <div class="ctrl-group-title">Tab Structure</div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Tab grouping</div>
+        <select id="ctrl-tabs">
+          <option value="current">Current (9 tabs)</option>
+          <option value="grouped">Grouped (5 tabs)</option>
+          <option value="minimal">Minimal (3 tabs)</option>
+        </select>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">Show tab labels</div>
+        <button class="toggle on" id="toggle-tablabels" onclick="toggleState('tablabels')"></button>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">Show emoji icons</div>
+        <button class="toggle on" id="toggle-emoji" onclick="toggleState('emoji')"></button>
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <div class="ctrl-group-title">Features</div>
+      <div class="toggle-row">
+        <div class="toggle-label">Version badge</div>
+        <button class="toggle on" id="toggle-badge" onclick="toggleState('badge')"></button>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">Search bar</div>
+        <button class="toggle on" id="toggle-search" onclick="toggleState('search')"></button>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">Status indicators</div>
+        <button class="toggle on" id="toggle-status" onclick="toggleState('status')"></button>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">Copy Context button</div>
+        <button class="toggle on" id="toggle-copyctx" onclick="toggleState('copyctx')"></button>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">Charts visible by default</div>
+        <button class="toggle" id="toggle-charts" onclick="toggleState('charts')"></button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="preview-wrap">
+    <div class="preview-frame">
+      <iframe id="preview" title="Preview"></iframe>
+    </div>
+    <div class="prompt-bar">
+      <div class="prompt-text" id="prompt-out">Loading preview…</div>
+      <button class="copy-btn" id="copy-btn" onclick="copyPrompt()">Copy Prompt</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+const DEFAULTS = {
+  bg: '#0f172a',
+  accent: '#4f7fff',
+  contrast: 60,
+  font: 'system',
+  fontsize: 14,
+  headwt: 600,
+  nav: 'top',
+  density: 50,
+  radius: 8,
+  panelstyle: 'card',
+  tabs: 'grouped',
+  tablabels: true,
+  emoji: true,
+  badge: true,
+  search: true,
+  status: true,
+  copyctx: true,
+  charts: false,
+};
+
+let state = { ...DEFAULTS };
+
+const BG_OPTIONS = [
+  { hex: '#ffffff', name: 'White' },
+  { hex: '#f8fafc', name: 'Slate 50' },
+  { hex: '#f1f5f9', name: 'Slate 100' },
+  { hex: '#1e293b', name: 'Slate 800' },
+  { hex: '#0f172a', name: 'Slate 900' },
+  { hex: '#09090b', name: 'Zinc 950' },
+  { hex: '#0a0a0a', name: 'Near black' },
+];
+
+const ACCENT_OPTIONS = [
+  { hex: '#4f7fff', name: 'Blue' },
+  { hex: '#7c3aed', name: 'Violet' },
+  { hex: '#059669', name: 'Emerald' },
+  { hex: '#e10600', name: 'F1 Red' },
+  { hex: '#f59e0b', name: 'Amber' },
+  { hex: '#0ea5e9', name: 'Sky' },
+  { hex: '#ec4899', name: 'Pink' },
+  { hex: '#64748b', name: 'Slate' },
+];
+
+const PRESETS = {
+  linear: { bg: '#0f172a', accent: '#4f7fff', contrast: 55, font: 'inter', fontsize: 14, headwt: 600, nav: 'sidebar-icons', density: 55, radius: 8, panelstyle: 'flat', tabs: 'grouped', tablabels: true, emoji: false, badge: true, search: true, status: true, copyctx: true, charts: false },
+  vercel: { bg: '#000000', accent: '#ffffff', contrast: 40, font: 'geist', fontsize: 13, headwt: 500, nav: 'top', density: 65, radius: 6, panelstyle: 'flat', tabs: 'grouped', tablabels: true, emoji: false, badge: true, search: true, status: false, copyctx: true, charts: false },
+  notion: { bg: '#ffffff', accent: '#4f7fff', contrast: 30, font: 'system', fontsize: 15, headwt: 700, nav: 'sidebar', density: 40, radius: 4, panelstyle: 'ghost', tabs: 'current', tablabels: true, emoji: true, badge: false, search: true, status: false, copyctx: true, charts: false },
+  f1: { bg: '#09090b', accent: '#e10600', contrast: 60, font: 'system', fontsize: 14, headwt: 700, nav: 'top', density: 60, radius: 4, panelstyle: 'filled', tabs: 'minimal', tablabels: true, emoji: false, badge: true, search: false, status: true, copyctx: true, charts: true },
+  minimal: { bg: '#f8fafc', accent: '#4f7fff', contrast: 20, font: 'inter', fontsize: 14, headwt: 500, nav: 'top', density: 35, radius: 12, panelstyle: 'card', tabs: 'grouped', tablabels: true, emoji: false, badge: false, search: true, status: false, copyctx: false, charts: false },
+};
+
+// ── Tab group definitions ──────────────────────────────────────────────────
+const TAB_SETS = {
+  current: [
+    { id: 'session', icon: '🚦', label: 'Session' },
+    { id: 'thinking', icon: '🔬', label: 'Thinking' },
+    { id: 'projects', icon: '🏎️', label: 'Projects' },
+    { id: 'rules', icon: '📏', label: 'Rules' },
+    { id: 'tools', icon: '🛠️', label: 'Tools' },
+    { id: 'efficiency', icon: '📊', label: 'Efficiency' },
+    { id: 'howwework', icon: '🔄', label: 'How We Work' },
+    { id: 'reference', icon: '📄', label: 'Reference' },
+    { id: 'seesme', icon: '👁️', label: 'How Claude Sees Me' },
+  ],
+  grouped: [
+    { id: 'command', icon: '🚦', label: 'Command' },
+    { id: 'projects', icon: '🏎️', label: 'Projects' },
+    { id: 'standards', icon: '📏', label: 'Standards' },
+    { id: 'insights', icon: '📊', label: 'Insights' },
+    { id: 'profile', icon: '👁️', label: 'Profile' },
+  ],
+  minimal: [
+    { id: 'today', icon: '🚦', label: 'Today' },
+    { id: 'projects', icon: '🏎️', label: 'Projects' },
+    { id: 'insights', icon: '📊', label: 'Insights' },
+  ],
+};
+
+// ── Colour helpers ─────────────────────────────────────────────────────────
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return {r,g,b};
+}
+function isDark(hex) {
+  const {r,g,b} = hexToRgb(hex);
+  return (r*0.299 + g*0.587 + b*0.114) < 140;
+}
+function mix(hex, amount) {
+  // lighten or darken by mixing with white/black
+  const {r,g,b} = hexToRgb(hex);
+  const target = amount > 0 ? 255 : 0;
+  const abs = Math.abs(amount);
+  const nr = Math.round(r + (target - r) * abs);
+  const ng = Math.round(g + (target - g) * abs);
+  const nb = Math.round(b + (target - b) * abs);
+  return `#${nr.toString(16).padStart(2,'0')}${ng.toString(16).padStart(2,'0')}${nb.toString(16).padStart(2,'0')}`;
+}
+
+// ── Generate preview HTML ──────────────────────────────────────────────────
+function buildPreviewHTML() {
+  const s = state;
+  const dark = isDark(s.bg);
+  const textPrimary = dark ? '#f1f5f9' : '#0f172a';
+  const textSecondary = dark ? '#94a3b8' : '#64748b';
+  const textMuted = dark ? '#475569' : '#94a3b8';
+  const contrastAmt = (s.contrast / 100) * (dark ? 0.15 : 0.06);
+  const surface = dark ? mix(s.bg, contrastAmt) : mix(s.bg, -contrastAmt);
+  const border = dark ? mix(s.bg, contrastAmt * 2) : mix(s.bg, -contrastAmt * 3);
+  const accentFg = isDark(s.accent) ? '#fff' : '#000';
+  const accentSoft = s.accent + '22';
+
+  const gap = Math.round(8 + (s.density / 100) * 8);
+  const pad = Math.round(12 + (s.density / 100) * 12);
+  const smPad = Math.round(pad * 0.6);
+  const r = s.radius;
+
+  const fonts = {
+    system: "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
+    inter: "'Inter', 'Helvetica Neue', Arial, sans-serif",
+    geist: "'DM Sans', 'Helvetica Neue', Arial, sans-serif",
+    mono: "'SF Mono', 'Fira Code', monospace",
+  };
+  const ff = fonts[s.font] || fonts.system;
+
+  const tabs = TAB_SETS[s.tabs];
+  const firstTab = tabs[0];
+  const activeTab = firstTab.id;
+
+  // Build nav HTML
+  const makeTabLabel = (t, active) => {
+    const icon = s.emoji ? `<span style="font-size:14px">${t.icon}</span>` : '';
+    const label = s.tablabels ? `<span>${t.label}</span>` : '';
+    const gap2 = s.emoji && s.tablabels ? '6px' : '0';
+    const bg = active ? s.accent : 'transparent';
+    const col = active ? accentFg : textSecondary;
+    const fw = active ? '600' : '400';
+    return `<button style="display:flex;align-items:center;gap:${gap2};padding:6px ${smPad}px;border-radius:${r}px;border:none;background:${bg};color:${col};font-family:${ff};font-size:12px;font-weight:${fw};cursor:pointer;white-space:nowrap;transition:all 0.15s">${icon}${label}</button>`;
+  };
+
+  let navHTML = '';
+  let mainPadLeft = '';
+  let headerExtra = '';
+
+  if (s.nav === 'top') {
+    navHTML = `
+      <div style="display:flex;gap:4px;padding:8px ${pad}px;border-bottom:1px solid ${border};overflow-x:auto;background:${surface}">
+        ${tabs.map((t,i) => makeTabLabel(t, i===0)).join('')}
+      </div>`;
+  } else if (s.nav === 'sidebar' || s.nav === 'sidebar-icons') {
+    const sideWidth = s.nav === 'sidebar-icons' ? 52 : 180;
+    mainPadLeft = `margin-left:${sideWidth}px`;
+    const sideItems = tabs.map((t,i) => {
+      const active = i === 0;
+      const icon = `<span style="font-size:${s.nav==='sidebar-icons'?'18':'14'}px">${t.icon}</span>`;
+      const label = (s.tablabels && s.nav !== 'sidebar-icons') ? `<span style="font-size:12px">${t.label}</span>` : '';
+      const bg = active ? s.accent : 'transparent';
+      const col = active ? accentFg : textSecondary;
+      const fw = active ? '600' : '400';
+      return `<button style="display:flex;align-items:center;gap:8px;width:100%;padding:8px ${s.nav==='sidebar-icons'?'0':'12px'};justify-content:${s.nav==='sidebar-icons'?'center':'flex-start'};border-radius:${r}px;border:none;background:${bg};color:${col};font-family:${ff};font-weight:${fw};cursor:pointer;transition:all 0.15s">${icon}${label}</button>`;
+    }).join('');
+    navHTML = `
+      <div style="position:fixed;top:52px;left:0;width:${sideWidth}px;height:calc(100% - 52px);background:${surface};border-right:1px solid ${border};padding:12px 8px;display:flex;flex-direction:column;gap:4px;overflow-y:auto;">
+        ${sideItems}
+      </div>`;
+  }
+
+  // Card style
+  const cardStyle = {
+    card: `background:${surface};border-radius:${r}px;padding:${pad}px;box-shadow:0 1px 3px rgba(0,0,0,${dark?'0.4':'0.1'}),0 1px 2px rgba(0,0,0,${dark?'0.2':'0.06'})`,
+    flat: `background:${surface};border-radius:${r}px;padding:${pad}px;border:1px solid ${border}`,
+    ghost: `background:transparent;border-radius:${r}px;padding:${pad}px`,
+    filled: `background:${surface};border-radius:${r}px;padding:${pad}px;border-left:3px solid ${s.accent}`,
+  }[s.panelstyle];
+
+  // Header
+  const badge = s.badge ? `<div style="padding:3px 10px;background:${accentSoft};border:1px solid ${s.accent}44;border-radius:999px;font-size:10px;color:${s.accent};font-weight:600">2026-03-23 22:46</div>` : '';
+  const search = s.search ? `<div style="display:flex;align-items:center;gap:6px;padding:5px 10px;background:${surface};border:1px solid ${border};border-radius:${r}px;font-size:12px;color:${textMuted}">🔍 Search…</div>` : '';
+  const copyCtx = s.copyctx ? `<button style="padding:5px 12px;border-radius:999px;border:1px solid ${border};background:transparent;color:${textSecondary};font-size:11px;font-family:${ff};cursor:pointer">Copy Context</button>` : '';
+
+  const headerRight = [badge, search, copyCtx].filter(Boolean).join('');
+
+  // Status dots
+  const status = s.status ? `
+    <div style="display:flex;gap:12px;align-items:center;margin-top:${smPad}px">
+      <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:${textSecondary}">
+        <span style="width:7px;height:7px;border-radius:50%;background:#059669;display:inline-block"></span> Felt v0.3.0 live
+      </span>
+      <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:${textSecondary}">
+        <span style="width:7px;height:7px;border-radius:50%;background:#f59e0b;display:inline-block"></span> ARIA · 2 open
+      </span>
+      <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:${textSecondary}">
+        <span style="width:7px;height:7px;border-radius:50%;background:#4f7fff;display:inline-block"></span> BzHub · FEAT-041
+      </span>
+    </div>` : '';
+
+  // Charts toggle
+  const chartsBlock = s.charts ? `
+    <div style="${cardStyle};margin-top:${gap}px">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:${textMuted};margin-bottom:${smPad}px">Session Duration</div>
+      <div style="height:80px;background:${dark?'#1e293b':'#f1f5f9'};border-radius:${Math.max(0,r-2)}px;display:flex;align-items:flex-end;gap:4px;padding:8px">
+        ${[45,60,90,180,120,60,45,120,180,60,180].map((h,i) => {
+          const colors = ['#4f7fff','#059669','#e10600','#e10600','#4f7fff','#4f7fff','#d97706','#e10600','#ec4899','#e10600','#ec4899'];
+          const pct = Math.round((h/180)*100);
+          return `<div style="flex:1;height:${pct}%;background:${colors[i%colors.length]}99;border-radius:2px 2px 0 0"></div>`;
+        }).join('')}
+      </div>
+    </div>` : '';
+
+  return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: ${s.bg}; color: ${textPrimary}; font-family: ${ff}; font-size: ${s.fontsize}px; line-height: 1.5; min-height: 100vh; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: ${border}; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div style="position:sticky;top:0;z-index:100;background:${surface};border-bottom:1px solid ${border};padding:10px ${pad}px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+  <div style="font-size:${s.fontsize}px;font-weight:${s.headwt};color:${textPrimary};white-space:nowrap">🏁 Command Centre</div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">${headerRight}</div>
+</div>
+
+<!-- Nav -->
+${navHTML}
+
+<!-- Content -->
+<div style="${mainPadLeft}">
+
+  <!-- Page header with status -->
+  <div style="padding:${pad}px ${pad}px ${smPad}px">
+    <div style="font-size:${Math.round(s.fontsize*1.3)}px;font-weight:${s.headwt};color:${textPrimary};margin-bottom:4px">
+      ${s.emoji ? '🚦 ' : ''}${TAB_SETS[s.tabs][0].label}
+    </div>
+    <div style="font-size:12px;color:${textMuted}">2026-03-24 · Session active</div>
+    ${status}
+  </div>
+
+  <!-- Cards grid -->
+  <div style="padding:0 ${pad}px;display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:${gap}px">
+
+    <!-- Last session card -->
+    <div style="${cardStyle}">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:${s.accent};margin-bottom:${smPad}px">Last Session — 2026-03-23</div>
+      <ul style="display:flex;flex-direction:column;gap:6px;padding-left:0;list-style:none">
+        <li style="display:flex;gap:8px;font-size:12px;color:${textSecondary}"><span style="color:${s.accent};flex-shrink:0">→</span> Fixed dbGet string fallback bug in Upstash Redis</li>
+        <li style="display:flex;gap:8px;font-size:12px;color:${textSecondary}"><span style="color:${s.accent};flex-shrink:0">→</span> Added mobile share UX to Felt invite screen</li>
+        <li style="display:flex;gap:8px;font-size:12px;color:${textSecondary}"><span style="color:${s.accent};flex-shrink:0">→</span> Full E2E creator→joiner flow verified</li>
+      </ul>
+      <div style="margin-top:${smPad}px;padding-top:${smPad}px;border-top:1px solid ${border};font-size:11px;color:${textMuted}">Felt v0.3.0 shipped</div>
+    </div>
+
+    <!-- Race control card -->
+    <div style="${cardStyle}">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:${s.accent};margin-bottom:${smPad}px">Race Control</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        ${['/lights-out', '/wrap', '/qa', '/browse', '/ship', '/retro'].map(cmd =>
+          `<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 8px;background:${dark?mix(surface, 0.08):mix(surface,-0.04)};border-radius:${Math.max(0,r-2)}px">
+            <code style="font-size:11px;color:${s.accent};font-family:'SF Mono','Fira Code',monospace">${cmd}</code>
+            <span style="font-size:10px;color:${textMuted}">${{'/lights-out':'Start session','/wrap':'Close session','/qa':'QA test','/browse':'Browser','/ship':'Ship PR','/retro':'Retrospective'}[cmd]}</span>
+          </div>`
+        ).join('')}
+      </div>
+    </div>
+
+    <!-- Projects card -->
+    <div style="${cardStyle}">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:${s.accent};margin-bottom:${smPad}px">Active Projects</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${[
+          {name:'Felt', ver:'v0.3.0', next:'Mobile UI overhaul', col:'#ec4899'},
+          {name:'ARIA Advisor', ver:'v2.x', next:'FEAT-036 Auth', col:'#4f7fff'},
+          {name:'BzHub', ver:'v5.0.0', next:'FEAT-041 Builder', col:'#059669'},
+        ].map(p => `
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:8px;height:8px;border-radius:50%;background:${p.col};flex-shrink:0"></div>
+              <div>
+                <div style="font-size:12px;font-weight:${s.headwt};color:${textPrimary}">${p.name}</div>
+                <div style="font-size:10px;color:${textMuted}">${p.next}</div>
+              </div>
+            </div>
+            <span style="padding:2px 7px;background:${p.col}22;border-radius:999px;font-size:10px;color:${p.col};font-weight:600;white-space:nowrap">${p.ver}</span>
+          </div>`
+        ).join('')}
+      </div>
+    </div>
+
+    <!-- Protocol card -->
+    <div style="${cardStyle}">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:${s.accent};margin-bottom:${smPad}px">Agent Protocol</div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        ${[
+          ['Scope lock', 'Define goal before building'],
+          ['Edit gate', 'State files → wait for approval'],
+          ['Verification', 'Prove it works before done'],
+          ['Elegance check', 'Is there a simpler way?'],
+          ['Bug reports', 'Fix it, don\'t ask for guidance'],
+        ].map(([k,v]) => `
+          <div style="display:flex;gap:8px;font-size:12px">
+            <span style="color:${s.accent};font-weight:600;white-space:nowrap;flex-shrink:0">${k}</span>
+            <span style="color:${textSecondary}">${v}</span>
+          </div>`
+        ).join('')}
+      </div>
+    </div>
+
+  </div>
+
+  ${chartsBlock}
+
+  <!-- Bottom spacer -->
+  <div style="height:${pad}px"></div>
+</div>
+
+</body></html>`;
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+function updateAll() {
+  const html = buildPreviewHTML();
+  const frame = document.getElementById('preview');
+  const doc = frame.contentDocument || frame.contentWindow.document;
+  doc.open();
+  doc.write(html);
+  doc.close();
+  updatePrompt();
+}
+
+function updatePrompt() {
+  const s = state;
+  const D = DEFAULTS;
+  const parts = [];
+
+  // Theme
+  const bgName = BG_OPTIONS.find(b => b.hex === s.bg)?.name || s.bg;
+  const accentName = ACCENT_OPTIONS.find(a => a.hex === s.accent)?.name || s.accent;
+  parts.push(`Background: ${bgName}, accent: ${accentName}`);
+
+  // Font
+  const fontLabels = { system: 'system UI', inter: 'Inter', geist: 'Geist/DM Sans', mono: 'monospace accent' };
+  parts.push(`Font: ${fontLabels[s.font]}, ${s.fontsize}px base, ${s.headwt} heading weight`);
+
+  // Layout
+  const navLabels = { top: 'top tab bar', sidebar: 'left sidebar', 'sidebar-icons': 'icon-only sidebar' };
+  const tabLabels = { current: '9 tabs (current)', grouped: '5 grouped tabs', minimal: '3 tabs' };
+  parts.push(`Nav: ${navLabels[s.nav]}, ${tabLabels[s.tabs]}`);
+  parts.push(`Density ${s.density}/100, card radius ${s.radius}px, panel style: ${s.panelstyle}`);
+
+  // Features
+  const feats = [];
+  if (s.badge) feats.push('version badge');
+  if (s.search) feats.push('search bar');
+  if (s.status) feats.push('status dots');
+  if (s.copyctx) feats.push('Copy Context');
+  if (s.charts) feats.push('charts visible by default');
+  if (feats.length) parts.push(`Features: ${feats.join(', ')}`);
+  if (!s.emoji) parts.push('no emoji in nav');
+  if (!s.tablabels) parts.push('icon-only tabs');
+
+  document.getElementById('prompt-out').textContent =
+    `Build the Command Centre redesign with these design decisions:\n${parts.map(p => '• ' + p).join('\n')}`;
+}
+
+// ── Swatches ───────────────────────────────────────────────────────────────
+function buildSwatches() {
+  const bgContainer = document.getElementById('bg-swatches');
+  const accentContainer = document.getElementById('accent-swatches');
+
+  BG_OPTIONS.forEach(opt => {
+    const el = document.createElement('div');
+    el.className = 'swatch' + (opt.hex === state.bg ? ' selected' : '');
+    el.style.background = opt.hex;
+    el.style.border = opt.hex === '#ffffff' ? '1px solid #e2e8f0' : '';
+    el.title = opt.name;
+    el.onclick = () => { state.bg = opt.hex; refreshSwatches(); updateAll(); };
+    bgContainer.appendChild(el);
+  });
+
+  ACCENT_OPTIONS.forEach(opt => {
+    const el = document.createElement('div');
+    el.className = 'swatch' + (opt.hex === state.accent ? ' selected' : '');
+    el.style.background = opt.hex;
+    el.title = opt.name;
+    el.onclick = () => { state.accent = opt.hex; refreshSwatches(); updateAll(); };
+    accentContainer.appendChild(el);
+  });
+}
+
+function refreshSwatches() {
+  document.querySelectorAll('#bg-swatches .swatch').forEach((el, i) => {
+    el.classList.toggle('selected', BG_OPTIONS[i].hex === state.bg);
+  });
+  document.querySelectorAll('#accent-swatches .swatch').forEach((el, i) => {
+    el.classList.toggle('selected', ACCENT_OPTIONS[i].hex === state.accent);
+  });
+  document.getElementById('lbl-bg').textContent = BG_OPTIONS.find(b => b.hex === state.bg)?.name || '';
+  document.getElementById('lbl-accent').textContent = ACCENT_OPTIONS.find(a => a.hex === state.accent)?.name || '';
+}
+
+// ── Controls wiring ────────────────────────────────────────────────────────
+function wire(id, key, transform) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.value = state[key];
+  el.addEventListener('input', () => {
+    state[key] = transform ? transform(el.value) : el.value;
+    updateLabel(key);
+    updateAll();
+  });
+}
+
+function updateLabel(key) {
+  const labels = {
+    contrast: () => `${state.contrast}%`,
+    fontsize: () => `${state.fontsize}px`,
+    headwt: () => state.headwt,
+    density: () => state.density < 35 ? 'Airy' : state.density < 65 ? 'Balanced' : 'Compact',
+    radius: () => `${state.radius}px`,
+  };
+  const el = document.getElementById(`lbl-${key}`);
+  if (el && labels[key]) el.textContent = labels[key]();
+}
+
+function updateAllLabels() {
+  ['contrast','fontsize','headwt','density','radius'].forEach(updateLabel);
+}
+
+function toggleState(key) {
+  state[key] = !state[key];
+  const btn = document.getElementById(`toggle-${key}`);
+  if (btn) btn.classList.toggle('on', state[key]);
+  updateAll();
+}
+
+// ── Presets ────────────────────────────────────────────────────────────────
+function applyPreset(name) {
+  const p = PRESETS[name];
+  if (!p) return;
+  state = { ...state, ...p };
+
+  // Sync all controls
+  ['contrast','fontsize','headwt','density','radius'].forEach(key => {
+    const el = document.getElementById(`ctrl-${key}`);
+    if (el) el.value = state[key];
+  });
+  ['font','nav','panelstyle','tabs'].forEach(key => {
+    const el = document.getElementById(`ctrl-${key}`);
+    if (el) el.value = state[key];
+  });
+  ['tablabels','emoji','badge','search','status','copyctx','charts'].forEach(key => {
+    const btn = document.getElementById(`toggle-${key}`);
+    if (btn) btn.classList.toggle('on', state[key]);
+  });
+
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`preset-${name}`)?.classList.add('active');
+
+  refreshSwatches();
+  updateAllLabels();
+  updateAll();
+}
+
+// ── Copy ───────────────────────────────────────────────────────────────────
+function copyPrompt() {
+  const text = document.getElementById('prompt-out').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Prompt'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  buildSwatches();
+  wire('ctrl-contrast', 'contrast', Number);
+  wire('ctrl-fontsize', 'fontsize', Number);
+  wire('ctrl-headwt', 'headwt', Number);
+  wire('ctrl-density', 'density', Number);
+  wire('ctrl-radius', 'radius', Number);
+  wire('ctrl-font', 'font');
+  wire('ctrl-nav', 'nav');
+  wire('ctrl-panelstyle', 'panelstyle');
+  wire('ctrl-tabs', 'tabs');
+  updateAllLabels();
+  refreshSwatches();
+  applyPreset('linear'); // start on Linear preset
+});
+</script>
+
+</body>
+</html>
