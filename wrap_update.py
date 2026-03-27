@@ -70,7 +70,7 @@ def sessions_to_js(sessions):
     for s in sessions:
         tokens = s["tokens"] if s["tokens"] is not None else "null"
         # Ensure label never contains literal newlines — always escaped \n
-        label = s["label"].replace("\n", "\\n").replace("\\\\n", "\\n")
+        label = s["label"].replace("\\n", "\n").replace("\n", "\\n")
         lines.append(f'    {{label:\'{label}\',project:\'{s["project"]}\',mins:{s["mins"]},tokens:{tokens}}},')
     lines[-1] = lines[-1].rstrip(",")
     lines.append("  ];")

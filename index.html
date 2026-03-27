@@ -761,13 +761,15 @@ _End of context dump_
       <div class="stitle">Charts</div>
 
       <div class="chart-trio">
+        <div class="card" style="grid-column:1/-1">
+          <div class="ct">All Sessions — Duration &amp; Tokens <span style="font-size:10px;font-weight:400;color:var(--text3);margin-left:6px">← scroll →</span></div>
+          <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+            <div style="min-width:1200px"><canvas id="sessionChart" style="height:220px"></canvas></div>
+          </div>
+        </div>
         <div class="card">
           <div class="ct">My Time — Session Duration by Day</div>
           <div class="cw" ondblclick="expandChart('timeChart','My Time — Session Duration by Day')"><canvas id="timeChart"></canvas></div>
-        </div>
-        <div class="card">
-          <div class="ct">Per-Session Bar + Tokens</div>
-          <div class="cw" ondblclick="expandChart('sessionChart','Per-Session Bar + Tokens')"><canvas id="sessionChart"></canvas></div>
         </div>
         <div class="card">
           <div class="ct">Compression — PO vs 3-Person Team</div>
@@ -1565,6 +1567,14 @@ function buildCharts() {
   const accent = '#059669', tc = '#475569', gc = '#e2e8f0';
 
   const sessions = [
+    {label:'Feb 10\nBzHub',project:'BzHub',mins:120,tokens:null},
+    {label:'Feb 16\nBzHub',project:'BzHub',mins:90,tokens:null},
+    {label:'Feb 17\nBzHub',project:'BzHub',mins:60,tokens:null},
+    {label:'Feb 18\nBzHub',project:'BzHub',mins:180,tokens:null},
+    {label:'Feb 19\nBzHub',project:'BzHub',mins:90,tokens:null},
+    {label:'Mar 9\nBzHub',project:'BzHub',mins:120,tokens:null},
+    {label:'Mar 10\nBzHub',project:'BzHub',mins:240,tokens:null},
+    {label:'Mar 11\nBzHub',project:'BzHub',mins:180,tokens:null},
     {label:'Mar 12\nBzHub',project:'BzHub',mins:45,tokens:null},
     {label:'Mar 12\nBzHub',project:'BzHub',mins:25,tokens:null},
     {label:'Mar 12\nBzHub',project:'BzHub',mins:35,tokens:null},
@@ -1645,6 +1655,12 @@ function buildCharts() {
   const sessTokens = sessions.map(s => s.tokens ? Math.round(s.tokens/1000) : null);
   const sessionCtx = document.getElementById('sessionChart');
   if (sessionCtx) {
+    const barW = Math.max(28, Math.floor(1200 / sessions.length));
+    const canvasW = Math.max(1200, sessions.length * barW + 80);
+    sessionCtx.style.width = canvasW + 'px';
+    sessionCtx.style.height = '220px';
+    sessionCtx.width = canvasW;
+    sessionCtx.height = 220;
     new Chart(sessionCtx.getContext('2d'), {
       type:'bar',
       data:{
@@ -1674,7 +1690,7 @@ function buildCharts() {
         ]
       },
       options:{
-        responsive:true, maintainAspectRatio:false,
+        responsive:false, maintainAspectRatio:false,
         plugins:{
           legend:{display:true,position:'bottom',labels:{boxWidth:8,font:{size:9},color:tc,padding:6}},
           tooltip:{mode:'index',intersect:false}
@@ -1682,7 +1698,7 @@ function buildCharts() {
         scales:{
           y:{beginAtZero:true,grid:{color:gc},ticks:{color:tc,font:{size:9}}},
           y2:{beginAtZero:true,position:'right',grid:{display:false},ticks:{color:'#f59e0b',font:{size:9}}},
-          x:{grid:{display:false},ticks:{color:tc,font:{size:7},maxRotation:60}}
+          x:{grid:{display:false},ticks:{color:tc,font:{size:9},maxRotation:45}}
         }
       }
     });
