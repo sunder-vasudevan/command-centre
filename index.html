@@ -1647,35 +1647,52 @@ function buildCharts(data) {
   };
   const projects = Object.keys(pColor);
 
-  // Time chart — stacked daily
-  const dayMap = {}, dayOrder = [];
+  // Time chart — stacked daily duration + tokens line overlay
+  const dayMap = {}, dayTokenMap = {}, dayOrder = [];
   sessions.forEach(s => {
     const day = s.label.split('\n')[0];
-    if (!dayMap[day]) { dayMap[day] = {}; dayOrder.push(day); }
+    if (!dayMap[day]) { dayMap[day] = {}; dayTokenMap[day] = 0; dayOrder.push(day); }
     dayMap[day][s.project] = (dayMap[day][s.project] || 0) + s.mins;
+    if (s.tokens) dayTokenMap[day] += s.tokens;
   });
   const stackDays = [...new Set(dayOrder)];
   const timeCtx = document.getElementById('timeChart');
   if (timeCtx) {
+    const durationDatasets = projects.map(p=>({
+      label:p, stack:'stack',
+      data:stackDays.map(d=>dayMap[d]?.[p]||0),
+      backgroundColor:pColor[p]+'cc', borderColor:pColor[p],
+      borderWidth:1, borderRadius:2, yAxisID:'y'
+    }));
+    durationDatasets.push({
+      label:'Tokens (k)',
+      type:'line',
+      data:stackDays.map(d=>(dayTokenMap[d]||0)/1000),
+      borderColor:'#f59e0b',
+      backgroundColor:'#f59e0b33',
+      pointBackgroundColor:'#f59e0b',
+      pointRadius:4,
+      pointHoverRadius:6,
+      borderWidth:2,
+      tension:0.3,
+      yAxisID:'y2',
+      spanGaps:true
+    });
     new Chart(timeCtx.getContext('2d'), {
       type:'bar',
       data:{
         labels:stackDays,
-        datasets:projects.map(p=>({
-          label:p, stack:'stack',
-          data:stackDays.map(d=>dayMap[d]?.[p]||0),
-          backgroundColor:pColor[p]+'cc', borderColor:pColor[p],
-          borderWidth:1, borderRadius:2
-        }))
+        datasets:durationDatasets
       },
       options:{
         responsive:true, maintainAspectRatio:false,
         plugins:{
           legend:{display:true,position:'bottom',labels:{boxWidth:8,font:{size:9},color:tc,padding:6}},
-          tooltip:{callbacks:{label:i=>i.parsed.y>0?i.dataset.label+': '+i.parsed.y+'m':null}}
+          tooltip:{mode:'index',intersect:false,callbacks:{label:i=>i.dataset.label+': '+(i.dataset.yAxisID==='y2'?Math.round(i.parsed.y)+'k':i.parsed.y+'m')}}
         },
         scales:{
           y:{stacked:true,beginAtZero:true,grid:{color:gc},ticks:{color:tc,font:{size:9}}},
+          y2:{beginAtZero:true,position:'right',grid:{display:false},ticks:{color:'#f59e0b',font:{size:9}}},
           x:{grid:{display:false},ticks:{color:tc,font:{size:8},maxRotation:45}}
         }
       }
