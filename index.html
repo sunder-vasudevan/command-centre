@@ -712,7 +712,7 @@ Edit gate → Planning (3+ steps) → Subagents → Verify before done. /wrap at
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-03-27 05:35</div>
+    <div class="ver-badge">v3.1.0 · 2026-03-24</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -740,14 +740,18 @@ Edit gate → Planning (3+ steps) → Subagents → Verify before done. /wrap at
 
       <div class="g2">
         <div class="card">
-                    <div class="ct">Last Session — 2026-03-27</div>
+          <div class="ct">Last Session — 2026-03-24 · 13:41 IST</div>
           <ul class="bl">
-            <li>Paperclip local instance at 127.0.0.1:3100 — confirmed running</li>
-            <li>Plan mode used — Best of Both Combined strategy — all 20 validation checks passed</li>
+            <li>Renamed Command Centre → Command Module</li>
+            <li>Reference moved to main sidebar (no longer pinned bottom)</li>
+            <li>Parking Lot cards made collapsible</li>
+            <li>Charts fixed (literal newline bug in sessions JS array)</li>
+            <li>Token audit auto-script built + wired to lights_out.md</li>
+            <li>INTERACTION_LOG auto-trim script built + wired to session_wrap.md</li>
+            <li>wrap_update.py extended to full one-call wrap CLI</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            <span class="b bp">Meta</span><span class="b bsl">~0.8 hrs PO</span><span class="b bg">~11x compression</span>
-          </div>
+            <span class="b bp">Meta CC v3.1.0</span><span class="b bsl">~8 hrs PO</span><span class="b bg">~4x compression</span>
           </div>
         </div>
         <div class="card">
@@ -826,14 +830,7 @@ Edit gate → Planning (3+ steps) → Subagents → Verify before done. /wrap at
         </div>
         <div class="card">
           <div class="ct tog">What Shipped — Full Log · Updated 2026-03-24</div>
-                          <div class="rb"><div class="rd">2026-03-27</div>
-          <div class="ri"><div class="rtag">Meta</div><div class="rdet">Paperclip Best of Both Combined — 8 parking lot issues, 18 done issues, 4 growth issues seeded</div></div>
-          <div class="ri"><div class="rtag">Meta</div><div class="rdet">COMPANY.md enriched: 16 new sections (Session History, Token Audit, Standards, Profile, Quick Links)</div></div>
-          <div class="ri"><div class="rtag">Meta</div><div class="rdet">CEO SOUL.md: Race Control triggers + Agent Protocol appended</div></div>
-          <div class="ri"><div class="rtag">Meta</div><div class="rdet">CEO HEARTBEAT.md: How a Session Runs 3-phase protocol appended</div></div>
-          <div class="ri"><div class="rtag">Meta</div><div class="rdet">index_backup_2026-03-27.html created</div></div>
-        </div>
-        <div class="rb"><div class="rd">2026-03-24</div>
+                  <div class="rb"><div class="rd">2026-03-24</div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">wrap_update.py extended with full wrap command</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">session_wrap.md updated to use CLI</div></div>
         </div>
@@ -1583,64 +1580,34 @@ function buildCharts() {
   const accent = '#059669', tc = '#475569', gc = '#e2e8f0';
 
   const sessions = [
-    {label:'Mar 12
-BzHub',project:'BzHub',mins:45,tokens:null},
-    {label:'Mar 12
-BzHub',project:'BzHub',mins:25,tokens:null},
-    {label:'Mar 12
-BzHub',project:'BzHub',mins:35,tokens:null},
-    {label:'Mar 13
-ARIA',project:'ARIA Advisor',mins:90,tokens:null},
-    {label:'Mar 13
-BzHub',project:'BzHub',mins:30,tokens:null},
-    {label:'Mar 13
-BzHub',project:'BzHub',mins:20,tokens:null},
-    {label:'Mar 14
-ARIA',project:'ARIA Advisor',mins:15,tokens:null},
-    {label:'Mar 15
-ARIA',project:'ARIA Advisor',mins:20,tokens:null},
-    {label:'Mar 16
-ARIA',project:'ARIA Advisor',mins:35,tokens:86050},
-    {label:'Mar 17
-ARIA',project:'ARIA Advisor',mins:180,tokens:118860},
-    {label:'Mar 17
-ARIA',project:'ARIA Advisor',mins:105,tokens:null},
-    {label:'Mar 17
-Gurudev',project:'As Gurudev Says',mins:30,tokens:null},
-    {label:'Mar 17
-BzHub',project:'BzHub',mins:15,tokens:null},
-    {label:'Mar 18
-ARIA',project:'ARIA Advisor',mins:120,tokens:255502},
-    {label:'Mar 18
-Meta',project:'Meta',mins:60,tokens:null},
-    {label:'Mar 20
-Meta',project:'Meta',mins:90,tokens:85297},
-    {label:'Mar 21
-Meta',project:'Meta',mins:120,tokens:null},
-    {label:'Mar 21
-Helm',project:'Helm',mins:60,tokens:215079},
-    {label:'Mar 21
-ARIA RCA',project:'ARIA Advisor',mins:120,tokens:null},
-    {label:'Mar 21
-ARIA Feats',project:'ARIA Advisor',mins:90,tokens:null},
-    {label:'Mar 21
-Swara',project:'Swara Samipyam',mins:45,tokens:null},
-    {label:'Mar 21
-Meta',project:'Meta',mins:30,tokens:null},
-    {label:'Mar 21
-Meta CC',project:'Meta',mins:60,tokens:null},
-    {label:'Mar 22
-felt',project:'felt',mins:180,tokens:null},
-    {label:'Mar 22
-Meta CC',project:'Meta',mins:60,tokens:null},
-    {label:'Mar 22
-Ctx Sys',project:'Meta',mins:45,tokens:7424},
-    {label:'Mar 23
-felt',project:'felt',mins:180,tokens:null},
-    {label:'Mar 24
-Meta CC',project:'Meta',mins:360,tokens:null},
-    {label:'Mar 27
-Paperclip',project:'Meta',mins:45,tokens:null}
+    {label:'Mar 12\nBzHub',project:'BzHub',mins:45,tokens:null},
+    {label:'Mar 12\nBzHub',project:'BzHub',mins:25,tokens:null},
+    {label:'Mar 12\nBzHub',project:'BzHub',mins:35,tokens:null},
+    {label:'Mar 13\nARIA',project:'ARIA Advisor',mins:90,tokens:null},
+    {label:'Mar 13\nBzHub',project:'BzHub',mins:30,tokens:null},
+    {label:'Mar 13\nBzHub',project:'BzHub',mins:20,tokens:null},
+    {label:'Mar 14\nARIA',project:'ARIA Advisor',mins:15,tokens:null},
+    {label:'Mar 15\nARIA',project:'ARIA Advisor',mins:20,tokens:null},
+    {label:'Mar 16\nARIA',project:'ARIA Advisor',mins:35,tokens:86050},
+    {label:'Mar 17\nARIA',project:'ARIA Advisor',mins:180,tokens:118860},
+    {label:'Mar 17\nARIA',project:'ARIA Advisor',mins:105,tokens:null},
+    {label:'Mar 17\nGurudev',project:'As Gurudev Says',mins:30,tokens:null},
+    {label:'Mar 17\nBzHub',project:'BzHub',mins:15,tokens:null},
+    {label:'Mar 18\nARIA',project:'ARIA Advisor',mins:120,tokens:255502},
+    {label:'Mar 18\nMeta',project:'Meta',mins:60,tokens:null},
+    {label:'Mar 20\nMeta',project:'Meta',mins:90,tokens:85297},
+    {label:'Mar 21\nMeta',project:'Meta',mins:120,tokens:null},
+    {label:'Mar 21\nHelm',project:'Helm',mins:60,tokens:215079},
+    {label:'Mar 21\nARIA RCA',project:'ARIA Advisor',mins:120,tokens:null},
+    {label:'Mar 21\nARIA Feats',project:'ARIA Advisor',mins:90,tokens:null},
+    {label:'Mar 21\nSwara',project:'Swara Samipyam',mins:45,tokens:null},
+    {label:'Mar 21\nMeta',project:'Meta',mins:30,tokens:null},
+    {label:'Mar 21\nMeta CC',project:'Meta',mins:60,tokens:null},
+    {label:'Mar 22\nfelt',project:'felt',mins:180,tokens:null},
+    {label:'Mar 22\nMeta CC',project:'Meta',mins:60,tokens:null},
+    {label:'Mar 22\nCtx Sys',project:'Meta',mins:45,tokens:7424},
+    {label:'Mar 23\nfelt',project:'felt',mins:180,tokens:null},
+    {label:'Mar 24\nMeta CC',project:'Meta',mins:360,tokens:null}
   ];
 
   const pColor = {
@@ -1740,17 +1707,17 @@ Paperclip',project:'Meta',mins:45,tokens:null}
     new Chart(effCtx.getContext('2d'), {
       type:'bar',
       data:{
-        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip"],
+        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC"],
         datasets:[
           {
             label:'PO Time (hrs)',
-            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75],
+            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0],
             backgroundColor:accent+'cc', borderColor:accent,
             borderWidth:2, borderRadius:4
           },
           {
             label:'3-Person Equiv (hrs)',
-            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0],
+            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0],
             backgroundColor:'#0f172912', borderColor:'#0f172944',
             borderWidth:1, borderRadius:4
           }
