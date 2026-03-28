@@ -245,6 +245,12 @@
       "project": "ARIA",
       "mins": 20,
       "tokens": null
+    },
+    {
+      "label": "Mar 28\nARIA",
+      "project": "ARIA",
+      "mins": 150,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -332,9 +338,23 @@
       "label": "03-28 ARIA",
       "po_mins": 10,
       "equiv_mins": 15
+    },
+    {
+      "label": "03-28 ARIA",
+      "po_mins": 150,
+      "equiv_mins": 150
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-03-28",
+      "project": "ARIA",
+      "items": [
+        "Trade Notifications fixed",
+        "HELP.md guardrail enforced",
+        "Wrap protocol optimized"
+      ]
+    },
     {
       "date": "2026-03-28",
       "project": "ARIA",

@@ -705,7 +705,7 @@ _End of context dump_
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-03-28 18:46</div>
+    <div class="ver-badge">2026-03-28 22:49</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -733,14 +733,14 @@ _End of context dump_
 
       <div class="g2">
         <div class="card">
-                                                            <div class="ct">Last Session — 2026-03-28</div>
+                                                                      <div class="ct">Last Session — 2026-03-28</div>
           <ul class="bl">
-            <li>Guardrail 1: pre-commit hook</li>
-            <li>Guardrail 2: wrap-verify</li>
-            <li>Guardrail 3: wrap-protocol</li>
+            <li>Trade notifications + portfolio linking validation</li>
+            <li>HELP.md guardrail + 4-layer E2E prevention strategy</li>
+            <li>Wrap protocol optimized 50%</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            Protocols · 15 min
+            3 Shipped · 2.5h
           </div>
           </div>
         </div>
@@ -842,7 +842,12 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct tog">What Shipped — Full Log · Updated 2026-03-24</div>
-                                                                  <div class="rb"><div class="rd">2026-03-28</div>
+                                                                          <div class="rb"><div class="rd">2026-03-28</div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Trade Notifications fixed</div></div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">HELP.md guardrail enforced</div></div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Wrap protocol optimized</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-03-28</div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Joshua linked to personal_user_id (manual DB update)|Notifications now fetched in ARIA Personal Dashboard|Trades display fixed (was blocked by missing personal_user_id)</div></div>
         </div>
         <div class="rb"><div class="rd">2026-03-28</div>
@@ -1302,8 +1307,8 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct">Real Numbers — Mar 12–24</div>
-          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">41 sessions across 23 days</div></div>
-          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~25.8 hours (est)</div></div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">42 sessions across 23 days</div></div>
+          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~28.2 hours (est)</div></div>
           <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
           <div class="rr"><div class="rk">Projects touched</div><div class="rv">8 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt, CC + Meta</div></div>
           <div class="rr"><div class="rk">Features shipped</div><div class="rv">felt v0.1→0.3, Swara v0.1, Helm scaffold, ARIA advisor profile + portal, CC v3.0.0</div></div>
@@ -1661,7 +1666,9 @@ ARIA,',project:'ARIA, Claude Memory, User Memory',mins:60,tokens:null},
     {label:'Mar 28
 ARIA',project:'ARIA',mins:15,tokens:null},
     {label:'Mar 28
-ARIA',project:'ARIA',mins:20,tokens:null}
+ARIA',project:'ARIA',mins:20,tokens:null},
+    {label:'Mar 28
+ARIA',project:'ARIA',mins:150,tokens:null}
   ];
 
   const pColor = {
@@ -1776,17 +1783,17 @@ ARIA',project:'ARIA',mins:20,tokens:null}
     new Chart(effCtx.getContext('2d'), {
       type:'bar',
       data:{
-        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA"],
+        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA", "03-28 ARIA"],
         datasets:[
           {
             label:'PO Time (hrs)',
-            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17],
+            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17, 2.5],
             backgroundColor:accent+'cc', borderColor:accent,
             borderWidth:2, borderRadius:4
           },
           {
             label:'3-Person Equiv (hrs)',
-            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25],
+            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25, 2.5],
             backgroundColor:'#0f172912', borderColor:'#0f172944',
             borderWidth:1, borderRadius:4
           }
