@@ -227,6 +227,12 @@
       "project": "Meta",
       "mins": 47,
       "tokens": null
+    },
+    {
+      "label": "Mar 28\nARIA,",
+      "project": "ARIA, Claude Memory, User Memory",
+      "mins": 60,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -299,9 +305,21 @@
       "label": "03-27 Meta CC",
       "po_mins": 30,
       "equiv_mins": 120
+    },
+    {
+      "label": "03-28 ARIA,",
+      "po_mins": 60,
+      "equiv_mins": 120
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-03-28",
+      "project": "ARIA, Claude Memory, User Memory",
+      "items": [
+        "SESSION_LOG.md automation system (session-log-gen.py script + wrap protocol updates + two-layer fallback)|CLAUDE.md hierarchy consolidation (root + directory overrides, auto-loading by context)|Deployment aliases fixed (re-aliased to latest)|Test data cleanup (96 [TEST] clients deleted from DB)"
+      ]
+    },
     {
       "date": "2026-03-27",
       "project": "Meta",
@@ -366,7 +384,7 @@
     }
   ],
   "meta": {
-    "last_updated": "2026-03-27",
+    "last_updated": "2026-03-28",
     "version": "v2026.03.24"
   }
 }
