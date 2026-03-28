@@ -399,23 +399,26 @@ def cmd_bump_version(args):
 
 def validate_js_syntax(sessions_js):
     """Validate JS array doesn't have unescaped newlines in string literals."""
-    # Split by the array lines and check each object
+    # Check for incomplete objects spanning multiple lines (sign of broken syntax)
     lines = sessions_js.split('\n')
-    in_string = False
-    for i, line in enumerate(lines[1:-1], start=2):  # Skip "const sessions = [" and "];"
-        line = line.strip()
+
+    for i in range(len(lines)):
+        line = lines[i].strip()
+
+        # Skip empty lines and comments
         if not line or line.startswith('//'):
             continue
 
-        # Count quotes to detect unterminated strings
-        # If line ends before closing }, we have an unclosed string
-        if line.endswith(',') or line.endswith('};'):
-            # Normal case — object completes on one line
-            continue
-        elif '{' in line and '}' not in line:
-            # Object started, should end with } or },
-            print(f"❌ Syntax error: object not closed on line {i}: {line[:60]}...")
-            return False
+        # Each object should end with , or };
+        # If an object line doesn't end with } or }, something is wrong
+        if '{' in line:
+            # Line has opening brace, should close on same line
+            if '}' not in line:
+                # Object not closed — check if string literal is broken
+                # This means the previous commit had an unescaped newline
+                print(f"❌ Syntax error: object not closed on line {i+1}: {line[:60]}...")
+                print(f"   Object must complete on one line. Check for broken string literals.")
+                return False
 
     return True
 

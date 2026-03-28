@@ -1936,15 +1936,17 @@ ARIA',project:'ARIA',mins:150,tokens:null}
 // Collapsible cards
 // Build charts before collapsibles collapse them
 window._what_shipped = [
-  {date:'2026-03-27',project:'ARIA Advisor',items:['Trade Management Module fully designed and documented (FEAT-1001-1008)','Comprehensive spec (11k+ lines) with data model, API endpoints, execution flows','3 critical architectural decisions locked via design','Memory file + PRD updates + NOTES locked design section']},
-  {date:'2026-03-27',project:'Helm',items:['Helm v0.1.0 live at usehelm.vercel.app','Signal engine: blocker, debt, workstream, risk','Dashboard: stakeholder/project grouping, actions, notifications, help']},
+  {date:'2026-03-28',project:'ARIA',items:['Trade Notifications fixed','HELP.md guardrail enforced','Wrap protocol optimized']},
+  {date:'2026-03-28',project:'ARIA',items:['Joshua linked to personal_user_id (manual DB update)|Notifications now fetched in ARIA Personal Dashboard|Trades display fixed (was blocked by missing personal_user_id)']},
+  {date:'2026-03-28',project:'ARIA',items:['TradesPanel UX warning — draft trades hidden from client until submitted|Trade workflow clarified: draft → submit → pending → approve|Joshua trade submitted (ASASDA mutual fund)']},
+  {date:'2026-03-28',project:'ARIA, Claude Memory, User Memory',items:['SESSION_LOG.md automation system (session-log-gen.py script + wrap protocol updates + two-layer fallback)|CLAUDE.md hierarchy consolidation (root + directory overrides, auto-loading by context)|Deployment aliases fixed (re-aliased to latest)|Test data cleanup (96 [TEST] clients deleted from DB)']},
   {date:'2026-03-27',project:'Meta',items:['Paperclip migration: 43 issues seeded, COMPANY.md 16 sections','Paperclip embed reverted — link-in-new-tab decision locked','Clean restore deployed to claude-command-centre.vercel.app']},
   {date:'2026-03-27',project:'Meta',items:['Paperclip Best of Both Combined — 8 parking lot issues, 18 done issues, 4 growth issues seeded','COMPANY.md enriched: 16 new sections (Session History, Token Audit, Standards, Profile, Quick Links)','CEO SOUL.md: Race Control triggers + Agent Protocol appended','CEO HEARTBEAT.md: How a Session Runs 3-phase protocol appended','index_backup_2026-03-27.html created']},
   {date:'2026-03-24',project:'Meta',items:['Newdesign.html rebuilt from scratch with 6-tab layout (Command, Projects, Parking, Standards, Profile, Reference)','All 27-session data migrated from old index.html','Parking Lot tab added with 45 items across 7 projects','mobile.html restructured: Insights removed, Parking Lot added, charts added to Command tab','Sessions.json data layer created','wrap_update.py automation script created','Deployed to claude-command-centre.vercel.app']},
   {date:'2026-03-23',project:'felt',items:['felt v0.3.0: User presence system with Firestore real-time listeners','Online/offline status badges on canvas','Gesture broadcasting (brush strokes visible to partner in real-time)','Reconnection handling with exponential backoff']},
   {date:'2026-03-22',project:'Meta',items:['Context recovery system: SESSION_SNAPSHOT.md protocol','lights_out.md updated with interaction time tracking rule','feedback_context_recovery.md memory written']},
   {date:'2026-03-22',project:'felt',items:['felt v0.2.0: Firebase project wired, Firestore rules deployed','Canvas persistence: strokes saved to Firestore, reload restores state','Shared rooms via URL hash (#room-id)','Clear canvas synced across both users']}
-];;
+];;;
 buildCharts(window._what_shipped || []);
 
 (function initCollapsibles() {
