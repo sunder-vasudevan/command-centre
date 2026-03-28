@@ -239,6 +239,12 @@
       "project": "ARIA",
       "mins": 15,
       "tokens": null
+    },
+    {
+      "label": "Mar 28\nARIA",
+      "project": "ARIA",
+      "mins": 20,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -321,9 +327,21 @@
       "label": "03-28 ARIA",
       "po_mins": 5,
       "equiv_mins": 10
+    },
+    {
+      "label": "03-28 ARIA",
+      "po_mins": 10,
+      "equiv_mins": 15
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-03-28",
+      "project": "ARIA",
+      "items": [
+        "Joshua linked to personal_user_id (manual DB update)|Notifications now fetched in ARIA Personal Dashboard|Trades display fixed (was blocked by missing personal_user_id)"
+      ]
+    },
     {
       "date": "2026-03-28",
       "project": "ARIA",
