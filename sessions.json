@@ -233,6 +233,12 @@
       "project": "ARIA, Claude Memory, User Memory",
       "mins": 60,
       "tokens": null
+    },
+    {
+      "label": "Mar 28\nARIA",
+      "project": "ARIA",
+      "mins": 15,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -310,9 +316,21 @@
       "label": "03-28 ARIA,",
       "po_mins": 60,
       "equiv_mins": 120
+    },
+    {
+      "label": "03-28 ARIA",
+      "po_mins": 5,
+      "equiv_mins": 10
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-03-28",
+      "project": "ARIA",
+      "items": [
+        "TradesPanel UX warning \u2014 draft trades hidden from client until submitted|Trade workflow clarified: draft \u2192 submit \u2192 pending \u2192 approve|Joshua trade submitted (ASASDA mutual fund)"
+      ]
+    },
     {
       "date": "2026-03-28",
       "project": "ARIA, Claude Memory, User Memory",
