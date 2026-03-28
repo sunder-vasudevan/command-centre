@@ -27,6 +27,8 @@ Run at the end of every session wrap. Replaces all manual HTML editing.
 import json
 import re
 import argparse
+import subprocess
+import sys
 from pathlib import Path
 from datetime import datetime
 
@@ -318,6 +320,9 @@ def cmd_wrap(args):
     print(f"\n✅ Wrap complete. Run: cd ~/Daytona/command-centre && vercel --prod")
     print(f"   Then: vercel alias <url> claude-command-centre.vercel.app")
 
+    # Mark wrap as verified for wrap-verify.py
+    _mark_wrap_done()
+
 
 def cmd_add_session(args):
     data = load_data()
@@ -374,6 +379,9 @@ def cmd_update_last_session(args):
     INDEX_HTML.write_text(html)
     print("✓ Last Session panel updated")
 
+    # Mark wrap as verified for wrap-verify.py
+    _mark_wrap_done()
+
 
 def cmd_add_meta_learning(args):
     html = INDEX_HTML.read_text()
@@ -410,6 +418,17 @@ def validate_js_syntax(sessions_js):
             return False
 
     return True
+
+
+def _mark_wrap_done():
+    """Call wrap-verify.py to mark wrap as executed."""
+    try:
+        script = BASE / "wrap-verify.py"
+        if script.exists():
+            subprocess.run([sys.executable, str(script), "--mark-done"], check=False)
+    except Exception as e:
+        # Don't fail wrap if verify script has issues
+        pass
 
 
 def cmd_sync(args):
