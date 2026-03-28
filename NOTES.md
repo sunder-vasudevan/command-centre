@@ -1,8 +1,22 @@
 # Command Centre — NOTES.md
 
-## Current State: v3.1.0 (2026-03-27) — restored
+## Current State: v3.2.0 (2026-03-28) — validation gates + bug fix
 
 ← START HERE NEXT SESSION
+
+### Session 2026-03-28 — Graphs blank + validation gates
+- **Bug:** Sessions array had literal newlines in labels (manual edit bypassed automation), breaking JavaScript syntax. Graphs went blank.
+- **Root cause:** wrap_update.py never invoked. Someone directly typed into index.html, breaking `const sessions = [...]`
+- **Fix:** Corrected malformed session entries, re-deployed to production
+- **Prevention:** Added validation gates:
+  - Pre-commit hook: blocks manual edits to dynamic content (Last Session, What Shipped, sessions array)
+  - wrap_update.py: improved `validate_js_syntax()` to catch incomplete objects
+  - Error messages guide users to use wrap_update.py instead
+- **Research:** Explored UI UX Pro Max Skill (design automation). Parked pending deeper integration research.
+- **Also researched:** Claude-Mem (session recovery + cross-project search) + Superpowers (7-stage TDD workflow). Both parked, need compatibility analysis with wrap protocol.
+- **Status:** All changes committed. command-centre deployment validated.
+
+## Previous State: v3.1.0 (2026-03-27) — restored
 
 ### Session 2026-03-27 — Paperclip migration + revert
 - Paperclip "Best of Both Combined" migration executed: 43 todo issues, 18 done issues seeded, COMPANY.md enriched with 16 sections

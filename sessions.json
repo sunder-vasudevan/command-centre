@@ -251,6 +251,12 @@
       "project": "ARIA",
       "mins": 150,
       "tokens": null
+    },
+    {
+      "label": "Mar 28\nMeta",
+      "project": "Meta",
+      "mins": 55,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -343,9 +349,24 @@
       "label": "03-28 ARIA",
       "po_mins": 150,
       "equiv_mins": 150
+    },
+    {
+      "label": "03-28 Meta",
+      "po_mins": 15,
+      "equiv_mins": 120
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-03-28",
+      "project": "Meta",
+      "items": [
+        "Command-centre graphs bug fix (syntax error in sessions array)",
+        "Validation gates: pre-commit hook + wrap_update.py prevent manual HTML edits",
+        "Claude-Mem plugin installed + configured (session recovery + cross-project search)",
+        "Research: UI UX Pro Max Skill (Helm pilot plan ready) + Superpowers + Claude-Mem (parked)"
+      ]
+    },
     {
       "date": "2026-03-28",
       "project": "ARIA",
