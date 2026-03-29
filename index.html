@@ -705,7 +705,7 @@ _End of context dump_
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-03-28 23:32</div>
+    <div class="ver-badge">2026-03-29 08:48</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -842,7 +842,12 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct tog">What Shipped — Full Log · Updated 2026-03-24</div>
-                                                                                  <div class="rb"><div class="rd">2026-03-28</div>
+                                                                                          <div class="rb"><div class="rd">2026-03-29</div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Trade Notifications Phase 1A fixed</div></div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">HELP.md guardrail enforced</div></div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Wrap protocol optimized 50%</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-03-28</div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Command-centre graphs bug fix (syntax error in sessions array)</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Validation gates: pre-commit hook + wrap_update.py prevent manual HTML edits</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Claude-Mem plugin installed + configured (session recovery + cross-project search)</div></div>
@@ -1313,8 +1318,8 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct">Real Numbers — Mar 12–24</div>
-          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">43 sessions across 24 days</div></div>
-          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~28.5 hours (est)</div></div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">44 sessions across 25 days</div></div>
+          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~31.0 hours (est)</div></div>
           <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
           <div class="rr"><div class="rk">Projects touched</div><div class="rv">8 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt, CC + Meta</div></div>
           <div class="rr"><div class="rk">Features shipped</div><div class="rv">felt v0.1→0.3, Swara v0.1, Helm scaffold, ARIA advisor profile + portal, CC v3.0.0</div></div>
@@ -1676,7 +1681,9 @@ ARIA',project:'ARIA',mins:20,tokens:null},
     {label:'Mar 28
 ARIA',project:'ARIA',mins:150,tokens:null},
     {label:'Mar 28
-Meta',project:'Meta',mins:55,tokens:null}
+Meta',project:'Meta',mins:55,tokens:null},
+    {label:'Mar 29
+ARIA',project:'ARIA',mins:150,tokens:null}
   ];
 
   const pColor = {
@@ -1791,17 +1798,17 @@ Meta',project:'Meta',mins:55,tokens:null}
     new Chart(effCtx.getContext('2d'), {
       type:'bar',
       data:{
-        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA", "03-28 ARIA", "03-28 Meta"],
+        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA", "03-28 ARIA", "03-28 Meta", "03-29 ARIA"],
         datasets:[
           {
             label:'PO Time (hrs)',
-            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17, 2.5, 0.25],
+            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17, 2.5, 0.25, 2.5],
             backgroundColor:accent+'cc', borderColor:accent,
             borderWidth:2, borderRadius:4
           },
           {
             label:'3-Person Equiv (hrs)',
-            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25, 2.5, 2.0],
+            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25, 2.5, 2.0, 2.5],
             backgroundColor:'#0f172912', borderColor:'#0f172944',
             borderWidth:1, borderRadius:4
           }

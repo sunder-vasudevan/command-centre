@@ -257,6 +257,12 @@
       "project": "Meta",
       "mins": 55,
       "tokens": null
+    },
+    {
+      "label": "Mar 29\nARIA",
+      "project": "ARIA",
+      "mins": 150,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -354,9 +360,23 @@
       "label": "03-28 Meta",
       "po_mins": 15,
       "equiv_mins": 120
+    },
+    {
+      "label": "03-29 ARIA",
+      "po_mins": 150,
+      "equiv_mins": 150
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-03-29",
+      "project": "ARIA",
+      "items": [
+        "Trade Notifications Phase 1A fixed",
+        "HELP.md guardrail enforced",
+        "Wrap protocol optimized 50%"
+      ]
+    },
     {
       "date": "2026-03-28",
       "project": "Meta",
@@ -461,7 +481,7 @@
     }
   ],
   "meta": {
-    "last_updated": "2026-03-28",
+    "last_updated": "2026-03-29",
     "version": "v2026.03.24"
   }
 }
