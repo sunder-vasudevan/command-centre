@@ -263,6 +263,12 @@
       "project": "ARIA",
       "mins": 150,
       "tokens": null
+    },
+    {
+      "label": "Mar 31\nx-bookmarks-aggregator",
+      "project": "x-bookmarks-aggregator",
+      "mins": 45,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -365,9 +371,24 @@
       "label": "03-29 ARIA",
       "po_mins": 150,
       "equiv_mins": 150
+    },
+    {
+      "label": "03-31 x-bookmarks-aggregator",
+      "po_mins": 15,
+      "equiv_mins": 180
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-03-31",
+      "project": "x-bookmarks-aggregator",
+      "items": [
+        "v0.1.0: Flask wrapper for X bookmarks CSV\u2192HTML",
+        "Drag-drop upload UI",
+        "Back-to-top button on generated HTML",
+        "run.sh/run.bat launchers"
+      ]
+    },
     {
       "date": "2026-03-29",
       "project": "ARIA",
@@ -481,7 +502,7 @@
     }
   ],
   "meta": {
-    "last_updated": "2026-03-29",
+    "last_updated": "2026-03-31",
     "version": "v2026.03.24"
   }
 }
