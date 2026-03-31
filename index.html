@@ -1696,7 +1696,7 @@ function buildCharts(whatsShippedData) {
   // Time chart — stacked daily duration + tokens line overlay
   const dayMap = {}, dayTokenMap = {}, dayOrder = [];
   sessions.forEach(s => {
-    const day = s.label.split('\n')[0];
+    const day = s.label.split('\\n')[0];
     if (!dayMap[day]) { dayMap[day] = {}; dayTokenMap[day] = 0; dayOrder.push(day); }
     dayMap[day][s.project] = (dayMap[day][s.project] || 0) + s.mins;
     if (s.tokens) dayTokenMap[day] += s.tokens;
@@ -1746,7 +1746,7 @@ function buildCharts(whatsShippedData) {
   }
 
   // Session chart — per-session bars + token overlay
-  const sessLabels = sessions.map(s => s.label.replace('\n',' '));
+  const sessLabels = sessions.map(s => s.label.replace('\\n',' '));
   const sessMins = sessions.map(s => s.mins);
   const sessColors = sessions.map(s => (pColor[s.project] || '#888') + 'cc');
   const sessTokens = sessions.map(s => s.tokens ? Math.round(s.tokens/1000) : null);
@@ -1842,7 +1842,7 @@ function buildCharts(whatsShippedData) {
     const tokensByDateAndProj = {};
     const tokenDates = [];
     sessions.forEach(s => {
-      const date = s.label.split('\n')[0];
+      const date = s.label.split('\\n')[0];
       if (!tokensByDateAndProj[date]) {
         tokensByDateAndProj[date] = {};
         tokenDates.push(date);
