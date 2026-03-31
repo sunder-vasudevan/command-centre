@@ -1664,8 +1664,8 @@ function buildCharts(whatsShippedData) {
     {label:'Mar 18\\nARIA',project:'ARIA Advisor',mins:120,tokens:255502},
     {label:'Mar 18\\nMeta',project:'Meta',mins:60,tokens:null},
     {label:'Mar 20\\nMeta',project:'Meta',mins:90,tokens:85297},
-    {label:'Mar 21\\nMeta',project:'Meta',mins:120,tokens:null},
-    {label:'Mar 21\\nHelm',project:'Helm',mins:60,tokens:215079},
+    {label:'Mar 21\\nMeta',project:'Meta',mins:120,tokens:438829},
+    {label:'Mar 21\\nHelm',project:'Helm',mins:60,tokens:null},
     {label:'Mar 21\\nARIA RCA',project:'ARIA Advisor',mins:120,tokens:null},
     {label:'Mar 21\\nARIA Feats',project:'ARIA Advisor',mins:90,tokens:null},
     {label:'Mar 21\\nSwara',project:'Swara Samipyam',mins:45,tokens:null},
@@ -1674,22 +1674,24 @@ function buildCharts(whatsShippedData) {
     {label:'Mar 22\\nfelt',project:'felt',mins:180,tokens:null},
     {label:'Mar 22\\nMeta CC',project:'Meta',mins:60,tokens:null},
     {label:'Mar 22\\nCtx Sys',project:'Meta',mins:45,tokens:7424},
-    {label:'Mar 23\\nfelt',project:'felt',mins:180,tokens:null},
-    {label:'Mar 24\\nMeta CC',project:'Meta',mins:360,tokens:null},
-    {label:'Mar 27\\nPaperclip',project:'Meta',mins:45,tokens:null},
+    {label:'Mar 23\\nfelt',project:'felt',mins:180,tokens:442131},
+    {label:'Mar 24\\nMeta CC',project:'Meta',mins:360,tokens:115575},
+    {label:'Mar 27\\nPaperclip',project:'Meta',mins:45,tokens:468728},
     {label:'Mar 27\\nMeta CC',project:'Meta',mins:47,tokens:null},
-    {label:'Mar 28\nARIA,',project:'ARIA, Claude Memory, User Memory',mins:60,tokens:null},
-    {label:'Mar 28\nARIA',project:'ARIA',mins:15,tokens:null},
-    {label:'Mar 28\nARIA',project:'ARIA',mins:20,tokens:null},
-    {label:'Mar 28\nARIA',project:'ARIA',mins:150,tokens:null},
-    {label:'Mar 28\nMeta',project:'Meta',mins:55,tokens:null},
-    {label:'Mar 29\nARIA',project:'ARIA',mins:150,tokens:null},
-    {label:'Mar 31\nx-bookmarks-aggregator',project:'x-bookmarks-aggregator',mins:45,tokens:null}
+    {label:'Mar 28\\nARIA',project:'ARIA',mins:60,tokens:223919},
+    {label:'Mar 28\\nARIA',project:'ARIA',mins:15,tokens:null},
+    {label:'Mar 28\\nARIA',project:'ARIA',mins:20,tokens:null},
+    {label:'Mar 28\\nARIA',project:'ARIA',mins:150,tokens:null},
+    {label:'Mar 28\\nMeta',project:'Meta',mins:55,tokens:null},
+    {label:'Mar 29\\nARIA',project:'ARIA',mins:150,tokens:null},
+    {label:'Mar 31\\nx-bookmarks-aggregator',project:'x-bookmarks-aggregator',mins:45,tokens:21382}
   ];
 
   const pColor = {
-    'ARIA Advisor':'#2563eb','BzHub':'#059669','Meta':'#e10600',
-    'As Gurudev Says':'#7c3aed','Helm':'#0ea5e9','Swara Samipyam':'#d97706','felt':'#ec4899'
+    'ARIA':'#2563eb','ARIA Advisor':'#2563eb','ARIA, Claude Memory, User Memory':'#2563eb',
+    'BzHub':'#059669','Meta':'#e10600',
+    'As Gurudev Says':'#7c3aed','Helm':'#0ea5e9','Swara Samipyam':'#d97706','felt':'#ec4899',
+    'x-bookmarks-aggregator':'#0891b2','Ctx Sys':'#64748b','Paperclip':'#a855f7','Gurudev':'#7c3aed'
   };
   const projects = Object.keys(pColor);
 
@@ -1965,7 +1967,7 @@ window._what_shipped = [
   {date:'2026-03-23',project:'felt',items:['felt v0.3.0: User presence system with Firestore real-time listeners','Online/offline status badges on canvas','Gesture broadcasting (brush strokes visible to partner in real-time)','Reconnection handling with exponential backoff']},
   {date:'2026-03-22',project:'Meta',items:['Context recovery system: SESSION_SNAPSHOT.md protocol','lights_out.md updated with interaction time tracking rule','feedback_context_recovery.md memory written']},
   {date:'2026-03-22',project:'felt',items:['felt v0.2.0: Firebase project wired, Firestore rules deployed','Canvas persistence: strokes saved to Firestore, reload restores state','Shared rooms via URL hash (#room-id)','Clear canvas synced across both users']}
-];;;;;
+];;;;;;;
 buildCharts(window._what_shipped || []);
 
 (function initCollapsibles() {

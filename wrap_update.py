@@ -15,7 +15,8 @@ Run at the end of every session wrap. Replaces all manual HTML editing.
     --meta-learning "Operational insight this session"
 
 ── INDIVIDUAL COMMANDS ───────────────────────────────────────────────────────
-  python3 wrap_update.py add-session --label "Mar 24\\nMeta CC" --project "Meta" --mins 60 --tokens 45000
+  python3 wrap_update.py add-session --label "Mar 24\\nMeta CC" --project "Meta" --mins 60
+  # --tokens is optional; auto-extracted from Claude Code JSONL logs if omitted
   python3 wrap_update.py add-efficiency --label "03-24 Meta CC" --po-mins 60 --equiv-mins 480
   python3 wrap_update.py add-shipped --date 2026-03-24 --project Meta --items "Item 1" "Item 2"
   python3 wrap_update.py update-last-session --date "2026-03-24" --project "Meta" --bullets "B1" "B2" --badge "v1.0 · 1h · 8x"
@@ -29,8 +30,10 @@ import re
 import argparse
 import subprocess
 import sys
+import glob
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
+from collections import defaultdict
 
 BASE = Path(__file__).parent
 SESSIONS_JSON = BASE / "sessions.json"
@@ -63,6 +66,58 @@ def today_iso():
 
 def today_mmdd():
     return datetime.now().strftime("%m-%d")
+
+
+# ── Token extraction from Claude Code JSONL logs ──────────────────────────────
+
+def extract_tokens_by_date():
+    """Read all Claude Code JSONL session files, sum input+output tokens per IST date."""
+    project_dir = Path.home() / ".claude" / "projects" / "-Users-sunnyhayes"
+    jsonl_files = glob.glob(str(project_dir / "*.jsonl"))
+    by_date = defaultdict(int)
+    for f in jsonl_files:
+        total = 0
+        first_ts = None
+        try:
+            with open(f) as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    obj = json.loads(line)
+                    ts = obj.get("timestamp")
+                    if ts and not first_ts:
+                        first_ts = ts
+                    usage = obj.get("message", {}).get("usage", {})
+                    if usage:
+                        total += usage.get("input_tokens", 0)
+                        total += usage.get("output_tokens", 0)
+        except Exception:
+            continue
+        if first_ts and total > 0:
+            dt = datetime.fromisoformat(first_ts.replace("Z", "+00:00"))
+            ist = dt + timedelta(hours=5, minutes=30)
+            date_key = ist.strftime("%-d %b")  # e.g. '23 Mar' — normalise below
+            # Match sessions.json label format: 'Mar 23' → month first
+            date_key = ist.strftime("%b %-d")  # e.g. 'Mar 23'
+            by_date[date_key] += total
+    return dict(by_date)
+
+
+def backfill_tokens(data):
+    """Assign day's token total to the first session per date that has tokens=null."""
+    tokens_by_date = extract_tokens_by_date()
+    seen = set()
+    changed = 0
+    for s in data["sessions"]:
+        label_date = s["label"].split("\\n")[0]  # e.g. 'Mar 23'
+        if label_date in tokens_by_date:
+            if label_date not in seen:
+                seen.add(label_date)
+                if s["tokens"] is None:
+                    s["tokens"] = tokens_by_date[label_date]
+                    changed += 1
+    return changed
 
 
 # ── JS array builders ─────────────────────────────────────────────────────────
@@ -248,12 +303,19 @@ def cmd_wrap(args):
     session_label = args.label if args.label else f"Mar {now.day}\n{proj_short}"
     eff_label = args.eff_label if args.eff_label else f"{mmdd} {proj_short}"
 
-    # 1. Add session entry
+    # 1. Add session entry (auto-extract tokens from JSONL if not provided)
+    tokens = args.tokens
+    if tokens is None:
+        date_key = now.strftime("%b %-d")
+        tokens_by_date = extract_tokens_by_date()
+        tokens = tokens_by_date.get(date_key)
+        if tokens:
+            print(f"✓ auto-extracted tokens for {date_key}: {tokens:,}")
     data["sessions"].append({
         "label": session_label,
         "project": args.project,
         "mins": args.mins,
-        "tokens": args.tokens
+        "tokens": tokens
     })
 
     # 2. Add efficiency entry
@@ -436,6 +498,10 @@ def _mark_wrap_done():
 
 def cmd_sync(args):
     data = load_data()
+    changed = backfill_tokens(data)
+    if changed:
+        save_data(data)
+        print(f"✓ backfilled tokens for {changed} session(s)")
     html = INDEX_HTML.read_text()
     sessions_js = sessions_to_js(data["sessions"])
 
