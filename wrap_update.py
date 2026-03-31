@@ -127,7 +127,7 @@ def efficiency_to_js(efficiency):
 
 def patch_sessions_array(html, sessions):
     js = sessions_to_js(sessions)
-    return re.sub(r"  const sessions = \[[\s\S]*?\];", js, html, count=1)
+    return re.sub(r"  const sessions = \[[\s\S]*?\];", lambda m: js, html, count=1)
 
 
 def patch_efficiency_chart(html, efficiency):
@@ -227,7 +227,7 @@ def sync_mobile(sessions_js):
     if not MOBILE_HTML.exists():
         return
     mob = MOBILE_HTML.read_text()
-    mob = re.sub(r"  const sessions = \[[\s\S]*?\];", sessions_js, mob, count=1)
+    mob = re.sub(r"  const sessions = \[[\s\S]*?\];", lambda m: sessions_js, mob, count=1)
     MOBILE_HTML.write_text(mob)
     print("✓ mobile.html synced")
 
@@ -449,7 +449,8 @@ def cmd_sync(args):
 
     # Inject what_shipped data — always use regex for reliable replacement
     shipped_js = shipped_to_js(data.get("what_shipped", []))
-    html = re.sub(r"window\._what_shipped = \[[\s\S]*?\];", shipped_js + ";", html, count=1)
+    _shipped_repl = shipped_js + ";"
+    html = re.sub(r"window\._what_shipped = \[[\s\S]*?\];", lambda m: _shipped_repl, html, count=1)
 
     INDEX_HTML.write_text(html)
     print(f"✓ index.html synced ({len(html):,} bytes)")
