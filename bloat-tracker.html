@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Context Bloat Tracker</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .subtitle {
+      color: #475569;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+    .chart-wrapper {
+      position: relative;
+      height: 300px;
+      margin-bottom: 24px;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .metric {
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 16px;
+      text-align: center;
+    }
+    .metric-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #059669;
+      margin-bottom: 4px;
+    }
+    .metric-label {
+      font-size: 12px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .status {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      background: #d1fae5;
+      border: 1px solid #059669;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #047857;
+    }
+    .status-icon {
+      flex-shrink: 0;
+    }
+    .tactics {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #e2e8f0;
+    }
+    .tactics h3 {
+      margin: 0 0 12px 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .tactic-item {
+      padding: 8px 12px;
+      background: #f8fafc;
+      border-left: 3px solid #059669;
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .tactic-title {
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .tactic-desc {
+      color: #64748b;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📊 Context Bloat Tracker</h1>
+    <p class="subtitle">Token reduction metrics — updated every 15 days</p>
+
+    <div class="chart-wrapper">
+      <canvas id="bloatChart"></canvas>
+    </div>
+
+    <div class="metrics" id="metrics">
+      <div class="metric">
+        <div class="metric-value">0</div>
+        <div class="metric-label">Critical Issues</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">11</div>
+        <div class="metric-label">Total Issues</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">48%</div>
+        <div class="metric-label">Reduction (vs. Mar 21)</div>
+      </div>
+    </div>
+
+    <div class="status">
+      <div class="status-icon">✅</div>
+      <div>
+        <strong>Target reached:</strong> Zero critical bloat issues. Audit passing. Model routing active.
+      </div>
+    </div>
+
+    <div class="tactics">
+      <h3>Next Steps (Bloat Reduction Playbook)</h3>
+      <div class="tactic-item">
+        <div class="tactic-title">1. Weekly WARN Review</div>
+        <div class="tactic-desc">Check audit for 80-119 line files. Apply "collapse to tables" tactic.</div>
+      </div>
+      <div class="tactic-item">
+        <div class="tactic-title">2. Resolve TODO/PENDING</div>
+        <div class="tactic-desc">Audit section 4 shows stale decision markers. Resolve or delete (frees 1-3 lines each).</div>
+      </div>
+      <div class="tactic-item">
+        <div class="tactic-title">3. Monthly Consolidation</div>
+        <div class="tactic-desc">First of month: find & merge duplicate topics across memory files.</div>
+      </div>
+      <div class="tactic-item">
+        <div class="tactic-title">4. Monthly Target: 0 Critical, &lt;15 Total</div>
+        <div class="tactic-desc">Compound effect: fix 2-3 files every month = 75% reduction sustained.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Fetch bloat tracker data
+    async function loadData() {
+      try {
+        // In production, load from ~/claude-memory/bloat-tracker.json via API
+        // For now, show placeholder with current baseline
+        const mockData = {
+          dates: ['2026-03-21', '2026-04-01'],
+          total_issues: [21, 11],
+          critical_issues: [5, 0]
+        };
+        buildChart(mockData);
+      } catch (e) {
+        console.error('Failed to load bloat tracker:', e);
+      }
+    }
+
+    function buildChart(data) {
+      const ctx = document.getElementById('bloatChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.dates,
+          datasets: [
+            {
+              label: 'Critical Issues',
+              data: data.critical_issues,
+              borderColor: '#dc2626',
+              backgroundColor: 'rgba(220, 38, 38, 0.1)',
+              borderWidth: 2,
+              fill: true,
+              tension: 0.4,
+              pointRadius: 4,
+              pointBackgroundColor: '#dc2626'
+            },
+            {
+              label: 'Total Issues',
+              data: data.total_issues,
+              borderColor: '#f97316',
+              backgroundColor: 'rgba(249, 115, 22, 0.1)',
+              borderWidth: 2,
+              fill: true,
+              tension: 0.4,
+              pointRadius: 4,
+              pointBackgroundColor: '#f97316'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                font: { size: 12 },
+                color: '#64748b',
+                padding: 12
+              }
+            }
+          },
+          scales: {
+            y: {
+              min: 0,
+              ticks: { color: '#94a3b8', font: { size: 11 } },
+              grid: { color: 'rgba(226, 232, 240, 0.5)' }
+            },
+            x: {
+              ticks: { color: '#94a3b8', font: { size: 11 } },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
