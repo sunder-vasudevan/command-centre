@@ -705,7 +705,7 @@ _End of context dump_
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-03-31 01:49</div>
+    <div class="ver-badge">2026-04-02 20:37</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -733,14 +733,14 @@ _End of context dump_
 
       <div class="g2">
         <div class="card">
-                                                                                                    <div class="ct">Last Session — 2026-03-31</div>
+                                                                                                              <div class="ct">Last Session — 2026-04-02</div>
           <ul class="bl">
-            <li>Built Flask wrapper for X bookmarks CSV→HTML</li>
-            <li>Drag-drop upload UI with categorized output</li>
-            <li>Back-to-top button fix (CSS in head)</li>
+            <li>Fixed Copilot payroll (5 bugs)</li>
+            <li>Create Payroll modal + LOP auto-load</li>
+            <li>Leave quota: 10S+10P, LOP ₹100/day, carry-forward, year-end payout</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            x-bookmarks · 45m
+            v5.2.0 · 60m
           </div>
           </div>
         </div>
@@ -842,7 +842,14 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct tog">What Shipped — Full Log · Updated 2026-03-24</div>
-                                                                                                  <div class="rb"><div class="rd">2026-03-31</div>
+                                                                                                          <div class="rb"><div class="rd">2026-04-02</div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Fixed Copilot payroll bugs (duplicate code, wrong table, PDF type, missing routes)</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Added Create Payroll modal (Safari-safe date selects, LOP auto-load)</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Leave quota system: 10S+10P per employee, LOP ₹100/day, no clubbing</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Year-end payout: personal carry-forward (cap 20), sick expire, seed next year</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">migrations/002 applied to prod Supabase; 23 employees seeded</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-03-31</div>
           <div class="ri"><div class="rtag">x-bookmarks-aggregator</div><div class="rdet">v0.1.0: Flask wrapper for X bookmarks CSV→HTML</div></div>
           <div class="ri"><div class="rtag">x-bookmarks-aggregator</div><div class="rdet">Drag-drop upload UI</div></div>
           <div class="ri"><div class="rtag">x-bookmarks-aggregator</div><div class="rdet">Back-to-top button on generated HTML</div></div>
@@ -1324,8 +1331,8 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct">Real Numbers — Mar 12–24</div>
-          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">45 sessions across 26 days</div></div>
-          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~31.2 hours (est)</div></div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">46 sessions across 25 days</div></div>
+          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~31.5 hours (est)</div></div>
           <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
           <div class="rr"><div class="rk">Projects touched</div><div class="rv">8 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt, CC + Meta</div></div>
           <div class="rr"><div class="rk">Features shipped</div><div class="rv">felt v0.1→0.3, Swara v0.1, Helm scaffold, ARIA advisor profile + portal, CC v3.0.0</div></div>
@@ -1684,7 +1691,8 @@ function buildCharts(whatsShippedData) {
     {label:'Mar 28\\nARIA',project:'ARIA',mins:150,tokens:null},
     {label:'Mar 28\\nMeta',project:'Meta',mins:55,tokens:null},
     {label:'Mar 29\\nARIA',project:'ARIA',mins:150,tokens:null},
-    {label:'Mar 31\\nx-bookmarks-aggregator',project:'x-bookmarks-aggregator',mins:45,tokens:21382}
+    {label:'Mar 31\\nx-bookmarks-aggregator',project:'x-bookmarks-aggregator',mins:45,tokens:21382},
+    {label:'Mar 2\nBzHub',project:'BzHub',mins:60,tokens:82454}
   ];
 
   const pColor = {
@@ -1801,17 +1809,17 @@ function buildCharts(whatsShippedData) {
     new Chart(effCtx.getContext('2d'), {
       type:'bar',
       data:{
-        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA", "03-28 ARIA", "03-28 Meta", "03-29 ARIA", "03-31 x-bookmarks-aggregator"],
+        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA", "03-28 ARIA", "03-28 Meta", "03-29 ARIA", "03-31 x-bookmarks-aggregator", "04-02 BzHub"],
         datasets:[
           {
             label:'PO Time (hrs)',
-            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17, 2.5, 0.25, 2.5, 0.25],
+            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17, 2.5, 0.25, 2.5, 0.25, 0.25],
             backgroundColor:accent+'cc', borderColor:accent,
             borderWidth:2, borderRadius:4
           },
           {
             label:'3-Person Equiv (hrs)',
-            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25, 2.5, 2.0, 2.5, 3.0],
+            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25, 2.5, 2.0, 2.5, 3.0, 8.0],
             backgroundColor:'#0f172912', borderColor:'#0f172944',
             borderWidth:1, borderRadius:4
           }
