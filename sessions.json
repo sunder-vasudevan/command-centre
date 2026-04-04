@@ -275,6 +275,12 @@
       "project": "BzHub",
       "mins": 60,
       "tokens": 82454
+    },
+    {
+      "label": "Mar 4\nARIA",
+      "project": "ARIA Advisor",
+      "mins": 100,
+      "tokens": 114222
     }
   ],
   "efficiency": [
@@ -387,9 +393,24 @@
       "label": "04-02 BzHub",
       "po_mins": 15,
       "equiv_mins": 480
+    },
+    {
+      "label": "04-04 ARIA",
+      "po_mins": 20,
+      "equiv_mins": 240
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-04-04",
+      "project": "ARIA Advisor",
+      "items": [
+        "ClientList KPI bar + segment filter + delink + workflow strip",
+        "Client360 6-metric bar + Client Basics grid + Workflow Monitor + Activity Timeline + Notification bell",
+        "HelpPage updated (v1.5 features)",
+        "Deployed v1.5.0 to aria-advisor.vercel.app"
+      ]
+    },
     {
       "date": "2026-04-02",
       "project": "BzHub",
@@ -523,8 +544,122 @@
       ]
     }
   ],
+  "appraisal_cycles": [
+    {
+      "id": "2026-03-21",
+      "label": "Mar 21 \u2013 Apr 5, 2026",
+      "start": "2026-03-21",
+      "end": "2026-04-05",
+      "assessment": "Product-minded builder who moves fast and ships real products. Systems thinking is now proven \u2014 memory, triggers, wrap protocol, and command centre are live infrastructure that compounds. Strategic clarity strong: knows what to solve and what to park.\n\nConsistent gaps: <strong style=\"color:var(--text)\">auth permanently deferred</strong> (FEAT-036 is now 3+ cycles untouched \u2014 the single biggest unlock unshipped), <strong style=\"color:var(--text)\">passive receiving</strong> (improving but not closed \u2014 still accepts Claude output without challenging tradeoffs), <strong style=\"color:var(--text)\">mobile-first not yet reflexive</strong> (rule exists, practice lags), <strong style=\"color:var(--text)\">prompt batching</strong> (serial UI fixes still trigger repeat deploys).\n\nBiggest unlock this cycle: wrap automation is genuinely wired in (wrap_update.py + session_wrap.md + validation gate). That's infrastructure actually running, not just documented. The question heading into the next cycle: does the same systems discipline get applied to auth and production-grade security?",
+      "traits": [
+        {
+          "type": "strength",
+          "label": "Strength",
+          "name": "Bias to Ship"
+        },
+        {
+          "type": "strength",
+          "label": "Strength",
+          "name": "Strategic Clarity"
+        },
+        {
+          "type": "strength",
+          "label": "Strength",
+          "name": "Systems Builder"
+        },
+        {
+          "type": "strength",
+          "label": "Strength",
+          "name": "Feedback Culture"
+        },
+        {
+          "type": "caution",
+          "label": "Watch",
+          "name": "Context Switcher"
+        },
+        {
+          "type": "caution",
+          "label": "Watch",
+          "name": "Passive Receiving"
+        },
+        {
+          "type": "gap",
+          "label": "Gap",
+          "name": "Auth & Security"
+        },
+        {
+          "type": "gap",
+          "label": "Gap",
+          "name": "Mobile-First Reflex"
+        },
+        {
+          "type": "gap",
+          "label": "Gap",
+          "name": "Prompt Batching"
+        }
+      ],
+      "strengths": [
+        {
+          "icon": "\ud83d\ude80",
+          "title": "Ships real products",
+          "desc": "7+ projects deployed. Live URLs, real stack. Not prototypes \u2014 production-grade apps on free tier infra."
+        },
+        {
+          "icon": "\ud83d\udd27",
+          "title": "Wrap infrastructure shipped",
+          "desc": "wrap_update.py + session_wrap.md + validation gate \u2014 actually running, not just documented."
+        },
+        {
+          "icon": "\u26a1",
+          "title": "Cross-stack fluency",
+          "desc": "FastAPI, Next.js, Supabase, Redis, HTML/JS \u2014 no single-layer ceiling."
+        },
+        {
+          "icon": "\ud83d\udd04",
+          "title": "Feedback culture",
+          "desc": "Corrects Claude in real time. Memory files accumulate real signal. Post-mortems are genuine."
+        },
+        {
+          "icon": "\ud83d\udd0d",
+          "title": "Code review discipline",
+          "desc": "Caught 5 AI-generated bugs in 1 Copilot file before merge. Reviews outputs, not just accepts."
+        },
+        {
+          "icon": "\ud83d\udcda",
+          "title": "Learning as output",
+          "desc": "user_learning_log is a first-class deliverable alongside shipping. Every session adds signal."
+        }
+      ],
+      "gaps": [
+        {
+          "icon": "\ud83d\udd10",
+          "title": "Auth permanently deferred",
+          "desc": "FEAT-036 \u2014 3 cycles, 0 progress. No product has real auth. Everything is demo-access.",
+          "fix": "Ship auth on one product next cycle. No more deferral."
+        },
+        {
+          "icon": "\u26a0\ufe0f",
+          "title": "Passive receiving",
+          "desc": "Accepts Claude output without challenging tradeoffs. Outputs ship without question.",
+          "fix": "Challenge one technical decision per session before approving."
+        },
+        {
+          "icon": "\ud83d\udcf1",
+          "title": "Mobile-first reflex",
+          "desc": "Mobile added post-build, not pre-build. Rule in place, practice lags.",
+          "fix": "Design for 375px first \u2014 write mobile layout before desktop."
+        },
+        {
+          "icon": "\ud83c\udfaf",
+          "title": "Prompt batching",
+          "desc": "UI fixes arrive as serial single messages \u2192 repeat deploy cycles.",
+          "fix": "Collate all issues into one list before sending. One deploy per batch."
+        }
+      ]
+    }
+  ],
   "meta": {
-    "last_updated": "2026-04-02",
+    "last_updated": "2026-04-04",
     "version": "v2026.03.24"
   }
 }

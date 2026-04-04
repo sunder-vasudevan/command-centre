@@ -699,13 +699,13 @@ _End of context dump_
 <body>
 
 <header>
-  <div class="brand">🏁 Command <em>Module</em></div>
+  <div class="brand" onclick="goHome()" style="cursor:pointer;" title="Home">🏁 Command <em>Module</em></div>
   <div class="search-box">
     <svg width="13" height="13" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="7" stroke="#94a3b8" stroke-width="2"/><path d="M14.5 14.5L19 19" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></svg>
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-04-02 20:37</div>
+    <div class="ver-badge">2026-04-04 12:25</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -733,14 +733,14 @@ _End of context dump_
 
       <div class="g2">
         <div class="card">
-                                                                                                              <div class="ct">Last Session — 2026-04-02</div>
+                                                                                                                        <div class="ct">Last Session — 2026-04-04</div>
           <ul class="bl">
-            <li>Fixed Copilot payroll (5 bugs)</li>
-            <li>Create Payroll modal + LOP auto-load</li>
-            <li>Leave quota: 10S+10P, LOP ₹100/day, carry-forward, year-end payout</li>
+            <li>ClientList: KPI bar, segment filter, delink, workflow strip</li>
+            <li>Client360: 6-metric bar, Client Basics, Workflow Monitor, Activity Timeline, Notification bell</li>
+            <li>v1.5.0 deployed to aria-advisor.vercel.app</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            v5.2.0 · 60m
+            UI Revamp · 1h 40m
           </div>
           </div>
         </div>
@@ -842,7 +842,13 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct tog">What Shipped — Full Log · Updated 2026-03-24</div>
-                                                                                                          <div class="rb"><div class="rd">2026-04-02</div>
+                                                                                                                  <div class="rb"><div class="rd">2026-04-04</div>
+          <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">ClientList KPI bar + segment filter + delink + workflow strip</div></div>
+          <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Client360 6-metric bar + Client Basics grid + Workflow Monitor + Activity Timeline + Notification bell</div></div>
+          <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">HelpPage updated (v1.5 features)</div></div>
+          <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Deployed v1.5.0 to aria-advisor.vercel.app</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-04-02</div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Fixed Copilot payroll bugs (duplicate code, wrong table, PDF type, missing routes)</div></div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Added Create Payroll modal (Safari-safe date selects, LOP auto-load)</div></div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Leave quota system: 10S+10P per employee, LOP ₹100/day, no clubbing</div></div>
@@ -1331,8 +1337,8 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct">Real Numbers — Mar 12–24</div>
-          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">46 sessions across 25 days</div></div>
-          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~31.5 hours (est)</div></div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">47 sessions across 26 days</div></div>
+          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~31.8 hours (est)</div></div>
           <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
           <div class="rr"><div class="rk">Projects touched</div><div class="rv">8 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt, CC + Meta</div></div>
           <div class="rr"><div class="rk">Features shipped</div><div class="rv">felt v0.1→0.3, Swara v0.1, Helm scaffold, ARIA advisor profile + portal, CC v3.0.0</div></div>
@@ -1345,33 +1351,31 @@ _End of context dump_
     <div class="tab-panel" id="tab-profile">
       <div class="ph">
         <div><div class="ph-title">Profile</div><div class="ph-sub">How Claude sees Sunny Hayes — evidence-based, no sugarcoating</div></div>
-        <span id="appraisal-badge" class="b bsl">Next review: Apr 5, 2026</span>
+        <select id="cycle-select" class="b bsl" style="cursor:pointer;font-size:12px;padding:2px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text)" onchange="switchCycle(this.value)">
+          <option value="2026-03-21">Mar 21 – Apr 5, 2026</option>
+        </select>
       </div>
 
       <div class="card">
         <div class="ct">Claude's Assessment — In Plain English</div>
-        <div style="font-size:14px;color:var(--text2);line-height:1.8;max-width:720px">
-          <strong style="color:var(--text)">Product-minded builder who moves fast.</strong> Genuine bias to ship — not just plan. Thinks in systems (memory architecture, trigger words, wrap protocol) and builds feedback loops that compound. Strategic clarity is high: knows which problems are worth solving.<br><br>
-          Consistent gaps: <strong style="color:var(--text)">passive receiving</strong> (accepting Claude output without deep challenge), <strong style="color:var(--text)">auth permanently deferred</strong> (FEAT-036 has been "next" for 3 cycles), <strong style="color:var(--text)">mobile-first not yet reflexive</strong>, <strong style="color:var(--text)">token discipline</strong> (open-ended questions burn quota), and <strong style="color:var(--text)">prompt batching</strong> (UI fixes arriving as serial single messages forces repeated deploy cycles).<br><br>
-          Biggest gap: no product has shipped with real auth. Everything lives on public/demo access. This is the next unlock. The memory system, trigger protocols, and command centre represent genuine infrastructure investment — rare in solo builders. The question is whether the same systems thinking gets applied to auth, security, and production-grade reliability.
-        </div>
+        <div id="assessment-body" style="font-size:14px;color:var(--text2);line-height:1.8;max-width:720px">Product-minded builder who moves fast and ships real products. Systems thinking is now proven — memory, triggers, wrap protocol, and command centre are live infrastructure that compounds. Strategic clarity strong: knows what to solve and what to park.<br><br>Consistent gaps: <strong style="color:var(--text)">auth permanently deferred</strong> (FEAT-036 is now 3+ cycles untouched — the single biggest unlock unshipped), <strong style="color:var(--text)">passive receiving</strong> (improving but not closed — still accepts Claude output without challenging tradeoffs), <strong style="color:var(--text)">mobile-first not yet reflexive</strong> (rule exists, practice lags), <strong style="color:var(--text)">prompt batching</strong> (serial UI fixes still trigger repeat deploys).<br><br>Biggest unlock this cycle: wrap automation is genuinely wired in (wrap_update.py + session_wrap.md + validation gate). That's infrastructure actually running, not just documented. The question heading into the next cycle: does the same systems discipline get applied to auth and production-grade security?</div>
         <div class="countdown-bar-wrap">
-          <div class="countdown-label"><span>Appraisal cycle: Mar 21 → Apr 5, 2026</span><span class="countdown-val" id="countdown-days">15 days remaining</span></div>
+          <div class="countdown-label"><span id="cycle-range">Appraisal cycle: Mar 21 – Apr 5, 2026</span><span class="countdown-val" id="countdown-days"></span></div>
           <div class="progress-bar-outer"><div class="progress-bar-inner" id="appraisal-progress" style="width:0%"></div></div>
         </div>
       </div>
 
       <div class="card">
         <div class="ct">Trait Profile</div>
-        <div class="trgrid">
+        <div id="traits-body" class="trgrid">
           <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Bias to Ship</div></div>
           <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Strategic Clarity</div></div>
           <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Systems Builder</div></div>
-          <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Scope Instinct</div></div>
+          <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Feedback Culture</div></div>
           <div class="trcard caution"><div class="trtype">Watch</div><div class="trname">Context Switcher</div></div>
-          <div class="trcard caution"><div class="trtype">Watch</div><div class="trname">Shortcut Temptation</div></div>
-          <div class="trcard gap"><div class="trtype">Gap</div><div class="trname">Active Ownership</div></div>
-          <div class="trcard gap"><div class="trtype">Gap</div><div class="trname">Auth & Multi-tenancy</div></div>
+          <div class="trcard caution"><div class="trtype">Watch</div><div class="trname">Passive Receiving</div></div>
+          <div class="trcard gap"><div class="trtype">Gap</div><div class="trname">Auth & Security</div></div>
+          <div class="trcard gap"><div class="trtype">Gap</div><div class="trname">Mobile-First Reflex</div></div>
           <div class="trcard gap"><div class="trtype">Gap</div><div class="trname">Prompt Batching</div></div>
         </div>
       </div>
@@ -1379,113 +1383,26 @@ _End of context dump_
       <div class="g2">
         <div class="card">
           <div class="ct">Observed Strengths</div>
-          <div class="rr">
-            <div class="rk">🚀 Ships real products</div>
-            <div class="rv">7 projects deployed. Live URLs, real stack decisions. Not prototypes — production-grade apps on free tier infra.</div>
-          </div>
-          <div class="rr">
-            <div class="rk">📚 Builds learning in</div>
-            <div class="rv">Every session adds to user_learning_log. Learning is a first-class output alongside shipping.</div>
-          </div>
-          <div class="rr">
-            <div class="rk">⚡ Cross-stack fluency</div>
-            <div class="rv">Comfortable across FastAPI, Next.js, Supabase, Redis, HTML/JS without full expertise in any one layer.</div>
-          </div>
-          <div class="rr">
-            <div class="rk">🔄 Feedback culture</div>
-            <div class="rv">Corrects Claude in real time. Post-mortems are genuine, not rhetorical. Memory files accumulate real signal.</div>
-          </div>
-          <div class="rr">
-            <div class="rk">🏗️ Long-game thinking</div>
-            <div class="rv">Memory system, trigger protocols, command centre are infrastructure investments that compound over time.</div>
+          <div id="strengths-body">
+          <div class="rr"><div class="rk">🚀 Ships real products</div><div class="rv">7+ projects deployed. Live URLs, real stack. Not prototypes — production-grade apps on free tier infra.</div></div>
+          <div class="rr"><div class="rk">🔧 Wrap infrastructure shipped</div><div class="rv">wrap_update.py + session_wrap.md + validation gate — actually running, not just documented.</div></div>
+          <div class="rr"><div class="rk">⚡ Cross-stack fluency</div><div class="rv">FastAPI, Next.js, Supabase, Redis, HTML/JS — no single-layer ceiling.</div></div>
+          <div class="rr"><div class="rk">🔄 Feedback culture</div><div class="rv">Corrects Claude in real time. Memory files accumulate real signal. Post-mortems are genuine.</div></div>
+          <div class="rr"><div class="rk">🔍 Code review discipline</div><div class="rv">Caught 5 AI-generated bugs in 1 Copilot file before merge. Reviews outputs, not just accepts.</div></div>
+          <div class="rr"><div class="rk">📚 Learning as output</div><div class="rv">user_learning_log is a first-class deliverable alongside shipping. Every session adds signal.</div></div>
           </div>
         </div>
         <div class="card">
           <div class="ct">Honest Gaps</div>
-          <div class="gap-row">
-            <div class="gap-row-icon">⚠️</div>
-            <div>
-              <div class="gap-row-title">Passive receiving</div>
-              <div class="gap-row-desc">Tendency to accept Claude output without deep challenge. Outputs get shipped without question.</div>
-              <span class="gap-row-fix">Fix: challenge one technical decision per session before accepting</span>
-            </div>
-          </div>
-          <div class="gap-row">
-            <div class="gap-row-icon">🔐</div>
-            <div>
-              <div class="gap-row-title">Auth permanently deferred</div>
-              <div class="gap-row-desc">FEAT-036 has been "next" for 3 cycles. No product has real auth. Everything is demo-access.</div>
-              <span class="gap-row-fix">Fix: ship auth on one product this cycle. No more deferral.</span>
-            </div>
-          </div>
-          <div class="gap-row">
-            <div class="gap-row-icon">📱</div>
-            <div>
-              <div class="gap-row-title">Mobile-first reflex</div>
-              <div class="gap-row-desc">Mobile gets added post-build rather than designed in. Rule exists; practice lags.</div>
-              <span class="gap-row-fix">Fix: design for 375px first — write the mobile layout before desktop</span>
-            </div>
-          </div>
-          <div class="gap-row">
-            <div class="gap-row-icon">💸</div>
-            <div>
-              <div class="gap-row-title">Token discipline</div>
-              <div class="gap-row-desc">Open-ended questions and mid-session switches burn quota faster than constrained prompts.</div>
-              <span class="gap-row-fix">Fix: one question per message, explicit scope, no open-ended exploration</span>
-            </div>
-          </div>
-          <div class="gap-row">
-            <div class="gap-row-icon">📝</div>
-            <div>
-              <div class="gap-row-title">Wrap discipline</div>
-              <div class="gap-row-desc">Projects close without docs, or command centre gets partial updates only.</div>
-              <span class="gap-row-fix">Fix: run /wrap before closing browser — no exceptions. Now automated via wrap_update.py.</span>
-            </div>
-          </div>
-          <div class="gap-row">
-            <div class="gap-row-icon">🎯</div>
-            <div>
-              <div class="gap-row-title">Batching feedback</div>
-              <div class="gap-row-desc">UI fixes and corrections arrive as rapid-fire individual messages mid-session, each requiring a full re-deploy cycle.</div>
-              <span class="gap-row-fix">Fix: collate all visual issues into one list before sending — one deploy per batch</span>
-            </div>
+          <div id="gaps-body">
+          <div class="gap-row"><div class="gap-row-icon">🔐</div><div><div class="gap-row-title">Auth permanently deferred</div><div class="gap-row-desc">FEAT-036 — 3 cycles, 0 progress. No product has real auth. Everything is demo-access.</div><span class="gap-row-fix">Fix: Ship auth on one product next cycle. No more deferral.</span></div></div>
+          <div class="gap-row"><div class="gap-row-icon">⚠️</div><div><div class="gap-row-title">Passive receiving</div><div class="gap-row-desc">Accepts Claude output without challenging tradeoffs. Outputs ship without question.</div><span class="gap-row-fix">Fix: Challenge one technical decision per session before approving.</span></div></div>
+          <div class="gap-row"><div class="gap-row-icon">📱</div><div><div class="gap-row-title">Mobile-first reflex</div><div class="gap-row-desc">Mobile added post-build, not pre-build. Rule in place, practice lags.</div><span class="gap-row-fix">Fix: Design for 375px first — write mobile layout before desktop.</span></div></div>
+          <div class="gap-row"><div class="gap-row-icon">🎯</div><div><div class="gap-row-title">Prompt batching</div><div class="gap-row-desc">UI fixes arrive as serial single messages → repeat deploy cycles.</div><span class="gap-row-fix">Fix: Collate all issues into one list before sending. One deploy per batch.</span></div></div>
           </div>
         </div>
       </div>
-
-      <div class="card">
-        <div class="ct">Next 15-Day Focus — Mar 21 – Apr 5, 2026</div>
-        <div class="g2" style="gap:var(--gap)">
-          <div class="focus-card" style="border-top-color:#2563eb">
-            <div class="focus-card-header">
-              <div class="focus-card-title">Ship auth on one product</div>
-              <span class="focus-card-tag" style="background:#dbeafe;color:#1d40ae">Critical</span>
-            </div>
-            <div style="font-size:12px;color:var(--text2)">FEAT-036 on ARIA or BzHub. Full Supabase Auth — login, logout, JWT in FastAPI, role separation. This cycle. No more deferral.</div>
-          </div>
-          <div class="focus-card" style="border-top-color:#059669">
-            <div class="focus-card-header">
-              <div class="focus-card-title">Challenge one Claude decision per session</div>
-              <span class="focus-card-tag" style="background:#d1fae5;color:#047857">Habit</span>
-            </div>
-            <div style="font-size:12px;color:var(--text2)">Active ownership, not passive receiving. Before saying "go ahead" — ask: why this approach? what are the tradeoffs?</div>
-          </div>
-          <div class="focus-card" style="border-top-color:#f59e0b">
-            <div class="focus-card-header">
-              <div class="focus-card-title">Mobile-first as ritual</div>
-              <span class="focus-card-tag" style="background:#fef3c7;color:#92400e">Practice</span>
-            </div>
-            <div style="font-size:12px;color:var(--text2)">Design for 375px first, then expand. Write the mobile layout before desktop. DevTools mobile mode on from session start.</div>
-          </div>
-          <div class="focus-card" style="border-top-color:#7c3aed">
-            <div class="focus-card-header">
-              <div class="focus-card-title">Constrained prompts</div>
-              <span class="focus-card-tag" style="background:#ede9fe;color:#5b21b6">Efficiency</span>
-            </div>
-            <div style="font-size:12px;color:var(--text2)">One question per message. Explicit scope upfront. No open-ended exploration. Scope lock = token lock.</div>
-          </div>
-        </div>
-      </div>
+    
     </div>
 
     <!-- ===== REFERENCE TAB ===== -->
@@ -1598,6 +1515,34 @@ _End of context dump_
 //# sourceMappingURL=chart.umd.js.map
 </script>
 <script>
+
+function switchCycle(id) {
+  const c = (window._appraisal_cycles || []).find(x => x.id === id);
+  if (!c) return;
+  // Assessment
+  const ab = document.getElementById('assessment-body');
+  if (ab) ab.innerHTML = c.assessment.replace(/\n\n/g,'<br><br>');
+  const cr = document.getElementById('cycle-range');
+  if (cr) cr.textContent = 'Appraisal cycle: ' + c.label;
+  // Traits
+  const tb = document.getElementById('traits-body');
+  if (tb) tb.innerHTML = c.traits.map(t => `<div class="trcard ${t.type}"><div class="trtype">${t.label}</div><div class="trname">${t.name}</div></div>`).join('');
+  // Strengths
+  const sb = document.getElementById('strengths-body');
+  if (sb) sb.innerHTML = c.strengths.map(s => `<div class="rr"><div class="rk">${s.icon} ${s.title}</div><div class="rv">${s.desc}</div></div>`).join('');
+  // Gaps
+  const gb = document.getElementById('gaps-body');
+  if (gb) gb.innerHTML = c.gaps.map(g => `<div class="gap-row"><div class="gap-row-icon">${g.icon}</div><div><div class="gap-row-title">${g.title}</div><div class="gap-row-desc">${g.desc}</div><span class="gap-row-fix">Fix: ${g.fix}</span></div></div>`).join('');
+  // Progress bar
+  const start = new Date(c.start), end = new Date(c.end), now = new Date();
+  const pct = Math.min(100, Math.max(0, Math.round((now - start) / (end - start) * 100)));
+  const el = document.getElementById('appraisal-progress');
+  if (el) el.style.width = pct + '%';
+  const cd = document.getElementById('countdown-days');
+  if (cd) { const days = Math.max(0, Math.ceil((end - now) / 86400000)); cd.textContent = days > 0 ? days + ' days remaining' : 'Cycle complete'; }
+}
+
+function goHome() { const b = document.querySelector('.nb[onclick*="command"]'); showTab('command', b); }
 function showTab(id, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nb, .mob-nb').forEach(b => b.classList.remove('active'));
@@ -1692,7 +1637,8 @@ function buildCharts(whatsShippedData) {
     {label:'Mar 28\\nMeta',project:'Meta',mins:55,tokens:null},
     {label:'Mar 29\\nARIA',project:'ARIA',mins:150,tokens:null},
     {label:'Mar 31\\nx-bookmarks-aggregator',project:'x-bookmarks-aggregator',mins:45,tokens:21382},
-    {label:'Mar 2\nBzHub',project:'BzHub',mins:60,tokens:82454}
+    {label:'Mar 2\nBzHub',project:'BzHub',mins:60,tokens:82454},
+    {label:'Mar 4\nARIA',project:'ARIA Advisor',mins:100,tokens:114222}
   ];
 
   const pColor = {
@@ -1809,17 +1755,17 @@ function buildCharts(whatsShippedData) {
     new Chart(effCtx.getContext('2d'), {
       type:'bar',
       data:{
-        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA", "03-28 ARIA", "03-28 Meta", "03-29 ARIA", "03-31 x-bookmarks-aggregator", "04-02 BzHub"],
+        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA", "03-28 ARIA", "03-28 Meta", "03-29 ARIA", "03-31 x-bookmarks-aggregator", "04-02 BzHub", "04-04 ARIA"],
         datasets:[
           {
             label:'PO Time (hrs)',
-            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17, 2.5, 0.25, 2.5, 0.25, 0.25],
+            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17, 2.5, 0.25, 2.5, 0.25, 0.25, 0.33],
             backgroundColor:accent+'cc', borderColor:accent,
             borderWidth:2, borderRadius:4
           },
           {
             label:'3-Person Equiv (hrs)',
-            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25, 2.5, 2.0, 2.5, 3.0, 8.0],
+            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25, 2.5, 2.0, 2.5, 3.0, 8.0, 4.0],
             backgroundColor:'#0f172912', borderColor:'#0f172944',
             borderWidth:1, borderRadius:4
           }
@@ -2058,6 +2004,7 @@ function closeChartModal() {
 document.getElementById('chartModal').addEventListener('click', function(e) {
   if (e.target === this) closeChartModal();
 });
+window._appraisal_cycles = [{"id": "2026-03-21", "label": "Mar 21 – Apr 5, 2026", "start": "2026-03-21", "end": "2026-04-05", "assessment": "Product-minded builder who moves fast and ships real products. Systems thinking is now proven — memory, triggers, wrap protocol, and command centre are live infrastructure that compounds. Strategic clarity strong: knows what to solve and what to park.\n\nConsistent gaps: <strong style=\"color:var(--text)\">auth permanently deferred</strong> (FEAT-036 is now 3+ cycles untouched — the single biggest unlock unshipped), <strong style=\"color:var(--text)\">passive receiving</strong> (improving but not closed — still accepts Claude output without challenging tradeoffs), <strong style=\"color:var(--text)\">mobile-first not yet reflexive</strong> (rule exists, practice lags), <strong style=\"color:var(--text)\">prompt batching</strong> (serial UI fixes still trigger repeat deploys).\n\nBiggest unlock this cycle: wrap automation is genuinely wired in (wrap_update.py + session_wrap.md + validation gate). That's infrastructure actually running, not just documented. The question heading into the next cycle: does the same systems discipline get applied to auth and production-grade security?", "traits": [{"type": "strength", "label": "Strength", "name": "Bias to Ship"}, {"type": "strength", "label": "Strength", "name": "Strategic Clarity"}, {"type": "strength", "label": "Strength", "name": "Systems Builder"}, {"type": "strength", "label": "Strength", "name": "Feedback Culture"}, {"type": "caution", "label": "Watch", "name": "Context Switcher"}, {"type": "caution", "label": "Watch", "name": "Passive Receiving"}, {"type": "gap", "label": "Gap", "name": "Auth & Security"}, {"type": "gap", "label": "Gap", "name": "Mobile-First Reflex"}, {"type": "gap", "label": "Gap", "name": "Prompt Batching"}], "strengths": [{"icon": "🚀", "title": "Ships real products", "desc": "7+ projects deployed. Live URLs, real stack. Not prototypes — production-grade apps on free tier infra."}, {"icon": "🔧", "title": "Wrap infrastructure shipped", "desc": "wrap_update.py + session_wrap.md + validation gate — actually running, not just documented."}, {"icon": "⚡", "title": "Cross-stack fluency", "desc": "FastAPI, Next.js, Supabase, Redis, HTML/JS — no single-layer ceiling."}, {"icon": "🔄", "title": "Feedback culture", "desc": "Corrects Claude in real time. Memory files accumulate real signal. Post-mortems are genuine."}, {"icon": "🔍", "title": "Code review discipline", "desc": "Caught 5 AI-generated bugs in 1 Copilot file before merge. Reviews outputs, not just accepts."}, {"icon": "📚", "title": "Learning as output", "desc": "user_learning_log is a first-class deliverable alongside shipping. Every session adds signal."}], "gaps": [{"icon": "🔐", "title": "Auth permanently deferred", "desc": "FEAT-036 — 3 cycles, 0 progress. No product has real auth. Everything is demo-access.", "fix": "Ship auth on one product next cycle. No more deferral."}, {"icon": "⚠️", "title": "Passive receiving", "desc": "Accepts Claude output without challenging tradeoffs. Outputs ship without question.", "fix": "Challenge one technical decision per session before approving."}, {"icon": "📱", "title": "Mobile-first reflex", "desc": "Mobile added post-build, not pre-build. Rule in place, practice lags.", "fix": "Design for 375px first — write mobile layout before desktop."}, {"icon": "🎯", "title": "Prompt batching", "desc": "UI fixes arrive as serial single messages → repeat deploy cycles.", "fix": "Collate all issues into one list before sending. One deploy per batch."}]}];
 </script>
 </body>
 </html>

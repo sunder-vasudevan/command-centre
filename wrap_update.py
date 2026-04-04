@@ -496,6 +496,148 @@ def _mark_wrap_done():
         pass
 
 
+def _build_profile_tab_inner(cycles):
+    """Build the entire inner HTML of tab-profile (everything between <div id="tab-profile"> and </div>)."""
+    import json as _json
+    cycle = cycles[0]
+
+    # Dropdown
+    opts = "\n".join(f'          <option value="{c["id"]}">{c["label"]}</option>' for c in cycles)
+    dropdown = (
+        f'<select id="cycle-select" class="b bsl" '
+        f'style="cursor:pointer;font-size:12px;padding:2px 6px;border:1px solid var(--border);'
+        f'border-radius:4px;background:var(--bg2);color:var(--text)" onchange="switchCycle(this.value)">\n'
+        f'{opts}\n        </select>'
+    )
+
+    # Assessment
+    assessment_html = cycle["assessment"].replace("\n\n", "<br><br>")
+
+    # Traits
+    trait_cards = "\n".join(
+        f'          <div class="trcard {t["type"]}"><div class="trtype">{t["label"]}</div><div class="trname">{t["name"]}</div></div>'
+        for t in cycle["traits"]
+    )
+
+    # Strengths
+    strength_rows = "\n".join(
+        f'          <div class="rr"><div class="rk">{s["icon"]} {s["title"]}</div><div class="rv">{s["desc"]}</div></div>'
+        for s in cycle["strengths"]
+    )
+
+    # Gaps
+    gap_rows = "\n".join(
+        f'          <div class="gap-row"><div class="gap-row-icon">{g["icon"]}</div>'
+        f'<div><div class="gap-row-title">{g["title"]}</div>'
+        f'<div class="gap-row-desc">{g["desc"]}</div>'
+        f'<span class="gap-row-fix">Fix: {g["fix"]}</span></div></div>'
+        for g in cycle["gaps"]
+    )
+
+    return f"""
+      <div class="ph">
+        <div><div class="ph-title">Profile</div><div class="ph-sub">How Claude sees Sunny Hayes — evidence-based, no sugarcoating</div></div>
+        {dropdown}
+      </div>
+
+      <div class="card">
+        <div class="ct">Claude's Assessment — In Plain English</div>
+        <div id="assessment-body" style="font-size:14px;color:var(--text2);line-height:1.8;max-width:720px">{assessment_html}</div>
+        <div class="countdown-bar-wrap">
+          <div class="countdown-label"><span id="cycle-range">Appraisal cycle: {cycle["label"]}</span><span class="countdown-val" id="countdown-days"></span></div>
+          <div class="progress-bar-outer"><div class="progress-bar-inner" id="appraisal-progress" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ct">Trait Profile</div>
+        <div id="traits-body" class="trgrid">
+{trait_cards}
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="ct">Observed Strengths</div>
+          <div id="strengths-body">
+{strength_rows}
+          </div>
+        </div>
+        <div class="card">
+          <div class="ct">Honest Gaps</div>
+          <div id="gaps-body">
+{gap_rows}
+          </div>
+        </div>
+      </div>
+    """
+
+
+def patch_profile(html, cycles):
+    """Inject appraisal cycle data + dropdown + JS renderer into profile tab."""
+    import json as _json
+
+    # 1. Replace/inject JS data block — sanitize assessment newlines first
+    safe_cycles = []
+    for c in cycles:
+        sc = dict(c)
+        sc["assessment"] = sc["assessment"].replace("\n", "\\n")
+        safe_cycles.append(sc)
+    cycles_js = "window._appraisal_cycles = " + _json.dumps(safe_cycles, ensure_ascii=False) + ";"
+    if "window._appraisal_cycles" in html:
+        html = re.sub(r"window\._appraisal_cycles = \[[\s\S]*?\];", cycles_js, html, count=1)
+    else:
+        html = html.replace("</script>\n</body>", f"{cycles_js}\n</script>\n</body>", 1)
+
+    # 2. Replace entire profile tab inner content atomically
+    new_inner = _build_profile_tab_inner(cycles)
+    html = re.sub(
+        r'(<div class="tab-panel[^"]*" id="tab-profile">)[\s\S]*?(<!-- ===== REFERENCE TAB)',
+        lambda m: m.group(1) + new_inner + "\n    </div>\n\n    " + m.group(2),
+        html, count=1
+    )
+
+    # 3. Inject switchCycle JS if not present
+    switch_js = """
+function switchCycle(id) {
+  const c = (window._appraisal_cycles || []).find(x => x.id === id);
+  if (!c) return;
+  const ab = document.getElementById('assessment-body');
+  if (ab) ab.innerHTML = c.assessment.replace(/\\n\\n/g,'<br><br>');
+  const cr = document.getElementById('cycle-range');
+  if (cr) cr.textContent = 'Appraisal cycle: ' + c.label;
+  const tb = document.getElementById('traits-body');
+  if (tb) tb.innerHTML = c.traits.map(t => `<div class="trcard ${t.type}"><div class="trtype">${t.label}</div><div class="trname">${t.name}</div></div>`).join('');
+  const sb = document.getElementById('strengths-body');
+  if (sb) sb.innerHTML = c.strengths.map(s => `<div class="rr"><div class="rk">${s.icon} ${s.title}</div><div class="rv">${s.desc}</div></div>`).join('');
+  const gb = document.getElementById('gaps-body');
+  if (gb) gb.innerHTML = c.gaps.map(g => `<div class="gap-row"><div class="gap-row-icon">${g.icon}</div><div><div class="gap-row-title">${g.title}</div><div class="gap-row-desc">${g.desc}</div><span class="gap-row-fix">Fix: ${g.fix}</span></div></div>`).join('');
+  const start = new Date(c.start), end = new Date(c.end), now = new Date();
+  const pct = Math.min(100,Math.max(0,Math.round((now-start)/(end-start)*100)));
+  const el = document.getElementById('appraisal-progress');
+  if (el) el.style.width = pct + '%';
+  const cd = document.getElementById('countdown-days');
+  if (cd) { const days = Math.max(0,Math.ceil((end-now)/86400000)); cd.textContent = days > 0 ? days+' days remaining' : 'Cycle complete'; }
+}
+"""
+    if "function switchCycle" not in html:
+        html = html.replace("function goHome()", switch_js + "\nfunction goHome()")
+
+    return html
+
+
+def cmd_update_profile(args):
+    data = load_data()
+    cycles = data.get("appraisal_cycles", [])
+    if not cycles:
+        print("✗ No appraisal_cycles in sessions.json")
+        return
+    html = INDEX_HTML.read_text()
+    html = patch_profile(html, cycles)
+    INDEX_HTML.write_text(html)
+    print(f"✓ Profile tab updated ({len(cycles)} cycle(s))")
+
+
 def cmd_sync(args):
     data = load_data()
     changed = backfill_tokens(data)
@@ -582,6 +724,9 @@ def main():
     pv = sub.add_parser("bump-version")
     pv.add_argument("--timestamp", default=None, help="Override timestamp e.g. '2026-03-25 14:30'")
 
+    # update-profile
+    sub.add_parser("update-profile", help="Patch profile tab with appraisal cycle data from sessions.json")
+
     # sync
     sub.add_parser("sync")
 
@@ -594,6 +739,7 @@ def main():
         "update-last-session": cmd_update_last_session,
         "add-meta-learning": cmd_add_meta_learning,
         "bump-version": cmd_bump_version,
+        "update-profile": cmd_update_profile,
         "sync": cmd_sync,
     }
     fn = dispatch.get(args.command)
