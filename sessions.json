@@ -281,6 +281,12 @@
       "project": "ARIA Advisor",
       "mins": 100,
       "tokens": 114222
+    },
+    {
+      "label": "Mar 4\nARIA",
+      "project": "ARIA",
+      "mins": 300,
+      "tokens": 374816
     }
   ],
   "efficiency": [
@@ -398,9 +404,27 @@
       "label": "04-04 ARIA",
       "po_mins": 20,
       "equiv_mins": 240
+    },
+    {
+      "label": "04-04 ARIA",
+      "po_mins": 60,
+      "equiv_mins": 900
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-04-04",
+      "project": "ARIA",
+      "items": [
+        "Instrument dropdown (30 instruments) \u2014 advisor + personal trade modals",
+        "Live price refresh: AMFI MFs + CoinGecko crypto + yfinance stocks",
+        "Default holdings seed: 22 instruments + 5 BTC + 5 ETH + \u20b95L cash",
+        "Min qty validation: crypto 0.0001, stocks 1 unit (frontend + backend)",
+        "FEAT-2001 Opportunity Pipeline kanban",
+        "FEAT-2002 Task Queue with overdue/due-soon alerts",
+        "Advisor Workspace 6-tile KPI bar + billing nav"
+      ]
+    },
     {
       "date": "2026-04-04",
       "project": "ARIA Advisor",
