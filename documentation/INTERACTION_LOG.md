@@ -167,3 +167,44 @@
 | 10 | When I click in GitHub it opens code not the page | Explained GitHub Pages behaviour, offered 3 options |
 | 11 | Yes option A (About section link) | Set homepage via gh API — visible in repo About panel |
 | 12 | wrap | Running session wrap |
+
+---
+
+## 2026-04-07 — Meta / mempalace setup + whitepaper update
+
+**Session date:** 2026-04-07
+**PO interaction time:** ~45 min
+**Projects touched:** Meta (mempalace), white-paper
+**Compression ratio:** 88.1% token savings (2.5M tokens saved via RTK)
+
+### What happened
+
+**mempalace install + full setup:**
+- Installed mempalace 3.0.0 via `uv tool install git+https://github.com/milla-jovovich/mempalace.git`
+- `mempalace init ~/Daytona` — run interactively by Sunny (non-interactive mode has EOF bug)
+- Mined all Daytona projects: 694 files, wing `daytona`, rooms: aria (201), bzhub (187), general (129), paperclip (59), helm (51), felt (36)
+- Mined Claude conversation history: `~/.claude/projects/-Users-sunnyhayes/` — 455 files, 21,506 drawers filed
+- Total palace: ~22,200 indexed memories
+- Connected MCP server: `claude mcp add mempalace -- python -m mempalace.mcp_server` (19 tools available next session)
+- Save hook (every 15 exchanges) + PreCompact hook added to `~/.claude/settings.json`
+- Hook scripts saved to `~/.mempalace/hooks/` (pulled from GitHub — not bundled in uv tool install)
+
+**mempalace verified working:**
+- `mempalace search "why supabase bzhub"` → retrieved DECISION-002 verbatim, zero extra input tokens
+- `mempalace search "ARIA architectural decisions"` → all 13 decisions across both ARIA apps
+- `mempalace search "when did we start ARIA"` → SESSION_LOG verbatim, confirmed start 2026-03-13
+
+**Whitepaper update (`white-paper/human-ai-partnership-white-paper.html`):**
+- Cover: updated to "Ten Products, Twenty-Six Days, ongoing" — period Feb 2026–Apr 2026
+- Executive summary stats: 8→10 products, 27→34+ sessions, 752k→1M+ tokens, added 22k+ memories metric
+- ARIA Advisor card: updated to v1.6.0, all features shipped through Session 34
+- BzHub card: updated to v5.2.0 with Leave Quota System, POS, currency theming
+- ARIA Personal card: expanded with JWT auth, trade approval workflow details
+- Added Section 9 (MemPalace — The Memory Layer): palace structure, benchmarks, economics comparison ($10/yr vs $507/yr), AAAK compression
+- Added Section 10 (Roadmap): full planned features across all 6 active projects
+- Updated "What's Next" with current backlog items
+- Updated footer
+
+### What's next
+- `/compact` — context window reset
+- Next session: ARIA Personal Dashboard revamp (KPI bar, goal probability bars)
