@@ -1,6 +1,16 @@
 # Command Centre — NOTES.md
 
-## Current State: v3.2.0 (2026-03-28) — validation gates + bug fix
+## Current State: v3.3.0 (2026-04-08) — Graphs tab (mobile only)
+
+### Session 2026-04-08 — Graphs tab
+- Moved charts out of Command tab into dedicated Graphs tab in `mobile.html`
+- 6th bottom nav button (📊 Graphs) added; label font reduced to 9px to fit 6 buttons
+- `buildCharts()` converted from IIFE to named function; lazy-init on first Graphs tab open
+- `index.html` untouched
+
+---
+
+## v3.2.0 (2026-03-28) — validation gates + bug fix
 
 ← START HERE NEXT SESSION
 

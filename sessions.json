@@ -293,6 +293,12 @@
       "project": "Meta",
       "mins": 45,
       "tokens": 44959
+    },
+    {
+      "label": "Mar 8\nARIA",
+      "project": "ARIA Advisor",
+      "mins": 90,
+      "tokens": 66583
     }
   ],
   "efficiency": [
@@ -420,9 +426,22 @@
       "label": "04-07 Meta",
       "po_mins": 45,
       "equiv_mins": 360
+    },
+    {
+      "label": "04-08 ARIA",
+      "po_mins": 30,
+      "equiv_mins": 270
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-04-08",
+      "project": "ARIA Advisor",
+      "items": [
+        "FEAT-2006: yfinance \u2192 jugaad-data NSE EOD prices",
+        "FEAT-2007: avg_purchase_price, execution_price, unrealised P&L"
+      ]
+    },
     {
       "date": "2026-04-07",
       "project": "Meta",
@@ -702,7 +721,7 @@
     }
   ],
   "meta": {
-    "last_updated": "2026-04-07",
+    "last_updated": "2026-04-08",
     "version": "v2026.03.24"
   }
 }

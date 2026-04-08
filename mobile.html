@@ -134,7 +134,7 @@ html, body {
 }
 
 .bnb span {
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text3);
   font-family: inherit;
   transition: color 0.15s;
@@ -1087,17 +1087,6 @@ a { color: var(--accent); }
       <div class="mbox"><div class="mv">12x</div><div class="ml">Avg Compression</div></div>
     </div>
 
-    <div class="divider"><span>Charts</span></div>
-
-    <div class="card">
-      <div class="ct"><span class="ct-title">Session Duration by Day</span></div>
-      <div style="position:relative;height:180px"><canvas id="timeChart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="ct"><span class="ct-title">Compression — PO vs 3-Person Team</span></div>
-      <div style="position:relative;height:180px"><canvas id="efficiencyChart"></canvas></div>
-    </div>
-
     <div class="divider"><span>Session Log</span></div>
 
     <div class="card">
@@ -1856,6 +1845,19 @@ a { color: var(--accent); }
 
   </div><!-- /tab-profile -->
 
+  <div id="tab-graphs" class="tab-panel">
+    <div class="divider"><span>Session Duration by Day</span></div>
+    <div class="card">
+      <div class="ct"><span class="ct-title">Session Duration by Day</span></div>
+      <div style="position:relative;height:220px"><canvas id="timeChart"></canvas></div>
+    </div>
+    <div class="divider"><span>Compression</span></div>
+    <div class="card">
+      <div class="ct"><span class="ct-title">Compression — PO vs 3-Person Team</span></div>
+      <div style="position:relative;height:220px"><canvas id="efficiencyChart"></canvas></div>
+    </div>
+  </div><!-- /tab-graphs -->
+
 </main>
 
 <!-- ══ BOTTOM NAV ══ -->
@@ -1875,6 +1877,9 @@ a { color: var(--accent); }
   <button class="bnb" onclick="showTab('profile', this)">
     👁️<span>Profile</span>
   </button>
+  <button class="bnb" onclick="showTab('graphs', this)">
+    📊<span>Graphs</span>
+  </button>
 </nav>
 
 <script>
@@ -1887,6 +1892,11 @@ function showTab(id, btn) {
   if (btn) btn.classList.add('active');
   // Scroll content to top on tab switch
   document.querySelector('.content').scrollTo(0, 0);
+  // Lazy-init charts when Graphs tab first opens (hidden canvases have 0 dimensions at load)
+  if (id === 'graphs' && !window._graphsBuilt && typeof Chart !== 'undefined') {
+    window._graphsBuilt = true;
+    buildCharts();
+  }
 }
 
 // ── COLLAPSIBLE CARDS ──
@@ -2024,7 +2034,7 @@ document.querySelector('.search-input').addEventListener('input', function() {
 });
 
 // Charts
-(function buildCharts() {
+function buildCharts() {
   const accent = '#e10600', tc = '#475569', gc = '#e2e8f0';
   const sessions = [
     {label:'Feb 10\\nBzHub',project:'BzHub',mins:120,tokens:null},
@@ -2075,7 +2085,8 @@ document.querySelector('.search-input').addEventListener('input', function() {
     {label:'Mar 2\nBzHub',project:'BzHub',mins:60,tokens:82454},
     {label:'Mar 4\nARIA',project:'ARIA Advisor',mins:100,tokens:114222},
     {label:'Mar 4\nARIA',project:'ARIA',mins:300,tokens:374816},
-    {label:'Mar 7\nMeta',project:'Meta',mins:45,tokens:44959}
+    {label:'Mar 7\nMeta',project:'Meta',mins:45,tokens:44959},
+    {label:'Mar 8\nARIA',project:'ARIA Advisor',mins:90,tokens:66583}
   ];
   const pColor = {
     'ARIA Advisor':'#2563eb','BzHub':'#059669','Meta':'#e10600',
@@ -2122,7 +2133,7 @@ document.querySelector('.search-input').addEventListener('input', function() {
       }
     });
   }
-})();
+}
 </script>
 </body>
 </html>
