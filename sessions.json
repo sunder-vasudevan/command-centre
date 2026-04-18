@@ -299,6 +299,12 @@
       "project": "ARIA Advisor",
       "mins": 90,
       "tokens": 66583
+    },
+    {
+      "label": "Mar 18\nARIA",
+      "project": "ARIA Advisor",
+      "mins": 120,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -431,9 +437,23 @@
       "label": "04-08 ARIA",
       "po_mins": 30,
       "equiv_mins": 270
+    },
+    {
+      "label": "04-18 ARIA",
+      "po_mins": 0,
+      "equiv_mins": 480
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-04-18",
+      "project": "ARIA Advisor",
+      "items": [
+        "Security: Fixed 19 IDOR endpoints across 6 routers",
+        "Security: Prompt injection sanitization in both copilot context builders",
+        "Cross-project security audit \u2014 risk matrix + NOW/IMMEDIATE/LATER fix plan for all 8 products"
+      ]
+    },
     {
       "date": "2026-04-08",
       "project": "ARIA Advisor",
@@ -721,7 +741,7 @@
     }
   ],
   "meta": {
-    "last_updated": "2026-04-08",
+    "last_updated": "2026-04-18",
     "version": "v2026.03.24"
   }
 }

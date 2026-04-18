@@ -705,7 +705,7 @@ _End of context dump_
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-04-08 22:07</div>
+    <div class="ver-badge">2026-04-18 10:49</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -733,14 +733,14 @@ _End of context dump_
 
       <div class="g2">
         <div class="card">
-                                                                                                                                                                <div class="ct">Last Session — 2026-04-08</div>
+                                                                                                                                                                          <div class="ct">Last Session — 2026-04-18</div>
           <ul class="bl">
-            <li>FEAT-2006: jugaad-data NSE EOD prices (replaced yfinance)</li>
-            <li>FEAT-2007: avg_purchase_price + execution_price + unrealised P&L in HoldingsTable</li>
-            <li>Deployed: aria-advisor.vercel.app</li>
+            <li>19 IDOR endpoints secured across 6 routers</li>
+            <li>Prompt injection sanitization in both copilots</li>
+            <li>Cross-project security audit all 8 products</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            v2.2.0 · 90m
+            Security · 2h
           </div>
           </div>
         </div>
@@ -774,7 +774,6 @@ _End of context dump_
             <div class="mbi" style="margin-top:8px"><strong>Context Exports:</strong><br><code style="font-size:11px">~/.claude/session-context/</code><br><span style="font-size:12px;color:var(--text2)">On-demand summaries (proposed)</span></div>
           </div>
         </div>
-      </div>
 
       <div class="stitle">Charts</div>
 
@@ -807,7 +806,7 @@ _End of context dump_
         </div>
       </div>
 
-    </div>
+    </div><!-- /tab-command -->
 
     <!-- ===== PROJECTS TAB ===== -->
     <div class="tab-panel" id="tab-projects">
@@ -842,7 +841,12 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct tog">What Shipped — Full Log · Updated 2026-03-24</div>
-                                                                                                                                          <div class="rb"><div class="rd">2026-04-08</div>
+                                                                                                                                                  <div class="rb"><div class="rd">2026-04-18</div>
+          <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Security: Fixed 19 IDOR endpoints across 6 routers</div></div>
+          <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Security: Prompt injection sanitization in both copilot context builders</div></div>
+          <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Cross-project security audit — risk matrix + NOW/IMMEDIATE/LATER fix plan for all 8 products</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-04-08</div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">FEAT-2006: yfinance → jugaad-data NSE EOD prices</div></div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">FEAT-2007: avg_purchase_price, execution_price, unrealised P&L</div></div>
         </div>
@@ -1354,7 +1358,7 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct">Real Numbers — Mar 12–24</div>
-          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">50 sessions across 28 days</div></div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">51 sessions across 29 days</div></div>
           <div class="rr"><div class="rk">Total PO time</div><div class="rv">~34.1 hours (est)</div></div>
           <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
           <div class="rr"><div class="rk">Projects touched</div><div class="rv">8 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt, CC + Meta</div></div>
@@ -1660,7 +1664,8 @@ function buildCharts(whatsShippedData) {
     {label:'Mar 4\nARIA',project:'ARIA Advisor',mins:100,tokens:114222},
     {label:'Mar 4\nARIA',project:'ARIA',mins:300,tokens:374816},
     {label:'Mar 7\nMeta',project:'Meta',mins:45,tokens:44959},
-    {label:'Mar 8\nARIA',project:'ARIA Advisor',mins:90,tokens:66583}
+    {label:'Mar 8\nARIA',project:'ARIA Advisor',mins:90,tokens:66583},
+    {label:'Mar 18\nARIA',project:'ARIA Advisor',mins:120,tokens:null}
   ];
 
   const pColor = {
@@ -1777,17 +1782,17 @@ function buildCharts(whatsShippedData) {
     new Chart(effCtx.getContext('2d'), {
       type:'bar',
       data:{
-        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA", "03-28 ARIA", "03-28 Meta", "03-29 ARIA", "03-31 x-bookmarks-aggregator", "04-02 BzHub", "04-04 ARIA", "04-04 ARIA", "04-07 Meta", "04-08 ARIA"],
+        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA", "03-28 ARIA", "03-28 Meta", "03-29 ARIA", "03-31 x-bookmarks-aggregator", "04-02 BzHub", "04-04 ARIA", "04-04 ARIA", "04-07 Meta", "04-08 ARIA", "04-18 ARIA"],
         datasets:[
           {
             label:'PO Time (hrs)',
-            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17, 2.5, 0.25, 2.5, 0.25, 0.25, 0.33, 1.0, 0.75, 0.5],
+            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17, 2.5, 0.25, 2.5, 0.25, 0.25, 0.33, 1.0, 0.75, 0.5, 0.0],
             backgroundColor:accent+'cc', borderColor:accent,
             borderWidth:2, borderRadius:4
           },
           {
             label:'3-Person Equiv (hrs)',
-            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25, 2.5, 2.0, 2.5, 3.0, 8.0, 4.0, 15.0, 6.0, 4.5],
+            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25, 2.5, 2.0, 2.5, 3.0, 8.0, 4.0, 15.0, 6.0, 4.5, 8.0],
             backgroundColor:'#0f172912', borderColor:'#0f172944',
             borderWidth:1, borderRadius:4
           }
