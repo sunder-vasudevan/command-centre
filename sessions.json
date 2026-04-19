@@ -305,6 +305,12 @@
       "project": "ARIA Advisor",
       "mins": 120,
       "tokens": null
+    },
+    {
+      "label": "Mar 19\nARIA",
+      "project": "ARIA",
+      "mins": 105,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -442,9 +448,24 @@
       "label": "04-18 ARIA",
       "po_mins": 0,
       "equiv_mins": 480
+    },
+    {
+      "label": "04-19 ARIA",
+      "po_mins": 0,
+      "equiv_mins": 420
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-04-19",
+      "project": "ARIA",
+      "items": [
+        "KYC Phase 1 testing \u2014 11/11 automated tests pass",
+        "3 bugs fixed: Client360 KYC fields, pdf.rotate() API, em-dash Helvetica",
+        "Test report written (docs/KYC_PHASE1_TEST_REPORT.md)",
+        "DB test data cleaned up"
+      ]
+    },
     {
       "date": "2026-04-18",
       "project": "ARIA Advisor",
@@ -741,7 +762,7 @@
     }
   ],
   "meta": {
-    "last_updated": "2026-04-18",
+    "last_updated": "2026-04-19",
     "version": "v2026.03.24"
   }
 }
