@@ -235,7 +235,7 @@ def patch_last_session(html, date, project, bullets, badge):
 
 
 def patch_what_shipped(html, date, project, items):
-    """Prepend a new date block at the top of What Shipped."""
+    """Prepend a new date block at the top of What Shipped and update header date."""
     ri_html = "\n".join(
         f'          <div class="ri"><div class="rtag">{project}</div><div class="rdet">{item}</div></div>'
         for item in items
@@ -243,7 +243,15 @@ def patch_what_shipped(html, date, project, items):
     new_block = f"""        <div class="rb"><div class="rd">{date}</div>
 {ri_html}
         </div>"""
-    # Insert after the tog title line
+    # Update header date
+    dt = datetime.strptime(date, "%Y-%m-%d")
+    label = dt.strftime("%b %-d, %Y")
+    html = re.sub(
+        r'(<div class="ct tog">What Shipped — Full Log · Updated )[^<]*(</div>)',
+        lambda m: m.group(1) + label + m.group(2),
+        html, count=1
+    )
+    # Insert new block after the tog title line
     return re.sub(
         r'(<div class="ct tog">What Shipped[^<]*</div>\s*)',
         lambda m: m.group(1) + new_block + "\n        ",
@@ -252,14 +260,35 @@ def patch_what_shipped(html, date, project, items):
 
 
 def patch_meta_learnings(html, date, bullets):
-    """Prepend a new Meta Learnings entry."""
+    """Prepend a new Meta Learnings entry and update header date."""
     mbi_html = "\n".join(f'            <div class="mbi">{b}</div>' for b in bullets)
     new_entry = f"""          <div class="mb"><div class="mbd">{date}</div>
 {mbi_html}
           </div>"""
+    # Update header date
+    dt = datetime.strptime(date, "%Y-%m-%d")
+    label = dt.strftime("%b %-d, %Y")
+    html = re.sub(
+        r'(<div class="ct">Meta Learnings — )[^<]*(</div>)',
+        lambda m: m.group(1) + label + m.group(2),
+        html, count=1
+    )
     return re.sub(
-        r'(<div class="ct tog">Meta Learnings[^<]*</div>\s*)',
+        r'(<div class="ct">Meta Learnings[^<]*</div>\s*)',
         lambda m: m.group(1) + new_entry + "\n          ",
+        html, count=1
+    )
+
+
+def patch_token_audit(html, date):
+    """Update Token Audit header with audit date and next-due date (15 days later)."""
+    dt = datetime.strptime(date, "%Y-%m-%d")
+    next_due = dt + timedelta(days=15)
+    label = dt.strftime("%b %-d, %Y")
+    next_label = next_due.strftime("%b %-d, %Y")
+    return re.sub(
+        r'(<div class="ct tog">Token Audit — )[^·]*(· Next due )[^<]*(</div>)',
+        lambda m: m.group(1) + label + " " + m.group(2) + next_label + m.group(3),
         html, count=1
     )
 
@@ -363,6 +392,9 @@ def cmd_wrap(args):
     # Meta Learnings
     if args.meta_learning:
         html = patch_meta_learnings(html, date_iso, args.meta_learning)
+
+    # Token Audit header — always update next-due to 15 days from today
+    html = patch_token_audit(html, date_iso)
 
     # Real Numbers card
     total_po = sum(e["po_mins"] for e in data["efficiency"])

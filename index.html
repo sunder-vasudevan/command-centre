@@ -705,7 +705,7 @@ _End of context dump_
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-04-19 08:28</div>
+    <div class="ver-badge">2026-04-19 22:26</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -719,6 +719,7 @@ _End of context dump_
     <button class="nb" onclick="showTab('standards',this)" data-tip="Standards">📏</button>
     <button class="nb" onclick="showTab('profile',this)" data-tip="Profile">👁️</button>
     <button class="nb" onclick="showTab('reference',this)" data-tip="Reference">📄</button>
+    <button class="nb" onclick="showTab('graphs',this)" data-tip="Graphs">📊</button>
   </nav>
 
   <main class="content">
@@ -733,34 +734,34 @@ _End of context dump_
 
       <div class="g2">
         <div class="card">
-                                                                                                                                                                                    <div class="ct">Last Session — 2026-04-19</div>
+                                                                                                                                                                                              <div class="ct">Last Session — 2026-04-19</div>
           <ul class="bl">
-            <li>11/11 KYC tests pass</li>
-            <li>3 bugs fixed (Client360 fields, fpdf2 API, em-dash)</li>
-            <li>Test report + DB cleanup</li>
+            <li>Helm v0.2.0 — personal project OS (pivot from signal scorer)</li>
+            <li>Ship Log kanban · per-product parking · session log · mobile nav</li>
+            <li>Wrap/Lights Out auto-sync to Helm API via x-helm-secret</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            KYC Tested · 1h 45m
+            Helm v0.2 · 4h
           </div>
           </div>
         </div>
         <div class="card">
-          <div class="ct">Meta Learnings — 2026-03-24</div>
+          <div class="ct">Meta Learnings — Mar 24, 2026</div>
           <div style="max-height:220px;overflow-y:auto;padding-right:4px">
-          <div class="mb"><div class="mbd">2026-03-24</div>
+          <div class="mb"><div class="mbd">Mar 24, 2026</div>
             <div class="mbi">API rate limits mid-session: subagent delegation protects main context but if a subagent hits the cap, work stops until the window resets — schedule long rebuilds at session start, not end.</div>
             <div class="mbi">Static JSON data layer (sessions.json) + sync script (wrap_update.py) removes all hand-editing of HTML — a wrap now becomes a CLI call, not a code change.</div>
             <div class="mbi">Tool exists ≠ tool is used. Build the tool AND update the protocol that invokes it or the efficiency gain never lands.</div>
           </div>
-          <div class="mb"><div class="mbd">2026-03-23</div>
+          <div class="mb"><div class="mbd">Mar 23, 2026</div>
             <div class="mbi">HTTP 200 on write ≠ data is readable. Always read-back after storage layer changes.</div>
             <div class="mbi">Vercel Blob free tier: cumulative ops limit — deleting blobs doesn't unsuspend. Migrate early.</div>
           </div>
-          <div class="mb"><div class="mbd">2026-03-22</div>
+          <div class="mb"><div class="mbd">Mar 22, 2026</div>
             <div class="mbi">Vercel stale content = stale alias, not CDN cache. Re-alias after every vercel --prod.</div>
             <div class="mbi">The gap between Claude Code and other AI tools is context. Memory + CLAUDE.md = instant grounding.</div>
           </div>
-          <div class="mb"><div class="mbd">2026-03-21</div>
+          <div class="mb"><div class="mbd">Mar 21, 2026</div>
             <div class="mbi">Token cost is not just what you type — hooks inject full trigger files before you send a word.</div>
             <div class="mbi">Session log in a dashboard should be git log-driven — never rely on memory alone.</div>
           </div>
@@ -775,6 +776,10 @@ _End of context dump_
           </div>
         </div>
 
+    </div><!-- /tab-command -->
+
+    <!-- ===== GRAPHS TAB ===== -->
+    <div class="tab-panel" id="tab-graphs">
       <div class="stitle">Charts</div>
 
       <div class="chart-trio">
@@ -806,14 +811,14 @@ _End of context dump_
         </div>
       </div>
 
-    </div><!-- /tab-command -->
+    </div><!-- /tab-graphs -->
 
     <!-- ===== PROJECTS TAB ===== -->
     <div class="tab-panel" id="tab-projects">
       <div class="ph"><div><div class="ph-title">Projects</div><div class="ph-sub">8 active · North star: tech-expert PO who ships fast</div></div></div>
 
       <div class="card">
-        <div class="ct tog">Token Audit — 2026-03-24 · Next due 2026-04-05</div>
+        <div class="ct tog">Token Audit — Apr 19, 2026 · Next due May 4, 2026</div>
         <div style="font-size:12px;color:var(--text2);margin-bottom:10px">Auto-audit runs every 15 days at session start via <code>token_audit.py --check</code>. Findings require approval before any trim.</div>
         <div class="rr"><div class="rk">🔴 Critical (2)</div><div class="rv">project_aria.md — 187 lines (split or trim) · session_wrap.md — 142 lines (split or trim)</div></div>
         <div class="rr"><div class="rk">🟡 Warn (11)</div><div class="rv">feedback_python314_sqlalchemy.md 103L · feedback_working_pattern.md 107L · growth.md 82L · lights_out.md 91L · 7× PENDING/TODO markers in memory files</div></div>
@@ -840,27 +845,34 @@ _End of context dump_
           </div>
         </div>
         <div class="card">
-          <div class="ct tog">What Shipped — Full Log · Updated 2026-03-24</div>
-                                                                                                                                                          <div class="rb"><div class="rd">2026-04-19</div>
+          <div class="ct tog">What Shipped — Full Log · Updated Apr 19, 2026</div>
+                                                                                                                                                                  <div class="rb"><div class="rd">2026-04-19</div>
+          <div class="ri"><div class="rtag">Helm</div><div class="rdet">Helm v0.2.0 — personal project OS</div></div>
+          <div class="ri"><div class="rtag">Helm</div><div class="rdet">Ship Log kanban (30 apps)</div></div>
+          <div class="ri"><div class="rtag">Helm</div><div class="rdet">Per-product parking + session log</div></div>
+          <div class="ri"><div class="rtag">Helm</div><div class="rdet">Wrap/Lights Out Helm sync</div></div>
+          <div class="ri"><div class="rtag">Helm</div><div class="rdet">Mobile bottom nav</div></div>
+        </div>
+        <div class="rb"><div class="rd">Apr 19, 2026</div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">KYC Phase 1 testing — 11/11 automated tests pass</div></div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">3 bugs fixed: Client360 KYC fields, pdf.rotate() API, em-dash Helvetica</div></div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Test report written (docs/KYC_PHASE1_TEST_REPORT.md)</div></div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">DB test data cleaned up</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-04-18</div>
+        <div class="rb"><div class="rd">Apr 18, 2026</div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Security: Fixed 19 IDOR endpoints across 6 routers</div></div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Security: Prompt injection sanitization in both copilot context builders</div></div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Cross-project security audit — risk matrix + NOW/IMMEDIATE/LATER fix plan for all 8 products</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-04-08</div>
+        <div class="rb"><div class="rd">Apr 8, 2026</div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">FEAT-2006: yfinance → jugaad-data NSE EOD prices</div></div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">FEAT-2007: avg_purchase_price, execution_price, unrealised P&L</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-04-07</div>
+        <div class="rb"><div class="rd">Apr 7, 2026</div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">mempalace 3.0.0 installed + MCP connected + 22k memories indexed</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">whitepaper updated: 10 products, mempalace section, full roadmap</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-04-04</div>
+        <div class="rb"><div class="rd">Apr 4, 2026</div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Instrument dropdown (30 instruments) — advisor + personal trade modals</div></div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Live price refresh: AMFI MFs + CoinGecko crypto + yfinance stocks</div></div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Default holdings seed: 22 instruments + 5 BTC + 5 ETH + ₹5L cash</div></div>
@@ -869,90 +881,90 @@ _End of context dump_
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">FEAT-2002 Task Queue with overdue/due-soon alerts</div></div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Advisor Workspace 6-tile KPI bar + billing nav</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-04-04</div>
+        <div class="rb"><div class="rd">Apr 4, 2026</div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">ClientList KPI bar + segment filter + delink + workflow strip</div></div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Client360 6-metric bar + Client Basics grid + Workflow Monitor + Activity Timeline + Notification bell</div></div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">HelpPage updated (v1.5 features)</div></div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Deployed v1.5.0 to aria-advisor.vercel.app</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-04-02</div>
+        <div class="rb"><div class="rd">Apr 2, 2026</div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Fixed Copilot payroll bugs (duplicate code, wrong table, PDF type, missing routes)</div></div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Added Create Payroll modal (Safari-safe date selects, LOP auto-load)</div></div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Leave quota system: 10S+10P per employee, LOP ₹100/day, no clubbing</div></div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Year-end payout: personal carry-forward (cap 20), sick expire, seed next year</div></div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">migrations/002 applied to prod Supabase; 23 employees seeded</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-03-31</div>
+        <div class="rb"><div class="rd">Mar 31, 2026</div>
           <div class="ri"><div class="rtag">x-bookmarks-aggregator</div><div class="rdet">v0.1.0: Flask wrapper for X bookmarks CSV→HTML</div></div>
           <div class="ri"><div class="rtag">x-bookmarks-aggregator</div><div class="rdet">Drag-drop upload UI</div></div>
           <div class="ri"><div class="rtag">x-bookmarks-aggregator</div><div class="rdet">Back-to-top button on generated HTML</div></div>
           <div class="ri"><div class="rtag">x-bookmarks-aggregator</div><div class="rdet">run.sh/run.bat launchers</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-03-29</div>
+        <div class="rb"><div class="rd">Mar 29, 2026</div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Trade Notifications Phase 1A fixed</div></div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">HELP.md guardrail enforced</div></div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Wrap protocol optimized 50%</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-03-28</div>
+        <div class="rb"><div class="rd">Mar 28, 2026</div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Command-centre graphs bug fix (syntax error in sessions array)</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Validation gates: pre-commit hook + wrap_update.py prevent manual HTML edits</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Claude-Mem plugin installed + configured (session recovery + cross-project search)</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Research: UI UX Pro Max Skill (Helm pilot plan ready) + Superpowers + Claude-Mem (parked)</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-03-28</div>
+        <div class="rb"><div class="rd">Mar 28, 2026</div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Trade Notifications fixed</div></div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">HELP.md guardrail enforced</div></div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Wrap protocol optimized</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-03-28</div>
+        <div class="rb"><div class="rd">Mar 28, 2026</div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Joshua linked to personal_user_id (manual DB update)|Notifications now fetched in ARIA Personal Dashboard|Trades display fixed (was blocked by missing personal_user_id)</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-03-28</div>
+        <div class="rb"><div class="rd">Mar 28, 2026</div>
           <div class="ri"><div class="rtag">ARIA</div><div class="rdet">TradesPanel UX warning — draft trades hidden from client until submitted|Trade workflow clarified: draft → submit → pending → approve|Joshua trade submitted (ASASDA mutual fund)</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-03-28</div>
+        <div class="rb"><div class="rd">Mar 28, 2026</div>
           <div class="ri"><div class="rtag">ARIA, Claude Memory, User Memory</div><div class="rdet">SESSION_LOG.md automation system (session-log-gen.py script + wrap protocol updates + two-layer fallback)|CLAUDE.md hierarchy consolidation (root + directory overrides, auto-loading by context)|Deployment aliases fixed (re-aliased to latest)|Test data cleanup (96 [TEST] clients deleted from DB)</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-03-27</div>
+        <div class="rb"><div class="rd">Mar 27, 2026</div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Trade Management Module fully designed and documented (FEAT-1001-1008)</div></div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Comprehensive spec (11k+ lines) with data model, API endpoints, execution flows</div></div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">3 critical architectural decisions locked via design</div></div>
           <div class="ri"><div class="rtag">ARIA Advisor</div><div class="rdet">Memory file + PRD updates + NOTES locked design section</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-03-27</div>
+        <div class="rb"><div class="rd">Mar 27, 2026</div>
           <div class="ri"><div class="rtag">Helm</div><div class="rdet">Helm v0.1.0 live at usehelm.vercel.app</div></div>
           <div class="ri"><div class="rtag">Helm</div><div class="rdet">Signal engine: blocker, debt, workstream, risk</div></div>
           <div class="ri"><div class="rtag">Helm</div><div class="rdet">Dashboard: stakeholder/project grouping, actions, notifications, help</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-03-27</div>
+        <div class="rb"><div class="rd">Mar 27, 2026</div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Paperclip migration: 43 issues seeded, COMPANY.md 16 sections</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Paperclip embed reverted — link-in-new-tab decision locked</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">Clean restore deployed to claude-command-centre.vercel.app</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-03-24</div>
+        <div class="rb"><div class="rd">Mar 24, 2026</div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">wrap_update.py extended with full wrap command</div></div>
           <div class="ri"><div class="rtag">Meta</div><div class="rdet">session_wrap.md updated to use CLI</div></div>
         </div>
-        <div class="rb"><div class="rd">2026-03-24</div>
+        <div class="rb"><div class="rd">Mar 24, 2026</div>
             <div class="ri"><div class="rtag">Meta — CC v3.0.0</div><div class="rdet">Full Command Centre redesign: 6-tab layout (Command, Projects, Parking, Standards, Profile, Reference) · all 27-session data migrated · Parking Lot tab with 45 items across 7 projects · mobile.html restructured (Parking Lot, charts, Insights removed) · sessions.json data layer · wrap_update.py automation CLI · deployed to claude-command-centre.vercel.app</div></div>
           </div>
-          <div class="rb"><div class="rd">2026-03-23</div>
+          <div class="rb"><div class="rd">Mar 23, 2026</div>
             <div class="ri"><div class="rtag">felt v0.3.0</div><div class="rdet">Upstash Redis complete · dbGet string fallback fix (JSON.parse on plain string was returning null) · mobile share UX — Copy Link, WhatsApp deep link, native Web Share API with runtime detection · full E2E creator→joiner browser test verified via gstack/browse · ship to feltit.vercel.app</div></div>
           </div>
-          <div class="rb"><div class="rd">2026-03-22</div>
+          <div class="rb"><div class="rd">Mar 22, 2026</div>
             <div class="ri"><div class="rtag">Meta — CC</div><div class="rdet">Copy Context button on Command Centre header · context-dump system via window.__CONTEXT_DUMP__ · session log reversed to latest-first · version badge corrected to timestamp format</div></div>
             <div class="ri"><div class="rtag">felt v0.2.0</div><div class="rdet">Full Upstash Redis migration replacing Vercel Blob · catchphrase-based bond system · dark/light theme toggle · HTML5 canvas physics (bouncing emojis) · mobile responsive layout · invite flow with QR + short link · SSO protection disabled on Vercel</div></div>
           </div>
-          <div class="rb"><div class="rd">2026-03-21</div>
+          <div class="rb"><div class="rd">Mar 21, 2026</div>
             <div class="ri"><div class="rtag">Swara v0.1.0</div><div class="rdet">CRUD UI with deity category filtering · Neon serverless PostgreSQL backend · DML-only restricted Postgres roles for public-facing credentials · GitHub Pages deploy · browser-native DB access (no backend)</div></div>
             <div class="ri"><div class="rtag">ARIA — RCA</div><div class="rdet">4 SQLAlchemy bugs fixed: .is_(True) for Python 3.14 booleans, no string order_by, always map migrated columns in ORM, hardcode CORS origins · CORS error on 500s root cause identified · advisor profile page · portal client list view</div></div>
             <div class="ri"><div class="rtag">Helm v0.0.1</div><div class="rdet">Full data model · signal engine architecture design · 12-table schema · PM command centre scaffold</div></div>
             <div class="ri"><div class="rtag">Meta</div><div class="rdet">/wrap + /lights-out skills built and tested · race-control trigger word system · command centre v1 deployed to Vercel · TRIGGERS.md cheat sheet written</div></div>
           </div>
-          <div class="rb"><div class="rd">2026-03-20</div>
+          <div class="rb"><div class="rd">Mar 20, 2026</div>
             <div class="ri"><div class="rtag">Meta</div><div class="rdet">Memory system architecture · CLAUDE.md protocol established · session start time auto-capture · interaction time logging · portable claude-memory repo structure</div></div>
           </div>
-          <div class="rb"><div class="rd">2026-03-18</div>
+          <div class="rb"><div class="rd">Mar 18, 2026</div>
             <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Portal client features · Morning Briefing module · getMe() singleton pattern · claude-sonnet-4-6 streaming integration · lazy client init for Next.js API routes</div></div>
             <div class="ri"><div class="rtag">Meta</div><div class="rdet">Session system design · context window strategy · subagent protocol documented</div></div>
           </div>
@@ -1364,8 +1376,8 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct">Real Numbers — Mar 12–24</div>
-          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">52 sessions across 30 days</div></div>
-          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~34.1 hours (est)</div></div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">53 sessions across 31 days</div></div>
+          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~38.1 hours (est)</div></div>
           <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
           <div class="rr"><div class="rk">Projects touched</div><div class="rv">8 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt, CC + Meta</div></div>
           <div class="rr"><div class="rk">Features shipped</div><div class="rv">felt v0.1→0.3, Swara v0.1, Helm scaffold, ARIA advisor profile + portal, CC v3.0.0</div></div>
@@ -1379,15 +1391,16 @@ _End of context dump_
       <div class="ph">
         <div><div class="ph-title">Profile</div><div class="ph-sub">How Claude sees Sunny Hayes — evidence-based, no sugarcoating</div></div>
         <select id="cycle-select" class="b bsl" style="cursor:pointer;font-size:12px;padding:2px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text)" onchange="switchCycle(this.value)">
+          <option value="2026-04-05">Apr 5 – Apr 19, 2026</option>
           <option value="2026-03-21">Mar 21 – Apr 5, 2026</option>
         </select>
       </div>
 
       <div class="card">
         <div class="ct">Claude's Assessment — In Plain English</div>
-        <div id="assessment-body" style="font-size:14px;color:var(--text2);line-height:1.8;max-width:720px">Product-minded builder who moves fast and ships real products. Systems thinking is now proven — memory, triggers, wrap protocol, and command centre are live infrastructure that compounds. Strategic clarity strong: knows what to solve and what to park.<br><br>Consistent gaps: <strong style="color:var(--text)">auth permanently deferred</strong> (FEAT-036 is now 3+ cycles untouched — the single biggest unlock unshipped), <strong style="color:var(--text)">passive receiving</strong> (improving but not closed — still accepts Claude output without challenging tradeoffs), <strong style="color:var(--text)">mobile-first not yet reflexive</strong> (rule exists, practice lags), <strong style="color:var(--text)">prompt batching</strong> (serial UI fixes still trigger repeat deploys).<br><br>Biggest unlock this cycle: wrap automation is genuinely wired in (wrap_update.py + session_wrap.md + validation gate). That's infrastructure actually running, not just documented. The question heading into the next cycle: does the same systems discipline get applied to auth and production-grade security?</div>
+        <div id="assessment-body" style="font-size:14px;color:var(--text2);line-height:1.8;max-width:720px">Strongest cycle yet for depth over breadth. KYC Phase 1 shipped with 11/11 tests passing — first real document upload and verification flow across any product in the portfolio. Security audit produced a full cross-project risk matrix with a NOW/IMMEDIATE/LATER fix plan. Wrap automation is genuinely integrated. Graphs moved to a dedicated tab on both desktop and mobile.<br><br>Consistent gaps: <strong style="color:var(--text)">auth permanently deferred</strong> (FEAT-036 is now <strong style="color:var(--text)">4 cycles untouched</strong> — this is no longer a gap, it is a decision to not ship. The next cycle must treat it as non-negotiable), <strong style="color:var(--text)">mobile-first still reactive</strong> (mobile added after desktop, not before), <strong style="color:var(--text)">prompt batching improving</strong> but not closed.<br><br>Critical unlock heading into next cycle: Supabase storage bucket config + Render env vars for KYC doc upload — that’s the last mile on ARIA KYC Phase 1. Auth must ship on one product. Four cycles of deferral is a pattern, not a plan.</div>
         <div class="countdown-bar-wrap">
-          <div class="countdown-label"><span id="cycle-range">Appraisal cycle: Mar 21 – Apr 5, 2026</span><span class="countdown-val" id="countdown-days"></span></div>
+          <div class="countdown-label"><span id="cycle-range">Appraisal cycle: Apr 5 – Apr 19, 2026</span><span class="countdown-val" id="countdown-days"></span></div>
           <div class="progress-bar-outer"><div class="progress-bar-inner" id="appraisal-progress" style="width:0%"></div></div>
         </div>
       </div>
@@ -1396,7 +1409,7 @@ _End of context dump_
         <div class="ct">Trait Profile</div>
         <div id="traits-body" class="trgrid">
           <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Bias to Ship</div></div>
-          <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Strategic Clarity</div></div>
+          <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Depth Over Breadth</div></div>
           <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Systems Builder</div></div>
           <div class="trcard strength"><div class="trtype">Strength</div><div class="trname">Feedback Culture</div></div>
           <div class="trcard caution"><div class="trtype">Watch</div><div class="trname">Context Switcher</div></div>
@@ -1411,18 +1424,18 @@ _End of context dump_
         <div class="card">
           <div class="ct">Observed Strengths</div>
           <div id="strengths-body">
-          <div class="rr"><div class="rk">🚀 Ships real products</div><div class="rv">7+ projects deployed. Live URLs, real stack. Not prototypes — production-grade apps on free tier infra.</div></div>
-          <div class="rr"><div class="rk">🔧 Wrap infrastructure shipped</div><div class="rv">wrap_update.py + session_wrap.md + validation gate — actually running, not just documented.</div></div>
-          <div class="rr"><div class="rk">⚡ Cross-stack fluency</div><div class="rv">FastAPI, Next.js, Supabase, Redis, HTML/JS — no single-layer ceiling.</div></div>
+          <div class="rr"><div class="rk">🏥 KYC Phase 1 shipped</div><div class="rv">11/11 tests passing. Document upload + verification flow live on ARIA Advisor — first real auth-adjacent feature in the portfolio.</div></div>
+          <div class="rr"><div class="rk">🔐 Security audit completed</div><div class="rv">Full cross-project risk matrix produced. NOW/IMMEDIATE/LATER fix plan documented and actioned.</div></div>
+          <div class="rr"><div class="rk">🔧 Infrastructure compounds</div><div class="rv">Wrap automation, memory system, trigger files, command centre — all running in production, not just documented.</div></div>
           <div class="rr"><div class="rk">🔄 Feedback culture</div><div class="rv">Corrects Claude in real time. Memory files accumulate real signal. Post-mortems are genuine.</div></div>
-          <div class="rr"><div class="rk">🔍 Code review discipline</div><div class="rv">Caught 5 AI-generated bugs in 1 Copilot file before merge. Reviews outputs, not just accepts.</div></div>
+          <div class="rr"><div class="rk">📊 Command Centre as real tool</div><div class="rv">Graphs tab, mobile nav, session data — command centre is a working dashboard, not a vanity page.</div></div>
           <div class="rr"><div class="rk">📚 Learning as output</div><div class="rv">user_learning_log is a first-class deliverable alongside shipping. Every session adds signal.</div></div>
           </div>
         </div>
         <div class="card">
           <div class="ct">Honest Gaps</div>
           <div id="gaps-body">
-          <div class="gap-row"><div class="gap-row-icon">🔐</div><div><div class="gap-row-title">Auth permanently deferred</div><div class="gap-row-desc">FEAT-036 — 3 cycles, 0 progress. No product has real auth. Everything is demo-access.</div><span class="gap-row-fix">Fix: Ship auth on one product next cycle. No more deferral.</span></div></div>
+          <div class="gap-row"><div class="gap-row-icon">🔐</div><div><div class="gap-row-title">Auth permanently deferred — 4 cycles</div><div class="gap-row-desc">FEAT-036 — 4 cycles, 0 progress. This is now a decision, not a gap. No product has real auth. Everything is demo-access.</div><span class="gap-row-fix">Fix: Ship auth on ARIA Advisor next cycle. Treat it as blocking, not optional.</span></div></div>
           <div class="gap-row"><div class="gap-row-icon">⚠️</div><div><div class="gap-row-title">Passive receiving</div><div class="gap-row-desc">Accepts Claude output without challenging tradeoffs. Outputs ship without question.</div><span class="gap-row-fix">Fix: Challenge one technical decision per session before approving.</span></div></div>
           <div class="gap-row"><div class="gap-row-icon">📱</div><div><div class="gap-row-title">Mobile-first reflex</div><div class="gap-row-desc">Mobile added post-build, not pre-build. Rule in place, practice lags.</div><span class="gap-row-fix">Fix: Design for 375px first — write mobile layout before desktop.</span></div></div>
           <div class="gap-row"><div class="gap-row-icon">🎯</div><div><div class="gap-row-title">Prompt batching</div><div class="gap-row-desc">UI fixes arrive as serial single messages → repeat deploy cycles.</div><span class="gap-row-fix">Fix: Collate all issues into one list before sending. One deploy per batch.</span></div></div>
@@ -1578,7 +1591,7 @@ function showTab(id, btn) {
   if (btn) btn.classList.add('active');
   const content = document.querySelector('.content');
   if (content) content.scrollTop = 0;
-  if (id === 'command' && !window._chartsBuilt && typeof Chart !== 'undefined') { buildCharts(window._what_shipped || []); }
+  if (id === 'graphs' && !window._chartsBuilt && typeof Chart !== 'undefined') { buildCharts(window._what_shipped || []); }
 }
 
 function copyContext() {
@@ -1592,24 +1605,19 @@ function copyContext() {
   });
 }
 
-// Appraisal countdown
+// Appraisal — populate dropdown and load latest cycle
 (function() {
-  const start = new Date('2026-03-21');
-  const end = new Date('2026-04-05');
-  const now = new Date();
-  const days = Math.ceil((end - now) / 86400000);
-  const el = document.getElementById('appraisal-badge');
-  const prog = document.getElementById('appraisal-progress');
-  const cdDays = document.getElementById('countdown-days');
-  const total = (end - start) / 86400000;
-  const elapsed = (now - start) / 86400000;
-  const pct = Math.min(100, Math.max(0, (elapsed / total) * 100));
-  if (prog) prog.style.width = pct.toFixed(1) + '%';
-  if (cdDays) cdDays.textContent = days <= 0 ? 'Due now!' : days + ' days remaining';
-  if (el) {
-    if (days <= 0) { el.textContent = 'Appraisal due!'; el.className = 'b br'; }
-    else if (days <= 3) { el.textContent = 'Due in ' + days + 'd'; el.className = 'b by'; }
-    else { el.textContent = 'Next review: Apr 5, 2026'; el.className = 'b bsl'; }
+  const cycles = window._appraisal_cycles || [];
+  const sel = document.getElementById('cycle-select');
+  if (sel && cycles.length) {
+    cycles.forEach((c, i) => {
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = c.label;
+      if (i === 0) opt.selected = true;
+      sel.appendChild(opt);
+    });
+    switchCycle(cycles[0].id);
   }
 })();
 
@@ -1672,7 +1680,8 @@ function buildCharts(whatsShippedData) {
     {label:'Mar 7\nMeta',project:'Meta',mins:45,tokens:44959},
     {label:'Mar 8\nARIA',project:'ARIA Advisor',mins:90,tokens:66583},
     {label:'Mar 18\nARIA',project:'ARIA Advisor',mins:120,tokens:null},
-    {label:'Mar 19\nARIA',project:'ARIA',mins:105,tokens:null}
+    {label:'Mar 19\nARIA',project:'ARIA',mins:105,tokens:null},
+    {label:'Mar 19\nHelm',project:'Helm',mins:240,tokens:131278}
   ];
 
   const pColor = {
@@ -1789,17 +1798,17 @@ function buildCharts(whatsShippedData) {
     new Chart(effCtx.getContext('2d'), {
       type:'bar',
       data:{
-        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA", "03-28 ARIA", "03-28 Meta", "03-29 ARIA", "03-31 x-bookmarks-aggregator", "04-02 BzHub", "04-04 ARIA", "04-04 ARIA", "04-07 Meta", "04-08 ARIA", "04-18 ARIA", "04-19 ARIA"],
+        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA", "03-28 ARIA", "03-28 Meta", "03-29 ARIA", "03-31 x-bookmarks-aggregator", "04-02 BzHub", "04-04 ARIA", "04-04 ARIA", "04-07 Meta", "04-08 ARIA", "04-18 ARIA", "04-19 ARIA", "04-19 Helm"],
         datasets:[
           {
             label:'PO Time (hrs)',
-            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17, 2.5, 0.25, 2.5, 0.25, 0.25, 0.33, 1.0, 0.75, 0.5, 0.0, 0.0],
+            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17, 2.5, 0.25, 2.5, 0.25, 0.25, 0.33, 1.0, 0.75, 0.5, 0.0, 0.0, 4.0],
             backgroundColor:accent+'cc', borderColor:accent,
             borderWidth:2, borderRadius:4
           },
           {
             label:'3-Person Equiv (hrs)',
-            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25, 2.5, 2.0, 2.5, 3.0, 8.0, 4.0, 15.0, 6.0, 4.5, 8.0, 7.0],
+            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25, 2.5, 2.0, 2.5, 3.0, 8.0, 4.0, 15.0, 6.0, 4.5, 8.0, 7.0, 32.0],
             backgroundColor:'#0f172912', borderColor:'#0f172944',
             borderWidth:1, borderRadius:4
           }
@@ -2038,7 +2047,7 @@ function closeChartModal() {
 document.getElementById('chartModal').addEventListener('click', function(e) {
   if (e.target === this) closeChartModal();
 });
-window._appraisal_cycles = [{"id": "2026-03-21", "label": "Mar 21 – Apr 5, 2026", "start": "2026-03-21", "end": "2026-04-05", "assessment": "Product-minded builder who moves fast and ships real products. Systems thinking is now proven — memory, triggers, wrap protocol, and command centre are live infrastructure that compounds. Strategic clarity strong: knows what to solve and what to park.\n\nConsistent gaps: <strong style=\"color:var(--text)\">auth permanently deferred</strong> (FEAT-036 is now 3+ cycles untouched — the single biggest unlock unshipped), <strong style=\"color:var(--text)\">passive receiving</strong> (improving but not closed — still accepts Claude output without challenging tradeoffs), <strong style=\"color:var(--text)\">mobile-first not yet reflexive</strong> (rule exists, practice lags), <strong style=\"color:var(--text)\">prompt batching</strong> (serial UI fixes still trigger repeat deploys).\n\nBiggest unlock this cycle: wrap automation is genuinely wired in (wrap_update.py + session_wrap.md + validation gate). That's infrastructure actually running, not just documented. The question heading into the next cycle: does the same systems discipline get applied to auth and production-grade security?", "traits": [{"type": "strength", "label": "Strength", "name": "Bias to Ship"}, {"type": "strength", "label": "Strength", "name": "Strategic Clarity"}, {"type": "strength", "label": "Strength", "name": "Systems Builder"}, {"type": "strength", "label": "Strength", "name": "Feedback Culture"}, {"type": "caution", "label": "Watch", "name": "Context Switcher"}, {"type": "caution", "label": "Watch", "name": "Passive Receiving"}, {"type": "gap", "label": "Gap", "name": "Auth & Security"}, {"type": "gap", "label": "Gap", "name": "Mobile-First Reflex"}, {"type": "gap", "label": "Gap", "name": "Prompt Batching"}], "strengths": [{"icon": "🚀", "title": "Ships real products", "desc": "7+ projects deployed. Live URLs, real stack. Not prototypes — production-grade apps on free tier infra."}, {"icon": "🔧", "title": "Wrap infrastructure shipped", "desc": "wrap_update.py + session_wrap.md + validation gate — actually running, not just documented."}, {"icon": "⚡", "title": "Cross-stack fluency", "desc": "FastAPI, Next.js, Supabase, Redis, HTML/JS — no single-layer ceiling."}, {"icon": "🔄", "title": "Feedback culture", "desc": "Corrects Claude in real time. Memory files accumulate real signal. Post-mortems are genuine."}, {"icon": "🔍", "title": "Code review discipline", "desc": "Caught 5 AI-generated bugs in 1 Copilot file before merge. Reviews outputs, not just accepts."}, {"icon": "📚", "title": "Learning as output", "desc": "user_learning_log is a first-class deliverable alongside shipping. Every session adds signal."}], "gaps": [{"icon": "🔐", "title": "Auth permanently deferred", "desc": "FEAT-036 — 3 cycles, 0 progress. No product has real auth. Everything is demo-access.", "fix": "Ship auth on one product next cycle. No more deferral."}, {"icon": "⚠️", "title": "Passive receiving", "desc": "Accepts Claude output without challenging tradeoffs. Outputs ship without question.", "fix": "Challenge one technical decision per session before approving."}, {"icon": "📱", "title": "Mobile-first reflex", "desc": "Mobile added post-build, not pre-build. Rule in place, practice lags.", "fix": "Design for 375px first — write mobile layout before desktop."}, {"icon": "🎯", "title": "Prompt batching", "desc": "UI fixes arrive as serial single messages → repeat deploy cycles.", "fix": "Collate all issues into one list before sending. One deploy per batch."}]}];
+window._appraisal_cycles = [{"id": "2026-04-05", "label": "Apr 5 – Apr 19, 2026", "start": "2026-04-05", "end": "2026-04-19", "assessment": "Strongest cycle yet for depth over breadth. KYC Phase 1 shipped with 11/11 tests passing — first real document upload and verification flow across any product in the portfolio. Security audit produced a full cross-project risk matrix with a NOW/IMMEDIATE/LATER fix plan. Wrap automation is genuinely integrated. Graphs moved to a dedicated tab on both desktop and mobile.\n\nConsistent gaps: <strong style=\"color:var(--text)\">auth permanently deferred</strong> (FEAT-036 is now <strong style=\"color:var(--text)\">4 cycles untouched</strong> — this is no longer a gap, it is a decision to not ship. The next cycle must treat it as non-negotiable), <strong style=\"color:var(--text)\">mobile-first still reactive</strong> (mobile added after desktop, not before), <strong style=\"color:var(--text)\">prompt batching improving</strong> but not closed.\n\nCritical unlock heading into next cycle: Supabase storage bucket config + Render env vars for KYC doc upload — that’s the last mile on ARIA KYC Phase 1. Auth must ship on one product. Four cycles of deferral is a pattern, not a plan.", "traits": [{"type": "strength", "label": "Strength", "name": "Bias to Ship"}, {"type": "strength", "label": "Strength", "name": "Depth Over Breadth"}, {"type": "strength", "label": "Strength", "name": "Systems Builder"}, {"type": "strength", "label": "Strength", "name": "Feedback Culture"}, {"type": "caution", "label": "Watch", "name": "Context Switcher"}, {"type": "caution", "label": "Watch", "name": "Passive Receiving"}, {"type": "gap", "label": "Gap", "name": "Auth & Security"}, {"type": "gap", "label": "Gap", "name": "Mobile-First Reflex"}, {"type": "gap", "label": "Gap", "name": "Prompt Batching"}], "strengths": [{"icon": "🏥", "title": "KYC Phase 1 shipped", "desc": "11/11 tests passing. Document upload + verification flow live on ARIA Advisor — first real auth-adjacent feature in the portfolio."}, {"icon": "🔐", "title": "Security audit completed", "desc": "Full cross-project risk matrix produced. NOW/IMMEDIATE/LATER fix plan documented and actioned."}, {"icon": "🔧", "title": "Infrastructure compounds", "desc": "Wrap automation, memory system, trigger files, command centre — all running in production, not just documented."}, {"icon": "🔄", "title": "Feedback culture", "desc": "Corrects Claude in real time. Memory files accumulate real signal. Post-mortems are genuine."}, {"icon": "📊", "title": "Command Centre as real tool", "desc": "Graphs tab, mobile nav, session data — command centre is a working dashboard, not a vanity page."}, {"icon": "📚", "title": "Learning as output", "desc": "user_learning_log is a first-class deliverable alongside shipping. Every session adds signal."}], "gaps": [{"icon": "🔐", "title": "Auth permanently deferred — 4 cycles", "desc": "FEAT-036 — 4 cycles, 0 progress. This is now a decision, not a gap. No product has real auth. Everything is demo-access.", "fix": "Ship auth on ARIA Advisor next cycle. Treat it as blocking, not optional."}, {"icon": "⚠️", "title": "Passive receiving", "desc": "Accepts Claude output without challenging tradeoffs. Outputs ship without question.", "fix": "Challenge one technical decision per session before approving."}, {"icon": "📱", "title": "Mobile-first reflex", "desc": "Mobile added post-build, not pre-build. Rule in place, practice lags.", "fix": "Design for 375px first — write mobile layout before desktop."}, {"icon": "🎯", "title": "Prompt batching", "desc": "UI fixes arrive as serial single messages → repeat deploy cycles.", "fix": "Collate all issues into one list before sending. One deploy per batch."}]}, {"id": "2026-03-21", "label": "Mar 21 – Apr 5, 2026", "start": "2026-03-21", "end": "2026-04-05", "assessment": "Product-minded builder who moves fast and ships real products. Systems thinking is now proven — memory, triggers, wrap protocol, and command centre are live infrastructure that compounds. Strategic clarity strong: knows what to solve and what to park.\n\nConsistent gaps: <strong style=\"color:var(--text)\">auth permanently deferred</strong> (FEAT-036 is now 3+ cycles untouched — the single biggest unlock unshipped), <strong style=\"color:var(--text)\">passive receiving</strong> (improving but not closed — still accepts Claude output without challenging tradeoffs), <strong style=\"color:var(--text)\">mobile-first not yet reflexive</strong> (rule exists, practice lags), <strong style=\"color:var(--text)\">prompt batching</strong> (serial UI fixes still trigger repeat deploys).\n\nBiggest unlock this cycle: wrap automation is genuinely wired in (wrap_update.py + session_wrap.md + validation gate). That's infrastructure actually running, not just documented. The question heading into the next cycle: does the same systems discipline get applied to auth and production-grade security?", "traits": [{"type": "strength", "label": "Strength", "name": "Bias to Ship"}, {"type": "strength", "label": "Strength", "name": "Strategic Clarity"}, {"type": "strength", "label": "Strength", "name": "Systems Builder"}, {"type": "strength", "label": "Strength", "name": "Feedback Culture"}, {"type": "caution", "label": "Watch", "name": "Context Switcher"}, {"type": "caution", "label": "Watch", "name": "Passive Receiving"}, {"type": "gap", "label": "Gap", "name": "Auth & Security"}, {"type": "gap", "label": "Gap", "name": "Mobile-First Reflex"}, {"type": "gap", "label": "Gap", "name": "Prompt Batching"}], "strengths": [{"icon": "🚀", "title": "Ships real products", "desc": "7+ projects deployed. Live URLs, real stack. Not prototypes — production-grade apps on free tier infra."}, {"icon": "🔧", "title": "Wrap infrastructure shipped", "desc": "wrap_update.py + session_wrap.md + validation gate — actually running, not just documented."}, {"icon": "⚡", "title": "Cross-stack fluency", "desc": "FastAPI, Next.js, Supabase, Redis, HTML/JS — no single-layer ceiling."}, {"icon": "🔄", "title": "Feedback culture", "desc": "Corrects Claude in real time. Memory files accumulate real signal. Post-mortems are genuine."}, {"icon": "🔍", "title": "Code review discipline", "desc": "Caught 5 AI-generated bugs in 1 Copilot file before merge. Reviews outputs, not just accepts."}, {"icon": "📚", "title": "Learning as output", "desc": "user_learning_log is a first-class deliverable alongside shipping. Every session adds signal."}], "gaps": [{"icon": "🔐", "title": "Auth permanently deferred", "desc": "FEAT-036 — 3 cycles, 0 progress. No product has real auth. Everything is demo-access.", "fix": "Ship auth on one product next cycle. No more deferral."}, {"icon": "⚠️", "title": "Passive receiving", "desc": "Accepts Claude output without challenging tradeoffs. Outputs ship without question.", "fix": "Challenge one technical decision per session before approving."}, {"icon": "📱", "title": "Mobile-first reflex", "desc": "Mobile added post-build, not pre-build. Rule in place, practice lags.", "fix": "Design for 375px first — write mobile layout before desktop."}, {"icon": "🎯", "title": "Prompt batching", "desc": "UI fixes arrive as serial single messages → repeat deploy cycles.", "fix": "Collate all issues into one list before sending. One deploy per batch."}]}];
 </script>
 </body>
 </html>
