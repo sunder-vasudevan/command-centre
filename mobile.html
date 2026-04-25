@@ -1816,6 +1816,9 @@ function showTab(id, btn) {
   if (id === 'graphs' && !window._graphsBuilt && typeof Chart !== 'undefined') {
     window._graphsBuilt = true;
     buildCharts();
+    document.querySelectorAll('#tab-graphs .card-body').forEach(function(b) {
+      if (b.style.maxHeight === 'none') b.style.maxHeight = b.scrollHeight + 'px';
+    });
   }
 }
 
@@ -1844,8 +1847,9 @@ function showTab(id, btn) {
     }
     card.appendChild(body);
 
-    // Set initial max-height
-    body.style.maxHeight = body.scrollHeight + 'px';
+    // Set initial max-height; hidden tabs have scrollHeight=0, use none so they're not clamped
+    var sh = body.scrollHeight;
+    body.style.maxHeight = sh > 0 ? sh + 'px' : 'none';
 
     ct.addEventListener('click', function() {
       var collapsed = card.classList.toggle('collapsed');
