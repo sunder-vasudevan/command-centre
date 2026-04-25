@@ -317,6 +317,102 @@
       "project": "Helm",
       "mins": 240,
       "tokens": 131278
+    },
+    {
+      "label": "Mar 23\\nfelt",
+      "project": "felt",
+      "mins": 180,
+      "tokens": null
+    },
+    {
+      "label": "Mar 27\\nPaperclip",
+      "project": "Meta",
+      "mins": 47,
+      "tokens": 468728
+    },
+    {
+      "label": "Mar 28\\nARIA",
+      "project": "ARIA",
+      "mins": 60,
+      "tokens": 223919
+    },
+    {
+      "label": "Mar 28\\nARIA",
+      "project": "ARIA",
+      "mins": 20,
+      "tokens": null
+    },
+    {
+      "label": "Mar 28\\nMeta",
+      "project": "Meta",
+      "mins": 55,
+      "tokens": null
+    },
+    {
+      "label": "Mar 31\\nBookmarks",
+      "project": "Meta",
+      "mins": 45,
+      "tokens": 21382
+    },
+    {
+      "label": "Apr 2\\nBzHub",
+      "project": "BzHub",
+      "mins": 150,
+      "tokens": null
+    },
+    {
+      "label": "Apr 4\\nARIA",
+      "project": "ARIA",
+      "mins": 90,
+      "tokens": null
+    },
+    {
+      "label": "Apr 4\\nARIA",
+      "project": "ARIA",
+      "mins": 300,
+      "tokens": 374816
+    },
+    {
+      "label": "Apr 7\\nMeta",
+      "project": "Meta",
+      "mins": 45,
+      "tokens": 44959
+    },
+    {
+      "label": "Apr 8\\nARIA",
+      "project": "ARIA",
+      "mins": 120,
+      "tokens": null
+    },
+    {
+      "label": "Apr 18\\nARIA",
+      "project": "ARIA",
+      "mins": 120,
+      "tokens": 321884
+    },
+    {
+      "label": "Apr 19\\nARIA",
+      "project": "ARIA",
+      "mins": 105,
+      "tokens": 100169
+    },
+    {
+      "label": "Apr 19\\nHelm",
+      "project": "Helm",
+      "mins": 240,
+      "tokens": 37325
+    },
+    {
+      "label": "Apr 19\\nMeta CC",
+      "project": "Meta",
+      "mins": 60,
+      "tokens": null
+    },
+    {
+      "label": "Apr 25\\nMeta CC",
+      "project": "Meta",
+      "mins": 45,
+      "tokens": 12597
     }
   ],
   "efficiency": [
@@ -896,7 +992,7 @@
     }
   ],
   "meta": {
-    "last_updated": "2026-04-19",
+    "last_updated": "2026-04-25",
     "version": "v2026.03.24"
   }
 }
