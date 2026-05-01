@@ -413,6 +413,30 @@
       "project": "Meta",
       "mins": 45,
       "tokens": 12597
+    },
+    {
+      "label": "Apr 25\\nARIA",
+      "project": "ARIA",
+      "mins": 156,
+      "tokens": null
+    },
+    {
+      "label": "Apr 25\\nMeta CC",
+      "project": "Meta",
+      "mins": 12,
+      "tokens": null
+    },
+    {
+      "label": "Apr 26\\nARIA",
+      "project": "ARIA",
+      "mins": 46,
+      "tokens": null
+    },
+    {
+      "label": "May 1\\nARIA",
+      "project": "ARIA",
+      "mins": 28,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -563,6 +587,41 @@
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-05-01",
+      "project": "ARIA",
+      "items": [
+        "Verified cookie-auth live on Render \u2014 all 4 curl checks pass",
+        "Root-caused clients [] bug: DATABASE_URL missing on Render (SQLite fallback)"
+      ]
+    },
+    {
+      "date": "2026-04-26",
+      "project": "ARIA",
+      "items": [
+        "Diagnosed auth broken: Render never deployed cookie-auth commits from Session 42",
+        "Manually triggered Render redeploy (dep-d7mmpqipmmbs73c2pd0g)",
+        "Both apps confirmed live post-redeploy"
+      ]
+    },
+    {
+      "date": "2026-04-25",
+      "project": "Meta",
+      "items": [
+        "Backfilled 10 sessions (Apr 2\u2013Apr 25) into charts + sessions.json",
+        "Mobile graphs max-height:0 bug fixed on hidden tab init",
+        "Deployed to claude-command-centre.vercel.app"
+      ]
+    },
+    {
+      "date": "2026-04-25",
+      "project": "ARIA",
+      "items": [
+        "Households feature: 7 endpoints, HouseholdsListPage, HouseholdPage, ClientList badge",
+        "Personal dashboard household card",
+        "Security fixes: IDOR patches, prompt injection guards"
+      ]
+    },
     {
       "date": "2026-04-19",
       "project": "Helm",
@@ -992,7 +1051,7 @@
     }
   ],
   "meta": {
-    "last_updated": "2026-04-25",
+    "last_updated": "2026-05-01",
     "version": "v2026.03.24"
   }
 }

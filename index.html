@@ -734,14 +734,13 @@ _End of context dump_
 
       <div class="g2">
         <div class="card">
-                                                                                                                                                                                              <div class="ct">Last Session — 2026-04-19</div>
+                                                                                                                                                                                                        <div class="ct">Last Session — 2026-05-01</div>
           <ul class="bl">
-            <li>Helm v0.2.0 — personal project OS (pivot from signal scorer)</li>
-            <li>Ship Log kanban · per-product parking · session log · mobile nav</li>
-            <li>Wrap/Lights Out auto-sync to Helm API via x-helm-secret</li>
+            <li>Verified cookie-auth live on Render — all 4 curl checks pass</li>
+            <li>Root-caused clients [] bug: DATABASE_URL missing on Render (SQLite fallback)</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            Helm v0.2 · 4h
+            ARIA · 28m
           </div>
           </div>
         </div>
@@ -1593,7 +1592,7 @@ function showTab(id, btn) {
   if (btn) btn.classList.add('active');
   const content = document.querySelector('.content');
   if (content) content.scrollTop = 0;
-  if (id === 'graphs' && !window._chartsBuilt && typeof Chart !== 'undefined') { buildCharts(window._what_shipped || []); }
+  if (id === 'graphs' && !window._chartsBuilt && typeof Chart !== 'undefined') { buildCharts(window._what_shipped || [], window._sessions_data || []); }
 }
 
 function copyContext() {
@@ -1624,77 +1623,13 @@ function copyContext() {
 })();
 
 window._chartsBuilt = false;
-function buildCharts(whatsShippedData) {
+function buildCharts(whatsShippedData, sessionsData) {
   if (window._chartsBuilt) return;
   window._chartsBuilt = true;
   if (!whatsShippedData) whatsShippedData = [];
   const accent = '#059669', tc = '#475569', gc = '#e2e8f0';
 
-  const sessions = [
-    {label:'Feb 10\\nBzHub',project:'BzHub',mins:120,tokens:null},
-    {label:'Feb 16\\nBzHub',project:'BzHub',mins:90,tokens:null},
-    {label:'Feb 17\\nBzHub',project:'BzHub',mins:60,tokens:null},
-    {label:'Feb 18\\nBzHub',project:'BzHub',mins:180,tokens:null},
-    {label:'Feb 19\\nBzHub',project:'BzHub',mins:90,tokens:null},
-    {label:'Mar 9\\nBzHub',project:'BzHub',mins:120,tokens:null},
-    {label:'Mar 10\\nBzHub',project:'BzHub',mins:240,tokens:null},
-    {label:'Mar 11\\nBzHub',project:'BzHub',mins:180,tokens:null},
-    {label:'Mar 12\\nBzHub',project:'BzHub',mins:45,tokens:null},
-    {label:'Mar 12\\nBzHub',project:'BzHub',mins:25,tokens:null},
-    {label:'Mar 12\\nBzHub',project:'BzHub',mins:35,tokens:null},
-    {label:'Mar 13\\nARIA',project:'ARIA Advisor',mins:90,tokens:null},
-    {label:'Mar 13\\nBzHub',project:'BzHub',mins:30,tokens:null},
-    {label:'Mar 13\\nBzHub',project:'BzHub',mins:20,tokens:null},
-    {label:'Mar 14\\nARIA',project:'ARIA Advisor',mins:15,tokens:null},
-    {label:'Mar 15\\nARIA',project:'ARIA Advisor',mins:20,tokens:null},
-    {label:'Mar 16\\nARIA',project:'ARIA Advisor',mins:35,tokens:86050},
-    {label:'Mar 17\\nARIA',project:'ARIA Advisor',mins:180,tokens:118860},
-    {label:'Mar 17\\nARIA',project:'ARIA Advisor',mins:105,tokens:null},
-    {label:'Mar 17\\nGurudev',project:'As Gurudev Says',mins:30,tokens:null},
-    {label:'Mar 17\\nBzHub',project:'BzHub',mins:15,tokens:null},
-    {label:'Mar 18\\nARIA',project:'ARIA Advisor',mins:120,tokens:255502},
-    {label:'Mar 18\\nMeta',project:'Meta',mins:60,tokens:null},
-    {label:'Mar 20\\nMeta',project:'Meta',mins:90,tokens:85297},
-    {label:'Mar 21\\nMeta',project:'Meta',mins:120,tokens:438829},
-    {label:'Mar 21\\nHelm',project:'Helm',mins:60,tokens:null},
-    {label:'Mar 21\\nARIA RCA',project:'ARIA Advisor',mins:120,tokens:null},
-    {label:'Mar 21\\nARIA Feats',project:'ARIA Advisor',mins:90,tokens:null},
-    {label:'Mar 21\\nSwara',project:'Swara Samipyam',mins:45,tokens:null},
-    {label:'Mar 21\\nMeta',project:'Meta',mins:30,tokens:null},
-    {label:'Mar 21\\nMeta CC',project:'Meta',mins:60,tokens:null},
-    {label:'Mar 22\\nfelt',project:'felt',mins:180,tokens:null},
-    {label:'Mar 22\\nMeta CC',project:'Meta',mins:60,tokens:null},
-    {label:'Mar 22\\nCtx Sys',project:'Meta',mins:45,tokens:7424},
-    {label:'Mar 23\\nfelt',project:'felt',mins:180,tokens:442131},
-    {label:'Mar 24\\nMeta CC',project:'Meta',mins:360,tokens:115575},
-    {label:'Mar 27\\nPaperclip',project:'Meta',mins:45,tokens:468728},
-    {label:'Mar 27\\nMeta CC',project:'Meta',mins:47,tokens:null},
-    {label:'Mar 28\\nARIA',project:'ARIA',mins:60,tokens:223919},
-    {label:'Mar 28\\nARIA',project:'ARIA',mins:15,tokens:null},
-    {label:'Mar 28\\nARIA',project:'ARIA',mins:20,tokens:null},
-    {label:'Mar 28\\nARIA',project:'ARIA',mins:150,tokens:null},
-    {label:'Mar 28\\nMeta',project:'Meta',mins:55,tokens:null},
-    {label:'Mar 29\\nARIA',project:'ARIA',mins:150,tokens:null},
-    {label:'Mar 31\\nx-bookmarks-aggregator',project:'x-bookmarks-aggregator',mins:45,tokens:21382},
-    {label:'Mar 2\nBzHub',project:'BzHub',mins:60,tokens:82454},
-    {label:'Mar 4\nARIA',project:'ARIA Advisor',mins:100,tokens:114222},
-    {label:'Mar 4\nARIA',project:'ARIA',mins:300,tokens:374816},
-    {label:'Mar 7\nMeta',project:'Meta',mins:45,tokens:44959},
-    {label:'Mar 8\nARIA',project:'ARIA Advisor',mins:90,tokens:66583},
-    {label:'Mar 18\nARIA',project:'ARIA Advisor',mins:120,tokens:null},
-    {label:'Mar 19\nARIA',project:'ARIA',mins:105,tokens:null},
-    {label:'Mar 19\nHelm',project:'Helm',mins:240,tokens:131278},
-    {label:'Apr 2\nBzHub',project:'BzHub',mins:150,tokens:null},
-    {label:'Apr 4\nARIA',project:'ARIA',mins:90,tokens:null},
-    {label:'Apr 4\nARIA',project:'ARIA',mins:300,tokens:374816},
-    {label:'Apr 7\nMeta',project:'Meta',mins:45,tokens:44959},
-    {label:'Apr 8\nARIA',project:'ARIA',mins:120,tokens:null},
-    {label:'Apr 18\nARIA',project:'ARIA',mins:120,tokens:321884},
-    {label:'Apr 19\nARIA',project:'ARIA',mins:105,tokens:100169},
-    {label:'Apr 19\nHelm',project:'Helm',mins:240,tokens:37325},
-    {label:'Apr 19\nMeta CC',project:'Meta',mins:60,tokens:null},
-    {label:'Apr 25\nMeta CC',project:'Meta',mins:45,tokens:12597}
-  ];
+  const sessions = sessionsData || [];
 
   const pColor = {
     'ARIA':'#2563eb','ARIA Advisor':'#2563eb','ARIA, Claude Memory, User Memory':'#2563eb',
@@ -1977,7 +1912,10 @@ window._what_shipped = [
   {date:'2026-03-22',project:'Meta',items:['Context recovery system: SESSION_SNAPSHOT.md protocol','lights_out.md updated with interaction time tracking rule','feedback_context_recovery.md memory written']},
   {date:'2026-03-22',project:'felt',items:['felt v0.2.0: Firebase project wired, Firestore rules deployed','Canvas persistence: strokes saved to Firestore, reload restores state','Shared rooms via URL hash (#room-id)','Clear canvas synced across both users']}
 ];;;;;;;
-buildCharts(window._what_shipped || []);
+fetch('/sessions.json').then(r=>r.json()).then(d=>{
+  window._sessions_data = d.sessions || [];
+  buildCharts(window._what_shipped || [], window._sessions_data);
+}).catch(()=>buildCharts(window._what_shipped || [], []));
 
 (function initCollapsibles() {
   document.querySelectorAll('.ct.tog').forEach(ct => {
