@@ -1963,11 +1963,21 @@ function buildCharts(sessionsData, efficiencyData) {
   const sessions = sessionsData || [];
   if (!efficiencyData) efficiencyData = [];
   const pColor = {
-    'ARIA':'#2563eb','ARIA Advisor':'#2563eb','ARIA, Claude Memory, User Memory':'#2563eb',
-    'BzHub':'#059669','Meta':'#e10600',
-    'As Gurudev Says':'#7c3aed','Helm':'#0ea5e9','Swara Samipyam':'#d97706','felt':'#ec4899',
-    'x-bookmarks-aggregator':'#0891b2','Ctx Sys':'#64748b','Paperclip':'#a855f7','Gurudev':'#7c3aed',
-    'BuildTrack':'#f97316'
+    'Felt':'#f472b6',
+    'ARIA Advisor':'#60a5fa',
+    'ARIA':'#60a5fa',
+    'ARIA, Claude Memory, User Memory':'#60a5fa',
+    'BzHub':'#4ade80',
+    'Helm':'#38bdf8',
+    'As Gurudev Says':'#fbbf24',
+    'Gurudev':'#fbbf24',
+    'Swara Samipyam':'#818cf8',
+    'BuildTrack':'#f97316',
+    'Claude Command Module':'#34d399',
+    'Meta':'#e10600',
+    'Ctx Sys':'#64748b',
+    'Paperclip':'#a855f7',
+    'x-bookmarks-aggregator':'#0891b2'
   };
   const projects = Object.keys(pColor);
   const dayMap = {}, dayOrder = [];

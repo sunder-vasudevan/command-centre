@@ -104,53 +104,6 @@ def extract_tokens_by_date():
     return dict(by_date)
 
 
-def backfill_tokens(data):
-    """Assign day's token total to the first session per date that has tokens=null."""
-    tokens_by_date = extract_tokens_by_date()
-    seen = set()
-    changed = 0
-    for s in data["sessions"]:
-        label_date = s["label"].split("\\n")[0]  # e.g. 'Mar 23'
-        if label_date in tokens_by_date:
-            if label_date not in seen:
-                seen.add(label_date)
-                if s["tokens"] is None:
-                    s["tokens"] = tokens_by_date[label_date]
-                    changed += 1
-    return changed
-
-
-# ── JS array builders ─────────────────────────────────────────────────────────
-
-def sessions_to_js(sessions):
-    lines = ["  const sessions = ["]
-    for s in sessions:
-        tokens = s["tokens"] if s["tokens"] is not None else "null"
-        # JSON has \\n which becomes backslash-n string in Python (not actual newline)
-        # When written to JS, we need it as \\n so it renders as newline in browser
-        # The label already has \n (backslash-n), we just need to escape the backslash once more
-        # Actually: label is 'Mar 27\nTM' with backslash-n, write it directly and Python will preserve it
-        label = s["label"]  # Keep as-is; Python repr() will add escaping
-        # Build the line carefully to avoid Python interpreting escape sequences
-        line = f'    {{label:\'{repr(label)[1:-1]}\',project:\'{s["project"]}\',mins:{s["mins"]},tokens:{tokens}}},'
-        lines.append(line)
-    lines[-1] = lines[-1].rstrip(",")
-    lines.append("  ];")
-    return "\n".join(lines)
-
-
-def shipped_to_js(what_shipped):
-    """Convert what_shipped data to JavaScript const."""
-    lines = ["window._what_shipped = ["]
-    for ws in what_shipped:
-        items_str = ",".join(f"'{item}'" for item in ws.get("items", []))
-        lines.append(f"  {{date:'{ws['date']}',project:'{ws['project']}',items:[{items_str}]}},")
-    if lines[-1].endswith(","):
-        lines[-1] = lines[-1].rstrip(",")
-    lines.append("];")
-    return "\n".join(lines)
-
-
 # ── Chart generation functions (auto-sync via wrap_update) ──────────────────
 
 def generate_chart_canvases():
@@ -171,42 +124,7 @@ def generate_chart_canvases():
     """
 
 
-def efficiency_to_js(efficiency):
-    labels = [e["label"] for e in efficiency]
-    po = [round(e["po_mins"] / 60, 2) for e in efficiency]
-    equiv = [round(e["equiv_mins"] / 60, 2) for e in efficiency]
-    return labels, po, equiv
-
-
 # ── HTML patch helpers ────────────────────────────────────────────────────────
-
-def patch_sessions_array(html, sessions):
-    js = sessions_to_js(sessions)
-    return re.sub(r"  const sessions = \[[\s\S]*?\];", lambda m: js, html, count=1)
-
-
-def patch_efficiency_chart(html, efficiency):
-    labels, po, equiv = efficiency_to_js(efficiency)
-    # labels array
-    html = re.sub(
-        r"(efficiencyChart[\s\S]{0,200}?labels:\s*)\[[\s\S]*?\]",
-        lambda m: m.group(1) + json.dumps(labels),
-        html, count=1
-    )
-    # PO data — first data array after efficiencyChart label section
-    html = re.sub(
-        r"(label:'PO Time[^']*'[\s\S]{0,100}?data:\s*)\[[\d.,\s]+\]",
-        lambda m: m.group(1) + json.dumps(po),
-        html, count=1
-    )
-    # Equiv data
-    html = re.sub(
-        r"(label:'3-Person[^']*'[\s\S]{0,100}?data:\s*)\[[\d.,\s]+\]",
-        lambda m: m.group(1) + json.dumps(equiv),
-        html, count=1
-    )
-    return html
-
 
 def patch_version_badge(html, timestamp=None):
     ts = timestamp or datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -307,15 +225,6 @@ def patch_real_numbers(html, session_count, days_count, total_po_hrs):
     return html
 
 
-def sync_mobile(sessions_js):
-    if not MOBILE_HTML.exists():
-        return
-    mob = MOBILE_HTML.read_text()
-    mob = re.sub(r"  const sessions = \[[\s\S]*?\];", lambda m: sessions_js, mob, count=1)
-    MOBILE_HTML.write_text(mob)
-    print("✓ mobile.html synced")
-
-
 # ── Commands ──────────────────────────────────────────────────────────────────
 
 def cmd_wrap(args):
@@ -367,10 +276,6 @@ def cmd_wrap(args):
     # 4. Patch HTML
     html = INDEX_HTML.read_text()
 
-    # Data arrays
-    html = patch_sessions_array(html, data["sessions"])
-    html = patch_efficiency_chart(html, data["efficiency"])
-
     # Version badge
     html = patch_version_badge(html, ts)
 
@@ -409,10 +314,30 @@ def cmd_wrap(args):
     INDEX_HTML.write_text(html)
     print(f"✓ index.html patched ({len(html):,} bytes)")
 
-    sync_mobile(sessions_to_js(data["sessions"]))
+    # Rebuild project cards + pColor from sessions.json (single source of truth)
+    cmd_rebuild_projects(type('A', (), {'command': 'rebuild-projects'})())
 
-    print(f"\n✅ Wrap complete. Run: cd ~/Daytona/command-centre && vercel --prod")
-    print(f"   Then: vercel alias <url> claude-command-centre.vercel.app")
+    print("\n🚀 Committing + deploying...")
+    try:
+        subprocess.run(["git", "add", "."], cwd=BASE, check=True)
+        subprocess.run(["git", "commit", "-m", f"wrap: {args.project} — {ts}"], cwd=BASE, check=True)
+        subprocess.run(["git", "push"], cwd=BASE, check=True)
+        print("✓ Pushed to GitHub")
+        # Auto-deploy to Vercel
+        result = subprocess.run(["vercel", "--prod"], cwd=BASE, capture_output=True, text=True)
+        output = result.stdout + result.stderr
+        # Extract deployment URL
+        import re as _re
+        url_match = _re.search(r'https://command-centre-[a-z0-9]+-sunder-vasudevans-projects\.vercel\.app', output)
+        if url_match:
+            deploy_url = url_match.group(0)
+            subprocess.run(["vercel", "alias", deploy_url, "claude-command-centre.vercel.app"], cwd=BASE, check=True)
+            print(f"✓ Deployed → claude-command-centre.vercel.app")
+        else:
+            print("⚠️  Deploy succeeded but couldn't extract URL for alias — run manually:")
+            print("   vercel alias <url> claude-command-centre.vercel.app")
+    except subprocess.CalledProcessError as e:
+        print(f"❌ Deploy step failed: {e}")
 
     # Mark wrap as verified for wrap-verify.py
     _mark_wrap_done()
@@ -428,11 +353,6 @@ def cmd_add_session(args):
     })
     save_data(data)
     print(f"  Added: {args.label} / {args.project} / {args.mins}m")
-    if args.sync:
-        html = patch_sessions_array(INDEX_HTML.read_text(), data["sessions"])
-        INDEX_HTML.write_text(html)
-        sync_mobile(sessions_to_js(data["sessions"]))
-        print("✓ index.html synced")
 
 
 def cmd_add_efficiency(args):
@@ -444,10 +364,6 @@ def cmd_add_efficiency(args):
     })
     save_data(data)
     print(f"  Added efficiency: {args.label}")
-    if args.sync:
-        html = patch_efficiency_chart(INDEX_HTML.read_text(), data["efficiency"])
-        INDEX_HTML.write_text(html)
-        print("✓ index.html synced")
 
 
 def cmd_add_shipped(args):
@@ -459,10 +375,6 @@ def cmd_add_shipped(args):
     })
     save_data(data)
     print(f"  Added {len(args.items)} shipped items for {args.date}")
-    if args.sync:
-        html = patch_what_shipped(INDEX_HTML.read_text(), args.date, args.project, args.items)
-        INDEX_HTML.write_text(html)
-        print("✓ index.html synced")
 
 
 def cmd_update_last_session(args):
@@ -489,32 +401,6 @@ def cmd_bump_version(args):
     html = patch_version_badge(INDEX_HTML.read_text(), ts)
     INDEX_HTML.write_text(html)
     print(f"✓ Version badge → {ts}")
-
-
-def validate_js_syntax(sessions_js):
-    """Validate JS array doesn't have unescaped newlines in string literals."""
-    # Check for incomplete objects spanning multiple lines (sign of broken syntax)
-    lines = sessions_js.split('\n')
-
-    for i in range(len(lines)):
-        line = lines[i].strip()
-
-        # Skip empty lines and comments
-        if not line or line.startswith('//'):
-            continue
-
-        # Each object should end with , or };
-        # If an object line doesn't end with } or }, something is wrong
-        if '{' in line:
-            # Line has opening brace, should close on same line
-            if '}' not in line:
-                # Object not closed — check if string literal is broken
-                # This means the previous commit had an unescaped newline
-                print(f"❌ Syntax error: object not closed on line {i+1}: {line[:60]}...")
-                print(f"   Object must complete on one line. Check for broken string literals.")
-                return False
-
-    return True
 
 
 def _mark_wrap_done():
@@ -672,29 +558,170 @@ def cmd_update_profile(args):
 
 def cmd_sync(args):
     data = load_data()
-    changed = backfill_tokens(data)
+    changed = 0
     if changed:
         save_data(data)
-        print(f"✓ backfilled tokens for {changed} session(s)")
-    html = INDEX_HTML.read_text()
-    sessions_js = sessions_to_js(data["sessions"])
+    print("✓ sessions.json is up to date. Charts fetch live from sessions.json.")
 
-    # Validate JS syntax before patching
-    if not validate_js_syntax(sessions_js):
-        print("⚠️  JS validation failed — aborting sync")
+
+def _build_pcolor_js(projects):
+    """Build the pColor object literal from projects list."""
+    entries = []
+    seen = set()
+    for p in projects:
+        name = p["name"]
+        color = p["color"]
+        if name not in seen:
+            entries.append(f"    '{name}':'{color}'")
+            seen.add(name)
+        # ARIA aliases
+        if name == "ARIA Advisor":
+            for alias in ["ARIA", "ARIA, Claude Memory, User Memory"]:
+                if alias not in seen:
+                    entries.append(f"    '{alias}':'{color}'")
+                    seen.add(alias)
+        if name == "As Gurudev Says" and "Gurudev" not in seen:
+            entries.append(f"    'Gurudev':'{color}'")
+            seen.add("Gurudev")
+        if name == "Claude Command Module":
+            for alias in ["Meta", "Ctx Sys", "Paperclip", "x-bookmarks-aggregator"]:
+                colors = {"Meta": "#e10600", "Ctx Sys": "#64748b", "Paperclip": "#a855f7", "x-bookmarks-aggregator": "#0891b2"}
+                if alias not in seen:
+                    entries.append(f"    '{alias}':'{colors[alias]}'")
+                    seen.add(alias)
+    return "  const pColor = {\n" + ",\n".join(entries) + "\n  };"
+
+
+def patch_pcolor(html, projects):
+    """Replace pColor object in HTML with one built from sessions.json projects."""
+    new_pcolor = _build_pcolor_js(projects)
+    return re.sub(
+        r'  const pColor = \{[\s\S]*?\};',
+        new_pcolor,
+        html, count=1
+    )
+
+
+def _build_project_card_html(p):
+    """Render a single project card from a project dict."""
+    color = p["color"]
+    name = p["name"]
+    tagline = p["tagline"]
+    version = p.get("version", "")
+    status = p.get("status", "Live")
+    url = p.get("url", "")
+    stack = p.get("stack", [])
+    whats_next = p.get("whats_next", [])
+    learnt = p.get("learnt", [])
+    learnt_date = p.get("learnt_date", "")
+
+    status_class = "bg" if status in ("Live", "Render Live") else ("bp" if status == "In Progress" else "bsl")
+    url_html = f'<div><a href="{url}" class="purl" target="_blank">{url.replace("https://","")}</a></div>' if url else ""
+    stack_html = "".join(f'<span class="pill">{s}</span>' for s in stack)
+    next_html = "\n".join(f"              <li>{n}</li>" for n in whats_next)
+    learnt_html = "\n".join(f"              <li>{l}</li>" for l in learnt)
+
+    return f"""      <div class="pc" style="border-left-color:{color}">
+        <div class="pch"><div><div class="pname" style="color:{color}">{name}</div><div class="ptag">{tagline}</div></div><div style="display:flex;gap:6px"><span class="b bp">{version}</span><span class="b {status_class}">{status}</span></div></div>
+        {url_html}
+        <div class="pstack">{stack_html}</div>
+        <div class="g2" style="gap:var(--gap)">
+          <div>
+            <div class="pst">What's Next</div>
+            <ul class="bl" style="font-size:12px">
+{next_html}
+            </ul>
+          </div>
+          <div>
+            <div class="pst">What Was Learnt — {learnt_date}</div>
+            <ul class="bl" style="font-size:12px">
+{learnt_html}
+            </ul>
+          </div>
+        </div>
+      </div>"""
+
+
+def patch_project_cards(html, projects):
+    """Replace all project cards (between stitle Projects and Parking Lot tab comment)."""
+    cards_html = "\n\n".join(_build_project_card_html(p) for p in projects)
+    count = len(projects)
+    # Update project count in header
+    html = re.sub(r'\d+ active \xb7 North star', f'{count} active \xb7 North star', html, count=1)
+    # Replace block between stitle and Parking Lot tab
+    return re.sub(
+        r'(<div class="stitle">Projects</div>\s*\n)([\s\S]*?)(\s*</div>\s*\n\s*<!-- ===== PARKING LOT)',
+        lambda m: m.group(1) + "\n" + cards_html + "\n\n    " + m.group(3),
+        html, count=1
+    )
+
+
+def cmd_rebuild_projects(args):
+    """Re-render all project cards and pColor from sessions.json projects[]."""
+    data = load_data()
+    projects = data.get("projects", [])
+    if not projects:
+        print("✗ No projects in sessions.json. Add via: wrap_update.py add-project")
         return
-
-    html = patch_sessions_array(html, data["sessions"])
-    html = patch_efficiency_chart(html, data["efficiency"])
-
-    # Inject what_shipped data — always use regex for reliable replacement
-    shipped_js = shipped_to_js(data.get("what_shipped", []))
-    _shipped_repl = shipped_js + ";"
-    html = re.sub(r"window\._what_shipped = \[[\s\S]*?\];", lambda m: _shipped_repl, html, count=1)
-
+    html = INDEX_HTML.read_text()
+    html = patch_project_cards(html, projects)
+    html = patch_pcolor(html, projects)
     INDEX_HTML.write_text(html)
-    print(f"✓ index.html synced ({len(html):,} bytes)")
-    sync_mobile(sessions_js)
+    # Also sync mobile.html pColor
+    mobile_html = MOBILE_HTML.read_text()
+    mobile_html = patch_pcolor(mobile_html, projects)
+    MOBILE_HTML.write_text(mobile_html)
+    print(f"✓ Project cards rebuilt ({len(projects)} projects)")
+    print(f"✓ pColor synced in index.html + mobile.html")
+
+
+def cmd_update_project(args):
+    """Update a project's fields in sessions.json then rebuild cards."""
+    data = load_data()
+    projects = data.get("projects", [])
+    proj = next((p for p in projects if p["name"].lower() == args.name.lower()), None)
+    if not proj:
+        print(f"✗ Project '{args.name}' not found. Use add-project to create it.")
+        return
+    if args.version: proj["version"] = args.version
+    if args.status: proj["status"] = args.status
+    if args.url: proj["url"] = args.url
+    if args.tagline: proj["tagline"] = args.tagline
+    if args.whats_next: proj["whats_next"] = args.whats_next
+    if args.learnt: proj["learnt"] = args.learnt
+    if args.learnt_date: proj["learnt_date"] = args.learnt_date
+    save_data(data)
+    # Rebuild HTML
+    cmd_rebuild_projects(type('A', (), {'command': 'rebuild-projects'})())
+    print(f"✓ Project '{args.name}' updated")
+
+
+def cmd_add_project(args):
+    """Add a new project to sessions.json and rebuild cards + pColor."""
+    data = load_data()
+    projects = data.setdefault("projects", [])
+    if any(p["name"].lower() == args.name.lower() for p in projects):
+        print(f"✗ Project '{args.name}' already exists. Use update-project.")
+        return
+    # Insert before Claude Command Module (always last)
+    new_proj = {
+        "name": args.name,
+        "color": args.color,
+        "url": args.url or "",
+        "stack": args.stack or [],
+        "status": args.status or "In Progress",
+        "version": args.version or "v0.1.0",
+        "tagline": args.tagline or "",
+        "whats_next": args.whats_next or [],
+        "learnt_date": today_iso(),
+        "learnt": []
+    }
+    # Insert second-to-last (before Command Module)
+    insert_pos = len(projects) - 1 if projects else 0
+    projects.insert(insert_pos, new_proj)
+    save_data(data)
+    cmd_rebuild_projects(type('A', (), {'command': 'rebuild-projects'})())
+    print(f"✓ Project '{args.name}' added with color {args.color}")
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
@@ -723,21 +750,18 @@ def main():
     ps.add_argument("--project", required=True)
     ps.add_argument("--mins", type=int, required=True)
     ps.add_argument("--tokens", type=int, default=None)
-    ps.add_argument("--sync", action="store_true")
 
     # add-efficiency
     pe = sub.add_parser("add-efficiency")
     pe.add_argument("--label", required=True)
     pe.add_argument("--po-mins", type=int, required=True)
     pe.add_argument("--equiv-mins", type=int, required=True)
-    pe.add_argument("--sync", action="store_true")
 
     # add-shipped
     psh = sub.add_parser("add-shipped")
     psh.add_argument("--date", required=True)
     psh.add_argument("--project", required=True)
     psh.add_argument("--items", nargs="+", required=True)
-    psh.add_argument("--sync", action="store_true")
 
     # update-last-session
     pls = sub.add_parser("update-last-session")
@@ -762,6 +786,31 @@ def main():
     # sync
     sub.add_parser("sync")
 
+    # rebuild-projects — re-render project cards + pColor from sessions.json
+    sub.add_parser("rebuild-projects", help="Re-render project cards + pColor in both HTML files from sessions.json")
+
+    # update-project
+    pup = sub.add_parser("update-project", help="Update a project's fields in sessions.json then rebuild")
+    pup.add_argument("--name", required=True)
+    pup.add_argument("--version", default=None)
+    pup.add_argument("--status", default=None)
+    pup.add_argument("--url", default=None)
+    pup.add_argument("--tagline", default=None)
+    pup.add_argument("--whats-next", nargs="+", default=None, dest="whats_next")
+    pup.add_argument("--learnt", nargs="+", default=None)
+    pup.add_argument("--learnt-date", default=None, dest="learnt_date")
+
+    # add-project
+    pap = sub.add_parser("add-project", help="Add a new project to sessions.json and rebuild cards + pColor")
+    pap.add_argument("--name", required=True)
+    pap.add_argument("--color", required=True, help="Hex color e.g. #f97316")
+    pap.add_argument("--url", default=None)
+    pap.add_argument("--tagline", default=None)
+    pap.add_argument("--version", default="v0.1.0")
+    pap.add_argument("--status", default="In Progress")
+    pap.add_argument("--stack", nargs="+", default=None)
+    pap.add_argument("--whats-next", nargs="+", default=None, dest="whats_next")
+
     args = p.parse_args()
     dispatch = {
         "wrap": cmd_wrap,
@@ -773,6 +822,9 @@ def main():
         "bump-version": cmd_bump_version,
         "update-profile": cmd_update_profile,
         "sync": cmd_sync,
+        "rebuild-projects": cmd_rebuild_projects,
+        "update-project": cmd_update_project,
+        "add-project": cmd_add_project,
     }
     fn = dispatch.get(args.command)
     if fn:

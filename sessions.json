@@ -1146,5 +1146,210 @@
   "meta": {
     "last_updated": "2026-05-12",
     "version": "v2026.03.24"
-  }
+  },
+  "projects": [
+    {
+      "name": "Felt",
+      "color": "#f472b6",
+      "url": "https://feltit.vercel.app",
+      "stack": [
+        "Next.js 16.2.1",
+        "Tailwind v4",
+        "Upstash Redis",
+        "HTML5 Canvas",
+        "Vercel"
+      ],
+      "status": "Live",
+      "version": "v0.3.0",
+      "tagline": "A shared emotional canvas for two bonded people",
+      "whats_next": [
+        "Mobile UI overhaul \u2014 emoji-only grid, no labels, smaller targets",
+        "Logout button + login with catchphrase on landing page",
+        "Landing page analytics (Vercel Analytics or Plausible)",
+        "Remove legacy Firebase env vars from Vercel"
+      ],
+      "learnt_date": "2026-03-24",
+      "learnt": [
+        "HTTP 200 on write \u2260 readable. Always read-back after storage changes.",
+        "Vercel Blob free tier: cumulative ops limit. Migrate early.",
+        "Web Share API needs runtime detection \u2014 never SSR-check."
+      ]
+    },
+    {
+      "name": "ARIA Advisor",
+      "color": "#60a5fa",
+      "url": "https://a-ria.vercel.app",
+      "stack": [
+        "FastAPI",
+        "React/Vite",
+        "Supabase PostgreSQL",
+        "Render",
+        "Claude API"
+      ],
+      "status": "Render Live",
+      "version": "v2.x",
+      "tagline": "AI-powered wealth manager workbench",
+      "whats_next": [
+        "FEAT-036 \u2014 Supabase Auth (next major unlock)",
+        "Email invite for advisor \u2192 client onboarding",
+        "Superadmin household tree view",
+        "Advisor discovery + multi-advisor households",
+        "ARIA Personal shared auth unification"
+      ],
+      "learnt_date": "2026-03-23",
+      "learnt": [
+        "Python 3.14 + SQLAlchemy: use .is_(True) not == True for booleans",
+        "CORS error on 500s \u2014 server crash suppresses Access-Control headers",
+        "Safari: never use type=\"date\" \u2014 use month/year selects",
+        "FastAPI 204: always explicit Response(status_code=204)",
+        "No cross-model ORM FKs between models.py and personal_models.py"
+      ]
+    },
+    {
+      "name": "BzHub",
+      "color": "#4ade80",
+      "url": "https://bzhub.vercel.app",
+      "stack": [
+        "Next.js 14",
+        "App Router",
+        "Supabase",
+        "Vercel"
+      ],
+      "status": "Live",
+      "version": "v5.0.0",
+      "tagline": "Modular ERP for SMEs \u2014 9 modules live",
+      "whats_next": [
+        "CRM module v2 \u2014 deal pipeline + activity feed",
+        "Payroll module v1 \u2014 monthly run, payslip PDF",
+        "Mobile-first dashboard overhaul"
+      ],
+      "learnt_date": "2026-03-18",
+      "learnt": [
+        "Supabase RLS policies must be set per-table \u2014 easy to miss new tables",
+        "Next.js App Router: server components can't use React hooks directly",
+        "Incremental module rollout beats big-bang releases"
+      ]
+    },
+    {
+      "name": "Helm",
+      "color": "#38bdf8",
+      "url": "https://usehelm.vercel.app",
+      "stack": [
+        "Next.js 15",
+        "Neon PostgreSQL",
+        "Tailwind",
+        "Vercel"
+      ],
+      "status": "Live",
+      "version": "v0.2.0",
+      "tagline": "Personal project OS \u2014 parking lot, session log, backlog kanban",
+      "whats_next": [
+        "Backlog board improvements \u2014 drag to reorder",
+        "Session analytics dashboard",
+        "Integrate wrap_update.py hooks"
+      ],
+      "learnt_date": "2026-04-19",
+      "learnt": [
+        "x-helm-secret auth pattern keeps wrap POSTs lightweight without full auth",
+        "Bottom tab bar beats hamburger menu on mobile \u2014 always visible nav"
+      ]
+    },
+    {
+      "name": "As Gurudev Says",
+      "color": "#fbbf24",
+      "url": "",
+      "stack": [
+        "Python",
+        "Claude API",
+        "Streamlit"
+      ],
+      "status": "In Progress",
+      "version": "v0.1.0",
+      "tagline": "Oracle AI \u2014 answers questions through Sri Aurobindo's lens",
+      "whats_next": [
+        "Deploy to Streamlit Cloud",
+        "Add scripture citation sourcing",
+        "Voice input support"
+      ],
+      "learnt_date": "2026-03-21",
+      "learnt": [
+        "Prompt framing matters more than model size for persona-locked responses"
+      ]
+    },
+    {
+      "name": "Swara Samipyam",
+      "color": "#818cf8",
+      "url": "",
+      "stack": [
+        "Next.js",
+        "Supabase",
+        "Tailwind"
+      ],
+      "status": "Parked",
+      "version": "v0.1.0",
+      "tagline": "Carnatic music learning companion",
+      "whats_next": [
+        "Resume after ARIA milestone",
+        "Song library with audio playback",
+        "Practice tracking"
+      ],
+      "learnt_date": "2026-03-21",
+      "learnt": [
+        "Park explicitly \u2014 half-built features create more debt than value"
+      ]
+    },
+    {
+      "name": "BuildTrack",
+      "color": "#f97316",
+      "url": "https://vasudha-track.vercel.app",
+      "stack": [
+        "Next.js 16",
+        "TypeScript",
+        "Tailwind",
+        "Supabase",
+        "Vercel"
+      ],
+      "status": "Live",
+      "version": "v0.5.0",
+      "tagline": "Mobile-first farmhouse construction tracker \u2014 budget, logs, plans, team",
+      "whats_next": [
+        "Phase progress tracking \u2014 % complete per phase",
+        "Payment schedule with due date alerts",
+        "Photo gallery per phase/deliverable",
+        "WhatsApp share for daily log summary"
+      ],
+      "learnt_date": "2026-05-12",
+      "learnt": [
+        "No auth needed for personal single-user tools \u2014 skip complexity, ship faster.",
+        "Direct Supabase client calls from client components cut backend boilerplate entirely.",
+        "Lazy-fetch exports on demand \u2014 don't preload heavy data on page load."
+      ]
+    },
+    {
+      "name": "Claude Command Module",
+      "color": "#34d399",
+      "url": "https://claude-command-centre.vercel.app",
+      "stack": [
+        "HTML/CSS/JS",
+        "Chart.js 4.4",
+        "sessions.json",
+        "wrap_update.py",
+        "Vercel"
+      ],
+      "status": "Live",
+      "version": "v3.5.0",
+      "tagline": "Personal AI-assisted PO dashboard \u2014 projects, sessions, efficiency, protocol",
+      "whats_next": [
+        "Token Audit automation",
+        "Appraisal cycle auto-update",
+        "Parking lot sync from Helm"
+      ],
+      "learnt_date": "2026-05-12",
+      "learnt": [
+        "Single source of truth (sessions.json) eliminates all manual HTML touchpoints \u2014 wrap_update.py is the only interface.",
+        "Dynamic charts from JSON prevent data drift; hardcoded arrays always go stale.",
+        "Every new entity (project, chart color) must be registered in one place, not scattered."
+      ]
+    }
+  ]
 }
