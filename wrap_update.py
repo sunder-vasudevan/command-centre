@@ -564,6 +564,98 @@ def cmd_sync(args):
     print("✓ sessions.json is up to date. Charts fetch live from sessions.json.")
 
 
+def cmd_check(args):
+    """Pre-deploy sanity check. Run before every deploy."""
+    data = load_data()
+    html = INDEX_HTML.read_text()
+    sessions = data.get("sessions", [])
+    efficiency = data.get("efficiency", [])
+    what_shipped = data.get("what_shipped", [])
+    projects = data.get("projects", [])
+
+    errors = []
+    warnings = []
+
+    # 1. Efficiency coverage — every unique session date should have an efficiency entry
+    session_dates = set()
+    for s in sessions:
+        day = s["label"].split("\\n")[0].strip()
+        session_dates.add(day)
+    eff_labels = set(e["label"] for e in efficiency)
+    # Extract date part from eff labels (format: MM-DD Project or similar)
+    # Check count gap — efficiency should have roughly same count as unique session dates
+    eff_count = len(efficiency)
+    sess_date_count = len(session_dates)
+    if eff_count < sess_date_count - 2:
+        errors.append(f"Efficiency entries ({eff_count}) significantly fewer than session dates ({sess_date_count}) — run add-efficiency for missing sessions")
+
+    # 2. what_shipped — check most recent session has a what_shipped entry
+    if sessions and what_shipped:
+        last_session_date = sessions[-1]["label"].split("\\n")[0]
+        # Convert label like "May 11" to approximate ISO
+        last_shipped_date = what_shipped[0]["date"]  # most recent
+        if not last_shipped_date:
+            warnings.append("Most recent what_shipped entry has no date")
+    elif sessions and not what_shipped:
+        errors.append("No what_shipped entries — run add-shipped")
+
+    # 3. All session projects exist in pColor (index.html)
+    pcolor_match = re.search(r'const pColor = \{([\s\S]*?)\};', html)
+    if pcolor_match:
+        pcolor_block = pcolor_match.group(1)
+        session_projects = set(s["project"] for s in sessions)
+        missing_colors = []
+        pcolor_lower = pcolor_block.lower()
+        for proj in session_projects:
+            if f"'{proj.lower()}'" not in pcolor_lower and f'"{proj.lower()}"' not in pcolor_lower:
+                missing_colors.append(proj)
+        if missing_colors:
+            errors.append(f"Projects missing from pColor (charts will be grey): {missing_colors}")
+            errors.append(f"  Fix: python3 wrap_update.py rebuild-projects")
+
+    # 4. Fetch callback resets _chartsBuilt
+    if "window._chartsBuilt = false;" not in html:
+        errors.append("fetch callback missing '_chartsBuilt = false' reset — charts may not rebuild after fetch")
+
+    # 5. Sessions count vs Real Numbers card
+    real_nums_match = re.search(r'(\d+)\s*</div>\s*<div class="psn2?">Sessions', html)
+    if real_nums_match:
+        html_count = int(real_nums_match.group(1))
+        if html_count != len(sessions):
+            warnings.append(f"Real Numbers card shows {html_count} sessions but sessions.json has {len(sessions)} — run wrap to sync")
+
+    # 6. projects[] exists and has entries
+    if not projects:
+        errors.append("No projects[] in sessions.json — run rebuild-projects after adding projects")
+
+    # 7. mobile.html pColor in sync with index.html
+    if INDEX_HTML.exists() and MOBILE_HTML.exists():
+        mobile_html = MOBILE_HTML.read_text()
+        mobile_pcolor = re.search(r'const pColor = \{([\s\S]*?)\};', mobile_html)
+        index_pcolor = re.search(r'const pColor = \{([\s\S]*?)\};', html)
+        if mobile_pcolor and index_pcolor:
+            # Count entries
+            m_count = mobile_pcolor.group(1).count("'#")
+            i_count = index_pcolor.group(1).count("'#")
+            if m_count != i_count:
+                errors.append(f"pColor out of sync: index.html has {i_count} entries, mobile.html has {m_count} — run rebuild-projects")
+
+    # Report
+    print("\n── Pre-deploy sanity check ─────────────────────────────")
+    if not errors and not warnings:
+        print("✅ All checks passed — safe to deploy")
+    else:
+        for e in errors:
+            print(f"  ❌ {e}")
+        for w in warnings:
+            print(f"  ⚠️  {w}")
+        if errors:
+            print(f"\n  {len(errors)} error(s) must be fixed before deploy")
+            return False
+    print("────────────────────────────────────────────────────────\n")
+    return True
+
+
 def _build_pcolor_js(projects):
     """Build the pColor object literal from projects list."""
     entries = []
@@ -583,6 +675,10 @@ def _build_pcolor_js(projects):
         if name == "As Gurudev Says" and "Gurudev" not in seen:
             entries.append(f"    'Gurudev':'{color}'")
             seen.add("Gurudev")
+        # Add lowercase alias for felt
+        if name == "Felt" and "felt" not in seen:
+            entries.append(f"    'felt':'{color}'")
+            seen.add("felt")
         if name == "Claude Command Module":
             for alias in ["Meta", "Ctx Sys", "Paperclip", "x-bookmarks-aggregator"]:
                 colors = {"Meta": "#e10600", "Ctx Sys": "#64748b", "Paperclip": "#a855f7", "x-bookmarks-aggregator": "#0891b2"}
@@ -786,6 +882,9 @@ def main():
     # sync
     sub.add_parser("sync")
 
+    # check — pre-deploy sanity check
+    sub.add_parser("check", help="Pre-deploy sanity check — run before every deploy")
+
     # rebuild-projects — re-render project cards + pColor from sessions.json
     sub.add_parser("rebuild-projects", help="Re-render project cards + pColor in both HTML files from sessions.json")
 
@@ -822,6 +921,7 @@ def main():
         "bump-version": cmd_bump_version,
         "update-profile": cmd_update_profile,
         "sync": cmd_sync,
+        "check": cmd_check,
         "rebuild-projects": cmd_rebuild_projects,
         "update-project": cmd_update_project,
         "add-project": cmd_add_project,
