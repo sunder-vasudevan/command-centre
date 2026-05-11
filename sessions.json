@@ -612,6 +612,45 @@
   ],
   "what_shipped": [
     {
+      "date": "2026-05-01",
+      "project": "ARIA",
+      "items": [
+        "Trade workflow pipeline endpoint",
+        "Cookie-based auth hardening (I1+I2)",
+        "Household family aggregation feature",
+        "FEAT-003: sessions.json fetched at runtime"
+      ]
+    },
+    {
+      "date": "2026-05-03",
+      "project": "Helm",
+      "items": [
+        "Helm v0.2.0 \u2014 per-product pages, backlog kanban, session log"
+      ]
+    },
+    {
+      "date": "2026-05-11",
+      "project": "BuildTrack",
+      "items": [
+        "Vasudha v0.1.0\u2013v0.4.0 \u2014 full app scaffold (Next.js 16 + Supabase)",
+        "Tracker + Finances + More nav hubs",
+        "QuickAdd FAB: Log Work, Expense, Funds, Reminder",
+        "Plans upload, Workers directory, Schedule variance dashboard",
+        "Reminders table + widget; CVE-2025-66478 patch"
+      ]
+    },
+    {
+      "date": "2026-05-12",
+      "project": "BuildTrack",
+      "items": [
+        "Unified financial summary on main dashboard",
+        "Net Cash Balance glowing banner card",
+        "Lazy export fetch (perf fix)",
+        "App version + Hyderabad footer",
+        "Active reminders widget + notification badge"
+      ]
+    },
+    {
       "date": "May 11",
       "project": "BuildTrack",
       "items": [

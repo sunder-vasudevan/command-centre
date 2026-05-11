@@ -705,7 +705,7 @@ _End of context dump_
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-04-19 22:26</div>
+    <div class="ver-badge">2026-05-12 00:49</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -847,8 +847,31 @@ _End of context dump_
           </div>
         </div>
         <div class="card">
-          <div class="ct tog">What Shipped — Full Log · Updated Apr 19, 2026</div>
-                                                                                                                                                                  <div class="rb"><div class="rd">2026-04-19</div>
+          <div class="ct tog">What Shipped — Full Log · Updated May 12, 2026</div>
+                                                                                                                                                                                                  <div class="rb"><div class="rd">2026-05-12</div>
+          <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">Unified financial summary on main dashboard</div></div>
+          <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">Net Cash Balance glowing banner card</div></div>
+          <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">Lazy export fetch (perf fix)</div></div>
+          <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">App version + Hyderabad footer</div></div>
+          <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">Active reminders widget + notification badge</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-05-11</div>
+          <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">Vasudha v0.1.0–v0.4.0 — full app scaffold (Next.js 16 + Supabase)</div></div>
+          <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">Tracker + Finances + More nav hubs</div></div>
+          <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">QuickAdd FAB: Log Work, Expense, Funds, Reminder</div></div>
+          <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">Plans upload, Workers directory, Schedule variance dashboard</div></div>
+          <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">Reminders table + widget; CVE-2025-66478 patch</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-05-03</div>
+          <div class="ri"><div class="rtag">Helm</div><div class="rdet">Helm v0.2.0 — per-product pages, backlog kanban, session log</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-05-01</div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Trade workflow pipeline endpoint</div></div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Cookie-based auth hardening (I1+I2)</div></div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">Household family aggregation feature</div></div>
+          <div class="ri"><div class="rtag">ARIA</div><div class="rdet">FEAT-003: sessions.json fetched at runtime</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-04-19</div>
           <div class="ri"><div class="rtag">Helm</div><div class="rdet">Helm v0.2.0 — personal project OS</div></div>
           <div class="ri"><div class="rtag">Helm</div><div class="rdet">Ship Log kanban (30 apps)</div></div>
           <div class="ri"><div class="rtag">Helm</div><div class="rdet">Per-product parking + session log</div></div>
@@ -1901,6 +1924,10 @@ function buildCharts(whatsShippedData, sessionsData) {
 // Collapsible cards
 // Build charts before collapsibles collapse them
 window._what_shipped = [
+  {date:'2026-05-12',project:'BuildTrack',items:['Unified financial summary on main dashboard','Net Cash Balance glowing banner card','Lazy export fetch (perf fix)','App version + Hyderabad footer','Active reminders widget + notification badge']},
+  {date:'2026-05-11',project:'BuildTrack',items:['Vasudha v0.1.0–v0.4.0 full scaffold (Next.js 16 + Supabase)','Tracker + Finances + More nav hubs','QuickAdd FAB: Log Work, Expense, Funds, Reminder','Plans upload, Workers directory, Schedule variance','Reminders table + widget; CVE-2025-66478 patch']},
+  {date:'2026-05-03',project:'Helm',items:['Helm v0.2.0 — per-product pages, backlog kanban, session log']},
+  {date:'2026-05-01',project:'ARIA',items:['Trade workflow pipeline endpoint','Cookie-based auth hardening (I1+I2)','Household family aggregation feature','FEAT-003: sessions.json fetched at runtime']},
   {date:'2026-03-31',project:'x-bookmarks-aggregator',items:['v0.1.0: Flask wrapper for X bookmarks CSV→HTML','Drag-drop upload UI','Back-to-top button on generated HTML','run.sh/run.bat launchers']},
   {date:'2026-03-29',project:'ARIA',items:['Trade Notifications Phase 1A fixed','HELP.md guardrail enforced','Wrap protocol optimized 50%']},
   {date:'2026-03-28',project:'Meta',items:['Command-centre graphs bug fix (syntax error in sessions array)','Validation gates: pre-commit hook + wrap_update.py prevent manual HTML edits','Claude-Mem plugin installed + configured (session recovery + cross-project search)','Research: UI UX Pro Max Skill (Helm pilot plan ready) + Superpowers + Claude-Mem (parked)']},
