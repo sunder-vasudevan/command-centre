@@ -1815,7 +1815,7 @@ function showTab(id, btn) {
   // Lazy-init charts when Graphs tab first opens (hidden canvases have 0 dimensions at load)
   if (id === 'graphs' && !window._graphsBuilt && typeof Chart !== 'undefined') {
     window._graphsBuilt = true;
-    buildCharts(window._sessions_data || []);
+    buildCharts(window._sessions_data || [], window._efficiency_data || []);
     document.querySelectorAll('#tab-graphs .card-body').forEach(function(b) {
       if (b.style.maxHeight === 'none') b.style.maxHeight = b.scrollHeight + 'px';
     });
@@ -1958,12 +1958,16 @@ document.querySelector('.search-input').addEventListener('input', function() {
 });
 
 // Charts
-function buildCharts(sessionsData) {
+function buildCharts(sessionsData, efficiencyData) {
   const accent = '#e10600', tc = '#475569', gc = '#e2e8f0';
   const sessions = sessionsData || [];
+  if (!efficiencyData) efficiencyData = [];
   const pColor = {
-    'ARIA Advisor':'#2563eb','BzHub':'#059669','Meta':'#e10600',
-    'As Gurudev Says':'#7c3aed','Helm':'#0ea5e9','Swara Samipyam':'#d97706','felt':'#ec4899'
+    'ARIA':'#2563eb','ARIA Advisor':'#2563eb','ARIA, Claude Memory, User Memory':'#2563eb',
+    'BzHub':'#059669','Meta':'#e10600',
+    'As Gurudev Says':'#7c3aed','Helm':'#0ea5e9','Swara Samipyam':'#d97706','felt':'#ec4899',
+    'x-bookmarks-aggregator':'#0891b2','Ctx Sys':'#64748b','Paperclip':'#a855f7','Gurudev':'#7c3aed',
+    'BuildTrack':'#f97316'
   };
   const projects = Object.keys(pColor);
   const dayMap = {}, dayOrder = [];
@@ -1993,10 +1997,10 @@ function buildCharts(sessionsData) {
     new Chart(eCtx.getContext('2d'), {
       type:'bar',
       data:{
-        labels:['03-18\nMeta','03-18\nARIA','03-20','03-21\nHelm','03-21\nARIA','03-21\nSwara','03-21\nMeta','03-22\nfelt','03-22\nCC','03-23\nfelt'],
+        labels:efficiencyData.map(e=>e.label),
         datasets:[
-          {label:'PO Time (h)',data:[1,2,1.5,2,3,0.75,0.5,3,1,3],backgroundColor:accent+'cc',borderColor:accent,borderWidth:2,borderRadius:3},
-          {label:'3-Team Equiv (h)',data:[12,16,7.5,8,24,12,4,24,4,24],backgroundColor:'#0f172922',borderColor:'#0f172966',borderWidth:1,borderRadius:3}
+          {label:'PO Time (h)',data:efficiencyData.map(e=>Math.round(e.po_mins/60*10)/10),backgroundColor:accent+'cc',borderColor:accent,borderWidth:2,borderRadius:3},
+          {label:'3-Team Equiv (h)',data:efficiencyData.map(e=>Math.round(e.equiv_mins/60*10)/10),backgroundColor:'#0f172922',borderColor:'#0f172966',borderWidth:1,borderRadius:3}
         ]
       },
       options:{responsive:true,maintainAspectRatio:false,
@@ -2007,7 +2011,11 @@ function buildCharts(sessionsData) {
     });
   }
 }
-fetch('/sessions.json').then(r=>r.json()).then(d=>{window._sessions_data=d.sessions||[];}).catch(()=>{window._sessions_data=[];});
+fetch('/sessions.json').then(r=>r.json()).then(d=>{
+  window._sessions_data=d.sessions||[];
+  window._efficiency_data=d.efficiency||[];
+  buildCharts(window._sessions_data, window._efficiency_data);
+}).catch(()=>buildCharts([],[]));
 </script>
 </body>
 </html>

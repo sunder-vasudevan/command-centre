@@ -1644,7 +1644,7 @@ function showTab(id, btn) {
   if (btn) btn.classList.add('active');
   const content = document.querySelector('.content');
   if (content) content.scrollTop = 0;
-  if (id === 'graphs' && !window._chartsBuilt && typeof Chart !== 'undefined') { buildCharts(window._what_shipped || [], window._sessions_data || []); }
+  if (id === 'graphs' && !window._chartsBuilt && typeof Chart !== 'undefined') { buildCharts(window._what_shipped || [], window._sessions_data || [], window._efficiency_data || []); }
 }
 
 function copyContext() {
@@ -1675,7 +1675,8 @@ function copyContext() {
 })();
 
 window._chartsBuilt = false;
-function buildCharts(whatsShippedData, sessionsData) {
+function buildCharts(whatsShippedData, sessionsData, efficiencyData) {
+  if (!efficiencyData) efficiencyData = [];
   if (window._chartsBuilt) return;
   window._chartsBuilt = true;
   if (!whatsShippedData) whatsShippedData = [];
@@ -1798,17 +1799,17 @@ function buildCharts(whatsShippedData, sessionsData) {
     new Chart(effCtx.getContext('2d'), {
       type:'bar',
       data:{
-        labels:["03-18 Meta", "03-18 ARIA", "03-20 Meta", "03-21 Helm", "03-21 ARIA RCA", "03-21 ARIA Feats", "03-21 Swara", "03-21 Meta", "03-22 felt v0.2", "03-22 Meta CC", "03-23 felt v0.3", "03-24 Meta CC", "Mar 27 Paperclip", "03-27 Meta CC", "03-28 ARIA,", "03-28 ARIA", "03-28 ARIA", "03-28 ARIA", "03-28 Meta", "03-29 ARIA", "03-31 x-bookmarks-aggregator", "04-02 BzHub", "04-04 ARIA", "04-04 ARIA", "04-07 Meta", "04-08 ARIA", "04-18 ARIA", "04-19 ARIA", "04-19 Helm"],
+        labels:efficiencyData.map(e=>e.label),
         datasets:[
           {
             label:'PO Time (hrs)',
-            data:[1.0, 2.0, 1.5, 1.0, 2.0, 1.5, 0.75, 0.5, 3.0, 1.0, 3.0, 6.0, 0.75, 0.5, 1.0, 0.08, 0.17, 2.5, 0.25, 2.5, 0.25, 0.25, 0.33, 1.0, 0.75, 0.5, 0.0, 0.0, 4.0],
+            data:efficiencyData.map(e=>Math.round(e.po_mins/60*10)/10),
             backgroundColor:accent+'cc', borderColor:accent,
             borderWidth:2, borderRadius:4
           },
           {
             label:'3-Person Equiv (hrs)',
-            data:[12.0, 16.0, 7.5, 8.0, 8.0, 16.0, 12.0, 12.0, 4.0, 4.0, 24.0, 24.0, 8.0, 2.0, 2.0, 0.17, 0.25, 2.5, 2.0, 2.5, 3.0, 8.0, 4.0, 15.0, 6.0, 4.5, 8.0, 7.0, 32.0],
+            data:efficiencyData.map(e=>Math.round(e.equiv_mins/60*10)/10),
             backgroundColor:'#0f172912', borderColor:'#0f172944',
             borderWidth:1, borderRadius:4
           }
@@ -1950,29 +1951,13 @@ function buildCharts(whatsShippedData, sessionsData) {
 
 // Collapsible cards
 // Build charts before collapsibles collapse them
-window._what_shipped = [
-  {date:'2026-05-12',project:'BuildTrack',items:['Unified financial summary on main dashboard','Net Cash Balance glowing banner card','Lazy export fetch (perf fix)','App version + Hyderabad footer','Active reminders widget + notification badge']},
-  {date:'2026-05-11',project:'BuildTrack',items:['Vasudha v0.1.0–v0.4.0 full scaffold (Next.js 16 + Supabase)','Tracker + Finances + More nav hubs','QuickAdd FAB: Log Work, Expense, Funds, Reminder','Plans upload, Workers directory, Schedule variance','Reminders table + widget; CVE-2025-66478 patch']},
-  {date:'2026-05-03',project:'Helm',items:['Helm v0.2.0 — per-product pages, backlog kanban, session log']},
-  {date:'2026-05-01',project:'ARIA',items:['Trade workflow pipeline endpoint','Cookie-based auth hardening (I1+I2)','Household family aggregation feature','FEAT-003: sessions.json fetched at runtime']},
-  {date:'2026-03-31',project:'x-bookmarks-aggregator',items:['v0.1.0: Flask wrapper for X bookmarks CSV→HTML','Drag-drop upload UI','Back-to-top button on generated HTML','run.sh/run.bat launchers']},
-  {date:'2026-03-29',project:'ARIA',items:['Trade Notifications Phase 1A fixed','HELP.md guardrail enforced','Wrap protocol optimized 50%']},
-  {date:'2026-03-28',project:'Meta',items:['Command-centre graphs bug fix (syntax error in sessions array)','Validation gates: pre-commit hook + wrap_update.py prevent manual HTML edits','Claude-Mem plugin installed + configured (session recovery + cross-project search)','Research: UI UX Pro Max Skill (Helm pilot plan ready) + Superpowers + Claude-Mem (parked)']},
-  {date:'2026-03-28',project:'ARIA',items:['Trade Notifications fixed','HELP.md guardrail enforced','Wrap protocol optimized']},
-  {date:'2026-03-28',project:'ARIA',items:['Joshua linked to personal_user_id (manual DB update)|Notifications now fetched in ARIA Personal Dashboard|Trades display fixed (was blocked by missing personal_user_id)']},
-  {date:'2026-03-28',project:'ARIA',items:['TradesPanel UX warning — draft trades hidden from client until submitted|Trade workflow clarified: draft → submit → pending → approve|Joshua trade submitted (ASASDA mutual fund)']},
-  {date:'2026-03-28',project:'ARIA, Claude Memory, User Memory',items:['SESSION_LOG.md automation system (session-log-gen.py script + wrap protocol updates + two-layer fallback)|CLAUDE.md hierarchy consolidation (root + directory overrides, auto-loading by context)|Deployment aliases fixed (re-aliased to latest)|Test data cleanup (96 [TEST] clients deleted from DB)']},
-  {date:'2026-03-27',project:'Meta',items:['Paperclip migration: 43 issues seeded, COMPANY.md 16 sections','Paperclip embed reverted — link-in-new-tab decision locked','Clean restore deployed to claude-command-centre.vercel.app']},
-  {date:'2026-03-27',project:'Meta',items:['Paperclip Best of Both Combined — 8 parking lot issues, 18 done issues, 4 growth issues seeded','COMPANY.md enriched: 16 new sections (Session History, Token Audit, Standards, Profile, Quick Links)','CEO SOUL.md: Race Control triggers + Agent Protocol appended','CEO HEARTBEAT.md: How a Session Runs 3-phase protocol appended','index_backup_2026-03-27.html created']},
-  {date:'2026-03-24',project:'Meta',items:['Newdesign.html rebuilt from scratch with 6-tab layout (Command, Projects, Parking, Standards, Profile, Reference)','All 27-session data migrated from old index.html','Parking Lot tab added with 45 items across 7 projects','mobile.html restructured: Insights removed, Parking Lot added, charts added to Command tab','Sessions.json data layer created','wrap_update.py automation script created','Deployed to claude-command-centre.vercel.app']},
-  {date:'2026-03-23',project:'felt',items:['felt v0.3.0: User presence system with Firestore real-time listeners','Online/offline status badges on canvas','Gesture broadcasting (brush strokes visible to partner in real-time)','Reconnection handling with exponential backoff']},
-  {date:'2026-03-22',project:'Meta',items:['Context recovery system: SESSION_SNAPSHOT.md protocol','lights_out.md updated with interaction time tracking rule','feedback_context_recovery.md memory written']},
-  {date:'2026-03-22',project:'felt',items:['felt v0.2.0: Firebase project wired, Firestore rules deployed','Canvas persistence: strokes saved to Firestore, reload restores state','Shared rooms via URL hash (#room-id)','Clear canvas synced across both users']}
-];;;;;;;
+window._what_shipped = [];
 fetch('/sessions.json').then(r=>r.json()).then(d=>{
   window._sessions_data = d.sessions || [];
-  buildCharts(window._what_shipped || [], window._sessions_data);
-}).catch(()=>buildCharts(window._what_shipped || [], []));
+  window._efficiency_data = d.efficiency || [];
+  window._what_shipped = d.what_shipped || [];
+  buildCharts(window._what_shipped, window._sessions_data, window._efficiency_data);
+}).catch(()=>buildCharts([], [], []));
 
 (function initCollapsibles() {
   document.querySelectorAll('.ct.tog').forEach(ct => {
