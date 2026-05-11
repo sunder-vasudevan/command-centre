@@ -437,6 +437,30 @@
       "project": "ARIA",
       "mins": 28,
       "tokens": null
+    },
+    {
+      "label": "May 1\\nARIA",
+      "project": "ARIA",
+      "mins": 138,
+      "tokens": null
+    },
+    {
+      "label": "May 3\\nHelm",
+      "project": "Helm",
+      "mins": 16,
+      "tokens": null
+    },
+    {
+      "label": "May 11\\nBuildTrack",
+      "project": "BuildTrack",
+      "mins": 97,
+      "tokens": null
+    },
+    {
+      "label": "May 11\\nBuildTrack",
+      "project": "BuildTrack",
+      "mins": 15,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -587,6 +611,36 @@
     }
   ],
   "what_shipped": [
+    {
+      "date": "May 11",
+      "project": "BuildTrack",
+      "items": [
+        "BuildTrack v0.1.0 \u2014 full app scaffold (Next.js 16 + Supabase)",
+        "Renamed to Vasudha; Tracker + Finances + More nav hubs",
+        "QuickAdd FAB: Log Work, Expense, Funds, Reminder",
+        "Plans upload, Workers directory, Schedule variance dashboard",
+        "Reminders table + active reminders widget + notification badge",
+        "Net Cash Balance glowing banner; unified financial summary on main page",
+        "CVE-2025-66478 patch (Next.js upgrade)"
+      ]
+    },
+    {
+      "date": "May 3",
+      "project": "Helm",
+      "items": [
+        "Helm v0.2.0 \u2014 per-product pages, backlog kanban, session log"
+      ]
+    },
+    {
+      "date": "May 1",
+      "project": "ARIA",
+      "items": [
+        "Trade workflow pipeline endpoint",
+        "Cookie-based auth (I1+I2 security hardening)",
+        "Household family aggregation feature",
+        "SESSION_CONTEXT runtime fetch (FEAT-003)"
+      ]
+    },
     {
       "date": "2026-05-01",
       "project": "ARIA",
@@ -1051,7 +1105,7 @@
     }
   ],
   "meta": {
-    "last_updated": "2026-05-01",
+    "last_updated": "2026-05-12",
     "version": "v2026.03.24"
   }
 }
