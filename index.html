@@ -1978,6 +1978,9 @@ fetch('/sessions.json').then(r=>r.json()).then(d=>{
   window._sessions_data = d.sessions || [];
   window._efficiency_data = d.efficiency || [];
   window._what_shipped = d.what_shipped || [];
+  // Always rebuild charts with fresh data — destroy existing instances first
+  window._chartsBuilt = false;
+  Chart.helpers && Object.values(Chart.instances || {}).forEach(c => c.destroy());
   buildCharts(window._what_shipped, window._sessions_data, window._efficiency_data);
 }).catch(()=>buildCharts([], [], []));
 

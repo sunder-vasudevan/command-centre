@@ -608,6 +608,26 @@
       "label": "04-19 Helm",
       "po_mins": 240,
       "equiv_mins": 1920
+    },
+    {
+      "label": "05-01 ARIA",
+      "po_mins": 138,
+      "equiv_mins": 960
+    },
+    {
+      "label": "05-03 Helm",
+      "po_mins": 16,
+      "equiv_mins": 120
+    },
+    {
+      "label": "05-11 BuildTrack",
+      "po_mins": 97,
+      "equiv_mins": 720
+    },
+    {
+      "label": "05-12 CC",
+      "po_mins": 60,
+      "equiv_mins": 480
     }
   ],
   "what_shipped": [
