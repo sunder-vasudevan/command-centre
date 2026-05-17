@@ -119,6 +119,7 @@ def verify_wrap():
         print("  python3 wrap_update.py wrap --project 'X' --mins M --po-mins P --equiv-mins E --shipped 'bullets'", file=sys.stderr)
         print("  python3 wrap_update.py update-last-session --date '$(date +%Y-%m-%d)' --project 'X' --bullets 'B1' 'B2' 'B3' --badge 'Label · time'", file=sys.stderr)
         print("  vercel --prod && vercel alias set <URL> claude-command-centre.vercel.app", file=sys.stderr)
+        print("  (Vercel will auto-deploy the updates when pushed to GitHub)", file=sys.stderr)
         print("  python3 wrap-verify.py --mark-done", file=sys.stderr)
         return False
 
