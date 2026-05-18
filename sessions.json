@@ -473,6 +473,12 @@
       "project": "BuildTrack",
       "mins": 180,
       "tokens": null
+    },
+    {
+      "label": "May 18\\nBuildTrack",
+      "project": "BuildTrack",
+      "mins": 60,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -1358,12 +1364,12 @@
         "Vercel"
       ],
       "status": "live",
-      "version": "v2.1.0",
+      "version": "v2.2.0",
       "tagline": "Mobile-first farmhouse construction tracker \u2014 budget, logs, plans, team",
       "whats_next": [
-        "Photo migration from Supabase Storage to B2",
-        "VendorsTab cleanup",
-        "Manual TEST_REPORT verification"
+        "Test expense flow end to end",
+        "Photo migration Supabase\u2192B2",
+        "VendorsTab cleanup"
       ],
       "learnt_date": "2026-05-12",
       "learnt": [
