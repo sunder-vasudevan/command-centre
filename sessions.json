@@ -1258,7 +1258,7 @@
         "FastAPI 204: always explicit Response(status_code=204)",
         "No cross-model ORM FKs between models.py and personal_models.py"
       ],
-      "last_session": "Mar 18"
+      "last_session": "May 1"
     },
     {
       "name": "BzHub",
@@ -1309,7 +1309,7 @@
         "x-helm-secret auth pattern keeps wrap POSTs lightweight without full auth",
         "Bottom tab bar beats hamburger menu on mobile \u2014 always visible nav"
       ],
-      "last_session": "May 3\\nHelm"
+      "last_session": "May 12"
     },
     {
       "name": "As Gurudev Says",
@@ -1368,7 +1368,7 @@
         "Supabase",
         "Vercel"
       ],
-      "status": "live",
+      "status": "Live",
       "version": "v2.2.0",
       "tagline": "Mobile-first farmhouse construction tracker \u2014 budget, logs, plans, team",
       "whats_next": [
@@ -1408,7 +1408,8 @@
         "Single source of truth (sessions.json) eliminates all manual HTML touchpoints \u2014 wrap_update.py is the only interface.",
         "Dynamic charts from JSON prevent data drift; hardcoded arrays always go stale.",
         "Every new entity (project, chart color) must be registered in one place, not scattered."
-      ]
+      ],
+      "last_session": "May 18"
     }
   ]
 }
