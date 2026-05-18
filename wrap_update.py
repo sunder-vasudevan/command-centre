@@ -698,8 +698,8 @@ def patch_pcolor(html, projects):
     )
 
 
-def _build_project_card_html(p):
-    """Render a single project card from a project dict."""
+def _build_project_card_html(p, idx=0):
+    """Render a single project card as an accordion from a project dict."""
     color = p["color"]
     name = p["name"]
     tagline = p["tagline"]
@@ -710,29 +710,45 @@ def _build_project_card_html(p):
     whats_next = p.get("whats_next", [])
     learnt = p.get("learnt", [])
     learnt_date = p.get("learnt_date", "")
+    last_session = p.get("last_session", "")
 
     status_class = "bg" if status in ("Live", "Render Live") else ("bp" if status == "In Progress" else "bsl")
-    url_html = f'<div><a href="{url}" class="purl" target="_blank">{url.replace("https://","")}</a></div>' if url else ""
+    url_html = f'<a href="{url}" class="purl" target="_blank" onclick="event.stopPropagation()">{url.replace("https://","")}</a>' if url else ""
     stack_html = "".join(f'<span class="pill">{s}</span>' for s in stack)
     next_html = "\n".join(f"              <li>{n}</li>" for n in whats_next)
     learnt_html = "\n".join(f"              <li>{l}</li>" for l in learnt)
+    last_html = f'<span style="font-size:10px;color:var(--text2)">Last: {last_session}</span>' if last_session else ""
+    card_id = f"pc_{idx}"
 
-    return f"""      <div class="pc" style="border-left-color:{color}">
-        <div class="pch"><div><div class="pname" style="color:{color}">{name}</div><div class="ptag">{tagline}</div></div><div style="display:flex;gap:6px"><span class="b bp">{version}</span><span class="b {status_class}">{status}</span></div></div>
-        {url_html}
-        <div class="pstack">{stack_html}</div>
-        <div class="g2" style="gap:var(--gap)">
-          <div>
-            <div class="pst">What's Next</div>
-            <ul class="bl" style="font-size:12px">
-{next_html}
-            </ul>
+    return f"""      <div class="pc" style="border-left-color:{color};padding:0;overflow:hidden">
+        <div onclick="(function(){{var b=document.getElementById('{card_id}');b.style.display=b.style.display==='none'?'block':'none'}})()" style="cursor:pointer;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px">
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span class="pname" style="color:{color}">{name}</span>
+              <span class="b bp">{version}</span>
+              <span class="b {status_class}">{status}</span>
+              {last_html}
+            </div>
+            <div class="ptag" style="margin-top:2px">{tagline}</div>
           </div>
-          <div>
-            <div class="pst">What Was Learnt — {learnt_date}</div>
-            <ul class="bl" style="font-size:12px">
+          <span style="font-size:14px;color:var(--text2);flex-shrink:0">›</span>
+        </div>
+        <div id="{card_id}" style="display:none;padding:0 14px 12px 14px;border-top:1px solid var(--border)">
+          {f'<div style="margin-top:8px">{url_html}</div>' if url_html else ""}
+          <div class="pstack" style="margin-top:8px">{stack_html}</div>
+          <div class="g2" style="gap:var(--gap);margin-top:8px">
+            <div>
+              <div class="pst">What's Next</div>
+              <ul class="bl" style="font-size:12px">
+{next_html}
+              </ul>
+            </div>
+            <div>
+              <div class="pst">What Was Learnt — {learnt_date}</div>
+              <ul class="bl" style="font-size:12px">
 {learnt_html}
-            </ul>
+              </ul>
+            </div>
           </div>
         </div>
       </div>"""
@@ -740,7 +756,19 @@ def _build_project_card_html(p):
 
 def patch_project_cards(html, projects):
     """Replace all project cards (between stitle Projects and Parking Lot tab comment)."""
-    cards_html = "\n\n".join(_build_project_card_html(p) for p in projects)
+    # Sort: projects with last_session first (most recent), then others
+    def sort_key(p):
+        ls = p.get("last_session", "")
+        if not ls:
+            return "0000-00-00"
+        # normalise "May 18" style to sortable
+        import re as _re
+        m = _re.match(r'(\w+ \d+)$', ls)
+        if m:
+            return ls  # keep as-is, will sort lexically
+        return ls
+    sorted_projects = sorted(projects, key=sort_key, reverse=True)
+    cards_html = "\n\n".join(_build_project_card_html(p, idx=i) for i, p in enumerate(sorted_projects))
     count = len(projects)
     # Update project count in header
     html = re.sub(r'\d+ active \xb7 North star', f'{count} active \xb7 North star', html, count=1)

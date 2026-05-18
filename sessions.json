@@ -1257,7 +1257,8 @@
         "Safari: never use type=\"date\" \u2014 use month/year selects",
         "FastAPI 204: always explicit Response(status_code=204)",
         "No cross-model ORM FKs between models.py and personal_models.py"
-      ]
+      ],
+      "last_session": "Mar 18"
     },
     {
       "name": "BzHub",
@@ -1282,7 +1283,8 @@
         "Supabase RLS policies must be set per-table \u2014 easy to miss new tables",
         "Next.js App Router: server components can't use React hooks directly",
         "Incremental module rollout beats big-bang releases"
-      ]
+      ],
+      "last_session": "Apr 2\\nBzHub"
     },
     {
       "name": "Helm",
@@ -1306,7 +1308,8 @@
       "learnt": [
         "x-helm-secret auth pattern keeps wrap POSTs lightweight without full auth",
         "Bottom tab bar beats hamburger menu on mobile \u2014 always visible nav"
-      ]
+      ],
+      "last_session": "May 3\\nHelm"
     },
     {
       "name": "As Gurudev Says",
@@ -1328,7 +1331,8 @@
       "learnt_date": "2026-03-21",
       "learnt": [
         "Prompt framing matters more than model size for persona-locked responses"
-      ]
+      ],
+      "last_session": "Mar 17\\nGurudev"
     },
     {
       "name": "Swara Samipyam",
@@ -1350,7 +1354,8 @@
       "learnt_date": "2026-03-21",
       "learnt": [
         "Park explicitly \u2014 half-built features create more debt than value"
-      ]
+      ],
+      "last_session": "Mar 21\\nSwara"
     },
     {
       "name": "BuildTrack",
@@ -1376,7 +1381,8 @@
         "No auth needed for personal single-user tools \u2014 skip complexity, ship faster.",
         "Direct Supabase client calls from client components cut backend boilerplate entirely.",
         "Lazy-fetch exports on demand \u2014 don't preload heavy data on page load."
-      ]
+      ],
+      "last_session": "May 18\\nBuildTrack"
     },
     {
       "name": "Claude Command Module",
