@@ -705,7 +705,7 @@ _End of context dump_
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-05-20 23:05</div>
+    <div class="ver-badge">2026-05-27 07:30</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -734,19 +734,20 @@ _End of context dump_
 
       <div class="g2">
         <div class="card">
-                                                                                                                                                                                                                                      <div class="ct">Last Session — 2026-05-20</div>
+                                                                                                                                                                                                                                                <div class="ct">Last Session — 2026-05-27</div>
           <ul class="bl">
-            <li>Quick Expense edit modal</li>
-            <li>Suspense loading on all pages</li>
-            <li>B2 key rotated — upload fixed</li>
+            <li>Architecture session: BzHub → Operations Core. BzCRM spins out first. Shared Supabase + JWT apps[] = licence gate. Zoho-style standalone/bundle pricing model locked.</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            v2.3.7 · 2h
+            <span class="b bp">BzHub</span><span class="b bsl">~0.8 hrs PO</span><span class="b bg">~8x compression</span>
           </div>
           </div>
         </div>
         <div class="card">
-          <div class="ct">Meta Learnings — Mar 24, 2026</div>
+          <div class="ct">Meta Learnings — May 27, 2026</div>
+                    <div class="mb"><div class="mbd">2026-05-27</div>
+            <div class="mbi">JWT apps[] claim doubles as a licence check — no separate licence server needed. Standalone + bundle pricing is a natural fit for schema-namespaced Supabase tables.</div>
+          </div>
           <div style="max-height:220px;overflow-y:auto;padding-right:4px">
           <div class="mb"><div class="mbd">Mar 24, 2026</div>
             <div class="mbi">API rate limits mid-session: subagent delegation protects main context but if a subagent hits the cap, work stops until the window resets — schedule long rebuilds at session start, not end.</div>
@@ -815,10 +816,10 @@ _End of context dump_
 
     <!-- ===== PROJECTS TAB ===== -->
     <div class="tab-panel" id="tab-projects">
-      <div class="ph"><div><div class="ph-title">Projects</div><div class="ph-sub">8 active · North star: tech-expert PO who ships fast</div></div></div>
+      <div class="ph"><div><div class="ph-title">Projects</div><div class="ph-sub">9 active · North star: tech-expert PO who ships fast</div></div></div>
 
       <div class="card">
-        <div class="ct tog">Token Audit — May 20, 2026 · Next due Jun 4, 2026</div>
+        <div class="ct tog">Token Audit — May 27, 2026 · Next due Jun 11, 2026</div>
         <div style="font-size:12px;color:var(--text2);margin-bottom:10px">Auto-audit runs every 15 days at session start via <code>token_audit.py --check</code>. Findings require approval before any trim.</div>
         <div class="rr"><div class="rk">🔴 Critical (2)</div><div class="rv">context-dump.md — 363 lines (archive/split) · project_aria_session_2026-05-01.md — 116 lines (trim to summary)</div></div>
         <div class="rr"><div class="rk">🟡 Warn (5)</div><div class="rv">INTERACTION_LOG.md 257L · BLOAT-REDUCTION-TACTICS.md 223L · TOKEN-REDUCTION-SESSION-SUMMARY.md 218L · SUNNY-HAYES-README.md 141L · session_wrap.md 109L · 1× PENDING marker in project_aria_kyc_phase1.md</div></div>
@@ -845,8 +846,15 @@ _End of context dump_
           </div>
         </div>
         <div class="card">
-          <div class="ct tog">What Shipped — Full Log · Updated May 20, 2026</div>
-                                                                                                                                                                                                                  <div class="rb"><div class="rd">2026-05-20</div>
+          <div class="ct tog">What Shipped — Full Log · Updated May 27, 2026</div>
+                                                                                                                                                                                                                          <div class="rb"><div class="rd">2026-05-27</div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Bz* Suite Architecture locked (auth, DB, billing, build order)</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Zoho/Odoo licensing model designed (JWT app-scoped, org_plans table)</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">BzCRM extraction plan written — next session ready</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">SUITE_ARCHITECTURE.md created in BzHub repo</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Helm DB updated: suite architecture done, BzCRM parked as next high-priority</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-05-20</div>
           <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">Quick Expense inline edit modal</div></div>
           <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">Suspense + loading skeletons on all pages</div></div>
           <div class="ri"><div class="rtag">BuildTrack</div><div class="rdet">More → Project Info fast load fix</div></div>
@@ -1017,6 +1025,8 @@ _End of context dump_
       </div>
 
       <div class="stitle">Projects</div>
+
+
 
 
 
@@ -1326,6 +1336,45 @@ _End of context dump_
         </div>
       </div>
 
+      <div class="pc" style="border-left-color:#06B6D4;padding:0;overflow:hidden">
+        <div onclick="(function(){var b=document.getElementById('pc_8');b.style.display=b.style.display==='none'?'block':'none'})()" style="cursor:pointer;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px">
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span class="pname" style="color:#06B6D4">zeromonk</span>
+              <span class="b bp">v1.0.0</span>
+              <span class="b bp">In Progress</span>
+              
+            </div>
+            <div class="ptag" style="margin-top:2px">Personal branding site — career, apps, writing, philosophy</div>
+          </div>
+          <span style="font-size:14px;color:var(--text2);flex-shrink:0">›</span>
+        </div>
+        <div id="pc_8" style="display:none;padding:0 14px 12px 14px;border-top:1px solid var(--border)">
+          <div style="margin-top:8px"><a href="https://daytona-suite.vercel.app" class="purl" target="_blank" onclick="event.stopPropagation()">daytona-suite.vercel.app</a></div>
+          <div class="pstack" style="margin-top:8px"><span class="pill">Next.js 16</span><span class="pill">Tailwind 4</span><span class="pill">TypeScript</span><span class="pill">Vercel</span></div>
+          <div class="g2" style="gap:var(--gap);margin-top:8px">
+            <div>
+              <div class="pst">What's Next</div>
+              <ul class="bl" style="font-size:12px">
+              <li>Visual polish pass</li>
+              <li>Real content</li>
+              <li>Deploy + domain</li>
+              </ul>
+            </div>
+            <div>
+              <div class="pst">What Was Learnt — 2026-05-26</div>
+              <ul class="bl" style="font-size:12px">
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+
+    
+
     
 
     
@@ -1586,8 +1635,8 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct">Real Numbers — Mar 12–24</div>
-          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">81 sessions across 45 days</div></div>
-          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~44.7 hours (est)</div></div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">82 sessions across 46 days</div></div>
+          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~45.4 hours (est)</div></div>
           <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
           <div class="rr"><div class="rk">Projects touched</div><div class="rv">8 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt, CC + Meta</div></div>
           <div class="rr"><div class="rk">Features shipped</div><div class="rv">felt v0.1→0.3, Swara v0.1, Helm scaffold, ARIA advisor profile + portal, CC v3.0.0</div></div>
@@ -1855,6 +1904,7 @@ function buildCharts(whatsShippedData, sessionsData, efficiencyData) {
     'Gurudev':'#fbbf24',
     'Swara Samipyam':'#818cf8',
     'BuildTrack':'#f97316',
+    'zeromonk':'#06B6D4',
     'Claude Command Module':'#34d399',
     'Meta':'#e10600',
     'Ctx Sys':'#64748b',

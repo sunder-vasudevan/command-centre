@@ -485,6 +485,12 @@
       "project": "BuildTrack",
       "mins": 120,
       "tokens": null
+    },
+    {
+      "label": "Mar 27\nBzHub",
+      "project": "BzHub",
+      "mins": 45,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -662,9 +668,25 @@
       "label": "05-20 BuildTrack",
       "po_mins": 25,
       "equiv_mins": 480
+    },
+    {
+      "label": "05-27 BzHub",
+      "po_mins": 45,
+      "equiv_mins": 360
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-05-27",
+      "project": "BzHub",
+      "items": [
+        "Bz* Suite Architecture locked (auth, DB, billing, build order)",
+        "Zoho/Odoo licensing model designed (JWT app-scoped, org_plans table)",
+        "BzCRM extraction plan written \u2014 next session ready",
+        "SUITE_ARCHITECTURE.md created in BzHub repo",
+        "Helm DB updated: suite architecture done, BzCRM parked as next high-priority"
+      ]
+    },
     {
       "date": "2026-05-20",
       "project": "BuildTrack",
@@ -1219,7 +1241,7 @@
     }
   ],
   "meta": {
-    "last_updated": "2026-05-20",
+    "last_updated": "2026-05-27",
     "version": "v2026.03.24"
   },
   "projects": [
@@ -1404,6 +1426,27 @@
         "Lazy-fetch exports on demand \u2014 don't preload heavy data on page load."
       ],
       "last_session": "May 18\\nBuildTrack"
+    },
+    {
+      "name": "zeromonk",
+      "color": "#06B6D4",
+      "url": "https://daytona-suite.vercel.app",
+      "stack": [
+        "Next.js 16",
+        "Tailwind 4",
+        "TypeScript",
+        "Vercel"
+      ],
+      "status": "In Progress",
+      "version": "v1.0.0",
+      "tagline": "Personal branding site \u2014 career, apps, writing, philosophy",
+      "whats_next": [
+        "Visual polish pass",
+        "Real content",
+        "Deploy + domain"
+      ],
+      "learnt_date": "2026-05-26",
+      "learnt": []
     },
     {
       "name": "Claude Command Module",
