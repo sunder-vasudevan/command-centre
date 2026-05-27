@@ -705,7 +705,7 @@ _End of context dump_
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-05-27 07:30</div>
+    <div class="ver-badge">2026-05-27 07:57</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -734,18 +734,21 @@ _End of context dump_
 
       <div class="g2">
         <div class="card">
-                                                                                                                                                                                                                                                <div class="ct">Last Session — 2026-05-27</div>
+                                                                                                                                                                                                                                                          <div class="ct">Last Session — 2026-05-27</div>
           <ul class="bl">
-            <li>Architecture session: BzHub → Operations Core. BzCRM spins out first. Shared Supabase + JWT apps[] = licence gate. Zoho-style standalone/bundle pricing model locked.</li>
+            <li>Extracted BzCRM + BzHR as standalone Vercel apps. Next.js API routes (no FastAPI). Shared Supabase. Auth gate via bzhub-token cookie + apps[] scope check. Both live. SSO wiring = next session.</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            <span class="b bp">BzHub</span><span class="b bsl">~0.8 hrs PO</span><span class="b bg">~8x compression</span>
+            <span class="b bp">BzHub</span><span class="b bsl">~1.5 hrs PO</span><span class="b bg">~8x compression</span>
           </div>
           </div>
         </div>
         <div class="card">
           <div class="ct">Meta Learnings — May 27, 2026</div>
-                    <div class="mb"><div class="mbd">2026-05-27</div>
+                              <div class="mb"><div class="mbd">2026-05-27</div>
+            <div class="mbi">Cleaning up stale root-level dirs before build saves a full debug cycle — Next.js silently picks up root app/ over src/app/.</div>
+          </div>
+          <div class="mb"><div class="mbd">2026-05-27</div>
             <div class="mbi">JWT apps[] claim doubles as a licence check — no separate licence server needed. Standalone + bundle pricing is a natural fit for schema-namespaced Supabase tables.</div>
           </div>
           <div style="max-height:220px;overflow-y:auto;padding-right:4px">
@@ -847,7 +850,14 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct tog">What Shipped — Full Log · Updated May 27, 2026</div>
-                                                                                                                                                                                                                          <div class="rb"><div class="rd">2026-05-27</div>
+                                                                                                                                                                                                                                  <div class="rb"><div class="rd">2026-05-27</div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">BzCRM v1.0.0 live — bzcrm.vercel.app (Contacts, Leads, Pipeline, Kanban, Funnel)</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">BzHR v1.0.0 live — bzhr-sigma.vercel.app (Employees, Leave, Payroll, Goals, Appraisals, Skills)</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Auth gate on both apps — redirects to BzHub login, upgrade page for missing scope</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">ARCHITECTURE_DECISIONS.md updated with build decisions + shipped status</div></div>
+          <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Helm updated — BzCRM done, SSO wiring parked as next high priority</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-05-27</div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Bz* Suite Architecture locked (auth, DB, billing, build order)</div></div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Zoho/Odoo licensing model designed (JWT app-scoped, org_plans table)</div></div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">BzCRM extraction plan written — next session ready</div></div>
@@ -1025,6 +1035,7 @@ _End of context dump_
       </div>
 
       <div class="stitle">Projects</div>
+
 
 
 
@@ -1398,6 +1409,8 @@ _End of context dump_
     
 
     
+
+    
     </div>
 
     <!-- ===== PARKING LOT TAB ===== -->
@@ -1635,8 +1648,8 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct">Real Numbers — Mar 12–24</div>
-          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">82 sessions across 46 days</div></div>
-          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~45.4 hours (est)</div></div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">83 sessions across 46 days</div></div>
+          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~46.9 hours (est)</div></div>
           <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
           <div class="rr"><div class="rk">Projects touched</div><div class="rv">8 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt, CC + Meta</div></div>
           <div class="rr"><div class="rk">Features shipped</div><div class="rv">felt v0.1→0.3, Swara v0.1, Helm scaffold, ARIA advisor profile + portal, CC v3.0.0</div></div>

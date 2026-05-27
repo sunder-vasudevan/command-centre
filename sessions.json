@@ -491,6 +491,12 @@
       "project": "BzHub",
       "mins": 45,
       "tokens": null
+    },
+    {
+      "label": "Mar 27\nBzHub",
+      "project": "BzHub",
+      "mins": 90,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -673,9 +679,25 @@
       "label": "05-27 BzHub",
       "po_mins": 45,
       "equiv_mins": 360
+    },
+    {
+      "label": "05-27 BzHub",
+      "po_mins": 90,
+      "equiv_mins": 720
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-05-27",
+      "project": "BzHub",
+      "items": [
+        "BzCRM v1.0.0 live \u2014 bzcrm.vercel.app (Contacts, Leads, Pipeline, Kanban, Funnel)",
+        "BzHR v1.0.0 live \u2014 bzhr-sigma.vercel.app (Employees, Leave, Payroll, Goals, Appraisals, Skills)",
+        "Auth gate on both apps \u2014 redirects to BzHub login, upgrade page for missing scope",
+        "ARCHITECTURE_DECISIONS.md updated with build decisions + shipped status",
+        "Helm updated \u2014 BzCRM done, SSO wiring parked as next high priority"
+      ]
+    },
     {
       "date": "2026-05-27",
       "project": "BzHub",
