@@ -503,6 +503,12 @@
       "project": "BzAudit",
       "mins": 175,
       "tokens": null
+    },
+    {
+      "label": "Mar 31\nBzAudit",
+      "project": "BzAudit",
+      "mins": 30,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -695,9 +701,25 @@
       "label": "05-31 BzAudit",
       "po_mins": 175,
       "equiv_mins": 1400
+    },
+    {
+      "label": "05-31 BzAudit",
+      "po_mins": 30,
+      "equiv_mins": 240
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-05-31",
+      "project": "BzAudit",
+      "items": [
+        "Assessment picker per vendor on Reports page",
+        "Audit timeline as accordion (closed by default)",
+        "Reports page server-rendered",
+        "PROCESS.md + lights_out.md \u2014 Session Contract gate",
+        "BzAudit + Vita full documentation folders created"
+      ]
+    },
     {
       "date": "2026-05-31",
       "project": "BzAudit",

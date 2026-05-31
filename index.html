@@ -705,7 +705,7 @@ _End of context dump_
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-05-31 10:16</div>
+    <div class="ver-badge">2026-05-31 14:54</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -734,22 +734,24 @@ _End of context dump_
 
       <div class="g2">
         <div class="card">
-                                                                                                                                                                                                                                                                    <div class="ct">Last Session — 2026-05-31</div>
+                                                                                                                                                                                                                                                                              <div class="ct">Last Session — 2026-05-31</div>
           <ul class="bl">
-            <li>BzAudit v1.0.0 — vendor risk audit SaaS fully shipped</li>
-            <li>Vendor self-assess with draft save, re-assess pre-fills from last audit</li>
-            <li>Portfolio report with vendor picker + full Q&A per vendor</li>
-            <li>Auth root cause: createClientComponentClient vs createClient cookie format mismatch</li>
-            <li>BuildTrack Labour Quick Add writes to budget_items with optional cost</li>
+            <li>BzAudit v1.0.2 — assessment picker, audit timeline accordion</li>
+            <li>PROCESS.md formalised — Session Contract required before every build</li>
+            <li>lights_out.md created — pick app, write contract, wait for approval, then build</li>
+            <li>BzAudit and Vita now have full NOTES/start/wrap/docs</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            <span class="b bp">BzAudit</span><span class="b bsl">~2.9 hrs PO</span><span class="b bg">~8x compression</span>
+            <span class="b bp">BzAudit</span><span class="b bsl">~0.5 hrs PO</span><span class="b bg">~8x compression</span>
           </div>
           </div>
         </div>
         <div class="card">
           <div class="ct">Meta Learnings — May 31, 2026</div>
-                                        <div class="mb"><div class="mbd">2026-05-31</div>
+                                                  <div class="mb"><div class="mbd">2026-05-31</div>
+            <div class="mbi">Session Contract is the missing forcing function — write app+features+test cases before any code; park mid-session ideas in Helm</div>
+          </div>
+          <div class="mb"><div class="mbd">2026-05-31</div>
             <div class="mbi">responses JSONB column stored as JSON string in Neon — always JSON.parse() server-side before iterating keys</div>
           </div>
           <div class="mb"><div class="mbd">2026-05-27</div>
@@ -857,7 +859,14 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct tog">What Shipped — Full Log · Updated May 31, 2026</div>
-                                                                                                                                                                                                                                          <div class="rb"><div class="rd">2026-05-31</div>
+                                                                                                                                                                                                                                                  <div class="rb"><div class="rd">2026-05-31</div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">Assessment picker per vendor on Reports page</div></div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">Audit timeline as accordion (closed by default)</div></div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">Reports page server-rendered</div></div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">PROCESS.md + lights_out.md — Session Contract gate</div></div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">BzAudit + Vita full documentation folders created</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-05-31</div>
           <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">BzAudit v1.0.0 shipped</div></div>
           <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">Vendor add/edit/deactivate with reason + who</div></div>
           <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">Self-Assess + Re-Assess (Option B pre-fill)</div></div>
@@ -1053,6 +1062,7 @@ _End of context dump_
       </div>
 
       <div class="stitle">Projects</div>
+
 
 
 
@@ -1432,6 +1442,8 @@ _End of context dump_
     
 
     
+
+    
     </div>
 
     <!-- ===== PARKING LOT TAB ===== -->
@@ -1669,8 +1681,8 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct">Real Numbers — Mar 12–24</div>
-          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">84 sessions across 47 days</div></div>
-          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~49.9 hours (est)</div></div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">85 sessions across 47 days</div></div>
+          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~50.4 hours (est)</div></div>
           <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
           <div class="rr"><div class="rk">Projects touched</div><div class="rv">8 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt, CC + Meta</div></div>
           <div class="rr"><div class="rk">Features shipped</div><div class="rv">felt v0.1→0.3, Swara v0.1, Helm scaffold, ARIA advisor profile + portal, CC v3.0.0</div></div>
