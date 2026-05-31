@@ -497,6 +497,12 @@
       "project": "BzHub",
       "mins": 90,
       "tokens": null
+    },
+    {
+      "label": "Mar 31\nBzAudit",
+      "project": "BzAudit",
+      "mins": 175,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -684,9 +690,29 @@
       "label": "05-27 BzHub",
       "po_mins": 90,
       "equiv_mins": 720
+    },
+    {
+      "label": "05-31 BzAudit",
+      "po_mins": 175,
+      "equiv_mins": 1400
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-05-31",
+      "project": "BzAudit",
+      "items": [
+        "BzAudit v1.0.0 shipped",
+        "Vendor add/edit/deactivate with reason + who",
+        "Self-Assess + Re-Assess (Option B pre-fill)",
+        "Draft save/restore on re-open",
+        "Audit timeline: versioned, date/time, type, score",
+        "Reports: vendor selector, collapsible Q&A, Save as PDF",
+        "Auth 401 fixed (createClientComponentClient)",
+        "Single version source lib/version.ts + bump script",
+        "BuildTrack: Labour Quick Add \u2192 budget_items"
+      ]
+    },
     {
       "date": "2026-05-27",
       "project": "BzHub",
@@ -1263,7 +1289,7 @@
     }
   ],
   "meta": {
-    "last_updated": "2026-05-27",
+    "last_updated": "2026-05-31",
     "version": "v2026.03.24"
   },
   "projects": [

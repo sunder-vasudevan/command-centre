@@ -705,7 +705,7 @@ _End of context dump_
     <input type="text" placeholder="Search…">
   </div>
   <div class="hdr-right">
-    <div class="ver-badge">2026-05-27 07:57</div>
+    <div class="ver-badge">2026-05-31 10:16</div>
     <button class="ctx-btn" onclick="copyContext()">Copy Context</button>
   </div>
 </header>
@@ -734,18 +734,25 @@ _End of context dump_
 
       <div class="g2">
         <div class="card">
-                                                                                                                                                                                                                                                          <div class="ct">Last Session — 2026-05-27</div>
+                                                                                                                                                                                                                                                                    <div class="ct">Last Session — 2026-05-31</div>
           <ul class="bl">
-            <li>Extracted BzCRM + BzHR as standalone Vercel apps. Next.js API routes (no FastAPI). Shared Supabase. Auth gate via bzhub-token cookie + apps[] scope check. Both live. SSO wiring = next session.</li>
+            <li>BzAudit v1.0.0 — vendor risk audit SaaS fully shipped</li>
+            <li>Vendor self-assess with draft save, re-assess pre-fills from last audit</li>
+            <li>Portfolio report with vendor picker + full Q&A per vendor</li>
+            <li>Auth root cause: createClientComponentClient vs createClient cookie format mismatch</li>
+            <li>BuildTrack Labour Quick Add writes to budget_items with optional cost</li>
           </ul>
           <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap">
-            <span class="b bp">BzHub</span><span class="b bsl">~1.5 hrs PO</span><span class="b bg">~8x compression</span>
+            <span class="b bp">BzAudit</span><span class="b bsl">~2.9 hrs PO</span><span class="b bg">~8x compression</span>
           </div>
           </div>
         </div>
         <div class="card">
-          <div class="ct">Meta Learnings — May 27, 2026</div>
-                              <div class="mb"><div class="mbd">2026-05-27</div>
+          <div class="ct">Meta Learnings — May 31, 2026</div>
+                                        <div class="mb"><div class="mbd">2026-05-31</div>
+            <div class="mbi">responses JSONB column stored as JSON string in Neon — always JSON.parse() server-side before iterating keys</div>
+          </div>
+          <div class="mb"><div class="mbd">2026-05-27</div>
             <div class="mbi">Cleaning up stale root-level dirs before build saves a full debug cycle — Next.js silently picks up root app/ over src/app/.</div>
           </div>
           <div class="mb"><div class="mbd">2026-05-27</div>
@@ -822,7 +829,7 @@ _End of context dump_
       <div class="ph"><div><div class="ph-title">Projects</div><div class="ph-sub">9 active · North star: tech-expert PO who ships fast</div></div></div>
 
       <div class="card">
-        <div class="ct tog">Token Audit — May 27, 2026 · Next due Jun 11, 2026</div>
+        <div class="ct tog">Token Audit — May 31, 2026 · Next due Jun 15, 2026</div>
         <div style="font-size:12px;color:var(--text2);margin-bottom:10px">Auto-audit runs every 15 days at session start via <code>token_audit.py --check</code>. Findings require approval before any trim.</div>
         <div class="rr"><div class="rk">🔴 Critical (2)</div><div class="rv">context-dump.md — 363 lines (archive/split) · project_aria_session_2026-05-01.md — 116 lines (trim to summary)</div></div>
         <div class="rr"><div class="rk">🟡 Warn (5)</div><div class="rv">INTERACTION_LOG.md 257L · BLOAT-REDUCTION-TACTICS.md 223L · TOKEN-REDUCTION-SESSION-SUMMARY.md 218L · SUNNY-HAYES-README.md 141L · session_wrap.md 109L · 1× PENDING marker in project_aria_kyc_phase1.md</div></div>
@@ -849,8 +856,19 @@ _End of context dump_
           </div>
         </div>
         <div class="card">
-          <div class="ct tog">What Shipped — Full Log · Updated May 27, 2026</div>
-                                                                                                                                                                                                                                  <div class="rb"><div class="rd">2026-05-27</div>
+          <div class="ct tog">What Shipped — Full Log · Updated May 31, 2026</div>
+                                                                                                                                                                                                                                          <div class="rb"><div class="rd">2026-05-31</div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">BzAudit v1.0.0 shipped</div></div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">Vendor add/edit/deactivate with reason + who</div></div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">Self-Assess + Re-Assess (Option B pre-fill)</div></div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">Draft save/restore on re-open</div></div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">Audit timeline: versioned, date/time, type, score</div></div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">Reports: vendor selector, collapsible Q&A, Save as PDF</div></div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">Auth 401 fixed (createClientComponentClient)</div></div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">Single version source lib/version.ts + bump script</div></div>
+          <div class="ri"><div class="rtag">BzAudit</div><div class="rdet">BuildTrack: Labour Quick Add → budget_items</div></div>
+        </div>
+        <div class="rb"><div class="rd">2026-05-27</div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">BzCRM v1.0.0 live — bzcrm.vercel.app (Contacts, Leads, Pipeline, Kanban, Funnel)</div></div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">BzHR v1.0.0 live — bzhr-sigma.vercel.app (Employees, Leave, Payroll, Goals, Appraisals, Skills)</div></div>
           <div class="ri"><div class="rtag">BzHub</div><div class="rdet">Auth gate on both apps — redirects to BzHub login, upgrade page for missing scope</div></div>
@@ -1035,6 +1053,7 @@ _End of context dump_
       </div>
 
       <div class="stitle">Projects</div>
+
 
 
 
@@ -1411,6 +1430,8 @@ _End of context dump_
     
 
     
+
+    
     </div>
 
     <!-- ===== PARKING LOT TAB ===== -->
@@ -1648,8 +1669,8 @@ _End of context dump_
         </div>
         <div class="card">
           <div class="ct">Real Numbers — Mar 12–24</div>
-          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">83 sessions across 46 days</div></div>
-          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~46.9 hours (est)</div></div>
+          <div class="rr"><div class="rk">Sessions logged</div><div class="rv">84 sessions across 47 days</div></div>
+          <div class="rr"><div class="rk">Total PO time</div><div class="rv">~49.9 hours (est)</div></div>
           <div class="rr"><div class="rk">Tokens tracked</div><div class="rv">~752k (4 sessions with token data)</div></div>
           <div class="rr"><div class="rk">Projects touched</div><div class="rv">8 — BzHub, ARIA Advisor, ARIA Personal, As Gurudev Says, Swara, Helm, Felt, CC + Meta</div></div>
           <div class="rr"><div class="rk">Features shipped</div><div class="rv">felt v0.1→0.3, Swara v0.1, Helm scaffold, ARIA advisor profile + portal, CC v3.0.0</div></div>
