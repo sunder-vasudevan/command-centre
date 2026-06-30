@@ -509,6 +509,12 @@
       "project": "BzAudit",
       "mins": 30,
       "tokens": null
+    },
+    {
+      "label": "Mar 30\nVita",
+      "project": "Vita",
+      "mins": 81,
+      "tokens": null
     }
   ],
   "efficiency": [
@@ -706,9 +712,25 @@
       "label": "05-31 BzAudit",
       "po_mins": 30,
       "equiv_mins": 240
+    },
+    {
+      "label": "06-30 Vita",
+      "po_mins": 25,
+      "equiv_mins": 360
     }
   ],
   "what_shipped": [
+    {
+      "date": "2026-06-30",
+      "project": "Vita",
+      "items": [
+        "Phase 2 DB migration \u2014 fixed 6 live-broken modules",
+        "Auto-synced reminders across 7 modules via Postgres triggers",
+        "Subscription renewal auto-advance cron",
+        "Property tax due-date reminders",
+        "Help page covering all 17 modules"
+      ]
+    },
     {
       "date": "2026-05-31",
       "project": "BzAudit",
@@ -1087,34 +1109,114 @@
   "appraisal_cycles": [
     {
       "id": "2026-04-19",
-      "label": "Apr 19 – May 31, 2026",
+      "label": "Apr 19 \u2013 May 31, 2026",
       "start": "2026-04-19",
       "end": "2026-05-31",
-      "assessment": "Biggest output cycle yet by surface area. Auth shipped on BuildTrack (multi-user + RLS), BzAudit (Supabase auth fixed), BzCRM, and BzHR — FEAT-036 is no longer a portfolio-wide gap. BzAudit v1.0.0 went from zero to production in one cycle: vendor management, self-assess, re-assess, draft save, audit timeline, PDF reports. BzHub suite architecture locked — auth, DB, billing model, build order all decided before a line was written. BuildTrack hit v2.3: Quick Expense, B2 upload fixed, Suspense loading on all pages, Safari CORS root-caused. Vita scaffolded and deployed. zeromonk personal brand live. Two white papers published (My Agentic Engineering Journey + Agentic Stack Playbook).\n\nPersistent patterns closing: <strong style=\"color:var(--text)\">auth no longer deferred</strong> — 4 products now have real auth. <strong style=\"color:var(--text)\">Suspense/loading.tsx now a standing rule</strong> — applied across all pages. <strong style=\"color:var(--text)\">Diagnostician mindset adopted</strong> — observe→locate→hypothesize→verify→fix replaced trial-and-error on infra.\n\nStill watching: <strong style=\"color:var(--text)\">context switching cost</strong> — 10+ projects active simultaneously dilutes depth; <strong style=\"color:var(--text)\">session contract discipline</strong> — PROCESS.md written but not yet battle-tested; <strong style=\"color:var(--text)\">passive receiving</strong> still appears in UI decisions (accepts Claude output without challenging tradeoffs).\n\nHeading into next cycle: SSO wiring across Bz* suite is the next major unlock. BuildTrack demo mode + expense rebuild are approved but unbuilt. Vita needs real usage before new modules.",
+      "assessment": "Biggest output cycle yet by surface area. Auth shipped on BuildTrack (multi-user + RLS), BzAudit (Supabase auth fixed), BzCRM, and BzHR \u2014 FEAT-036 is no longer a portfolio-wide gap. BzAudit v1.0.0 went from zero to production in one cycle: vendor management, self-assess, re-assess, draft save, audit timeline, PDF reports. BzHub suite architecture locked \u2014 auth, DB, billing model, build order all decided before a line was written. BuildTrack hit v2.3: Quick Expense, B2 upload fixed, Suspense loading on all pages, Safari CORS root-caused. Vita scaffolded and deployed. zeromonk personal brand live. Two white papers published (My Agentic Engineering Journey + Agentic Stack Playbook).\n\nPersistent patterns closing: <strong style=\"color:var(--text)\">auth no longer deferred</strong> \u2014 4 products now have real auth. <strong style=\"color:var(--text)\">Suspense/loading.tsx now a standing rule</strong> \u2014 applied across all pages. <strong style=\"color:var(--text)\">Diagnostician mindset adopted</strong> \u2014 observe\u2192locate\u2192hypothesize\u2192verify\u2192fix replaced trial-and-error on infra.\n\nStill watching: <strong style=\"color:var(--text)\">context switching cost</strong> \u2014 10+ projects active simultaneously dilutes depth; <strong style=\"color:var(--text)\">session contract discipline</strong> \u2014 PROCESS.md written but not yet battle-tested; <strong style=\"color:var(--text)\">passive receiving</strong> still appears in UI decisions (accepts Claude output without challenging tradeoffs).\n\nHeading into next cycle: SSO wiring across Bz* suite is the next major unlock. BuildTrack demo mode + expense rebuild are approved but unbuilt. Vita needs real usage before new modules.",
       "traits": [
-        { "type": "strength", "label": "Strength", "name": "Bias to Ship" },
-        { "type": "strength", "label": "Strength", "name": "Systems Builder" },
-        { "type": "strength", "label": "Strength", "name": "Auth Closed" },
-        { "type": "strength", "label": "Strength", "name": "Architecture First" },
-        { "type": "caution", "label": "Watch", "name": "Context Switcher" },
-        { "type": "caution", "label": "Watch", "name": "Passive Receiving" },
-        { "type": "gap", "label": "Gap", "name": "Session Contract" },
-        { "type": "gap", "label": "Gap", "name": "Mobile-First Reflex" },
-        { "type": "gap", "label": "Gap", "name": "Prompt Batching" }
+        {
+          "type": "strength",
+          "label": "Strength",
+          "name": "Bias to Ship"
+        },
+        {
+          "type": "strength",
+          "label": "Strength",
+          "name": "Systems Builder"
+        },
+        {
+          "type": "strength",
+          "label": "Strength",
+          "name": "Auth Closed"
+        },
+        {
+          "type": "strength",
+          "label": "Strength",
+          "name": "Architecture First"
+        },
+        {
+          "type": "caution",
+          "label": "Watch",
+          "name": "Context Switcher"
+        },
+        {
+          "type": "caution",
+          "label": "Watch",
+          "name": "Passive Receiving"
+        },
+        {
+          "type": "gap",
+          "label": "Gap",
+          "name": "Session Contract"
+        },
+        {
+          "type": "gap",
+          "label": "Gap",
+          "name": "Mobile-First Reflex"
+        },
+        {
+          "type": "gap",
+          "label": "Gap",
+          "name": "Prompt Batching"
+        }
       ],
       "strengths": [
-        { "icon": "🔐", "title": "Auth shipped on 4 products", "desc": "BuildTrack (multi-user RLS), BzAudit (Supabase fixed), BzCRM, BzHR — FEAT-036 closed after 4 cycles of deferral." },
-        { "icon": "🏗️", "title": "BzAudit v1.0.0 zero-to-prod", "desc": "Full audit lifecycle: vendor CRUD, self-assess, re-assess, draft save, timeline, PDF reports — one cycle." },
-        { "icon": "📐", "title": "Suite architecture locked before building", "desc": "Bz* auth, DB, billing, build order decided in writing (SUITE_ARCHITECTURE.md) before BzCRM or BzHR were started." },
-        { "icon": "🔍", "title": "Diagnostician mindset", "desc": "Root-caused B2 key expiry, Supabase pooler port, cross-site cookie race, Vite minification — observe first, fix once." },
-        { "icon": "📄", "title": "Two white papers shipped", "desc": "My Agentic Engineering Journey + Agentic Stack Playbook — PwC-grade quality, PDF generated via headless Chrome." },
-        { "icon": "⚙️", "title": "Standing rules compounding", "desc": "Suspense+loading.tsx, forgot-password standard, version bump rule, proxy.ts convention — each session adds permanent signal." }
+        {
+          "icon": "\ud83d\udd10",
+          "title": "Auth shipped on 4 products",
+          "desc": "BuildTrack (multi-user RLS), BzAudit (Supabase fixed), BzCRM, BzHR \u2014 FEAT-036 closed after 4 cycles of deferral."
+        },
+        {
+          "icon": "\ud83c\udfd7\ufe0f",
+          "title": "BzAudit v1.0.0 zero-to-prod",
+          "desc": "Full audit lifecycle: vendor CRUD, self-assess, re-assess, draft save, timeline, PDF reports \u2014 one cycle."
+        },
+        {
+          "icon": "\ud83d\udcd0",
+          "title": "Suite architecture locked before building",
+          "desc": "Bz* auth, DB, billing, build order decided in writing (SUITE_ARCHITECTURE.md) before BzCRM or BzHR were started."
+        },
+        {
+          "icon": "\ud83d\udd0d",
+          "title": "Diagnostician mindset",
+          "desc": "Root-caused B2 key expiry, Supabase pooler port, cross-site cookie race, Vite minification \u2014 observe first, fix once."
+        },
+        {
+          "icon": "\ud83d\udcc4",
+          "title": "Two white papers shipped",
+          "desc": "My Agentic Engineering Journey + Agentic Stack Playbook \u2014 PwC-grade quality, PDF generated via headless Chrome."
+        },
+        {
+          "icon": "\u2699\ufe0f",
+          "title": "Standing rules compounding",
+          "desc": "Suspense+loading.tsx, forgot-password standard, version bump rule, proxy.ts convention \u2014 each session adds permanent signal."
+        }
       ],
       "gaps": [
-        { "icon": "🔀", "title": "Context switching cost", "desc": "10+ active projects. Depth per session is diluted. Some features (Vita modules, BuildTrack demo) approved but sitting.", "fix": "Cap active projects at 3 per cycle. Finish before starting." },
-        { "icon": "📋", "title": "Session contract not yet battle-tested", "desc": "PROCESS.md written, Session Contract gate documented — but only enforced from May 31 forward.", "fix": "Apply contract gate on next 3 sessions. Review fidelity at next cycle." },
-        { "icon": "⚠️", "title": "Passive receiving", "desc": "Still accepts Claude UI output without challenging tradeoffs. Design decisions land without a challenge round.", "fix": "One explicit tradeoff challenge per session before approving any UI design." },
-        { "icon": "📱", "title": "Mobile-first reflex", "desc": "375px rule exists in Standards. Practice still lags — mobile added after desktop on several BuildTrack pages.", "fix": "Write mobile layout first. Desktop is the enhancement." }
+        {
+          "icon": "\ud83d\udd00",
+          "title": "Context switching cost",
+          "desc": "10+ active projects. Depth per session is diluted. Some features (Vita modules, BuildTrack demo) approved but sitting.",
+          "fix": "Cap active projects at 3 per cycle. Finish before starting."
+        },
+        {
+          "icon": "\ud83d\udccb",
+          "title": "Session contract not yet battle-tested",
+          "desc": "PROCESS.md written, Session Contract gate documented \u2014 but only enforced from May 31 forward.",
+          "fix": "Apply contract gate on next 3 sessions. Review fidelity at next cycle."
+        },
+        {
+          "icon": "\u26a0\ufe0f",
+          "title": "Passive receiving",
+          "desc": "Still accepts Claude UI output without challenging tradeoffs. Design decisions land without a challenge round.",
+          "fix": "One explicit tradeoff challenge per session before approving any UI design."
+        },
+        {
+          "icon": "\ud83d\udcf1",
+          "title": "Mobile-first reflex",
+          "desc": "375px rule exists in Standards. Practice still lags \u2014 mobile added after desktop on several BuildTrack pages.",
+          "fix": "Write mobile layout first. Desktop is the enhancement."
+        }
       ]
     },
     {
@@ -1343,7 +1445,7 @@
     }
   ],
   "meta": {
-    "last_updated": "2026-05-31",
+    "last_updated": "2026-06-30",
     "version": "v2026.03.24"
   },
   "projects": [
